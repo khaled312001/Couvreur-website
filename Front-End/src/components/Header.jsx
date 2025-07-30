@@ -165,57 +165,89 @@ const Header = () => {
                   NOS SERVICES
                   <span className="dropdown-arrow">▼</span>
                 </NavLink>
-                {activeDropdown === 'services' && (
-                  <div className="submenu visible">
-                    <div className="submenu-header">
-                      <h4>NOS SERVICES</h4>
-                      <p>Charpente • Couverture • Zinguerie</p>
-                    </div>
-                    <div className="submenu-columns">
-                      {services.map((service) => (
-                        <div key={service.id} className="submenu-item-container">
-                          <NavLink to={service.link} className="submenu-item">
-                            <div className="submenu-item-header">
-                              <span className="submenu-icon">{service.icon}</span>
-                              <div className="submenu-item-content">
-                                <h5>{service.title}</h5>
-                                <p>{service.description}</p>
-                              </div>
-                            </div>
-                            <div className="submenu-item-details">
-                              <span className="price">{service.priceRange}</span>
-                              <span className="duration">{service.duration}</span>
-                            </div>
-                            <span className="submenu-arrow">▶</span>
-                          </NavLink>
-                          <div className="submenu-sub">
-                            {service.subServices && service.subServices.map((subService, index) => (
-                              <NavLink 
-                                key={index} 
-                                to={service.link} 
-                                className="submenu-sub-item"
-                              >
-                                <div className="submenu-sub-item-content">
-                                  <h6>{subService.name}</h6>
-                                  <p>{subService.description}</p>
-                                  <div className="submenu-sub-item-details">
-                                    <span className="price">{subService.price}</span>
-                                    <span className="duration">{subService.duration}</span>
-                                  </div>
-                                </div>
-                              </NavLink>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="submenu-footer">
-                      <NavLink to="/services" className="submenu-footer-link">
-                        Voir tous nos services →
-                      </NavLink>
-                    </div>
-                  </div>
-                )}
+                                 {activeDropdown === 'services' && (
+                   <div className="submenu visible" style={{
+                     minWidth: '280px',
+                     padding: '1.5rem',
+                     borderRadius: '12px',
+                     boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                     border: '1px solid rgba(255,255,255,0.1)',
+                     background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                     backdropFilter: 'blur(10px)'
+                   }}>
+                     <div className="submenu-header" style={{
+                       borderBottom: '2px solid #e2e8f0',
+                       paddingBottom: '1rem',
+                       marginBottom: '1rem'
+                     }}>
+                       <h4 style={{
+                         fontSize: '1.1rem',
+                         fontWeight: '700',
+                         color: '#1e293b',
+                         margin: '0',
+                         textAlign: 'center'
+                       }}>NOS SERVICES</h4>
+                     </div>
+                     <div className="submenu-list" style={{
+                       display: 'flex',
+                       flexDirection: 'column',
+                       gap: '0.5rem'
+                     }}>
+                       {services.map((service) => (
+                         <div key={service.id} className="submenu-item-container">
+                           <NavLink 
+                             to={service.link} 
+                             className="submenu-item"
+                             style={{
+                               display: 'flex',
+                               alignItems: 'center',
+                               padding: '0.75rem 1rem',
+                               borderRadius: '8px',
+                               textDecoration: 'none',
+                               color: '#475569',
+                               transition: 'all 0.3s ease',
+                               border: '1px solid transparent',
+                               background: 'transparent'
+                             }}
+                             onMouseEnter={(e) => {
+                               e.target.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+                               e.target.style.color = 'white';
+                               e.target.style.transform = 'translateX(5px)';
+                               e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                             }}
+                             onMouseLeave={(e) => {
+                               e.target.style.background = 'transparent';
+                               e.target.style.color = '#475569';
+                               e.target.style.transform = 'translateX(0)';
+                               e.target.style.boxShadow = 'none';
+                             }}
+                           >
+                             <div className="submenu-item-header" style={{
+                               display: 'flex',
+                               alignItems: 'center',
+                               gap: '0.75rem',
+                               width: '100%'
+                             }}>
+                               <span className="submenu-icon" style={{
+                                 fontSize: '1.5rem',
+                                 minWidth: '2rem',
+                                 textAlign: 'center'
+                               }}>{service.icon}</span>
+                               <div className="submenu-item-content">
+                                 <h5 style={{
+                                   fontSize: '0.95rem',
+                                   fontWeight: '600',
+                                   margin: '0',
+                                   lineHeight: '1.2'
+                                 }}>{service.title}</h5>
+                               </div>
+                             </div>
+                           </NavLink>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 )}
               </div>
 
               <div className="nav-item">
@@ -332,7 +364,6 @@ const Header = () => {
                       <span className="mobile-submenu-icon">{service.icon}</span>
                       <div>
                         <h6>{service.title}</h6>
-                        <p>{service.priceRange}</p>
                       </div>
                     </div>
                   </NavLink>

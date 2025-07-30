@@ -195,111 +195,76 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Partner Logos Section */}
-      <section className="partners-section">
+      {/* About Section */}
+      <section className="about-section section section-gray">
         <div className="container">
-          <div className="section-header fade-in-on-scroll">
-            <h2 className="section-title">Nos Partenaires</h2>
-            <p className="section-subtitle">Des entreprises de confiance qui nous font confiance</p>
-          </div>
-          <div className="partners-grid">
-            <div className="partner-logo animate-float" title="CEVIGANO - Assurance Construction">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#1e3a8a"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">CEVIGANO</text>
-                <text x="60" y="50" textAnchor="middle" fill="#93c5fd" fontSize="10" fontFamily="Arial, sans-serif">Assurance</text>
-              </svg>
+          <div className="about-grid">
+            <div className="about-content fade-in-on-scroll">
+              <div className="about-header">
+                <div className="about-badge">
+                  <div className="badge-square"></div>
+                  <span>À PROPOS</span>
+                </div>
+                <h2 className="about-title">
+                  BN BÂTIMENT : Votre artisan couvreur de confiance
+                </h2>
+                <p className="about-subtitle">
+                  Plus de 10 ans d'expérience au service de votre toiture
+                </p>
+              </div>
+              <div className="about-text">
+                <p>
+                  BN BÂTIMENT est votre artisan couvreur professionnel spécialisé dans la couverture, 
+                  la zinguerie et la charpente. Nous intervenons dans toute la région Rhône-Alpes 
+                  pour vous garantir des travaux de qualité et une satisfaction totale.
+                </p>
+                <p>
+                  Notre équipe d'experts qualifiés met son savoir-faire à votre service pour tous vos 
+                  projets de toiture : installation, réparation, entretien et rénovation. 
+                  Nous respectons les normes en vigueur et vous offrons une garantie décennale.
+                </p>
+              </div>
+              <div className="about-features">
+                <div className="feature-item">
+                  <span className="feature-icon">🏗️</span>
+                  <div className="feature-content">
+                    <h4>Expertise</h4>
+                    <p>Plus de 10 ans d'expérience</p>
+                  </div>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">⭐</span>
+                  <div className="feature-content">
+                    <h4>Qualité</h4>
+                    <p>Matériaux premium et garantie</p>
+                  </div>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">⚡</span>
+                  <div className="feature-content">
+                    <h4>Réactivité</h4>
+                    <p>Intervention rapide et devis gratuit</p>
+                  </div>
+                </div>
+              </div>
+              <div className="about-cta">
+                <a href="/a-propos" className="btn btn-primary">En savoir plus</a>
+                <a href="/contact" className="btn btn-secondary">Devis gratuit</a>
+              </div>
             </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '0.2s'}} title="Societe.com - Répertoire d'entreprises">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#2563eb"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Societe.com</text>
-                <text x="60" y="50" textAnchor="middle" fill="#93c5fd" fontSize="10" fontFamily="Arial, sans-serif">Répertoire</text>
-              </svg>
+            <div className="about-visual fade-in-on-scroll">
+              <img 
+                src="https://img.freepik.com/premium-vector/flat-design-construction-company-logo_1002026-152.jpg" 
+                alt="Artisan couvreur au travail" 
+                className="about-image"
+                style={{
+                  borderRadius: '15px',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                  width: '100%',
+                  height: 'auto'
+                }}
+              />
             </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '0.4s'}} title="Mappy - Cartographie et Navigation">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#f97316"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Mappy</text>
-                <text x="60" y="50" textAnchor="middle" fill="#fed7aa" fontSize="10" fontFamily="Arial, sans-serif">Navigation</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '0.6s'}} title="Google My Business - Présence en ligne">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#10b981"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Google</text>
-                <text x="60" y="50" textAnchor="middle" fill="#a7f3d0" fontSize="10" fontFamily="Arial, sans-serif">My Business</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '0.8s'}} title="Le Figaro - Presse spécialisée">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#7c3aed"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Le Figaro</text>
-                <text x="60" y="50" textAnchor="middle" fill="#c4b5fd" fontSize="10" fontFamily="Arial, sans-serif">Emploi</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '1s'}} title="Certification Qualité">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#dc2626"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Qualité</text>
-                <text x="60" y="50" textAnchor="middle" fill="#fca5a5" fontSize="10" fontFamily="Arial, sans-serif">Certifiée</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '1.2s'}} title="PagesJaunes - Annuaire">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#fbbf24"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">PagesJaunes</text>
-                <text x="60" y="50" textAnchor="middle" fill="#fef3c7" fontSize="10" fontFamily="Arial, sans-serif">Annuaire</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '1.4s'}} title="Yelp - Avis clients">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#ef4444"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Yelp</text>
-                <text x="60" y="50" textAnchor="middle" fill="#fecaca" fontSize="10" fontFamily="Arial, sans-serif">Avis</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '1.6s'}} title="Trustpilot - Évaluations">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#059669"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Trustpilot</text>
-                <text x="60" y="50" textAnchor="middle" fill="#a7f3d0" fontSize="10" fontFamily="Arial, sans-serif">Évaluations</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '1.8s'}} title="LinkedIn - Réseau professionnel">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#0ea5e9"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">LinkedIn</text>
-                <text x="60" y="50" textAnchor="middle" fill="#bae6fd" fontSize="10" fontFamily="Arial, sans-serif">Professionnel</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '2s'}} title="Facebook - Réseaux sociaux">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#3b82f6"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Facebook</text>
-                <text x="60" y="50" textAnchor="middle" fill="#bfdbfe" fontSize="10" fontFamily="Arial, sans-serif">Social</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '2.2s'}} title="Instagram - Partage visuel">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#ec4899"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">Instagram</text>
-                <text x="60" y="50" textAnchor="middle" fill="#f9a8d4" fontSize="10" fontFamily="Arial, sans-serif">Visuel</text>
-              </svg>
-            </div>
-            <div className="partner-logo animate-float" style={{animationDelay: '2.4s'}} title="YouTube - Vidéos">
-              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="120" height="60" rx="8" fill="#dc2626"/>
-                <text x="60" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif">YouTube</text>
-                <text x="60" y="50" textAnchor="middle" fill="#fca5a5" fontSize="10" fontFamily="Arial, sans-serif">Vidéos</text>
-              </svg>
-            </div>
-          </div>
-          <div className="partners-info fade-in-on-scroll" style={{animationDelay: '2.6s'}}>
-            <p className="partners-description">
-              Nous collaborons avec des partenaires de confiance pour garantir la qualité de nos services 
-              et offrir à nos clients les meilleures solutions en matière de charpente, couverture et zinguerie.
-            </p>
           </div>
         </div>
       </section>
@@ -939,6 +904,8 @@ const Home = () => {
               <h2 className="section-title">Contactez-nous</h2>
               <form className="contact-form">
                 <div className="form-row">
+
+              
                   <div className="form-group">
                     <label className="form-label">Nom complet</label>
                     <input type="text" className="form-input" placeholder="Votre nom" />
@@ -964,7 +931,7 @@ const Home = () => {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Message</label>
-                  <textarea className="form-textarea" placeholder="Décrivez votre projet..."></textarea>
+                  <textarea className="form-textarea" placeholder="Décrivez votre message..."></textarea>
                 </div>
                 <button type="submit" className="form-button">
                   ENVOYER
@@ -973,9 +940,18 @@ const Home = () => {
             </div>
             <div className="contact-image fade-in-on-scroll">
               <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="https://th.bing.com/th/id/R.591d0109c6706ff76e40d17adec6d22a?rik=A1h35rJ6%2fVHVRw&pid=ImgRaw&r=0" 
                 alt="Contact" 
-                className="contact-visual"
+                className="contact-visual-small"
+                style={{
+                  maxWidth: '300px',
+                  height: 'auto',
+                  borderRadius: '15px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                  transform: 'rotate(-5deg)',
+                  margin: '20px auto',
+                  display: 'block'
+                }}
               />
             </div>
           </div>
