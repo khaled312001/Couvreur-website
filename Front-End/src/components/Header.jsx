@@ -134,7 +134,7 @@ const Header = () => {
               </div>
               <div className="top-bar-item">
                 <span className="icon">📧</span>
-                <a href="mailto:contact@couvreur-rhone-alpes.fr">contact@couvreur-rhone-alpes.fr</a>
+                <a href="mailto:bnbatimententreprise@gmail.com">bnbatimententreprise@gmail.com</a>
               </div>
             </div>
             <div className="top-bar-right">

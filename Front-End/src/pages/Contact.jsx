@@ -58,7 +58,7 @@ const Contact = () => {
                     <div className="contact-icon">📋</div>
                     <div className="contact-text">
                       <h4>Types de projets</h4>
-                      <p>Neuf - Rénovation - Entretien</p>
+                      <p>Neuf - Rénovation - Entretien - Répartition des fuites</p>
                     </div>
                   </div>
                 </div>

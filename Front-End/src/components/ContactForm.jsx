@@ -106,7 +106,7 @@ const ContactForm = () => {
             >
               <option value="">Sélectionner un service</option>
               <option value="installation">Installation de toiture</option>
-              <option value="repair">Réparation de toiture</option>
+              <option value="repair">Réparation des fuites</option>
               <option value="maintenance">Entretien de toiture</option>
               <option value="isolation">Isolation de toiture</option>
               <option value="other">Autre</option>
@@ -121,7 +121,7 @@ const ContactForm = () => {
             value={formData.message}
             onChange={handleChange}
             className="form-textarea"
-            placeholder="Décrivez votre projet..."
+            placeholder="Décrivez votre message..."
             required
           />
         </div>
