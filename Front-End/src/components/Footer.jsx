@@ -31,7 +31,7 @@ const Footer = () => {
                 <div className="footer-contact-item hover-lift">
                   <div className="footer-contact-icon">📞</div>
                   <div className="footer-contact-text">
-                    <a href="tel:0603713994">06 03 71 39 94</a>
+                    <a href="tel:0603713994">07 80 32 64 27</a>
                   </div>
                 </div>
                 <div className="footer-contact-item hover-lift">

@@ -2,153 +2,6 @@
 const servicesData = [
   {
     id: 1,
-    title: "Charpente",
-    description: "Construction et rénovation de charpentes traditionnelles et modernes",
-    longDescription: "Expertise complète en charpente pour tous types de bâtiments. De la conception à la réalisation, nous maîtrisons les techniques traditionnelles et modernes pour vous offrir des solutions durables et esthétiques.",
-    icon: "🏗️",
-    link: "/services/charpente",
-    category: "Construction",
-    duration: "2-8 semaines",
-    priceRange: "À partir de 15 000€",
-    features: [
-      "Charpente traditionnelle en bois massif",
-      "Charpente moderne avec fermettes",
-      "Charpente métallique",
-      "Rénovation et renforcement",
-      "Traitement contre les insectes",
-      "Calcul de résistance aux charges"
-    ],
-    subServices: [
-      {
-        name: "Charpente Traditionnelle",
-        description: "Construction selon les techniques ancestrales",
-        price: "À partir de 25 000€",
-        duration: "4-8 semaines"
-      },
-      {
-        name: "Charpente Moderne",
-        description: "Fermettes préfabriquées et techniques contemporaines",
-        price: "À partir de 15 000€",
-        duration: "2-4 semaines"
-      },
-      {
-        name: "Rénovation",
-        description: "Réparation et renforcement de charpentes existantes",
-        price: "À partir de 8 000€",
-        duration: "1-3 semaines"
-      }
-    ],
-    materials: ["Bois de chêne", "Bois de châtaignier", "Bois lamellé-collé", "Acier galvanisé"],
-    advantages: [
-      "Plus de 10 ans d'expérience",
-      "Devis gratuit et détaillé",
-      "Travaux garantis 10 ans",
-      "Respect des normes DTU",
-      "Intervention rapide",
-      "Prix compétitifs"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: 2,
-    title: "Couverture",
-    description: "Installation et réparation de tous types de couvertures",
-    longDescription: "Spécialiste en couverture pour garantir l'étanchéité et la durabilité de votre toiture. Nous maîtrisons tous les matériaux et techniques pour vous offrir des solutions adaptées à vos besoins et à votre budget.",
-    icon: "🏠",
-    link: "/services/couverture",
-    category: "Toiture",
-    duration: "1-6 semaines",
-    priceRange: "À partir de 8 000€",
-    features: [
-      "Tuiles traditionnelles en terre cuite",
-      "Ardoises naturelles et synthétiques",
-      "Couverture en zinc",
-      "Tôles métalliques",
-      "Pose sur volige ou liteaux",
-      "Raccordements étanches"
-    ],
-    subServices: [
-      {
-        name: "Tuiles Traditionnelles",
-        description: "Pose de tuiles canal et plates",
-        price: "À partir de 12 000€",
-        duration: "3-6 semaines"
-      },
-      {
-        name: "Ardoises",
-        description: "Installation d'ardoises naturelles",
-        price: "À partir de 18 000€",
-        duration: "4-8 semaines"
-      },
-      {
-        name: "Zinc et Métal",
-        description: "Couverture métallique moderne",
-        price: "À partir de 8 000€",
-        duration: "1-3 semaines"
-      }
-    ],
-    materials: ["Tuiles terre cuite", "Ardoises naturelles", "Zinc", "Tôles galvanisées", "PVC"],
-    advantages: [
-      "Équipe de couvreurs qualifiés",
-      "Devis gratuit et détaillé",
-      "Garantie décennale",
-      "Respect des normes",
-      "Intervention d'urgence",
-      "Finitions impeccables"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: 3,
-    title: "Zinguerie",
-    description: "Travaux de zinguerie et d'étanchéité pour votre toiture",
-    longDescription: "Expert en zinguerie pour assurer l'étanchéité parfaite de votre toiture. De l'installation de gouttières à la réalisation de chéneaux, nous garantissons des raccordements durables et professionnels.",
-    icon: "⚡",
-    link: "/services/zinguerie",
-    category: "Étanchéité",
-    duration: "1-3 jours",
-    priceRange: "À partir de 1 500€",
-    features: [
-      "Installation de gouttières",
-      "Réalisation de chéneaux",
-      "Raccordements de cheminées",
-      "Membranes d'étanchéité",
-      "Protection contre les infiltrations",
-      "Maintenance préventive"
-    ],
-    subServices: [
-      {
-        name: "Gouttières",
-        description: "Installation et réparation de gouttières",
-        price: "À partir de 1 500€",
-        duration: "1-2 jours"
-      },
-      {
-        name: "Chéneaux",
-        description: "Raccordements de toitures",
-        price: "À partir de 2 500€",
-        duration: "2-3 jours"
-      },
-      {
-        name: "Étanchéité",
-        description: "Solutions d'étanchéité complètes",
-        price: "À partir de 3 000€",
-        duration: "2-5 jours"
-      }
-    ],
-    materials: ["Zinc", "PVC", "Aluminium", "Membranes bitumées", "Accessoires"],
-    advantages: [
-      "Zingueurs qualifiés",
-      "Devis gratuit",
-      "Garantie 5 ans",
-      "Intervention rapide",
-      "Matériaux de qualité",
-      "Service d'urgence"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: 4,
     title: "Installation",
     description: "Installation complète de toitures neuves",
     longDescription: "Installation complète de toitures pour constructions neuves. Nous prenons en charge l'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.",
@@ -191,7 +44,7 @@ const servicesData = [
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
   },
   {
-    id: 5,
+    id: 2,
     title: "Réparation",
     description: "Réparation et dépannage de toitures",
     longDescription: "Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d'étanchéité.",
@@ -234,8 +87,8 @@ const servicesData = [
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
   },
   {
-    id: 6,
-    title: "Maintenance",
+    id: 3,
+    title: "Entretien",
     description: "Entretien et maintenance préventive",
     longDescription: "Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.",
     icon: "🛠️",

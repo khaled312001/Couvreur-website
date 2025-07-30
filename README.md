@@ -337,7 +337,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 Pour toute question ou problème :
 
 - **Email** : contact@bnbatiment.fr
-- **Téléphone** : 06 03 71 39 94
+- **Téléphone** : 07 80 32 64 27
 - **Horaires** : Lundi - Samedi : 7h00 - 20h
 
 ## 🙏 Remerciements

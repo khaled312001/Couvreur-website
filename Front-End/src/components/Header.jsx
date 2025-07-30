@@ -106,7 +106,7 @@ const Header = () => {
             <div className="top-bar-left">
               <div className="top-bar-item">
                 <span className="icon">📞</span>
-                <a href="tel:330603713994">06 03 71 39 94</a>
+                <a href="tel:330603713994">07 80 32 64 27</a>
               </div>
               <div className="top-bar-item">
                 <span className="icon">📧</span>

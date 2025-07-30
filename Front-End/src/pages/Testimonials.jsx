@@ -12,11 +12,17 @@ const Testimonials = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
+      <section className="hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://f.hellowork.com/blogdumoderateur/2022/06/avis-clients-5-etoiles-1200x628.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        position: 'relative'
+      }}>
         <div className="container">
           <div className="hero-content">
-            <h1>Avis Clients</h1>
-            <p>Ce que nos clients disent de nos services</p>
+            <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>Avis Clients</h1>
+            <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>Ce que nos clients disent de nos services</p>
           </div>
         </div>
       </section>

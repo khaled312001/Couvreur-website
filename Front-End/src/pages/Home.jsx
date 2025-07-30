@@ -530,7 +530,7 @@ const Home = () => {
                 <img src="https://th.bing.com/th/id/OIP.byinHvCNLGPMajojSqKM-QHaE8?w=241&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" alt="Rénovation de toiture" />
               </div>
               <div className="card-content">
-                <h3>Rénovation de toiture</h3>
+                <h3>Installation de toiture</h3>
                 <p>Nous rénovons et prenons soin de tout type de toiture en Drôme (26) et Ardèche (07)</p>
                 <a href="/services/renovation" className="card-button">Voir le détail</a>
               </div>
@@ -917,7 +917,7 @@ const Home = () => {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Téléphone</label>
-                  <input type="tel" className="form-input" placeholder="06 03 71 39 94" />
+                  <input type="tel" className="form-input" placeholder="07 80 32 64 27" />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Sujet</label>
