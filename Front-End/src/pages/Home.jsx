@@ -592,39 +592,6 @@ const Home = () => {
                 <a href="/services/entretien" className="card-button">Voir le détail</a>
               </div>
             </div>
-            
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.4s'}}>
-              <div className="service-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-8f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Installations & Réparation Gouttière" />
-              </div>
-              <div className="card-content">
-                <h3>Installations & Réparation Gouttière</h3>
-                <p>Nous pouvons installer ou réparer vos gouttières partout en Drôme (26) et Ardèche (07)</p>
-                <a href="/services/gouttieres" className="card-button">Voir le détail</a>
-              </div>
-            </div>
-            
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.5s'}}>
-              <div className="service-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-9f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Isolations de toiture" />
-              </div>
-              <div className="card-content">
-                <h3>Isolations de toiture</h3>
-                <p>Besoin de faire isoler votre toiture ou combles ? Nous sommes disponibles.</p>
-                <a href="/services/isolation" className="card-button">Voir le détail</a>
-              </div>
-            </div>
-            
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.6s'}}>
-              <div className="service-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-10f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Fenêtre" />
-              </div>
-              <div className="card-content">
-                <h3>Fenêtre</h3>
-                <p>Installation et pose de fenêtre et velux partout dans le 07 et 26.</p>
-                <a href="/services/fenetres" className="card-button">Voir le détail</a>
-              </div>
-            </div>
           </div>
           
           <div className="services-footer fade-in-on-scroll">
@@ -692,12 +659,8 @@ const Home = () => {
           </div>
           <div className="testimonials-grid">
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.1s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Travaux de toiture" />
-                <div className="image-overlay">
-                  <div className="work-type">Rénovation Toiture</div>
-                </div>
-              </div>
+              
+              
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
@@ -723,12 +686,7 @@ const Home = () => {
             </div>
             
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.2s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Installation gouttières" />
-                <div className="image-overlay">
-                  <div className="work-type">Installation Gouttières</div>
-                </div>
-              </div>
+             
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
@@ -754,12 +712,7 @@ const Home = () => {
             </div>
             
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.3s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-7f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Réparation toiture" />
-                <div className="image-overlay">
-                  <div className="work-type">Réparation Urgente</div>
-                </div>
-              </div>
+              
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
@@ -785,12 +738,7 @@ const Home = () => {
             </div>
             
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.4s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-8f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Isolation combles" />
-                <div className="image-overlay">
-                  <div className="work-type">Isolation Combles</div>
-                </div>
-              </div>
+              
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
@@ -816,12 +764,7 @@ const Home = () => {
             </div>
             
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.5s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-9f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nettoyage toiture" />
-                <div className="image-overlay">
-                  <div className="work-type">Nettoyage Toiture</div>
-                </div>
-              </div>
+              
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
@@ -847,12 +790,7 @@ const Home = () => {
             </div>
             
             <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.6s'}}>
-              <div className="testimonial-image">
-                <img src="https://images.unsplash.com/photo-1581578731548-10f23fd1e3c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Installation velux" />
-                <div className="image-overlay">
-                  <div className="work-type">Installation Velux</div>
-                </div>
-              </div>
+             
               <div className="testimonial-content">
                 <div className="testimonial-rating">
                   <span className="star">★</span>
