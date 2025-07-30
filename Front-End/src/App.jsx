@@ -29,6 +29,10 @@ import TestimonialsAdmin from "./pages/Admin/TestimonialsAdmin";
 import BlogAdmin from "./pages/Admin/BlogAdmin";
 import GalleryAdmin from "./pages/Admin/GalleryAdmin";
 import ServicesAdmin from "./pages/Admin/ServicesAdmin";
+import UsersAdmin from "./pages/Admin/UsersAdmin";
+import SettingsAdmin from "./pages/Admin/SettingsAdmin";
+import OrdersAdmin from "./pages/Admin/OrdersAdmin";
+import ProfileAdmin from "./pages/Admin/ProfileAdmin";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -47,6 +51,10 @@ function App() {
             <Route path="blog" element={<BlogAdmin />} />
             <Route path="gallery" element={<GalleryAdmin />} />
             <Route path="services" element={<ServicesAdmin />} />
+            <Route path="orders" element={<OrdersAdmin />} />
+            <Route path="users" element={<UsersAdmin />} />
+            <Route path="settings" element={<SettingsAdmin />} />
+            <Route path="profile" element={<ProfileAdmin />} />
           </Route>
 
           {/* Main App Routes */}

@@ -116,7 +116,7 @@ const Footer = () => {
         <div className="container">
           <div className="copyright-content">
             <div className="copyright-text">
-              © 2024 BN BÂTIMENT - Charpente - Couverture - Zinguerie. Tous droits réservés.
+              © 2025 BN BÂTIMENT - Charpente - Couverture - Zinguerie. Tous droits réservés.
             </div>
             <div className="copyright-links">
               <Link to="/mentions-legales">Mentions légales</Link>

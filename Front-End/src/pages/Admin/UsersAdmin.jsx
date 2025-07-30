@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Search, Filter, Edit, Trash2, Eye, 
-  Target, Settings, CheckCircle, AlertCircle, Clock,
-  X, Save, Calendar, DollarSign, Tag, FileText
+  Users, UserPlus, Shield, CheckCircle, AlertCircle, Clock,
+  X, Save, Calendar, Mail, Phone, User, Lock, Unlock
 } from 'lucide-react';
 
-const ServicesAdmin = () => {
-  const [services, setServices] = useState([]);
+const UsersAdmin = () => {
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterRole, setFilterRole] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   
   // Modal states
@@ -17,109 +18,105 @@ const ServicesAdmin = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   
   // Form states
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    icon: '🏗️',
-    category: '',
-    price: '',
-    duration: '',
-    status: 'active'
+    name: '',
+    email: '',
+    role: 'user',
+    status: 'active',
+    phone: '',
+    avatar: ''
   });
 
-  // Mock services data
-  const mockServices = [
+  // Mock users data
+  const mockUsers = [
     {
       id: 1,
-      title: "Charpente",
-      description: "Construction et rénovation de charpentes traditionnelles et modernes",
-      icon: "🏗️",
-      status: "active",
-      category: "Charpente",
-      price: "Sur devis",
-      duration: "2-4 semaines",
-      createdAt: "2025-01-15"
+      name: 'Admin Principal',
+      email: 'admin@bnbuilding.fr',
+      role: 'admin',
+      status: 'active',
+      phone: '+33 1 23 45 67 89',
+      avatar: 'A',
+      lastLogin: '2025-01-15T10:30:00',
+      createdAt: '2025-01-01'
     },
     {
       id: 2,
-      title: "Couverture",
-      description: "Installation et réparation de tous types de couvertures",
-      icon: "🏠",
-      status: "active",
-      category: "Couverture",
-      price: "Sur devis",
-      duration: "1-3 semaines",
-      createdAt: "2025-01-14"
+      name: 'Jean Dupont',
+      email: 'jean.dupont@bnbuilding.fr',
+      role: 'manager',
+      status: 'active',
+      phone: '+33 1 23 45 67 90',
+      avatar: 'J',
+      lastLogin: '2025-01-14T15:45:00',
+      createdAt: '2025-01-05'
     },
     {
       id: 3,
-      title: "Zinguerie",
-      description: "Travaux de zinguerie et d'étanchéité pour votre toiture",
-      icon: "⚡",
-      status: "active",
-      category: "Zinguerie",
-      price: "Sur devis",
-      duration: "1-2 semaines",
-      createdAt: "2025-01-13"
+      name: 'Marie Martin',
+      email: 'marie.martin@bnbuilding.fr',
+      role: 'user',
+      status: 'active',
+      phone: '+33 1 23 45 67 91',
+      avatar: 'M',
+      lastLogin: '2025-01-13T09:15:00',
+      createdAt: '2025-01-10'
     },
     {
       id: 4,
-      title: "Démoussage",
-      description: "Nettoyage professionnel de votre toiture",
-      icon: "🧹",
-      status: "draft",
-      category: "Entretien",
-      price: "À partir de 500€",
-      duration: "1 jour",
-      createdAt: "2025-01-12"
-    },
-    {
-      id: 5,
-      title: "Isolation",
-      description: "Isolation thermique et phonique de vos combles",
-      icon: "🏠",
-      status: "active",
-      category: "Isolation",
-      price: "Sur devis",
-      duration: "3-5 jours",
-      createdAt: "2025-01-11"
-    },
-    {
-      id: 6,
-      title: "Fenêtres de toit",
-      description: "Installation et remplacement de velux",
-      icon: "🪟",
-      status: "active",
-      category: "Installation",
-      price: "Sur devis",
-      duration: "1-2 jours",
-      createdAt: "2025-01-10"
+      name: 'Pierre Durand',
+      email: 'pierre.durand@bnbuilding.fr',
+      role: 'user',
+      status: 'inactive',
+      phone: '+33 1 23 45 67 92',
+      avatar: 'P',
+      lastLogin: '2025-01-10T14:20:00',
+      createdAt: '2025-01-08'
     }
   ];
 
   useEffect(() => {
     // Simulate API call
     setTimeout(() => {
-      setServices(mockServices);
+      setUsers(mockUsers);
       setIsLoading(false);
     }, 1000);
   }, []);
 
-  const filteredServices = services.filter(service => {
-    const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         service.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || service.status === filterStatus;
-    return matchesSearch && matchesFilter;
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = filterRole === 'all' || user.role === filterRole;
+    const matchesStatus = filterStatus === 'all' || user.status === filterStatus;
+    return matchesSearch && matchesRole && matchesStatus;
   });
+
+  const getRoleColor = (role) => {
+    const colors = {
+      admin: '#EF4444',
+      manager: '#F59E0B',
+      user: '#3B82F6'
+    };
+    return colors[role] || '#6B7280';
+  };
+
+  const getRoleText = (role) => {
+    const texts = {
+      admin: 'Administrateur',
+      manager: 'Gestionnaire',
+      user: 'Utilisateur'
+    };
+    return texts[role] || role;
+  };
 
   const getStatusColor = (status) => {
     const colors = {
       active: '#10B981',
-      draft: '#F59E0B',
-      inactive: '#EF4444'
+      inactive: '#EF4444',
+      pending: '#F59E0B'
     };
     return colors[status] || '#6B7280';
   };
@@ -127,8 +124,8 @@ const ServicesAdmin = () => {
   const getStatusText = (status) => {
     const texts = {
       active: 'Actif',
-      draft: 'Brouillon',
-      inactive: 'Inactif'
+      inactive: 'Inactif',
+      pending: 'En attente'
     };
     return texts[status] || status;
   };
@@ -142,90 +139,89 @@ const ServicesAdmin = () => {
     }));
   };
 
-  // Add new service
-  const handleAddService = () => {
-    const newService = {
+  // Add new user
+  const handleAddUser = () => {
+    const newUser = {
       id: Date.now(),
       ...formData,
+      avatar: formData.name.charAt(0).toUpperCase(),
+      lastLogin: new Date().toISOString(),
       createdAt: new Date().toISOString().split('T')[0]
     };
-    setServices(prev => [newService, ...prev]);
+    setUsers(prev => [newUser, ...prev]);
     setShowAddModal(false);
     setFormData({
-      title: '',
-      description: '',
-      icon: '🏗️',
-      category: '',
-      price: '',
-      duration: '',
-      status: 'active'
+      name: '',
+      email: '',
+      role: 'user',
+      status: 'active',
+      phone: '',
+      avatar: ''
     });
   };
 
-  // Edit service
-  const handleEditService = () => {
-    setServices(prev => 
-      prev.map(service => 
-        service.id === selectedService.id 
-          ? { ...service, ...formData }
-          : service
+  // Edit user
+  const handleEditUser = () => {
+    setUsers(prev => 
+      prev.map(user => 
+        user.id === selectedUser.id 
+          ? { ...user, ...formData }
+          : user
       )
     );
     setShowEditModal(false);
-    setSelectedService(null);
+    setSelectedUser(null);
     setFormData({
-      title: '',
-      description: '',
-      icon: '🏗️',
-      category: '',
-      price: '',
-      duration: '',
-      status: 'active'
+      name: '',
+      email: '',
+      role: 'user',
+      status: 'active',
+      phone: '',
+      avatar: ''
     });
   };
 
-  // Delete service
-  const handleDeleteService = () => {
-    setServices(prev => prev.filter(service => service.id !== selectedService.id));
+  // Delete user
+  const handleDeleteUser = () => {
+    setUsers(prev => prev.filter(user => user.id !== selectedUser.id));
     setShowDeleteConfirm(false);
-    setSelectedService(null);
+    setSelectedUser(null);
   };
 
-  // Toggle service status
-  const handleToggleStatus = (serviceId) => {
-    setServices(prev => 
-      prev.map(service => 
-        service.id === serviceId 
-          ? { ...service, status: service.status === 'active' ? 'draft' : 'active' }
-          : service
+  // Toggle user status
+  const handleToggleStatus = (userId) => {
+    setUsers(prev => 
+      prev.map(user => 
+        user.id === userId 
+          ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
+          : user
       )
     );
   };
 
   // Open edit modal
-  const openEditModal = (service) => {
-    setSelectedService(service);
+  const openEditModal = (user) => {
+    setSelectedUser(user);
     setFormData({
-      title: service.title,
-      description: service.description,
-      icon: service.icon,
-      category: service.category,
-      price: service.price,
-      duration: service.duration,
-      status: service.status
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      phone: user.phone,
+      avatar: user.avatar
     });
     setShowEditModal(true);
   };
 
   // Open view modal
-  const openViewModal = (service) => {
-    setSelectedService(service);
+  const openViewModal = (user) => {
+    setSelectedUser(user);
     setShowViewModal(true);
   };
 
   // Open delete confirmation
-  const openDeleteConfirm = (service) => {
-    setSelectedService(service);
+  const openDeleteConfirm = (user) => {
+    setSelectedUser(user);
     setShowDeleteConfirm(true);
   };
 
@@ -240,7 +236,7 @@ const ServicesAdmin = () => {
               animate={{ opacity: 1 }}
             >
               <div className="loading-spinner"></div>
-              <p>Chargement des services...</p>
+              <p>Chargement des utilisateurs...</p>
             </motion.div>
           </div>
         </div>
@@ -261,8 +257,8 @@ const ServicesAdmin = () => {
           >
             <div className="dashboard-header-content">
               <div>
-                <h1>Gestion des Services</h1>
-                <p>Gérez vos services de charpente, couverture et zinguerie</p>
+                <h1>Gestion des Utilisateurs</h1>
+                <p>Gérez les comptes utilisateurs et permissions</p>
               </div>
               <div className="dashboard-actions">
                 <button 
@@ -270,11 +266,11 @@ const ServicesAdmin = () => {
                   onClick={() => setShowAddModal(true)}
                 >
                   <Plus size={16} />
-                  Nouveau service
+                  Nouvel utilisateur
                 </button>
                 <button className="btn-secondary">
-                  <Settings size={16} />
-                  Paramètres
+                  <Shield size={16} />
+                  Permissions
                 </button>
               </div>
             </div>
@@ -289,14 +285,14 @@ const ServicesAdmin = () => {
           >
             <div className="stat-card">
               <div className="stat-icon" style={{ backgroundColor: '#3B82F6' + '20', color: '#3B82F6' }}>
-                <Target size={24} />
+                <Users size={24} />
               </div>
               <div className="stat-content">
-                <h3>Total Services</h3>
-                <div className="stat-value">{services.length}</div>
+                <h3>Total Utilisateurs</h3>
+                <div className="stat-value">{users.length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  +2 ce mois
+                  +1 ce mois
                 </div>
               </div>
             </div>
@@ -306,39 +302,39 @@ const ServicesAdmin = () => {
                 <CheckCircle size={24} />
               </div>
               <div className="stat-content">
-                <h3>Services Actifs</h3>
-                <div className="stat-value">{services.filter(s => s.status === 'active').length}</div>
+                <h3>Utilisateurs Actifs</h3>
+                <div className="stat-value">{users.filter(u => u.status === 'active').length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  100% actifs
+                  75% actifs
                 </div>
               </div>
             </div>
 
             <div className="stat-card">
               <div className="stat-icon" style={{ backgroundColor: '#F59E0B' + '20', color: '#F59E0B' }}>
-                <Clock size={24} />
+                <Shield size={24} />
               </div>
               <div className="stat-content">
-                <h3>En Brouillon</h3>
-                <div className="stat-value">{services.filter(s => s.status === 'draft').length}</div>
-                <div className="stat-trend trend-down">
-                  <AlertCircle size={14} />
-                  À publier
+                <h3>Administrateurs</h3>
+                <div className="stat-value">{users.filter(u => u.role === 'admin').length}</div>
+                <div className="stat-trend trend-up">
+                  <CheckCircle size={14} />
+                  Accès complet
                 </div>
               </div>
             </div>
 
             <div className="stat-card">
               <div className="stat-icon" style={{ backgroundColor: '#8B5CF6' + '20', color: '#8B5CF6' }}>
-                <Settings size={24} />
+                <Clock size={24} />
               </div>
               <div className="stat-content">
-                <h3>Catégories</h3>
-                <div className="stat-value">{new Set(services.map(s => s.category)).size}</div>
+                <h3>Dernière Connexion</h3>
+                <div className="stat-value">Aujourd'hui</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  Variées
+                  En ligne
                 </div>
               </div>
             </div>
@@ -356,7 +352,7 @@ const ServicesAdmin = () => {
                 <Search size={16} />
                 <input 
                   type="text" 
-                  placeholder="Rechercher un service..." 
+                  placeholder="Rechercher un utilisateur..." 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -364,57 +360,63 @@ const ServicesAdmin = () => {
               
               <div className="filter-buttons">
                 <button 
-                  className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('all')}
+                  className={`filter-btn ${filterRole === 'all' ? 'active' : ''}`}
+                  onClick={() => setFilterRole('all')}
                 >
-                  Tous
+                  Tous les rôles
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'active' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('active')}
+                  className={`filter-btn ${filterRole === 'admin' ? 'active' : ''}`}
+                  onClick={() => setFilterRole('admin')}
                 >
-                  Actifs
+                  Administrateurs
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'draft' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('draft')}
+                  className={`filter-btn ${filterRole === 'manager' ? 'active' : ''}`}
+                  onClick={() => setFilterRole('manager')}
                 >
-                  Brouillons
+                  Gestionnaires
+                </button>
+                <button 
+                  className={`filter-btn ${filterRole === 'user' ? 'active' : ''}`}
+                  onClick={() => setFilterRole('user')}
+                >
+                  Utilisateurs
                 </button>
               </div>
             </div>
           </motion.div>
 
-          {/* Services Grid */}
+          {/* Users Grid */}
           <motion.div 
-            className="services-grid"
+            className="users-grid"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            {filteredServices.map((service, index) => (
+            {filteredUsers.map((user, index) => (
               <motion.div
-                key={service.id}
-                className="service-card"
+                key={user.id}
+                className="user-card"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
                 whileHover={{ scale: 1.02, y: -5 }}
               >
-                <div className="service-header">
-                  <div className="service-icon">
-                    {service.icon}
+                <div className="user-header">
+                  <div className="user-avatar">
+                    {user.avatar}
                   </div>
-                  <div className="service-info">
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
+                  <div className="user-info">
+                    <h3>{user.name}</h3>
+                    <p>{user.email}</p>
                   </div>
-                  <div className="service-status">
+                  <div className="user-status">
                     <button
                       className="status-badge"
                       style={{ 
-                        backgroundColor: getStatusColor(service.status) + '20', 
-                        color: getStatusColor(service.status),
+                        backgroundColor: getStatusColor(user.status) + '20', 
+                        color: getStatusColor(user.status),
                         cursor: 'pointer',
                         border: 'none',
                         padding: '4px 8px',
@@ -422,52 +424,61 @@ const ServicesAdmin = () => {
                         fontSize: '12px',
                         fontWeight: '600'
                       }}
-                      onClick={() => handleToggleStatus(service.id)}
+                      onClick={() => handleToggleStatus(user.id)}
                       title="Cliquer pour changer le statut"
                     >
-                      {getStatusText(service.status)}
+                      {getStatusText(user.status)}
                     </button>
                   </div>
                 </div>
 
-                <div className="service-details">
+                <div className="user-details">
                   <div className="detail-item">
-                    <span className="detail-label">Catégorie:</span>
-                    <span className="detail-value">{service.category}</span>
+                    <span className="detail-label">Rôle:</span>
+                    <span 
+                      className="detail-value"
+                      style={{ color: getRoleColor(user.role) }}
+                    >
+                      {getRoleText(user.role)}
+                    </span>
                   </div>
                   <div className="detail-item">
-                    <span className="detail-label">Prix:</span>
-                    <span className="detail-value">{service.price}</span>
+                    <span className="detail-label">Téléphone:</span>
+                    <span className="detail-value">{user.phone}</span>
                   </div>
                   <div className="detail-item">
-                    <span className="detail-label">Durée:</span>
-                    <span className="detail-value">{service.duration}</span>
+                    <span className="detail-label">Dernière connexion:</span>
+                    <span className="detail-value">
+                      {new Date(user.lastLogin).toLocaleDateString('fr-FR')}
+                    </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Créé le:</span>
-                    <span className="detail-value">{new Date(service.createdAt).toLocaleDateString('fr-FR')}</span>
+                    <span className="detail-value">
+                      {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                    </span>
                   </div>
                 </div>
 
-                <div className="service-actions">
+                <div className="user-actions">
                   <button 
                     className="action-btn" 
                     title="Voir les détails"
-                    onClick={() => openViewModal(service)}
+                    onClick={() => openViewModal(user)}
                   >
                     <Eye size={16} />
                   </button>
                   <button 
                     className="action-btn" 
                     title="Modifier"
-                    onClick={() => openEditModal(service)}
+                    onClick={() => openEditModal(user)}
                   >
                     <Edit size={16} />
                   </button>
                   <button 
                     className="action-btn danger" 
                     title="Supprimer"
-                    onClick={() => openDeleteConfirm(service)}
+                    onClick={() => openDeleteConfirm(user)}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -477,27 +488,27 @@ const ServicesAdmin = () => {
           </motion.div>
 
           {/* Empty State */}
-          {filteredServices.length === 0 && (
+          {filteredUsers.length === 0 && (
             <motion.div 
               className="empty-state"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
             >
-              <Target size={48} />
-              <h3>Aucun service trouvé</h3>
-              <p>Aucun service ne correspond à vos critères de recherche.</p>
+              <Users size={48} />
+              <h3>Aucun utilisateur trouvé</h3>
+              <p>Aucun utilisateur ne correspond à vos critères de recherche.</p>
               <button 
                 className="btn-primary"
                 onClick={() => setShowAddModal(true)}
               >
                 <Plus size={16} />
-                Ajouter un service
+                Ajouter un utilisateur
               </button>
             </motion.div>
           )}
 
-          {/* Add Service Modal */}
+          {/* Add User Modal */}
           <AnimatePresence>
             {showAddModal && (
               <motion.div 
@@ -515,7 +526,7 @@ const ServicesAdmin = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="modal-header">
-                    <h2>Ajouter un nouveau service</h2>
+                    <h2>Ajouter un nouvel utilisateur</h2>
                     <button 
                       className="modal-close"
                       onClick={() => setShowAddModal(false)}
@@ -526,86 +537,64 @@ const ServicesAdmin = () => {
                   
                   <div className="modal-body">
                     <div className="form-group">
-                      <label>Titre du service</label>
+                      <label>Nom complet</label>
                       <input
                         type="text"
-                        name="title"
-                        value={formData.title}
+                        name="name"
+                        value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Ex: Charpente traditionnelle"
+                        placeholder="Ex: Jean Dupont"
                       />
                     </div>
                     
                     <div className="form-group">
-                      <label>Description</label>
-                      <textarea
-                        name="description"
-                        value={formData.description}
+                      <label>Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="Description détaillée du service..."
-                        rows="3"
+                        placeholder="Ex: jean.dupont@bnbuilding.fr"
                       />
                     </div>
                     
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Icône</label>
-                        <input
-                          type="text"
-                          name="icon"
-                          value={formData.icon}
+                        <label>Rôle</label>
+                        <select
+                          name="role"
+                          value={formData.role}
                           onChange={handleInputChange}
-                          placeholder="🏗️"
-                        />
+                        >
+                          <option value="user">Utilisateur</option>
+                          <option value="manager">Gestionnaire</option>
+                          <option value="admin">Administrateur</option>
+                        </select>
                       </div>
                       
                       <div className="form-group">
-                        <label>Catégorie</label>
-                        <input
-                          type="text"
-                          name="category"
-                          value={formData.category}
+                        <label>Statut</label>
+                        <select
+                          name="status"
+                          value={formData.status}
                           onChange={handleInputChange}
-                          placeholder="Ex: Charpente"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Prix</label>
-                        <input
-                          type="text"
-                          name="price"
-                          value={formData.price}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Sur devis"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Durée</label>
-                        <input
-                          type="text"
-                          name="duration"
-                          value={formData.duration}
-                          onChange={handleInputChange}
-                          placeholder="Ex: 2-4 semaines"
-                        />
+                        >
+                          <option value="active">Actif</option>
+                          <option value="inactive">Inactif</option>
+                          <option value="pending">En attente</option>
+                        </select>
                       </div>
                     </div>
                     
                     <div className="form-group">
-                      <label>Statut</label>
-                      <select
-                        name="status"
-                        value={formData.status}
+                      <label>Téléphone</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleInputChange}
-                      >
-                        <option value="active">Actif</option>
-                        <option value="draft">Brouillon</option>
-                        <option value="inactive">Inactif</option>
-                      </select>
+                        placeholder="Ex: +33 1 23 45 67 89"
+                      />
                     </div>
                   </div>
                   
@@ -618,11 +607,11 @@ const ServicesAdmin = () => {
                     </button>
                     <button 
                       className="btn-primary"
-                      onClick={handleAddService}
-                      disabled={!formData.title || !formData.description}
+                      onClick={handleAddUser}
+                      disabled={!formData.name || !formData.email}
                     >
                       <Save size={16} />
-                      Ajouter le service
+                      Ajouter l'utilisateur
                     </button>
                   </div>
                 </motion.div>
@@ -630,9 +619,9 @@ const ServicesAdmin = () => {
             )}
           </AnimatePresence>
 
-          {/* Edit Service Modal */}
+          {/* Edit User Modal */}
           <AnimatePresence>
-            {showEditModal && selectedService && (
+            {showEditModal && selectedUser && (
               <motion.div 
                 className="modal-overlay"
                 initial={{ opacity: 0 }}
@@ -648,7 +637,7 @@ const ServicesAdmin = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="modal-header">
-                    <h2>Modifier le service</h2>
+                    <h2>Modifier l'utilisateur</h2>
                     <button 
                       className="modal-close"
                       onClick={() => setShowEditModal(false)}
@@ -659,86 +648,64 @@ const ServicesAdmin = () => {
                   
                   <div className="modal-body">
                     <div className="form-group">
-                      <label>Titre du service</label>
+                      <label>Nom complet</label>
                       <input
                         type="text"
-                        name="title"
-                        value={formData.title}
+                        name="name"
+                        value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Ex: Charpente traditionnelle"
+                        placeholder="Ex: Jean Dupont"
                       />
                     </div>
                     
                     <div className="form-group">
-                      <label>Description</label>
-                      <textarea
-                        name="description"
-                        value={formData.description}
+                      <label>Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="Description détaillée du service..."
-                        rows="3"
+                        placeholder="Ex: jean.dupont@bnbuilding.fr"
                       />
                     </div>
                     
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Icône</label>
-                        <input
-                          type="text"
-                          name="icon"
-                          value={formData.icon}
+                        <label>Rôle</label>
+                        <select
+                          name="role"
+                          value={formData.role}
                           onChange={handleInputChange}
-                          placeholder="🏗️"
-                        />
+                        >
+                          <option value="user">Utilisateur</option>
+                          <option value="manager">Gestionnaire</option>
+                          <option value="admin">Administrateur</option>
+                        </select>
                       </div>
                       
                       <div className="form-group">
-                        <label>Catégorie</label>
-                        <input
-                          type="text"
-                          name="category"
-                          value={formData.category}
+                        <label>Statut</label>
+                        <select
+                          name="status"
+                          value={formData.status}
                           onChange={handleInputChange}
-                          placeholder="Ex: Charpente"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Prix</label>
-                        <input
-                          type="text"
-                          name="price"
-                          value={formData.price}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Sur devis"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Durée</label>
-                        <input
-                          type="text"
-                          name="duration"
-                          value={formData.duration}
-                          onChange={handleInputChange}
-                          placeholder="Ex: 2-4 semaines"
-                        />
+                        >
+                          <option value="active">Actif</option>
+                          <option value="inactive">Inactif</option>
+                          <option value="pending">En attente</option>
+                        </select>
                       </div>
                     </div>
                     
                     <div className="form-group">
-                      <label>Statut</label>
-                      <select
-                        name="status"
-                        value={formData.status}
+                      <label>Téléphone</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleInputChange}
-                      >
-                        <option value="active">Actif</option>
-                        <option value="draft">Brouillon</option>
-                        <option value="inactive">Inactif</option>
-                      </select>
+                        placeholder="Ex: +33 1 23 45 67 89"
+                      />
                     </div>
                   </div>
                   
@@ -751,8 +718,8 @@ const ServicesAdmin = () => {
                     </button>
                     <button 
                       className="btn-primary"
-                      onClick={handleEditService}
-                      disabled={!formData.title || !formData.description}
+                      onClick={handleEditUser}
+                      disabled={!formData.name || !formData.email}
                     >
                       <Save size={16} />
                       Enregistrer les modifications
@@ -763,9 +730,9 @@ const ServicesAdmin = () => {
             )}
           </AnimatePresence>
 
-          {/* View Service Modal */}
+          {/* View User Modal */}
           <AnimatePresence>
-            {showViewModal && selectedService && (
+            {showViewModal && selectedUser && (
               <motion.div 
                 className="modal-overlay"
                 initial={{ opacity: 0 }}
@@ -781,7 +748,7 @@ const ServicesAdmin = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="modal-header">
-                    <h2>Détails du service</h2>
+                    <h2>Détails de l'utilisateur</h2>
                     <button 
                       className="modal-close"
                       onClick={() => setShowViewModal(false)}
@@ -791,60 +758,57 @@ const ServicesAdmin = () => {
                   </div>
                   
                   <div className="modal-body">
-                    <div className="service-detail-view">
-                      <div className="service-detail-header">
-                        <div className="service-detail-icon">
-                          {selectedService.icon}
+                    <div className="user-detail-view">
+                      <div className="user-detail-header">
+                        <div className="user-detail-avatar">
+                          {selectedUser.avatar}
                         </div>
-                        <div className="service-detail-info">
-                          <h3>{selectedService.title}</h3>
+                        <div className="user-detail-info">
+                          <h3>{selectedUser.name}</h3>
                           <span 
                             className="status-badge"
                             style={{ 
-                              backgroundColor: getStatusColor(selectedService.status) + '20', 
-                              color: getStatusColor(selectedService.status) 
+                              backgroundColor: getStatusColor(selectedUser.status) + '20', 
+                              color: getStatusColor(selectedUser.status) 
                             }}
                           >
-                            {getStatusText(selectedService.status)}
+                            {getStatusText(selectedUser.status)}
                           </span>
                         </div>
                       </div>
                       
-                      <div className="service-detail-description">
-                        <h4>Description</h4>
-                        <p>{selectedService.description}</p>
-                      </div>
-                      
-                      <div className="service-detail-grid">
+                      <div className="user-detail-grid">
                         <div className="detail-grid-item">
-                          <Tag size={16} />
+                          <Mail size={16} />
                           <div>
-                            <label>Catégorie</label>
-                            <span>{selectedService.category}</span>
+                            <label>Email</label>
+                            <span>{selectedUser.email}</span>
                           </div>
                         </div>
                         
                         <div className="detail-grid-item">
-                          <DollarSign size={16} />
+                          <Shield size={16} />
                           <div>
-                            <label>Prix</label>
-                            <span>{selectedService.price}</span>
+                            <label>Rôle</label>
+                            <span style={{ color: getRoleColor(selectedUser.role) }}>
+                              {getRoleText(selectedUser.role)}
+                            </span>
                           </div>
                         </div>
                         
                         <div className="detail-grid-item">
-                          <Clock size={16} />
+                          <Phone size={16} />
                           <div>
-                            <label>Durée</label>
-                            <span>{selectedService.duration}</span>
+                            <label>Téléphone</label>
+                            <span>{selectedUser.phone}</span>
                           </div>
                         </div>
                         
                         <div className="detail-grid-item">
                           <Calendar size={16} />
                           <div>
-                            <label>Créé le</label>
-                            <span>{new Date(selectedService.createdAt).toLocaleDateString('fr-FR')}</span>
+                            <label>Dernière connexion</label>
+                            <span>{new Date(selectedUser.lastLogin).toLocaleDateString('fr-FR')}</span>
                           </div>
                         </div>
                       </div>
@@ -862,7 +826,7 @@ const ServicesAdmin = () => {
                       className="btn-primary"
                       onClick={() => {
                         setShowViewModal(false);
-                        openEditModal(selectedService);
+                        openEditModal(selectedUser);
                       }}
                     >
                       <Edit size={16} />
@@ -876,7 +840,7 @@ const ServicesAdmin = () => {
 
           {/* Delete Confirmation Modal */}
           <AnimatePresence>
-            {showDeleteConfirm && selectedService && (
+            {showDeleteConfirm && selectedUser && (
               <motion.div 
                 className="modal-overlay"
                 initial={{ opacity: 0 }}
@@ -904,8 +868,8 @@ const ServicesAdmin = () => {
                   <div className="modal-body">
                     <div className="delete-confirm-content">
                       <AlertCircle size={48} color="#EF4444" />
-                      <h3>Êtes-vous sûr de vouloir supprimer ce service ?</h3>
-                      <p>Cette action est irréversible et supprimera définitivement le service "{selectedService.title}".</p>
+                      <h3>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</h3>
+                      <p>Cette action est irréversible et supprimera définitivement l'utilisateur "{selectedUser.name}".</p>
                     </div>
                   </div>
                   
@@ -918,7 +882,7 @@ const ServicesAdmin = () => {
                     </button>
                     <button 
                       className="btn-danger"
-                      onClick={handleDeleteService}
+                      onClick={handleDeleteUser}
                     >
                       <Trash2 size={16} />
                       Supprimer définitivement
@@ -934,4 +898,4 @@ const ServicesAdmin = () => {
   );
 };
 
-export default ServicesAdmin;
+export default UsersAdmin; 

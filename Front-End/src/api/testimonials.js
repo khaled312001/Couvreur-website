@@ -5,7 +5,7 @@ const mockTestimonials = [
     author: "Marie Dubois",
     rating: 5,
     text: "Excellent travail de rénovation de notre toiture. Équipe professionnelle et ponctuelle. Je recommande vivement !",
-    date: "15 décembre 2024",
+    date: "15 décembre 2025",
     location: "Lyon"
   },
   {
@@ -13,7 +13,7 @@ const mockTestimonials = [
     author: "Pierre Martin",
     rating: 5,
     text: "Installation de gouttières parfaite. Prix compétitif et travail soigné. Merci pour votre professionnalisme.",
-    date: "20 novembre 2024",
+    date: "20 novembre 2025",
     location: "Grenoble"
   },
   {
@@ -21,7 +21,7 @@ const mockTestimonials = [
     author: "Sophie Bernard",
     rating: 4,
     text: "Réparation rapide et efficace de notre toiture après la tempête. Équipe réactive et compétente.",
-    date: "10 octobre 2024",
+    date: "10 octobre 2025",
     location: "Saint-Étienne"
   }
 ];
