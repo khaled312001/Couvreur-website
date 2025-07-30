@@ -13,7 +13,7 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Hero slides data with different images
-  const heroSlides = [
+  const heroSlides = [     
     {
       id: 1,
       image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
