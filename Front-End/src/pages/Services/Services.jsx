@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchServices } from "../../api/services";
+import { fetchServices, getServicesByCategory } from "../../api/services";
 import ServiceCard from "../../components/ServiceCard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Tous");
+
+  const categories = ["Tous", "Construction", "Toiture", "Étanchéité", "Maintenance", "Entretien"];
 
   useEffect(() => {
     fetchServices().then(setServices);
   }, []);
+
+  useEffect(() => {
+    if (selectedCategory === "Tous") {
+      setFilteredServices(services);
+    } else {
+      getServicesByCategory(selectedCategory).then(setFilteredServices);
+    }
+  }, [selectedCategory, services]);
 
   const heroData = {
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
@@ -58,15 +70,57 @@ const Services = () => {
         </div>
       </section>
 
+      {/* Filtres par catégorie */}
+      <section className="section" style={{ paddingTop: '40px', paddingBottom: '20px' }}>
+        <div className="container">
+          <div className="text-center fade-in-on-scroll">
+            <h3 style={{ marginBottom: '20px', color: '#374151' }}>Filtrer par catégorie</h3>
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  style={{
+                    padding: '8px 16px',
+                    border: selectedCategory === category ? '2px solid #1e3a8a' : '2px solid #e5e7eb',
+                    backgroundColor: selectedCategory === category ? '#1e3a8a' : 'transparent',
+                    color: selectedCategory === category ? '#fff' : '#374151',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedCategory !== category) {
+                      e.target.style.backgroundColor = '#f3f4f6';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCategory !== category) {
+                      e.target.style.backgroundColor = 'transparent';
+                    }
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Overview */}
       <section className="section">
         <div className="container">
-          <h2 className="section-title fade-in-on-scroll">Tous nos services</h2>
+          <h2 className="section-title fade-in-on-scroll">
+            {selectedCategory === "Tous" ? "Tous nos services" : `Services - ${selectedCategory}`}
+          </h2>
           <p className="section-subtitle fade-in-on-scroll">
             Spécialiste en charpente, couverture et zinguerie
           </p>
           <div className="grid grid-3">
-            {services.slice(0, 6).map((service, index) => (
+            {filteredServices.map((service, index) => (
               <div
                 key={service.id}
                 className="fade-in-on-scroll"

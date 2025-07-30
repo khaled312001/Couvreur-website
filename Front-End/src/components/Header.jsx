@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { getServices } from '../api/services';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +15,11 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Charger les services au montage du composant
+    setServices(getServices());
   }, []);
 
   const toggleMobileMenu = () => {
@@ -90,37 +97,6 @@ const Header = () => {
     ]
   };
 
-  // Data for services dropdown
-  const servicesData = {
-    'Installation de Toiture': [
-      'Toiture en tuiles',
-      'Toiture en zinc',
-      'Toiture métallique'
-    ],
-    'Réparation de Toiture': [
-      'Remplacement de tuiles endommagées',
-      'Renforcement de la charpente existante',
-      'Réparation cheminée',
-      'Réparation de fuites et infiltrations d\'eau sur une toiture',
-      'Réparation de toiture métallique'
-    ],
-    'Entretien de Toiture': [
-      'Inspection de toiture',
-      'Nettoyage de toiture',
-      'Traitement de toiture'
-    ],
-    'Services supplémentaires': [
-      'Isolation de toiture',
-      'Habillage de bandeau en aluminium laqué',
-      'Remplacement materiaux de toiture à l\'identique',
-      'Gouttières',
-      'Étanchéité',
-      'Installation et Pose de velux',
-      'Zinguerie',
-      'Peinture extérieure'
-    ]
-  };
-
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       {/* Top Bar */}
@@ -191,26 +167,52 @@ const Header = () => {
                 </NavLink>
                 {activeDropdown === 'services' && (
                   <div className="submenu visible">
-                    <div className="submenu-column">
-                      {Object.entries(servicesData).map(([service, subServices]) => (
-                        <div key={service} className="submenu-item-container">
-                          <NavLink to={`/services/${service.toLowerCase().replace(/\s+/g, '-')}`} className="submenu-item">
-                            {service}
+                    <div className="submenu-header">
+                      <h4>NOS SERVICES</h4>
+                      <p>Charpente • Couverture • Zinguerie</p>
+                    </div>
+                    <div className="submenu-columns">
+                      {services.map((service) => (
+                        <div key={service.id} className="submenu-item-container">
+                          <NavLink to={service.link} className="submenu-item">
+                            <div className="submenu-item-header">
+                              <span className="submenu-icon">{service.icon}</span>
+                              <div className="submenu-item-content">
+                                <h5>{service.title}</h5>
+                                <p>{service.description}</p>
+                              </div>
+                            </div>
+                            <div className="submenu-item-details">
+                              <span className="price">{service.priceRange}</span>
+                              <span className="duration">{service.duration}</span>
+                            </div>
                             <span className="submenu-arrow">▶</span>
                           </NavLink>
                           <div className="submenu-sub">
-                            {subServices.map((subService, index) => (
+                            {service.subServices && service.subServices.map((subService, index) => (
                               <NavLink 
                                 key={index} 
-                                to={`/services/${subService.toLowerCase().replace(/\s+/g, '-')}`} 
+                                to={service.link} 
                                 className="submenu-sub-item"
                               >
-                                {subService}
+                                <div className="submenu-sub-item-content">
+                                  <h6>{subService.name}</h6>
+                                  <p>{subService.description}</p>
+                                  <div className="submenu-sub-item-details">
+                                    <span className="price">{subService.price}</span>
+                                    <span className="duration">{subService.duration}</span>
+                                  </div>
+                                </div>
                               </NavLink>
                             ))}
                           </div>
                         </div>
                       ))}
+                    </div>
+                    <div className="submenu-footer">
+                      <NavLink to="/services" className="submenu-footer-link">
+                        Voir tous nos services →
+                      </NavLink>
                     </div>
                   </div>
                 )}
@@ -319,14 +321,20 @@ const Header = () => {
                 NOS SERVICES
               </NavLink>
               <div className="mobile-submenu">
-                {Object.keys(servicesData).map((service) => (
+                {services.map((service) => (
                   <NavLink 
-                    key={service} 
-                    to={`/services/${service.toLowerCase().replace(/\s+/g, '-')}`} 
+                    key={service.id} 
+                    to={service.link} 
                     className="mobile-submenu-item"
                     onClick={toggleMobileMenu}
                   >
-                    {service}
+                    <div className="mobile-submenu-item-content">
+                      <span className="mobile-submenu-icon">{service.icon}</span>
+                      <div>
+                        <h6>{service.title}</h6>
+                        <p>{service.priceRange}</p>
+                      </div>
+                    </div>
                   </NavLink>
                 ))}
               </div>
