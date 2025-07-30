@@ -42,6 +42,7 @@ const About = () => {
         <div className="container">
           <div className="hero-content animate-fadeInUp">
             <h1>BN BÂTIMENT</h1>
+            
             <div className="hero-subtitle animate-slideInLeft">Spécialiste en charpente, couverture et zinguerie</div>
             <p className="animate-slideInRight">Plus de 10 ans d'expérience dans le bâtiment</p>
           </div>
@@ -158,5 +159,8 @@ const About = () => {
     </div>
   );
 };
+
+
+
 
 export default About;
