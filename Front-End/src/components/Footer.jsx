@@ -10,7 +10,15 @@ const Footer = () => {
             {/* Company Info */}
             <div className="fade-in-on-scroll">
               <div className="footer-logo">
-                <div className="footer-logo-icon animate-glow">BN</div>
+                <img 
+                  src="/logo.png" 
+                  alt="BN BÂTIMENT Logo" 
+                  style={{ 
+                    height: '50px', 
+                    width: 'auto',
+                    objectFit: 'contain'
+                  }} 
+                />
                 <div className="footer-logo-text">
                   <h3>BN BÂTIMENT</h3>
                   <p>Charpente - Couverture - Zinguerie</p>

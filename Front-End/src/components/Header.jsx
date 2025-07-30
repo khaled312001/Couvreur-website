@@ -155,7 +155,7 @@ const Header = () => {
             <NavLink to="/" className="logo">
               <div className="logo-container" style={{ display: 'flex', alignItems: 'center' }}>
                 <img 
-                  src="/src/logo.png" 
+                  src="/logo.png" 
                   alt="BN BÂTIMENT Logo" 
                   style={{ 
                     height: '60px', 
