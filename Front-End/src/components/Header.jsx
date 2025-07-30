@@ -153,27 +153,16 @@ const Header = () => {
           <div className="nav-content">
             {/* Logo */}
             <NavLink to="/" className="logo">
-              <div className="logo-container" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                {/* Left: BN */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1 }}>
-                  <span style={{ fontWeight: 'bold', fontSize: 36, color: '#2196f3', letterSpacing: '2px', fontFamily: 'Arial, sans-serif' }}>BN</span>
-                  <span style={{ fontWeight: 700, fontSize: 22, color: '#6c757d', letterSpacing: '1px', fontFamily: 'Arial, sans-serif', marginTop: '-2px' }}>BÂTIMENT</span>
-                </div>
-                {/* Right: " " + house + " */}
-                <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8 }}>
-                  {/* Left quote */}
-                  <svg width="22" height="32" viewBox="0 0 22 32" style={{ marginRight: 2 }}>
-                    <text x="0" y="28" fontSize="32" fontWeight="bold" fill="#2196f3" fontFamily="Arial, sans-serif">"</text>
-                  </svg>
-                  {/* House icon */}
-                  <svg width="38" height="32" viewBox="0 0 38 32" style={{ margin: '0 2px' }}>
-                    <polygon points="19,4 36,18 32,18 32,28 24,28 24,20 14,20 14,28 6,28 6,18 2,18" fill="#2196f3" />
-                  </svg>
-                  {/* Right quote */}
-                  <svg width="22" height="32" viewBox="0 0 22 32" style={{ marginLeft: 2 }}>
-                    <text x="0" y="28" fontSize="32" fontWeight="bold" fill="#2196f3" fontFamily="Arial, sans-serif">"</text>
-                  </svg>
-                </div>
+              <div className="logo-container" style={{ display: 'flex', alignItems: 'center' }}>
+                <img 
+                  src="/src/logo.png" 
+                  alt="BN BÂTIMENT Logo" 
+                  style={{ 
+                    height: '60px', 
+                    width: 'auto',
+                    objectFit: 'contain'
+                  }} 
+                />
               </div>
             </NavLink>
 
