@@ -18,7 +18,7 @@ const Home = () => {
       id: 1,
       image: 'https://th.bing.com/th/id/OIP.D2pE_dpnerxSFd8p46aA_wHaEM?w=251&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3',
       title: 'BN BÂTIMENT : Charpente Couverture Zinguerie',
-      subtitle: 'Drôme (26) et Ardèche (07)',
+      subtitle: 'Lyon (69) - Saint-Étienne (42) - Valence (26)',
       description: 'Artisan couvreur professionnel spécialisé dans la couverture, la zinguerie et la charpente. Plus de 10 ans d\'expérience au service de votre toiture.',
       cta: 'DEMANDER UN DEVIS'
     },
@@ -369,10 +369,10 @@ const Home = () => {
               
               <div className="about-description">
                 <p>
-                  BN BÂTIMENT vous accompagne dans tous vos projets de toiture dans la région de Rochemaure. 
+                  BN BÂTIMENT vous accompagne dans tous vos projets de toiture dans la région de Lyon. 
                   Nous vous proposons un accompagnement personnalisé pour vos projets de couverture, avec des devis gratuits 
                   et détaillés, des conseils d'experts, des facilités de paiement et une équipe réactive pour vos besoins 
-                  de rénovation, désamiantage, nettoyage et étanchéité dans un rayon de 100km autour de Rochemaure.
+                  de rénovation, désamiantage, nettoyage et étanchéité dans un rayon de 100km autour de Lyon.
                 </p>
               </div>
               
@@ -521,7 +521,7 @@ const Home = () => {
             </div>
             <h2 className="section-title">Découvrez l'ensemble de nos prestations dans le Rhône-Alpes</h2>
             <p className="section-subtitle">
-              Nous proposons de nombreux services répondant chacun aux besoins spécifiques de nos clients en Drôme (26) et Ardèche (07)
+              Nous proposons de nombreux services répondant chacun aux besoins spécifiques de nos clients en Lyon (69) - Saint-Étienne (42) - Valence (26)
             </p>
           </div>
           <div className="services-grid grid grid-3">

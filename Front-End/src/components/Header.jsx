@@ -12,13 +12,11 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    // Charger les services au montage du composant
     setServices(getServices());
   }, []);
 
@@ -34,67 +32,11 @@ const Header = () => {
     setActiveDropdown(null);
   };
 
-  // Data for zones dropdown
   const zonesData = {
-    'Drôme (26)': [
-      'Artisan Couvreur Montelimar (26200)',
-      'Artisan Couvreur Crest (26400)',
-      'Artisan Couvreur Bourg-lès-Valence (26500)',
-      'Artisan Couvreur Portes-lès-Valence (26800)',
-      'Artisan Couvreur Romans-sur-Isère (26100)',
-      'Artisan Couvreur Chabeuil (26120)',
-      'Artisan Couvreur Pierrelatte (26700)',
-      'Artisan Couvreur Loriol-sur-Drôme (26270)',
-      'Artisan Couvreur Nyons (26110)',
-      'Artisan Couvreur Tain-l\'Hermitage (26600)',
-      'Artisan Couvreur Bourg-de-Péage (26300)',
-      'Artisan Couvreur Saint-Paul-Trois-Châteaux (26130)',
-      'Artisan Couvreur Valence (26000)',
-      'Artisan Couvreur Livron-sur-Drôme (26250)'
-    ],
-    'Ardèche (07)': [
-      'Artisan Couvreur Aubenas (07200)',
-      'Artisan Couvreur Privas (07000)',
-      'Artisan Couvreur Guilherand-Granges (07500)',
-      'Artisan Couvreur La Voulte-sur-Rhône (07800)',
-      'Artisan Couvreur Annonay (07100)',
-      'Artisan Couvreur Le Teil (07400)',
-      'Artisan Couvreur Tournon-sur-Rhône (07300)',
-      'Artisan Couvreur Bourg-Saint-Andéol (07700)',
-      'Artisan Couvreur Saint-Péray (07130)'
-    ],
-    'Gard (30)': [
-      'Artisan Couvreur Rochefort-du-Gard (30650)',
-      'Artisan Couvreur Bagnols-sur-Cèze (30200)',
-      'Artisan Couvreur Alès (30100)',
-      'Artisan Couvreur La Grand-Combe (30110)',
-      'Artisan Couvreur Pont-Saint-Esprit (30130)',
-      'Artisan Couvreur Laudun-l\'Ardoise (30290)',
-      'Artisan Couvreur Uzès (30700)',
-      'Artisan Couvreur Les Angles (30133)',
-      'Artisan Couvreur Saint-Christol-lès-Alès (30380)',
-      'Artisan Couvreur Roquemaure (30150)',
-      'Artisan Couvreur Villeneuve-lès-Avignon (30400)'
-    ],
-    'Vaucluse (84)': [
-      'Artisan Couvreur Pernes-les-Fontaines (84210)',
-      'Artisan Couvreur Avignon (84000)',
-      'Artisan Couvreur Mazan (84380)',
-      'Artisan Couvreur Monteux (84170)',
-      'Artisan Couvreur Bédarrides (84370)',
-      'Artisan Couvreur Sorgues (84700)',
-      'Artisan Couvreur Courthézon (84350)',
-      'Artisan Couvreur Vedène (84270)',
-      'Artisan Couvreur Sarrians (84260)',
-      'Artisan Couvreur Morières-lès-Avignon (84310)',
-      'Artisan Couvreur Valréas (84600)',
-      'Artisan Couvreur Vaison-la-Romaine (84110)',
-      'Artisan Couvreur Bollène (84500)',
-      'Artisan Couvreur Orange (84100)',
-      'Artisan Couvreur Carpentras (84200)',
-      'Artisan Couvreur Le Pontet (84130)',
-      'Artisan Couvreur Entraigues-sur-la-Sorgue (84320)'
-    ]
+    'Lyon (69)':[],
+    'Saint-Étienne (42)': [],
+    'Valence (26)': [],
+    'Vaucluse (84)': []
   };
 
   return (
@@ -133,11 +75,7 @@ const Header = () => {
                 <img 
                   src="/logo.png" 
                   alt="BN BÂTIMENT Logo" 
-                  style={{ 
-                    height: '60px', 
-                    width: 'auto',
-                    objectFit: 'contain'
-                  }} 
+                  style={{ height: '60px', width: 'auto', objectFit: 'contain' }} 
                 />
               </div>
             </NavLink>
@@ -145,17 +83,11 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="nav-menu">
               <div className="nav-item">
-                <NavLink to="/" className="nav-link">
-                  ACCUEIL
-                </NavLink>
+                <NavLink to="/" className="nav-link">ACCUEIL</NavLink>
               </div>
-              
               <div className="nav-item">
-                <NavLink to="/a-propos" className="nav-link">
-                  À PROPOS
-                </NavLink>
+                <NavLink to="/a-propos" className="nav-link">À PROPOS</NavLink>
               </div>
-
               <div 
                 className="nav-item"
                 onMouseEnter={() => handleDropdownEnter('services')}
@@ -165,97 +97,60 @@ const Header = () => {
                   NOS SERVICES
                   <span className="dropdown-arrow">▼</span>
                 </NavLink>
-                                 {activeDropdown === 'services' && (
-                   <div className="submenu visible" style={{
-                     minWidth: '280px',
-                     padding: '1.5rem',
-                     borderRadius: '12px',
-                     boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                     border: '1px solid rgba(255,255,255,0.1)',
-                     background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                     backdropFilter: 'blur(10px)'
-                   }}>
-                     <div className="submenu-header" style={{
-                       borderBottom: '2px solid #e2e8f0',
-                       paddingBottom: '1rem',
-                       marginBottom: '1rem'
-                     }}>
-                       <h4 style={{
-                         fontSize: '1.1rem',
-                         fontWeight: '700',
-                         color: '#1e293b',
-                         margin: '0',
-                         textAlign: 'center'
-                       }}>NOS SERVICES</h4>
-                     </div>
-                     <div className="submenu-list" style={{
-                       display: 'flex',
-                       flexDirection: 'column',
-                       gap: '0.5rem'
-                     }}>
-                       {services.map((service) => (
-                         <div key={service.id} className="submenu-item-container">
-                           <NavLink 
-                             to={service.link} 
-                             className="submenu-item"
-                             style={{
-                               display: 'flex',
-                               alignItems: 'center',
-                               padding: '0.75rem 1rem',
-                               borderRadius: '8px',
-                               textDecoration: 'none',
-                               color: '#475569',
-                               transition: 'all 0.3s ease',
-                               border: '1px solid transparent',
-                               background: 'transparent'
-                             }}
-                             onMouseEnter={(e) => {
-                               e.target.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-                               e.target.style.color = 'white';
-                               e.target.style.transform = 'translateX(5px)';
-                               e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
-                             }}
-                             onMouseLeave={(e) => {
-                               e.target.style.background = 'transparent';
-                               e.target.style.color = '#475569';
-                               e.target.style.transform = 'translateX(0)';
-                               e.target.style.boxShadow = 'none';
-                             }}
-                           >
-                             <div className="submenu-item-header" style={{
-                               display: 'flex',
-                               alignItems: 'center',
-                               gap: '0.75rem',
-                               width: '100%'
-                             }}>
-                               <span className="submenu-icon" style={{
-                                 fontSize: '1.5rem',
-                                 minWidth: '2rem',
-                                 textAlign: 'center'
-                               }}>{service.icon}</span>
-                               <div className="submenu-item-content">
-                                 <h5 style={{
-                                   fontSize: '0.95rem',
-                                   fontWeight: '600',
-                                   margin: '0',
-                                   lineHeight: '1.2'
-                                 }}>{service.title}</h5>
-                               </div>
-                             </div>
-                           </NavLink>
-                         </div>
-                       ))}
-                     </div>
-                   </div>
-                 )}
+                {activeDropdown === 'services' && (
+                  <div className="submenu visible" style={{
+                    minWidth: '280px',
+                    padding: '1.5rem',
+                    borderRadius: '12px',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    <div className="submenu-header" style={{
+                      borderBottom: '2px solid #e2e8f0',
+                      paddingBottom: '1rem',
+                      marginBottom: '1rem'
+                    }}>
+                      <h4 style={{
+                        fontSize: '1.1rem',
+                        fontWeight: '700',
+                        color: '#1e293b',
+                        margin: '0',
+                        textAlign: 'center'
+                      }}>NOS SERVICES</h4>
+                    </div>
+                    <div className="submenu-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {services.map((service) => (
+                        <div key={service.id} className="submenu-item-container">
+                          <NavLink 
+                            to={service.link} 
+                            className="submenu-item"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '0.75rem 1rem',
+                              borderRadius: '8px',
+                              textDecoration: 'none',
+                              color: '#475569',
+                              transition: 'all 0.3s ease',
+                              border: '1px solid transparent',
+                              background: 'transparent'
+                            }}
+                          >
+                            <div className="submenu-item-header" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%' }}>
+                              <span className="submenu-icon" style={{ fontSize: '1.5rem', minWidth: '2rem', textAlign: 'center' }}>{service.icon}</span>
+                              <div className="submenu-item-content">
+                                <h5 style={{ fontSize: '0.95rem', fontWeight: '600', margin: '0', lineHeight: '1.2' }}>{service.title}</h5>
+                              </div>
+                            </div>
+                          </NavLink>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-
-              <div className="nav-item">
-                <NavLink to="/tarifs" className="nav-link">
-                  TARIFS
-                </NavLink>
-              </div>
-
               <div 
                 className="nav-item"
                 onMouseEnter={() => handleDropdownEnter('zones')}
@@ -280,9 +175,7 @@ const Header = () => {
                             </div>
                             <div className="submenu-sub">
                               {zonesData[zone].map((city, index) => (
-                                <div key={index} className="submenu-sub-item">
-                                  {city}
-                                </div>
+                                <div key={index} className="submenu-sub-item">{city}</div>
                               ))}
                             </div>
                           </div>
@@ -292,25 +185,15 @@ const Header = () => {
                   </div>
                 )}
               </div>
-
               <div className="nav-item">
-                <NavLink to="/avis" className="nav-link">
-                  AVIS CLIENTS
-                </NavLink>
+                <NavLink to="/avis" className="nav-link">AVIS CLIENTS</NavLink>
               </div>
-
               <div className="nav-item">
-                <NavLink to="/blog" className="nav-link">
-                  BLOG
-                </NavLink>
+                <NavLink to="/blog" className="nav-link">BLOG</NavLink>
               </div>
-
               <div className="nav-item">
-                <NavLink to="/realisations" className="nav-link">
-                  RÉALISATIONS
-                </NavLink>
+                <NavLink to="/realisations" className="nav-link">RÉALISATIONS</NavLink>
               </div>
-
               <div className="nav-item">
                 <NavLink to="/contact" className="cta-button">
                   <span className="cta-icon">📧</span>
@@ -320,10 +203,7 @@ const Header = () => {
             </nav>
 
             {/* Mobile Menu Button */}
-            <button 
-              className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
-              onClick={toggleMobileMenu}
-            >
+            <button className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}>
               <span className="hamburger-line"></span>
               <span className="hamburger-line"></span>
               <span className="hamburger-line"></span>
@@ -336,78 +216,32 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-content">
+            <div className="mobile-nav-item"><NavLink to="/" className="mobile-nav-link" onClick={toggleMobileMenu}>ACCUEIL</NavLink></div>
+            <div className="mobile-nav-item"><NavLink to="/a-propos" className="mobile-nav-link" onClick={toggleMobileMenu}>À PROPOS</NavLink></div>
             <div className="mobile-nav-item">
-              <NavLink to="/" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                ACCUEIL
-              </NavLink>
-            </div>
-            
-            <div className="mobile-nav-item">
-              <NavLink to="/a-propos" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                À PROPOS
-              </NavLink>
-            </div>
-
-            <div className="mobile-nav-item">
-              <NavLink to="/services" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                NOS SERVICES
-              </NavLink>
+              <NavLink to="/services" className="mobile-nav-link" onClick={toggleMobileMenu}>NOS SERVICES</NavLink>
               <div className="mobile-submenu">
                 {services.map((service) => (
-                  <NavLink 
-                    key={service.id} 
-                    to={service.link} 
-                    className="mobile-submenu-item"
-                    onClick={toggleMobileMenu}
-                  >
+                  <NavLink key={service.id} to={service.link} className="mobile-submenu-item" onClick={toggleMobileMenu}>
                     <div className="mobile-submenu-item-content">
                       <span className="mobile-submenu-icon">{service.icon}</span>
-                      <div>
-                        <h6>{service.title}</h6>
-                      </div>
+                      <div><h6>{service.title}</h6></div>
                     </div>
                   </NavLink>
                 ))}
               </div>
             </div>
-
             <div className="mobile-nav-item">
-              <NavLink to="/tarifs" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                TARIFS
-              </NavLink>
-            </div>
-
-            <div className="mobile-nav-item">
-              <NavLink to="/zones" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                ZONES D'INTERVENTION
-              </NavLink>
+              <NavLink to="/zones" className="mobile-nav-link" onClick={toggleMobileMenu}>ZONES D'INTERVENTION</NavLink>
               <div className="mobile-submenu">
                 {Object.keys(zonesData).map((zone) => (
-                  <div key={zone} className="mobile-submenu-item">
-                    {zone}
-                  </div>
+                  <div key={zone} className="mobile-submenu-item">{zone}</div>
                 ))}
               </div>
             </div>
-
-            <div className="mobile-nav-item">
-              <NavLink to="/avis" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                AVIS CLIENTS
-              </NavLink>
-            </div>
-
-            <div className="mobile-nav-item">
-              <NavLink to="/blog" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                BLOG
-              </NavLink>
-            </div>
-
-            <div className="mobile-nav-item">
-              <NavLink to="/realisations" className="mobile-nav-link" onClick={toggleMobileMenu}>
-                RÉALISATIONS
-              </NavLink>
-            </div>
-
+            <div className="mobile-nav-item"><NavLink to="/avis" className="mobile-nav-link" onClick={toggleMobileMenu}>AVIS CLIENTS</NavLink></div>
+            <div className="mobile-nav-item"><NavLink to="/blog" className="mobile-nav-link" onClick={toggleMobileMenu}>BLOG</NavLink></div>
+            <div className="mobile-nav-item"><NavLink to="/realisations" className="mobile-nav-link" onClick={toggleMobileMenu}>RÉALISATIONS</NavLink></div>
             <div className="mobile-cta">
               <NavLink to="/contact" className="mobile-cta-button" onClick={toggleMobileMenu}>
                 <span className="cta-icon">📧</span>
