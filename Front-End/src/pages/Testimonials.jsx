@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { fetchTestimonials } from "../api/testimonials";
+import { getTestimonials } from "../api/testimonials";
 import Testimonial from "../components/Testimonial";
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-    fetchTestimonials().then(setTestimonials);
+    getTestimonials().then(setTestimonials);
   }, []);
 
   return (
@@ -35,7 +35,7 @@ const Testimonials = () => {
             Découvrez les avis de nos clients satisfaits
           </p>
           <div className="grid grid-3">
-            {testimonials.map(t => (
+            {Array.isArray(testimonials) && testimonials.map(t => (
               <Testimonial key={t.id} testimonial={t} />
             ))}
           </div>

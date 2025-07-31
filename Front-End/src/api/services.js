@@ -1,182 +1,281 @@
-// Données enrichies des services
-const servicesData = [
-  {
-    id: 1,
-    title: "Installation",
-    description: "Installation complète de toitures neuves",
-    longDescription: "Installation complète de toitures pour constructions neuves. Nous prenons en charge l'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.",
-    icon: "🔨",
-    link: "/services/installation",
-    category: "Construction",
-    duration: "3-12 semaines",
-    priceRange: "À partir de 25 000€",
-    features: [
-      "Installation complète de charpente",
-      "Pose de couverture",
-      "Installation de zinguerie",
-      "Isolation thermique",
-      "Fenêtres de toit",
-      "Finitions intérieures"
-    ],
-    subServices: [
-      {
-        name: "Installation Complète",
-        description: "Charpente + Couverture + Zinguerie",
-        price: "À partir de 25 000€",
-        duration: "6-12 semaines"
-      },
-      {
-        name: "Installation Partielle",
-        description: "Couverture + Zinguerie",
-        price: "À partir de 15 000€",
-        duration: "3-6 semaines"
-      }
-    ],
-    materials: ["Bois", "Tuiles", "Zinc", "Isolants", "Accessoires"],
-    advantages: [
-      "Installation complète",
-      "Coordination des corps d'état",
-      "Respect des délais",
-      "Garantie décennale",
-      "Suivi de chantier",
-      "Réception des travaux"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: 2,
-    title: "Réparation",
-    description: "Réparation et dépannage de toitures",
-    longDescription: "Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d'étanchéité.",
-    icon: "🔧",
-    link: "/services/repair",
-    category: "Maintenance",
-    duration: "1 jour - 1 semaine",
-    priceRange: "À partir de 500€",
-    features: [
-      "Réparation de fuites",
-      "Remplacement de tuiles",
-      "Réparation de gouttières",
-      "Raccordements d'urgence",
-      "Diagnostic de problèmes",
-      "Intervention rapide"
-    ],
-    subServices: [
-      {
-        name: "Réparation d'Urgence",
-        description: "Intervention rapide pour fuites",
-        price: "À partir de 500€",
-        duration: "1 jour"
-      },
-      {
-        name: "Réparation Standard",
-        description: "Réparations programmées",
-        price: "À partir de 1 000€",
-        duration: "2-5 jours"
-      }
-    ],
-    materials: ["Tuiles de remplacement", "Zinc", "Mastics", "Accessoires"],
-    advantages: [
-      "Intervention d'urgence",
-      "Diagnostic gratuit",
-      "Réparation garantie",
-      "Prix transparents",
-      "Équipe disponible",
-      "Service 7j/7"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: 3,
-    title: "Entretien",
-    description: "Entretien et maintenance préventive",
-    longDescription: "Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.",
-    icon: "🛠️",
-    link: "/services/maintenance",
-    category: "Entretien",
-    duration: "1-3 jours",
-    priceRange: "À partir de 300€",
-    features: [
-      "Inspection annuelle",
-      "Nettoyage de gouttières",
-      "Vérification d'étanchéité",
-      "Traitement préventif",
-      "Rapport d'inspection",
-      "Conseils d'entretien"
-    ],
-    subServices: [
-      {
-        name: "Inspection Annuelle",
-        description: "Contrôle complet de la toiture",
-        price: "À partir de 300€",
-        duration: "1 jour"
-      },
-      {
-        name: "Maintenance Complète",
-        description: "Inspection + Nettoyage + Entretien",
-        price: "À partir de 800€",
-        duration: "2-3 jours"
-      }
-    ],
-    materials: ["Produits de nettoyage", "Traitements préventifs", "Accessoires"],
-    advantages: [
-      "Maintenance préventive",
-      "Évite les gros travaux",
-      "Prolonge la durée de vie",
-      "Rapport détaillé",
-      "Conseils personnalisés",
-      "Tarifs avantageux"
-    ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-  }
-];
+const API_BASE_URL = 'http://localhost:8000/api';
 
 export const fetchServices = async () => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return servicesData;
+  try {
+    const response = await fetch(`${API_BASE_URL}/services`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch services');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return [];
+  }
 };
 
-export const getServices = () => {
-  return servicesData;
+export const getServices = async () => {
+  try {
+    const services = await fetchServices();
+    return services;
+  } catch (error) {
+    console.log('Using mock services data');
+    return getMockServices();
+  }
 };
 
 export const fetchServiceById = async (id) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return servicesData.find(service => service.id === parseInt(id));
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/${id}`);
+    if (!response.ok) {
+      throw new Error('Service not found');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching service:', error);
+    return null;
+  }
 };
 
 export const fetchServiceBySlug = async (slug) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return servicesData.find(service => service.link === `/services/${slug}`);
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/slug/${slug}`);
+    if (!response.ok) {
+      throw new Error('Service not found');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching service:', error);
+    return null;
+  }
 };
 
 export const createService = async (data) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return { ...data, id: Date.now() };
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/admin/services`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to create service');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating service:', error);
+    throw error;
+  }
 };
 
 export const updateService = async (id, data) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return { ...data, id };
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/admin/services/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to update service');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating service:', error);
+    throw error;
+  }
 };
 
 export const deleteService = async (id) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return { success: true };
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/admin/services/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete service');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error deleting service:', error);
+    throw error;
+  }
 };
 
 export const getServicesByCategory = async (category) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  return servicesData.filter(service => service.category === category);
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/category/${category}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch services by category');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching services by category:', error);
+    return [];
+  }
 };
 
 export const searchServices = async (query) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  const lowercaseQuery = query.toLowerCase();
-  return servicesData.filter(service => 
-    service.title.toLowerCase().includes(lowercaseQuery) ||
-    service.description.toLowerCase().includes(lowercaseQuery) ||
-    service.longDescription.toLowerCase().includes(lowercaseQuery)
-  );
+  try {
+    const response = await fetch(`${API_BASE_URL}/services/search?query=${encodeURIComponent(query)}`);
+    if (!response.ok) {
+      throw new Error('Failed to search services');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error searching services:', error);
+    return [];
+  }
+};
+
+// Mock data for services when API is not available
+export const getMockServices = () => {
+  return [
+    {
+      id: 1,
+      title: "Installation",
+      description: "Installation complète de toitures neuves",
+      long_description: "Installation complète de toitures pour constructions neuves. Nous prenons en charge l'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.",
+      icon: "🔨",
+      slug: "installation",
+      category: "Construction",
+      duration: "3-12 semaines",
+      price_range: "À partir de 25 000€",
+      features: [
+        "Installation complète de charpente",
+        "Pose de couverture",
+        "Installation de zinguerie",
+        "Isolation thermique",
+        "Fenêtres de toit",
+        "Finitions intérieures"
+      ],
+      sub_services: [
+        {
+          name: "Installation Complète",
+          description: "Charpente + Couverture + Zinguerie",
+          price: "À partir de 25 000€",
+          duration: "6-12 semaines"
+        },
+        {
+          name: "Installation Partielle",
+          description: "Couverture + Zinguerie",
+          price: "À partir de 15 000€",
+          duration: "3-6 semaines"
+        }
+      ],
+      materials: ["Bois", "Tuiles", "Zinc", "Isolants", "Accessoires"],
+      advantages: [
+        "Installation complète",
+        "Coordination des corps d'état",
+        "Respect des délais",
+        "Garantie décennale",
+        "Suivi de chantier",
+        "Réception des travaux"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      is_active: true,
+      sort_order: 1
+    },
+    {
+      id: 2,
+      title: "Réparation",
+      description: "Réparation et dépannage de toitures",
+      long_description: "Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d'étanchéité.",
+      icon: "🔧",
+      slug: "reparation",
+      category: "Maintenance",
+      duration: "1 jour - 1 semaine",
+      price_range: "À partir de 500€",
+      features: [
+        "Réparation de fuites",
+        "Remplacement de tuiles",
+        "Réparation de gouttières",
+        "Raccordements d'urgence",
+        "Diagnostic de problèmes",
+        "Intervention rapide"
+      ],
+      sub_services: [
+        {
+          name: "Réparation d'Urgence",
+          description: "Intervention rapide pour fuites",
+          price: "À partir de 500€",
+          duration: "1 jour"
+        },
+        {
+          name: "Réparation Standard",
+          description: "Réparations programmées",
+          price: "À partir de 1 000€",
+          duration: "2-5 jours"
+        }
+      ],
+      materials: ["Tuiles de remplacement", "Zinc", "Mastics", "Accessoires"],
+      advantages: [
+        "Intervention d'urgence",
+        "Diagnostic gratuit",
+        "Réparation garantie",
+        "Prix transparents",
+        "Équipe disponible",
+        "Service 7j/7"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      is_active: true,
+      sort_order: 2
+    },
+    {
+      id: 3,
+      title: "Entretien",
+      description: "Entretien et maintenance préventive",
+      long_description: "Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.",
+      icon: "🛠️",
+      slug: "entretien",
+      category: "Entretien",
+      duration: "1-3 jours",
+      price_range: "À partir de 300€",
+      features: [
+        "Inspection annuelle",
+        "Nettoyage des gouttières",
+        "Vérification de l'étanchéité",
+        "Entretien des accessoires",
+        "Rapport détaillé",
+        "Conseils personnalisés"
+      ],
+      sub_services: [
+        {
+          name: "Entretien Annuel",
+          description: "Inspection complète et nettoyage",
+          price: "À partir de 300€",
+          duration: "1 jour"
+        },
+        {
+          name: "Entretien Bisannuel",
+          description: "Entretien deux fois par an",
+          price: "À partir de 500€",
+          duration: "2 jours"
+        }
+      ],
+      materials: ["Produits de nettoyage", "Accessoires de remplacement"],
+      advantages: [
+        "Prévention des problèmes",
+        "Prolongation de la durée de vie",
+        "Économies à long terme",
+        "Tranquillité d'esprit",
+        "Service personnalisé",
+        "Garantie de satisfaction"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      is_active: true,
+      sort_order: 3
+    }
+  ];
 };

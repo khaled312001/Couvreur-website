@@ -23,28 +23,37 @@ const Contact = () => {
               Contactez-nous pour un devis gratuit et personnalisé
             </p>
             <div className="contact-grid">
-              <div>
+              <div className="contact-info-section">
                 <h3>Informations de contact</h3>
                 <div className="contact-info">
                   <div className="contact-item">
                     <div className="contact-icon">📞</div>
                     <div className="contact-text">
                       <h4>Téléphone</h4>
-                      <p>07 80 32 64 27</p>
+                      <p>
+                        <a href="tel:0780326427" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+                          07 80 32 64 27
+                        </a>
+                      </p>
                     </div>
                   </div>
                   <div className="contact-item">
                     <div className="contact-icon">✉️</div>
                     <div className="contact-text">
                       <h4>Email</h4>
-                      <p>bnbatimententreprise@gmail.com</p>
+                      <p>
+                        <a href="mailto:bnbatimententreprise@gmail.com" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+                          bnbatimententreprise@gmail.com
+                        </a>
+                      </p>
                     </div>
                   </div>
                   <div className="contact-item">
                     <div className="contact-icon">🕒</div>
                     <div className="contact-text">
                       <h4>Horaires</h4>
-                      <p>Lundi - Samedi : 7h00 - 20h</p>
+                      <p>Lundi - Vendredi : 8h00 - 18h00</p>
+                      <p>Samedi : 8h00 - 12h00</p>
                     </div>
                   </div>
                   <div className="contact-item">
@@ -58,12 +67,19 @@ const Contact = () => {
                     <div className="contact-icon">📋</div>
                     <div className="contact-text">
                       <h4>Types de projets</h4>
-                      <p>Neuf - Rénovation - Entretien - Répartition des fuites</p>
+                      <p>Neuf - Rénovation - Entretien - Réparation des fuites</p>
+                    </div>
+                  </div>
+                  <div className="contact-item">
+                    <div className="contact-icon">📍</div>
+                    <div className="contact-text">
+                      <h4>Zone d'intervention</h4>
+                      <p>Drôme (26) - Ardèche (07) - Gard (30) - Vaucluse (84)</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="contact-form-section">
                 <ContactForm />
               </div>
             </div>
@@ -87,19 +103,19 @@ const Contact = () => {
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '18px',
-            color: '#6b7280'
+            color: '#6b7280',
+            overflow: 'hidden'
           }}>
 
-<iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.99945010852!2d2.292292615674682!3d48.85837307928752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fddf8a5d77b%3A0x8c0e1c64af0f3e6!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1620383430835!5m2!1sfr!2sfr"
-        width="100%"
-        height="400"
-        style={{ border: 0 }}
-        allowFullScreen=""
-        loading="lazy"
-      ></iframe>
-
-
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.99945010852!2d2.292292615674682!3d48.85837307928752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fddf8a5d77b%3A0x8c0e1c64af0f3e6!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1620383430835!5m2!1sfr!2sfr"
+              width="100%"
+              height="400"
+              style={{ border: 0, borderRadius: '12px' }}
+              allowFullScreen=""
+              loading="lazy"
+              title="Zone d'intervention"
+            ></iframe>
           </div>
         </div>
       </section>

@@ -1,353 +1,208 @@
-# 🏗️ Site Web Couvreur - BN BÂTIMENT
+# BN BÂTIMENT - Système de Couverture
 
-Site web professionnel pour une entreprise de couverture, charpente et zinguerie basé sur React et Laravel.
+## Vue d'ensemble
 
-## 📋 Table des matières
+Ce projet est un système complet de gestion pour une entreprise de couverture, comprenant un backend Laravel et un frontend React. Le système inclut maintenant un système d'authentification complet pour les utilisateurs réguliers.
 
-- [Description](#description)
-- [Fonctionnalités](#fonctionnalités)
-- [Technologies utilisées](#technologies-utilisées)
-- [Structure du projet](#structure-du-projet)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Utilisation](#utilisation)
-- [API Endpoints](#api-endpoints)
-- [Déploiement](#déploiement)
-- [Contribution](#contribution)
-- [Licence](#licence)
+## Fonctionnalités
 
-## 🎯 Description
+### Pour les Utilisateurs Réguliers
 
-BN BÂTIMENT est un site web moderne et responsive pour une entreprise spécialisée dans les travaux de couverture, charpente et zinguerie. Le projet comprend un frontend React avec une interface utilisateur moderne et un backend Laravel pour la gestion des données.
+#### Authentification
+- **Inscription** : Les utilisateurs peuvent créer un compte avec leurs informations personnelles
+- **Connexion** : Système de connexion sécurisé avec tokens JWT
+- **Profil utilisateur** : Gestion des informations personnelles et changement de mot de passe
+- **Déconnexion** : Système de déconnexion sécurisé
 
-### Services proposés :
-- **Charpente** : Construction et rénovation de charpentes traditionnelles et modernes
-- **Couverture** : Installation et réparation de tous types de couvertures
-- **Zinguerie** : Travaux de zinguerie et d'étanchéité
-- **Entretien** : Services de maintenance préventive et curative
+#### Gestion des Devis
+- **Demande de devis** : Les utilisateurs connectés peuvent demander des devis
+- **Suivi des devis** : Consultation de l'état des demandes de devis
+- **Historique** : Accès à l'historique complet des devis
 
-## ✨ Fonctionnalités
+#### Messages de Contact
+- **Envoi de messages** : Les utilisateurs connectés peuvent envoyer des messages
+- **Suivi des messages** : Consultation des réponses de l'administrateur
+- **Historique** : Accès à l'historique des messages
 
-### Frontend (React)
-- 🏠 **Page d'accueil** avec slider dynamique et présentation des services
-- 📄 **Pages de services** détaillées (Réparation, Installation, Maintenance, Extras)
-- 📞 **Page de contact** avec formulaire de devis
-- 📝 **Blog** avec articles et conseils
-- 🖼️ **Galerie** de réalisations avec filtres
-- ⭐ **Témoignages clients** avec système de notation
-- 📍 **Zones d'intervention** avec carte interactive
-- 💰 **Tarifs** transparents et détaillés
-- 🌐 **Support multilingue** (Français, Arabe)
-- 📱 **Design responsive** pour tous les appareils
+### Pour les Administrateurs
+
+#### Dashboard
+- Vue d'ensemble des statistiques
+- Gestion des utilisateurs
+- Suivi des devis et messages
+
+#### Gestion du Contenu
+- Services
+- Blog
+- Galerie
+- Témoignages
+- Messages de contact
+- Devis
+
+## Structure du Projet
 
 ### Backend (Laravel)
-- 🔐 **Système d'authentification** sécurisé
-- 📊 **Panel d'administration** complet
-- 📝 **Gestion de contenu** (Services, Blog, Galerie, Témoignages)
-- 📋 **Gestion des devis** et demandes
-- 🗄️ **Base de données** optimisée
-- 🔄 **API RESTful** pour le frontend
-- 📧 **Système d'emails** automatisé
-
-## 🛠️ Technologies utilisées
-
-### Frontend
-- **React 18** - Framework JavaScript
-- **Vite** - Build tool rapide
-- **Tailwind CSS** - Framework CSS utilitaire
-- **React Router** - Navigation SPA
-- **Axios** - Client HTTP
-- **React Hook Form** - Gestion des formulaires
-- **Framer Motion** - Animations
-
-### Backend
-- **Laravel 11** - Framework PHP
-- **MySQL** - Base de données
-- **Eloquent ORM** - Gestion des données
-- **Sanctum** - Authentification API
-- **Mail** - Système d'emails
-- **Queue** - Traitement asynchrone
-
-### Outils de développement
-- **Git** - Contrôle de version
-- **ESLint** - Linting JavaScript
-- **Prettier** - Formatage de code
-- **PHPUnit** - Tests unitaires
-
-## 📁 Structure du projet
 
 ```
-Couvreur-website/
-├── Front-End/                 # Application React
-│   ├── public/               # Fichiers statiques
-│   ├── src/
-│   │   ├── components/       # Composants réutilisables
-│   │   ├── pages/           # Pages de l'application
-│   │   │   ├── Admin/       # Pages d'administration
-│   │   │   └── Services/    # Pages de services
-│   │   ├── api/             # Services API
-│   │   ├── context/         # Contextes React
-│   │   ├── hooks/           # Hooks personnalisés
-│   │   ├── i18n/            # Internationalisation
-│   │   ├── layouts/         # Layouts de pages
-│   │   └── styles/          # Fichiers CSS
-│   ├── package.json
-│   └── vite.config.js
-├── Back-End/                 # Application Laravel
-│   ├── app/
-│   │   ├── Http/            # Contrôleurs et Middleware
-│   │   ├── Models/          # Modèles Eloquent
-│   │   └── Services/        # Services métier
-│   ├── database/            # Migrations et Seeders
-│   ├── routes/              # Définition des routes
-│   ├── config/              # Configuration
-│   └── composer.json
-└── README.md
+Back-End/
+├── app/
+│   ├── Http/Controllers/Api/
+│   │   ├── AuthController.php      # Authentification
+│   │   ├── ContactController.php   # Messages de contact
+│   │   ├── QuoteController.php     # Devis
+│   │   └── ...
+│   ├── Models/
+│   │   ├── User.php               # Modèle utilisateur
+│   │   ├── Quote.php              # Modèle devis
+│   │   ├── ContactMessage.php     # Modèle message
+│   │   └── ...
+│   └── ...
+├── database/migrations/
+│   ├── create_users_table.php
+│   ├── create_quotes_table.php
+│   ├── create_contact_messages_table.php
+│   └── ...
+└── routes/api.php
 ```
 
-## 🚀 Installation
+### Frontend (React)
 
-### Prérequis
-- **Node.js** (version 18 ou supérieure)
-- **PHP** (version 8.1 ou supérieure)
-- **Composer** (gestionnaire de dépendances PHP)
-- **MySQL** (version 8.0 ou supérieure)
-- **Git**
-
-### Installation du Frontend
-
-```bash
-# Cloner le repository
-git clone https://github.com/khaled312001/Couvreur-website.git
-cd Couvreur-website/Front-End
-
-# Installer les dépendances
-npm install
-
-# Lancer le serveur de développement
-npm run dev
+```
+Front-End/src/
+├── components/
+│   ├── Header.jsx                # En-tête avec authentification
+│   └── ...
+├── context/
+│   └── AuthContext.jsx           # Contexte d'authentification
+├── pages/
+│   ├── Login.jsx                 # Page de connexion
+│   ├── Register.jsx              # Page d'inscription
+│   ├── Profile.jsx               # Profil utilisateur
+│   ├── UserQuotes.jsx            # Devis utilisateur
+│   ├── UserMessages.jsx          # Messages utilisateur
+│   └── ...
+├── api/
+│   └── auth.js                   # API d'authentification
+└── App.jsx                       # Routes principales
 ```
 
-Le frontend sera accessible sur `http://localhost:5173`
+## API Endpoints
 
-### Installation du Backend
+### Authentification Publique
+- `POST /api/auth/register` - Inscription utilisateur
+- `POST /api/auth/login` - Connexion utilisateur
 
-```bash
-# Aller dans le dossier backend
-cd ../Back-End
-
-# Installer les dépendances PHP
-composer install
-
-# Copier le fichier d'environnement
-cp .env.example .env
-
-# Générer la clé d'application
-php artisan key:generate
-
-# Configurer la base de données dans .env
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=couvreur_db
-# DB_USERNAME=root
-# DB_PASSWORD=
-
-# Exécuter les migrations
-php artisan migrate
-
-# Lancer le serveur
-php artisan serve
-```
-
-Le backend sera accessible sur `http://localhost:8000`
-
-## ⚙️ Configuration
-
-### Variables d'environnement Frontend
-
-Créer un fichier `.env` dans le dossier `Front-End/` :
-
-```env
-VITE_API_URL=http://localhost:8000/api
-VITE_APP_NAME="BN BÂTIMENT"
-```
-
-### Variables d'environnement Backend
-
-Configurer le fichier `.env` dans le dossier `Back-End/` :
-
-```env
-APP_NAME="BN BÂTIMENT"
-APP_ENV=local
-APP_KEY=base64:...
-APP_DEBUG=true
-APP_URL=http://localhost:8000
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=couvreur_db
-DB_USERNAME=root
-DB_PASSWORD=
-
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS="contact@bnbatiment.fr"
-MAIL_FROM_NAME="${APP_NAME}"
-```
-
-## 📖 Utilisation
-
-### Développement
-
-```bash
-# Frontend - Mode développement
-cd Front-End
-npm run dev
-
-# Backend - Mode développement
-cd Back-End
-php artisan serve
-```
-
-### Production
-
-```bash
-# Frontend - Build de production
-cd Front-End
-npm run build
-
-# Backend - Optimisation
-cd Back-End
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
-
-### Commandes utiles
-
-```bash
-# Nettoyer le cache
-php artisan cache:clear
-
-# Redémarrer les migrations
-php artisan migrate:fresh
-
-# Générer des données de test
-php artisan db:seed
-
-# Lancer les tests
-php artisan test
-npm test
-```
-
-## 🔌 API Endpoints
-
-### Authentification
-- `POST /api/auth/login` - Connexion
+### Authentification Protégée
 - `POST /api/auth/logout` - Déconnexion
 - `GET /api/auth/user` - Informations utilisateur
+- `PUT /api/auth/profile` - Mise à jour du profil
+- `PUT /api/auth/password` - Changement de mot de passe
 
-### Services
-- `GET /api/services` - Liste des services
-- `GET /api/services/{id}` - Détails d'un service
-- `POST /api/services` - Créer un service
-- `PUT /api/services/{id}` - Modifier un service
-- `DELETE /api/services/{id}` - Supprimer un service
+### Devis Utilisateur
+- `GET /api/user/quotes` - Liste des devis de l'utilisateur
+- `GET /api/user/quotes/{id}` - Détails d'un devis
+- `POST /api/user/quotes` - Créer un nouveau devis
 
-### Blog
-- `GET /api/blog` - Liste des articles
-- `GET /api/blog/{slug}` - Détails d'un article
-- `POST /api/blog` - Créer un article
-- `PUT /api/blog/{id}` - Modifier un article
-- `DELETE /api/blog/{id}` - Supprimer un article
+### Messages Utilisateur
+- `GET /api/user/messages` - Liste des messages de l'utilisateur
+- `GET /api/user/messages/{id}` - Détails d'un message
+- `POST /api/user/messages` - Envoyer un nouveau message
 
-### Galerie
-- `GET /api/gallery` - Liste des images
-- `POST /api/gallery` - Ajouter une image
-- `DELETE /api/gallery/{id}` - Supprimer une image
+## Installation
 
-### Témoignages
-- `GET /api/testimonials` - Liste des témoignages
-- `POST /api/testimonials` - Ajouter un témoignage
-- `PUT /api/testimonials/{id}` - Modifier un témoignage
-- `DELETE /api/testimonials/{id}` - Supprimer un témoignage
+### Backend
 
-### Devis
-- `POST /api/quotes` - Créer un devis
-- `GET /api/quotes` - Liste des devis (admin)
-- `PUT /api/quotes/{id}` - Modifier un devis
-
-## 🚀 Déploiement
-
-### Frontend (Vercel/Netlify)
-
+1. Naviguer vers le dossier Back-End
 ```bash
-# Build de production
-npm run build
-
-# Déployer le dossier dist/
+cd Back-End
 ```
 
-### Backend (Heroku/DigitalOcean)
-
+2. Installer les dépendances
 ```bash
-# Configurer les variables d'environnement
-# Déployer avec Git
-git push heroku main
+composer install
 ```
 
-### Base de données
-
+3. Configurer l'environnement
 ```bash
-# Migration en production
-php artisan migrate --force
-
-# Optimisation
-php artisan config:cache
-php artisan route:cache
+cp .env.example .env
+php artisan key:generate
 ```
 
-## 🤝 Contribution
+4. Configurer la base de données dans `.env`
 
-1. **Fork** le projet
-2. Créer une **branche** pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3. **Commit** vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une **Pull Request**
+5. Exécuter les migrations
+```bash
+php artisan migrate
+```
 
-### Standards de code
+6. Démarrer le serveur
+```bash
+php artisan serve
+```
 
-- Suivre les conventions PSR-12 pour PHP
-- Utiliser ESLint et Prettier pour JavaScript
-- Écrire des tests pour les nouvelles fonctionnalités
-- Documenter le code avec des commentaires
+### Frontend
 
-## 📝 Licence
+1. Naviguer vers le dossier Front-End
+```bash
+cd Front-End
+```
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+2. Installer les dépendances
+```bash
+npm install
+```
 
-## 📞 Support
+3. Démarrer le serveur de développement
+```bash
+npm run dev
+```
 
-Pour toute question ou problème :
+## Utilisation
 
-- **Email** : contact@bnbatiment.fr
-- **Téléphone** : 07 80 32 64 27
-- **Horaires** : Lundi - Samedi : 7h00 - 20h
+### Pour les Utilisateurs Réguliers
 
-## 🙏 Remerciements
+1. **Inscription** : Accéder à `/register` pour créer un compte
+2. **Connexion** : Utiliser `/login` pour se connecter
+3. **Profil** : Accéder à `/profile` pour gérer les informations personnelles
+4. **Devis** : Accéder à `/quotes` pour voir les demandes de devis
+5. **Messages** : Accéder à `/messages` pour voir les messages de contact
 
-- **React** - Pour le framework frontend
-- **Laravel** - Pour le framework backend
-- **Tailwind CSS** - Pour le framework CSS
-- **Vite** - Pour l'outil de build
-- **GitHub** - Pour l'hébergement du code
+### Pour les Administrateurs
 
----
+1. **Connexion admin** : Accéder à `/admin/login`
+2. **Dashboard** : Accéder à `/admin/dashboard`
+3. **Gestion** : Utiliser les différentes sections pour gérer le contenu
 
-**BN BÂTIMENT** - Spécialiste en charpente, couverture et zinguerie depuis plus de 15 ans. 
+## Sécurité
+
+- Authentification par tokens JWT avec Laravel Sanctum
+- Validation des données côté serveur
+- Protection CSRF
+- Hachage sécurisé des mots de passe
+- Middleware d'authentification pour les routes protégées
+
+## Technologies Utilisées
+
+### Backend
+- Laravel 10
+- Laravel Sanctum (Authentification)
+- MySQL/PostgreSQL
+- PHP 8.1+
+
+### Frontend
+- React 18
+- React Router
+- Tailwind CSS
+- Axios pour les requêtes API
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pousser vers la branche
+5. Ouvrir une Pull Request
+
+## Licence
+
+Ce projet est sous licence MIT. 

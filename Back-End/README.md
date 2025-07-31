@@ -1,61 +1,231 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Backend - Couvreur Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is the Laravel backend API for the Couvreur (roofing) website and admin dashboard.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Authentication**: Laravel Sanctum for API authentication
+- **Services Management**: CRUD operations for roofing services
+- **Blog Management**: Blog posts with categories and publishing
+- **Gallery Management**: Image gallery with categories
+- **Testimonials**: Customer testimonials management
+- **Quote Requests**: Customer quote request handling
+- **Contact Messages**: Contact form message management
+- **Admin Dashboard**: Full admin interface for content management
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- MySQL 8.0+
+- Composer
+- Node.js & NPM
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository and navigate to the backend directory:**
+   ```bash
+   cd Back-End
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. **Install PHP dependencies:**
+   ```bash
+   composer install
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Copy environment file:**
+   ```bash
+   cp .env.example .env
+   ```
 
-## Laravel Sponsors
+4. **Configure your database in `.env`:**
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=couvreur_db
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. **Generate application key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-### Premium Partners
+6. **Create the MySQL database:**
+   ```sql
+   CREATE DATABASE couvreur_db;
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+7. **Run migrations:**
+   ```bash
+   php artisan migrate
+   ```
 
-## Contributing
+8. **Seed the database with sample data:**
+   ```bash
+   php artisan db:seed
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+9. **Install and build frontend assets:**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-## Code of Conduct
+10. **Start the development server:**
+    ```bash
+    php artisan serve
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Quick Setup Script
 
-## Security Vulnerabilities
+You can use the provided setup script for automatic installation:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+chmod +x setup.sh
+./setup.sh
+```
 
-## License
+## Default Admin Credentials
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Email:** admin@bnbuilding.com
+- **Password:** password
+
+## API Endpoints
+
+### Public Endpoints
+
+#### Authentication
+- `POST /api/auth/login` - Login
+
+#### Services
+- `GET /api/services` - Get all services
+- `GET /api/services/{id}` - Get service by ID
+- `GET /api/services/slug/{slug}` - Get service by slug
+- `GET /api/services/category/{category}` - Get services by category
+- `GET /api/services/search?query={query}` - Search services
+
+#### Blog
+- `GET /api/blog` - Get all published blog posts
+- `GET /api/blog/{id}` - Get blog post by ID
+- `GET /api/blog/slug/{slug}` - Get blog post by slug
+- `GET /api/blog/category/{category}` - Get blog posts by category
+
+#### Gallery
+- `GET /api/gallery` - Get all gallery items
+- `GET /api/gallery/{id}` - Get gallery item by ID
+- `GET /api/gallery/category/{category}` - Get gallery items by category
+
+#### Testimonials
+- `GET /api/testimonials` - Get all testimonials
+- `GET /api/testimonials/{id}` - Get testimonial by ID
+
+#### Contact & Quotes
+- `POST /api/contact` - Submit contact form
+- `POST /api/quotes` - Submit quote request
+
+### Protected Endpoints (Require Authentication)
+
+#### Authentication
+- `POST /api/auth/logout` - Logout
+- `GET /api/auth/user` - Get current user
+
+#### Admin Services
+- `POST /api/admin/services` - Create service
+- `PUT /api/admin/services/{id}` - Update service
+- `DELETE /api/admin/services/{id}` - Delete service
+
+#### Admin Blog
+- `POST /api/admin/blog` - Create blog post
+- `PUT /api/admin/blog/{id}` - Update blog post
+- `DELETE /api/admin/blog/{id}` - Delete blog post
+
+#### Admin Gallery
+- `POST /api/admin/gallery` - Create gallery item
+- `PUT /api/admin/gallery/{id}` - Update gallery item
+- `DELETE /api/admin/gallery/{id}` - Delete gallery item
+
+#### Admin Testimonials
+- `POST /api/admin/testimonials` - Create testimonial
+- `PUT /api/admin/testimonials/{id}` - Update testimonial
+- `DELETE /api/admin/testimonials/{id}` - Delete testimonial
+
+#### Admin Quotes
+- `GET /api/admin/quotes` - Get all quotes
+- `GET /api/admin/quotes/{id}` - Get quote by ID
+- `PUT /api/admin/quotes/{id}` - Update quote
+- `DELETE /api/admin/quotes/{id}` - Delete quote
+- `GET /api/admin/quotes/status/{status}` - Get quotes by status
+- `GET /api/admin/quotes/urgency/{urgency}` - Get quotes by urgency
+
+#### Admin Contact Messages
+- `GET /api/admin/contact` - Get all contact messages
+- `GET /api/admin/contact/{id}` - Get contact message by ID
+- `PUT /api/admin/contact/{id}` - Update contact message
+- `DELETE /api/admin/contact/{id}` - Delete contact message
+- `GET /api/admin/contact/status/{status}` - Get messages by status
+- `GET /api/admin/contact/unread` - Get unread messages
+
+## Database Structure
+
+### Tables
+- `users` - Admin users
+- `services` - Roofing services
+- `blog_posts` - Blog articles
+- `gallery_items` - Gallery images
+- `testimonials` - Customer testimonials
+- `quotes` - Customer quote requests
+- `contact_messages` - Contact form messages
+
+## Frontend Integration
+
+The API is designed to work with the React frontend. Update your frontend API configuration to point to:
+
+```
+http://localhost:8000/api
+```
+
+## CORS Configuration
+
+CORS is configured to allow requests from any origin. For production, update the CORS configuration in `config/cors.php` to restrict origins.
+
+## Security
+
+- All admin endpoints require authentication via Laravel Sanctum
+- Input validation on all endpoints
+- CORS protection
+- SQL injection protection via Eloquent ORM
+
+## Development
+
+### Running Tests
+```bash
+php artisan test
+```
+
+### Database Reset
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Clear Cache
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```
+
+## Production Deployment
+
+1. Set `APP_ENV=production` in `.env`
+2. Set `APP_DEBUG=false` in `.env`
+3. Configure your production database
+4. Run `php artisan config:cache`
+5. Run `php artisan route:cache`
+6. Set up proper CORS origins
+7. Configure your web server (Apache/Nginx)
+
+## Support
+
+For issues or questions, please check the Laravel documentation or create an issue in the repository.

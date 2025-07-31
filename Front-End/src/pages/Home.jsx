@@ -7,10 +7,30 @@ import GalleryItem from '../components/GalleryItem';
 import Testimonial from '../components/Testimonial';
 
 const Home = () => {
-  const [services] = useState(getServices());
-  const [gallery] = useState(getGallery());
-  const [testimonials] = useState(getTestimonials());
+  const [services, setServices] = useState([]);
+  const [gallery, setGallery] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Load data on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [servicesData, galleryData, testimonialsData] = await Promise.all([
+          getServices(),
+          getGallery(),
+          getTestimonials()
+        ]);
+        setServices(servicesData);
+        setGallery(galleryData);
+        setTestimonials(testimonialsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+    
+    loadData();
+  }, []);
 
   // Hero slides data with different images
   const heroSlides = [     
@@ -889,7 +909,7 @@ const Home = () => {
             <p className="section-subtitle">Découvrez nos derniers projets de couverture et zinguerie</p>
           </div>
           <div className="gallery-grid grid grid-4">
-            {gallery.slice(0, 8).map((item, index) => (
+            {Array.isArray(gallery) && gallery.slice(0, 8).map((item, index) => (
               <GalleryItem key={item.id} item={item} index={index} />
             ))}
           </div>

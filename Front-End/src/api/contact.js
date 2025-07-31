@@ -1,8 +1,8 @@
 const API_BASE_URL = 'http://localhost:8000/api';
 
-export const submitQuoteRequest = async (data) => {
+export const submitContactForm = async (data) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/quotes`, {
+    const response = await fetch(`${API_BASE_URL}/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -11,57 +11,57 @@ export const submitQuoteRequest = async (data) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      throw new Error('Failed to submit quote request');
+      throw new Error('Failed to submit contact form');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error submitting quote request:', error);
+    console.error('Error submitting contact form:', error);
     throw error;
   }
 };
 
-export const fetchQuotes = async () => {
+export const fetchContactMessages = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact`, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch quotes');
+      throw new Error('Failed to fetch contact messages');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching quotes:', error);
+    console.error('Error fetching contact messages:', error);
     return [];
   }
 };
 
-export const fetchQuoteById = async (id) => {
+export const fetchContactMessageById = async (id) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Quote not found');
+      throw new Error('Contact message not found');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching quote:', error);
+    console.error('Error fetching contact message:', error);
     return null;
   }
 };
 
-export const updateQuote = async (id, data) => {
+export const updateContactMessage = async (id, data) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -71,19 +71,19 @@ export const updateQuote = async (id, data) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      throw new Error('Failed to update quote');
+      throw new Error('Failed to update contact message');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error updating quote:', error);
+    console.error('Error updating contact message:', error);
     throw error;
   }
 };
 
-export const deleteQuote = async (id) => {
+export const deleteContactMessage = async (id) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -91,49 +91,49 @@ export const deleteQuote = async (id) => {
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to delete quote');
+      throw new Error('Failed to delete contact message');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error deleting quote:', error);
+    console.error('Error deleting contact message:', error);
     throw error;
   }
 };
 
-export const getQuotesByStatus = async (status) => {
+export const getContactMessagesByStatus = async (status) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes/status/${status}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact/status/${status}`, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch quotes by status');
+      throw new Error('Failed to fetch contact messages by status');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching quotes by status:', error);
+    console.error('Error fetching contact messages by status:', error);
     return [];
   }
 };
 
-export const getQuotesByUrgency = async (urgency) => {
+export const getUnreadContactMessages = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/quotes/urgency/${urgency}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/contact/unread`, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch quotes by urgency');
+      throw new Error('Failed to fetch unread contact messages');
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching quotes by urgency:', error);
+    console.error('Error fetching unread contact messages:', error);
     return [];
   }
-};
+}; 
