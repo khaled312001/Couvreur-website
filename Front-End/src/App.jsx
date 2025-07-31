@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import "./styles/main.css";
 import "./styles/mobile-responsive.css";
 import "./styles/auth.css";
+import "./styles/payment.css";
+import "./styles/services.css";
+import "./styles/service-details.css";
 
 // Import contexts
 import { AuthProvider } from "./context/AuthContext";
@@ -44,6 +47,7 @@ import UsersAdmin from "./pages/Admin/UsersAdmin";
 import SettingsAdmin from "./pages/Admin/SettingsAdmin";
 import OrdersAdmin from "./pages/Admin/OrdersAdmin";
 import ProfileAdmin from "./pages/Admin/ProfileAdmin";
+import PaymentsAdmin from "./pages/Admin/PaymentsAdmin";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -53,6 +57,10 @@ import UserRegister from "./pages/Register";
 import UserProfile from "./pages/Profile";
 import UserQuotes from "./pages/UserQuotes";
 import UserMessages from "./pages/UserMessages";
+
+// Import Payment pages
+import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -74,6 +82,7 @@ function App() {
               <Route path="users" element={<UsersAdmin />} />
               <Route path="settings" element={<SettingsAdmin />} />
               <Route path="profile" element={<ProfileAdmin />} />
+              <Route path="payments" element={<PaymentsAdmin />} />
             </Route>
 
             {/* Main App Routes */}
@@ -98,6 +107,10 @@ function App() {
                     <Route path="/profile" element={<UserProfile />} />
                     <Route path="/quotes" element={<UserQuotes />} />
                     <Route path="/messages" element={<UserMessages />} />
+
+                    {/* Payment Routes */}
+                    <Route path="/payment" element={<Payment />} />
+                    <Route path="/payment-success" element={<PaymentSuccess />} />
 
                     {/* Services Pages */}
                     <Route path="/services" element={<Services />} />

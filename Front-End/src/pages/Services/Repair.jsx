@@ -1,148 +1,128 @@
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Repair = () => {
-  const services = [
-    {
-      title: "Réparation de fuites",
-      description: "Diagnostic et réparation des fuites de toiture",
-      icon: "🔧",
-     
-    },
-    {
-      title: "Remplacement de tuiles",
-      description: "Remplacement des tuiles cassées ou manquantes",
-      icon: "🏠",
-     
-    },
-    {
-      title: "Réparation de zinguerie",
-      description: "Réparation et remplacement des gouttières",
-      icon: "🔨",
-     
-    },
-    {
-      title: "Réparation de velux",
-      description: "Réparation et remplacement de velux",
-      icon: "🪟",
-      
-    }
-  ];
+  const navigate = useNavigate();
 
-  const emergencyServices = [
-    "Intervention d'urgence sous 24h",
-    "Réparation temporaire en cas d'urgence",
-    "Protection contre les intempéries",
-    "Diagnostic gratuit"
-  ];
+  const service = {
+    id: 3,
+    title: "Réparation de fuites d'eau",
+    description: "Réparation rapide et efficace des fuites d'eau dans la toiture",
+    price: 8000,
+    features: [
+      "Détection précise de la source de la fuite",
+      "Réparation des fissures et interstices",
+      "Remplacement des tuiles endommagées",
+      "Réparation des gouttières et descentes",
+      "Traitement des moisissures et champignons",
+      "Garantie de la réparation"
+    ],
+    advantages: [
+      "Réparation rapide le jour même",
+      "Garantie du travail d'un an",
+      "Prix compétitifs",
+      "Équipe spécialisée",
+      "Matériaux de haute qualité",
+      "Suivi post-réparation"
+    ]
+  };
+
+  const handlePayment = () => {
+    navigate('/payment', { 
+      state: { 
+        service: service,
+        amount: service.price
+      }
+    });
+  };
 
   return (
     <div>
       {/* Hero Section */}
-      <section 
-  className="hero" 
-  style={{
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tse3.mm.bing.net/th/id/OIP.7Gzifyuuz2IzcyQ1bIoQsAHaFq?rs=1&pid=ImgDetMain&o=7&rm=3')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundAttachment: 'fixed',
-    position: 'relative'
-  }}
->
-  <div className="container">
-    <div className="hero-content">
-      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
-        Réparation de Toiture
-      </h1>
-      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
-        Réparation rapide et efficace
-      </p>
-    </div>
-  </div>
-</section>
-
-
-      {/* Description Section */}
-      <section className="section">
+      <section className="hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "5rem 1rem",
+        textAlign: "center",
+      }}>
         <div className="container">
-          <div className="grid grid-2">
-            <div>
-              <h2 className="section-title">Réparation de toiture</h2>
-              <p style={{ marginBottom: '20px', lineHeight: '1.8', color: '#6b7280' }}>
-                Nous intervenons rapidement pour réparer tous types de problèmes de toiture : 
-                fuites, tuiles cassées, zinguerie endommagée, etc. Notre équipe expérimentée 
-                diagnostique et répare efficacement.
-              </p>
-              <p style={{ lineHeight: '1.8', color: '#6b7280' }}>
-                Nous proposons également un service d'urgence pour les réparations critiques 
-                nécessitant une intervention immédiate.
-              </p>
-            </div>
-            <div>
-              <h3 style={{ marginBottom: '20px', color: '#1f2937' }}>Service d'urgence</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                {emergencyServices.map((service, index) => (
-                  <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ color: '#f97316', fontSize: '20px' }}>⚡</span>
-                    <span>{service}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="hero-content">
+            <h1 style={{
+              color: "white",
+              fontSize: "3rem",
+              fontWeight: "700",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
+            }}>
+              {service.title}
+            </h1>
+            <p style={{
+              color: "white",
+              fontSize: "1.25rem",
+              fontWeight: "500",
+              textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+            }}>
+              {service.description}
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section section-gray">
+      {/* Service Details */}
+      <section className="section">
         <div className="container">
-          <h2 className="section-title">Nos services de réparation</h2>
-          <div className="grid grid-2">
-            {services.map((service, index) => (
-              <div key={index} className="card">
-                <div className="card-content">
-                  <div className="card-icon">{service.icon}</div>
-                  <h3>{service.title}</h3>
-                  <p style={{ marginBottom: '15px', color: '#6b7280' }}>
-                    {service.description}
-                  </p>
-                  <div style={{
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    color: '#1e3a8a'
-                  }}>
-                    {service.price}
-                  </div>
+          <div className="service-details">
+            <div className="service-info">
+              <h2>Détails du service</h2>
+              <p>Nous proposons un service de réparation des fuites d'eau rapidement et efficacement pour garantir la protection de votre maison contre les dommages.</p>
+              
+              <div className="service-features">
+                <h3>Caractéristiques:</h3>
+                <ul>
+                  {service.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="service-advantages">
+                <h3>Avantages:</h3>
+                <ul>
+                  {service.advantages.map((advantage, index) => (
+                    <li key={index}>{advantage}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="service-pricing">
+              <div className="pricing-card">
+                <h3>Prix du service</h3>
+                <div className="price">
+                  <span className="amount">{service.price.toLocaleString()}</span>
+                  <span className="currency">€</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <p className="price-description">
+                  Prix incluant tous les travaux de réparation
+                </p>
+                
+                <div className="pricing-features">
+                  <h4>Inclus:</h4>
+                  <ul>
+                    <li>✓ Détection de la fuite</li>
+                    <li>✓ Réparation complète</li>
+                    <li>✓ Matériaux de haute qualité</li>
+                    <li>✓ Garantie d'un an</li>
+                    <li>✓ Suivi gratuit</li>
+                  </ul>
+                </div>
 
-      {/* Process Section */}
-      <section className="section">
-        <div className="container">
-          <h2 className="section-title">Notre processus de réparation</h2>
-          <div className="grid grid-3">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-icon">🔍</div>
-                <h3>Diagnostic</h3>
-                <p>Inspection complète pour identifier le problème</p>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-content">
-                <div className="card-icon">📋</div>
-                <h3>Devis</h3>
-                <p>Devis détaillé et gratuit pour la réparation</p>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-content">
-                <div className="card-icon">🔧</div>
-                <h3>Réparation</h3>
-                <p>Intervention rapide et professionnelle</p>
+                <button 
+                  onClick={handlePayment}
+                  className="payment-btn-large"
+                >
+                  💳 Demander le service maintenant
+                </button>
               </div>
             </div>
           </div>
@@ -152,21 +132,25 @@ const Repair = () => {
       {/* CTA Section */}
       <section className="section section-gray">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <h2 className="section-title">Besoin d'une réparation ?</h2>
-            <p className="section-subtitle">
-              Contactez-nous pour un diagnostic gratuit
-            </p>
-            <div style={{ marginTop: '40px' }}>
-              <a href="/contact" className="btn btn-primary">
-                Demander un devis gratuit
+          <div className="cta-content">
+            <h2>Besoin d'une consultation gratuite ?</h2>
+            <p>Contactez-nous maintenant et obtenez un devis personnalisé pour votre projet</p>
+            <div className="cta-buttons">
+              <button 
+                onClick={handlePayment}
+                className="btn-primary"
+              >
+                Demander un devis
+              </button>
+              <a href="tel:33780326427" className="btn-secondary">
+                📞 Appelez maintenant
               </a>
             </div>
           </div>
         </div>
       </section>
-  </div>
-);
+    </div>
+  );
 };
 
 export default Repair;

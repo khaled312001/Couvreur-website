@@ -1,212 +1,128 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Charpente = () => {
-  const heroData = {
-    image: "https://tse1.mm.bing.net/th/id/OIP.N9BeEMrCNgaYcOHg0uXcKwHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
-    title: "Charpente",
-    subtitle: "Construction et rénovation de charpentes",
-    description: "Expertise en charpente traditionnelle et moderne"
+  const navigate = useNavigate();
+
+  const service = {
+    id: 4,
+    title: "Charpente traditionnelle et moderne",
+    description: "Construction et rénovation de charpentes traditionnelles et modernes",
+    price: 35000,
+    features: [
+      "Charpente traditionnelle en bois",
+      "Charpente moderne en métal",
+      "Rénovation de charpente existante",
+      "Renforcement de structure",
+      "Installation de poutres",
+      "Finitions intérieures"
+    ],
+    advantages: [
+      "Expertise en charpente",
+      "Matériaux de qualité",
+      "Garantie décennale",
+      "Respect des normes",
+      "Suivi des travaux",
+      "Réception des travaux"
+    ]
   };
 
-  const services = [
-    {
-      title: "Charpente Traditionnelle",
-      description: "Construction de charpentes en bois massif selon les techniques ancestrales",
-      details: [
-        "Charpente à fermettes traditionnelles",
-        "Assemblage à tenons et mortaises",
-        "Bois de chêne, châtaignier ou sapin",
-        "Calcul de résistance aux charges"
-      ]
-    },
-    {
-      title: "Charpente Moderne",
-      description: "Charpentes industrielles et techniques contemporaines",
-      details: [
-        "Fermettes préfabriquées",
-        "Charpente métallique",
-        "Bois lamellé-collé",
-        "Solutions sur mesure"
-      ]
-    },
-    {
-      title: "Rénovation de Charpente",
-      description: "Réparation et renforcement de charpentes existantes",
-      details: [
-        "Diagnostic de l'état de la charpente",
-        "Traitement contre les insectes xylophages",
-        "Renforcement des éléments fragilisés",
-        "Remplacement partiel ou total"
-      ]
-    }
-  ];
-
-  const avantages = [
-    "Plus de 10 ans d'expérience",
-    "Devis gratuit et détaillé",
-    "Travaux garantis",
-    "Respect des normes en vigueur",
-    "Intervention rapide",
-    "Prix compétitifs"
-  ];
+  const handlePayment = () => {
+    navigate('/payment', { 
+      state: { 
+        service: service,
+        amount: service.price
+      }
+    });
+  };
 
   return (
     <div>
       {/* Hero Section */}
-      <section
-        className="hero"
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "500px",
-          backgroundImage: `url(${heroData.image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "#fff",
-        }}
-      >
-        {/* Overlay sombre */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.5)",
-            zIndex: 0,
-          }}
-        />
-        <div
-          className="container text-center"
-          style={{ position: "relative", zIndex: 1 }}
-        >
-          <h1 className="animate-fadeInUp">{heroData.title}</h1>
-          <p className="animate-slideInLeft">{heroData.subtitle}</p>
-          <p className="animate-slideInRight">{heroData.description}</p>
-          <Link to="/contact" className="btn btn-primary hover-glow">
-            DEVIS GRATUIT
-          </Link>
+      <section className="hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "5rem 1rem",
+        textAlign: "center",
+      }}>
+        <div className="container">
+          <div className="hero-content">
+            <h1 style={{
+              color: "white",
+              fontSize: "3rem",
+              fontWeight: "700",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
+            }}>
+              {service.title}
+            </h1>
+            <p style={{
+              color: "white",
+              fontSize: "1.25rem",
+              fontWeight: "500",
+              textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+            }}>
+              {service.description}
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Description du service */}
+      {/* Service Details */}
       <section className="section">
         <div className="container">
-          <div className="grid grid-2">
-            <div className="fade-in-on-scroll">
-              <h2 className="section-title">Notre expertise en charpente</h2>
-              <p>
-                BN BÂTIMENT est spécialisé dans la construction et la rénovation de charpentes 
-                pour tous types de bâtiments. Notre équipe d'artisans qualifiés maîtrise 
-                les techniques traditionnelles et modernes pour vous offrir des solutions 
-                adaptées à vos besoins.
-              </p>
-              <p>
-                Que ce soit pour une construction neuve, une rénovation ou un renforcement, 
-                nous vous accompagnons dans tous vos projets de charpente avec professionnalisme 
-                et savoir-faire.
-              </p>
+          <div className="service-details">
+            <div className="service-info">
+              <h2>Détails du service</h2>
+              <p>Nous proposons un service de charpente complet avec expertise en construction traditionnelle et moderne.</p>
+              
+              <div className="service-features">
+                <h3>Caractéristiques:</h3>
+                <ul>
+                  {service.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="service-advantages">
+                <h3>Avantages:</h3>
+                <ul>
+                  {service.advantages.map((advantage, index) => (
+                    <li key={index}>{advantage}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="fade-in-on-scroll">
-              <div className="card hover-lift">
-                <div className="card-content">
-                  <h3>Nos engagements</h3>
-                  <ul className="list-none p-0">
-                    {avantages.map((avantage, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          marginBottom: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px"
-                        }}
-                      >
-                        <span style={{ color: "#1e3a8a", fontSize: "20px" }}>✓</span>
-                        {avantage}
-                      </li>
-                    ))}
+
+            <div className="service-pricing">
+              <div className="pricing-card">
+                <h3>Prix du service</h3>
+                <div className="price">
+                  <span className="amount">{service.price.toLocaleString()}</span>
+                  <span className="currency">€</span>
+                </div>
+                <p className="price-description">
+                  Prix incluant tous les matériaux et la main d'œuvre
+                </p>
+                
+                <div className="pricing-features">
+                  <h4>Inclus:</h4>
+                  <ul>
+                    <li>✓ Tous les matériaux nécessaires</li>
+                    <li>✓ Main d'œuvre spécialisée</li>
+                    <li>✓ Garantie décennale</li>
+                    <li>✓ Suivi des travaux</li>
+                    <li>✓ Réception des travaux</li>
                   </ul>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Services détaillés */}
-      <section className="section section-gray">
-        <div className="container">
-          <h2 className="section-title text-center fade-in-on-scroll">Nos prestations</h2>
-          <div className="grid grid-3">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="fade-in-on-scroll"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="card hover-lift">
-                  <div className="card-content">
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-                    <ul style={{ marginTop: '15px', paddingLeft: '20px', color: '#6b7280' }}>
-                      {service.details.map((detail, detailIndex) => (
-                        <li key={detailIndex}>{detail}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Matériaux utilisés */}
-      <section className="section">
-        <div className="container">
-          <h2 className="section-title text-center fade-in-on-scroll">Nos matériaux</h2>
-          <div className="grid grid-4">
-            <div className="fade-in-on-scroll" style={{ animationDelay: "0.1s" }}>
-              <div className="card hover-lift">
-                <div className="card-content text-center">
-                  <div className="card-icon animate-float">🌳</div>
-                  <h3>Bois massif</h3>
-                  <p>Chêne, châtaignier, sapin</p>
-                </div>
-              </div>
-            </div>
-            <div className="fade-in-on-scroll" style={{ animationDelay: "0.2s" }}>
-              <div className="card hover-lift">
-                <div className="card-content text-center">
-                  <div className="card-icon animate-float">🔧</div>
-                  <h3>Bois lamellé</h3>
-                  <p>Résistance et stabilité</p>
-                </div>
-              </div>
-            </div>
-            <div className="fade-in-on-scroll" style={{ animationDelay: "0.3s" }}>
-              <div className="card hover-lift">
-                <div className="card-content text-center">
-                  <div className="card-icon animate-float">⚙️</div>
-                  <h3>Métal</h3>
-                  <p>Acier galvanisé</p>
-                </div>
-              </div>
-            </div>
-            <div className="fade-in-on-scroll" style={{ animationDelay: "0.4s" }}>
-              <div className="card hover-lift">
-                <div className="card-content text-center">
-                  <div className="card-icon animate-float">🛡️</div>
-                  <h3>Traitements</h3>
-                  <p>Protection contre les insectes</p>
-                </div>
+                <button 
+                  onClick={handlePayment}
+                  className="payment-btn-large"
+                >
+                  💳 Demander le service maintenant
+                </button>
               </div>
             </div>
           </div>
@@ -215,14 +131,22 @@ const Charpente = () => {
 
       {/* CTA Section */}
       <section className="section section-gray">
-        <div className="container text-center fade-in-on-scroll">
-          <h2 className="section-title">Besoin d'un devis pour votre charpente ?</h2>
-          <p className="section-subtitle">
-            Contactez-nous pour un devis gratuit et personnalisé
-          </p>
-          <Link to="/contact" className="btn btn-primary hover-glow">
-            DEVIS GRATUIT
-          </Link>
+        <div className="container">
+          <div className="cta-content">
+            <h2>Besoin d'une consultation gratuite ?</h2>
+            <p>Contactez-nous maintenant et obtenez un devis personnalisé pour votre projet</p>
+            <div className="cta-buttons">
+              <button 
+                onClick={handlePayment}
+                className="btn-primary"
+              >
+                Demander un devis
+              </button>
+              <a href="tel:33780326427" className="btn-secondary">
+                📞 Appelez maintenant
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </div>

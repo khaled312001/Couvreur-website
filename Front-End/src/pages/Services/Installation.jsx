@@ -1,187 +1,130 @@
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Installation = () => {
-  const steps = [
-    {
-      title: "Diagnostic et devis",
-      description: "Inspection complète de votre toiture et devis détaillé",
-      icon: "🔍"
-    },
-    {
-      title: "Préparation du chantier",
-      description: "Protection des zones sensibles et mise en place du matériel",
-      icon: "🛠️"
-    },
-    {
-      title: "Dépose de l'ancienne couverture",
-      description: "Retrait soigneux de l'ancienne toiture",
-      icon: "🏗️"
-    },
-    {
-      title: "Pose de l'écran de sous-toiture",
-      description: "Installation de l'écran de protection",
-      icon: "🛡️"
-    },
-    {
-      title: "Pose des tuiles ou ardoises",
-      description: "Installation de la nouvelle couverture",
-      icon: "🏠"
-    },
-    {
-      title: "Zinguerie et raccordements",
-      description: "Pose des gouttières et finitions",
-      icon: "🔧"
-    }
-  ];
+  const navigate = useNavigate();
 
-  const materials = [
-    {
-      name: "Tuiles",
-      description: "Tuiles en terre cuite ou béton",
-     
-    },
-    {
-      name: "Ardoises",
-      description: "Ardoises naturelles ou synthétiques",
-      
-    },
-    {
-      name: "Zinc",
-      description: "Couverture en zinc traditionnel",
-      
-    },
-    {
-      name: "Métal",
-      description: "Tôles d'acier ou aluminium",
-    
-    }
-  ];
+  const service = {
+    id: 1,
+    title: "Installation de toiture neuve",
+    description: "Installation complète d'une nouvelle toiture avec tous les composants",
+    price: 25000,
+    features: [
+      "Installation de la charpente",
+      "Pose de l'isolation thermique",
+      "Installation des tuiles ou ardoises",
+      "Pose du système d'évacuation",
+      "Installation des lucarnes",
+      "Finitions intérieures"
+    ],
+    advantages: [
+      "Installation complète et intégrée",
+      "Coordination de toutes les étapes",
+      "Respect des délais",
+      "Garantie décennale",
+      "Suivi des travaux",
+      "Réception des travaux"
+    ]
+  };
+
+  const handlePayment = () => {
+    navigate('/payment', { 
+      state: { 
+        service: service,
+        amount: service.price
+      }
+    });
+  };
 
   return (
     <div>
       {/* Hero Section */}
-      <section 
-  className="hero" 
-  style={{
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tse3.mm.bing.net/th/id/OIP.4EoXot5lB873fLn_VdNYbwHaE5?w=678&h=448&rs=1&pid=ImgDetMain&o=7&rm=3')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundAttachment: 'fixed',
-    position: 'relative'
-  }}
->
-  <div className="container">
-    <div className="hero-content">
-      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
-        Installation de Toiture
-      </h1>
-      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
-        Installation complète de toiture neuve
-      </p>
-    </div>
-  </div>
-</section>
-
-
-      {/* Description Section */}
-      <section className="section">
+      <section className="hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "5rem 1rem",
+        textAlign: "center",
+      }}>
         <div className="container">
-          <div className="grid grid-2">
-            <div>
-              <h2 className="section-title">Installation de toiture neuve</h2>
-              <p style={{ marginBottom: '20px', lineHeight: '1.8', color: '#6b7280' }}>
-                Nous réalisons l'installation complète de toitures neuves pour particuliers 
-                et professionnels. Notre équipe expérimentée garantit un travail de qualité 
-                dans le respect des normes en vigueur.
-              </p>
-              <p style={{ lineHeight: '1.8', color: '#6b7280' }}>
-                Nous intervenons sur tous types de toitures : tuiles, ardoises, zinc, métal. 
-                Chaque projet est unique et fait l'objet d'un devis personnalisé.
-              </p>
-            </div>
-            <div>
-              <h3 style={{ marginBottom: '20px', color: '#1f2937' }}>Nos garanties</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: '#10b981', fontSize: '20px' }}>✓</span>
-                  <span>Garantie décennale</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: '#10b981', fontSize: '20px' }}>✓</span>
-                  <span>Assurance tous risques</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: '#10b981', fontSize: '20px' }}>✓</span>
-                  <span>Respect des délais</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: '#10b981', fontSize: '20px' }}>✓</span>
-                  <span>Devis gratuit</span>
-                </div>
-              </div>
-            </div>
+          <div className="hero-content">
+            <h1 style={{
+              color: "white",
+              fontSize: "3rem",
+              fontWeight: "700",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
+            }}>
+              {service.title}
+            </h1>
+            <p style={{
+              color: "white",
+              fontSize: "1.25rem",
+              fontWeight: "500",
+              textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+            }}>
+              {service.description}
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Steps Section */}
-      <section className="section section-gray">
-        <div className="container">
-          <h2 className="section-title">Notre processus d'installation</h2>
-          <div className="grid grid-3">
-            {steps.map((step, index) => (
-              <div key={index} className="card">
-                <div className="card-content">
-                  <div className="card-icon">{step.icon}</div>
-                  <div style={{
-                    backgroundColor: '#1e3a8a',
-                    color: 'white',
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    marginBottom: '15px'
-                  }}>
-                    {index + 1}
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Materials Section */}
+      {/* Service Details */}
       <section className="section">
         <div className="container">
-          <h2 className="section-title">Matériaux disponibles</h2>
-          <p className="section-subtitle">
-            Nous proposons une large gamme de matériaux de couverture
-          </p>
-          <div className="grid grid-2">
-            {materials.map((material, index) => (
-              <div key={index} className="card">
-                <div className="card-content">
-                  <h3>{material.name}</h3>
-                  <p style={{ marginBottom: '15px', color: '#6b7280' }}>
-                    {material.description}
-                  </p>
-                  <div style={{
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    color: '#1e3a8a'
-                  }}>
-                    {material.price}
-                  </div>
-                </div>
+          <div className="service-details">
+            <div className="service-info">
+              <h2>Détails du service</h2>
+              <p>Nous proposons un service d'installation de toiture complète avec garantie de qualité et respect des délais.</p>
+              
+              <div className="service-features">
+                <h3>Caractéristiques:</h3>
+                <ul>
+                  {service.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
               </div>
-            ))}
+
+              <div className="service-advantages">
+                <h3>Avantages:</h3>
+                <ul>
+                  {service.advantages.map((advantage, index) => (
+                    <li key={index}>{advantage}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="service-pricing">
+              <div className="pricing-card">
+                <h3>Prix du service</h3>
+                <div className="price">
+                  <span className="amount">{service.price.toLocaleString()}</span>
+                  <span className="currency">€</span>
+                </div>
+                <p className="price-description">
+                  Prix incluant tous les matériaux et la main d'œuvre
+                </p>
+                
+                <div className="pricing-features">
+                  <h4>Inclus:</h4>
+                  <ul>
+                    <li>✓ Tous les matériaux nécessaires</li>
+                    <li>✓ Main d'œuvre spécialisée</li>
+                    <li>✓ Garantie décennale</li>
+                    <li>✓ Suivi des travaux</li>
+                    <li>✓ Réception des travaux</li>
+                  </ul>
+                </div>
+
+                <button 
+                  onClick={handlePayment}
+                  className="payment-btn-large"
+                >
+                  💳 Demander le service maintenant
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -189,14 +132,18 @@ const Installation = () => {
       {/* CTA Section */}
       <section className="section section-gray">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <h2 className="section-title">Besoin d'un devis ?</h2>
-            <p className="section-subtitle">
-              Contactez-nous pour un devis gratuit et personnalisé
-            </p>
-            <div style={{ marginTop: '40px' }}>
-              <a href="/contact" className="btn btn-primary">
-                Demander un devis gratuit
+          <div className="cta-content">
+            <h2>Besoin d'une consultation gratuite ?</h2>
+            <p>Contactez-nous maintenant et obtenez un devis personnalisé pour votre projet</p>
+            <div className="cta-buttons">
+              <button 
+                onClick={handlePayment}
+                className="btn-primary"
+              >
+                Demander un devis
+              </button>
+              <a href="tel:33780326427" className="btn-secondary">
+                📞 Appelez maintenant
               </a>
             </div>
           </div>
