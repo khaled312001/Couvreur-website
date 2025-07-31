@@ -19,14 +19,30 @@ const Gallery = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1>Nos Réalisations</h1>
-            <p>Découvrez nos transformations avant/après</p>
-          </div>
-        </div>
-      </section>
+      <section 
+  className="hero" 
+  style={{
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tse3.mm.bing.net/th/id/OIP.4EoXot5lB873fLn_VdNYbwHaE5?w=678&h=448&rs=1&pid=ImgDetMain&o=7&rm=3')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative',
+    padding: '5rem 1rem',
+    textAlign: 'center'
+  }}
+>
+  <div className="container">
+    <div className="hero-content">
+      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+        Nos Réalisations
+      </h1>
+      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
+        Découvrez nos transformations avant/après
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Gallery Section */}
       <section className="section">

@@ -7,7 +7,7 @@ const mockBlogPosts = [
     excerpt: "Découvrez les différents types de toitures et leurs avantages respectifs.",
     author: "BN BUILDING",
     date: "2025-01-15",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
+    image: "https://www.tenemoslapalabra.com/images/stories/articulos/2023/09/focusing-600x200.jpg",
     category: "Conseils"
   },
   {
@@ -17,7 +17,7 @@ const mockBlogPosts = [
     excerpt: "Pourquoi l'isolation thermique est essentielle pour votre confort et vos économies.",
     author: "BN BUILDING",
     date: "2025-01-10",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
+    image: "https://www.tenemoslapalabra.com/images/stories/articulos/2023/09/focusing-600x200.jpg",
     category: "Isolation"
   },
   {
