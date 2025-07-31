@@ -1,4 +1,40 @@
+<<<<<<< HEAD
 const API_BASE_URL = 'http://localhost:8000/api';
+=======
+// Mock data for testing
+const mockBlogPosts = [
+  {
+    id: 1,
+    title: "Comment choisir le bon type de toiture",
+    content: "Guide complet pour choisir le type de toiture adapté à votre maison et votre budget...",
+    excerpt: "Découvrez les différents types de toitures et leurs avantages respectifs.",
+    author: "BN BUILDING",
+    date: "2025-01-15",
+    image: "https://www.tenemoslapalabra.com/images/stories/articulos/2023/09/focusing-600x200.jpg",
+    category: "Conseils"
+  },
+  {
+    id: 2,
+    title: "L'importance de l'isolation thermique",
+    content: "L'isolation thermique de votre toiture peut réduire significativement vos factures d'énergie...",
+    excerpt: "Pourquoi l'isolation thermique est essentielle pour votre confort et vos économies.",
+    author: "BN BUILDING",
+    date: "2025-01-10",
+    image: "https://www.tenemoslapalabra.com/images/stories/articulos/2023/09/focusing-600x200.jpg",
+    category: "Isolation"
+  },
+  {
+    id: 3,
+    title: "Entretien préventif de votre toiture",
+    content: "Un entretien régulier de votre toiture prolonge sa durée de vie et évite les réparations coûteuses...",
+    excerpt: "Les bonnes pratiques pour maintenir votre toiture en excellent état.",
+    author: "BN BUILDING",
+    date: "2025-01-05",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
+    category: "Entretien"
+  }
+];
+>>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
 
 export const fetchBlogPosts = async () => {
   try {

@@ -6,25 +6,25 @@ const Repair = () => {
       title: "Réparation de fuites",
       description: "Diagnostic et réparation des fuites de toiture",
       icon: "🔧",
-      price: "À partir de 150€"
+     
     },
     {
       title: "Remplacement de tuiles",
       description: "Remplacement des tuiles cassées ou manquantes",
       icon: "🏠",
-      price: "À partir de 50€/m²"
+     
     },
     {
       title: "Réparation de zinguerie",
       description: "Réparation et remplacement des gouttières",
       icon: "🔨",
-      price: "À partir de 80€/m"
+     
     },
     {
       title: "Réparation de velux",
       description: "Réparation et remplacement de velux",
       icon: "🪟",
-      price: "Sur devis"
+      
     }
   ];
 
@@ -38,14 +38,28 @@ const Repair = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1>Réparation de Toiture</h1>
-            <p>Réparation rapide et efficace</p>
-          </div>
-        </div>
-      </section>
+      <section 
+  className="hero" 
+  style={{
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tse3.mm.bing.net/th/id/OIP.7Gzifyuuz2IzcyQ1bIoQsAHaFq?rs=1&pid=ImgDetMain&o=7&rm=3')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative'
+  }}
+>
+  <div className="container">
+    <div className="hero-content">
+      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+        Réparation de Toiture
+      </h1>
+      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
+        Réparation rapide et efficace
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Description Section */}
       <section className="section">

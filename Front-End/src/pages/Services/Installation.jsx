@@ -38,36 +38,50 @@ const Installation = () => {
     {
       name: "Tuiles",
       description: "Tuiles en terre cuite ou béton",
-      price: "À partir de 25€/m²"
+     
     },
     {
       name: "Ardoises",
       description: "Ardoises naturelles ou synthétiques",
-      price: "À partir de 45€/m²"
+      
     },
     {
       name: "Zinc",
       description: "Couverture en zinc traditionnel",
-      price: "À partir de 35€/m²"
+      
     },
     {
       name: "Métal",
       description: "Tôles d'acier ou aluminium",
-      price: "À partir de 30€/m²"
+    
     }
   ];
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1>Installation de Toiture</h1>
-            <p>Installation complète de toiture neuve</p>
-          </div>
-        </div>
-      </section>
+      <section 
+  className="hero" 
+  style={{
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tse3.mm.bing.net/th/id/OIP.4EoXot5lB873fLn_VdNYbwHaE5?w=678&h=448&rs=1&pid=ImgDetMain&o=7&rm=3')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative'
+  }}
+>
+  <div className="container">
+    <div className="hero-content">
+      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+        Installation de Toiture
+      </h1>
+      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
+        Installation complète de toiture neuve
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Description Section */}
       <section className="section">

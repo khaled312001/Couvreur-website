@@ -56,7 +56,7 @@ const Footer = () => {
                 <Link to="/">Accueil</Link>
                 <Link to="/a-propos">À Propos</Link>
                 <Link to="/services">Nos Services</Link>
-                <Link to="/tarifs">Tarifs</Link>
+                
                 <Link to="/zones">Zones d'intervention</Link>
                 <Link to="/contact">Contact</Link>
               </div>

@@ -99,6 +99,7 @@ function App() {
                     <Route path="/quotes" element={<UserQuotes />} />
                     <Route path="/messages" element={<UserMessages />} />
 
+<<<<<<< HEAD
                     {/* Services Pages */}
                     <Route path="/services" element={<Services />} />
                     <Route path="/services/charpente" element={<Charpente />} />
@@ -128,6 +129,23 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
+=======
+              {/* Floating WhatsApp Button */}
+              <div className="floating-whatsapp">
+                <a href="https://wa.me/33780326427" target="_blank" rel="noopener noreferrer">
+                  <img
+                    src="https://media.zid.store/apps/ff0d62d8-f69c-44d3-86b3-a262bbab7d87.png"
+                    alt="WhatsApp"
+                    style={{ width: "38px", height: "38px", objectFit: "contain" }}
+                  />
+                </a>
+              </div>
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
+>>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
   );
 }
 
