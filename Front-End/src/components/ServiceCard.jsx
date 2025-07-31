@@ -11,27 +11,7 @@ const ServiceCard = ({ service }) => {
         <h3>{service.title}</h3>
         <p>{service.description}</p>
         
-        {/* Informations supplémentaires */}
-        <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>Prix :</span>
-            <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a8a' }}>
-              {service.priceRange}
-            </span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>Durée :</span>
-            <span style={{ fontSize: '14px', color: '#374151' }}>
-              {service.duration}
-            </span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>Catégorie :</span>
-            <span style={{ fontSize: '14px', color: '#374151' }}>
-              {service.category}
-            </span>
-          </div>
-        </div>
+        
 
         {/* Caractéristiques principales */}
         {service.features && service.features.length > 0 && (

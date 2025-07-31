@@ -36,7 +36,7 @@ const Header = () => {
     'Lyon (69)':[],
     'Saint-Étienne (42)': [],
     'Valence (26)': [],
-    'Vaucluse (84)': []
+    
   };
 
   return (

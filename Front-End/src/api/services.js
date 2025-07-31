@@ -7,9 +7,7 @@ const servicesData = [
     longDescription: "Installation complète de toitures pour constructions neuves. Nous prenons en charge l'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.",
     icon: "🔨",
     link: "/services/installation",
-    category: "Construction",
-    duration: "3-12 semaines",
-    priceRange: "À partir de 25 000€",
+    
     features: [
       "Installation complète de charpente",
       "Pose de couverture",
@@ -21,15 +19,12 @@ const servicesData = [
     subServices: [
       {
         name: "Installation Complète",
-        description: "Charpente + Couverture + Zinguerie",
-        price: "À partir de 25 000€",
-        duration: "6-12 semaines"
+       
       },
       {
         name: "Installation Partielle",
         description: "Couverture + Zinguerie",
-        price: "À partir de 15 000€",
-        duration: "3-6 semaines"
+        
       }
     ],
     materials: ["Bois", "Tuiles", "Zinc", "Isolants", "Accessoires"],
@@ -50,9 +45,7 @@ const servicesData = [
     longDescription: "Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d'étanchéité.",
     icon: "🔧",
     link: "/services/repair",
-    category: "Maintenance",
-    duration: "1 jour - 1 semaine",
-    priceRange: "À partir de 500€",
+   
     features: [
       "Réparation de fuites",
       "Remplacement de tuiles",
@@ -65,14 +58,12 @@ const servicesData = [
       {
         name: "Réparation d'Urgence",
         description: "Intervention rapide pour fuites",
-        price: "À partir de 500€",
-        duration: "1 jour"
+       
       },
       {
         name: "Réparation Standard",
         description: "Réparations programmées",
-        price: "À partir de 1 000€",
-        duration: "2-5 jours"
+        
       }
     ],
     materials: ["Tuiles de remplacement", "Zinc", "Mastics", "Accessoires"],
@@ -93,9 +84,8 @@ const servicesData = [
     longDescription: "Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.",
     icon: "🛠️",
     link: "/services/maintenance",
-    category: "Entretien",
-    duration: "1-3 jours",
-    priceRange: "À partir de 300€",
+    
+   
     features: [
       "Inspection annuelle",
       "Nettoyage de gouttières",
@@ -108,14 +98,12 @@ const servicesData = [
       {
         name: "Inspection Annuelle",
         description: "Contrôle complet de la toiture",
-        price: "À partir de 300€",
-        duration: "1 jour"
+       
       },
       {
         name: "Maintenance Complète",
         description: "Inspection + Nettoyage + Entretien",
-        price: "À partir de 800€",
-        duration: "2-3 jours"
+       
       }
     ],
     materials: ["Produits de nettoyage", "Traitements préventifs", "Accessoires"],

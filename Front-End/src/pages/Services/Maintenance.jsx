@@ -6,25 +6,25 @@ const Maintenance = () => {
       title: "Nettoyage de toiture",
       description: "Nettoyage complet, démoussage et traitement hydrofuge",
       icon: "🧹",
-      price: "À partir de 15€/m²"
+     
     },
     {
       title: "Inspection annuelle",
       description: "Contrôle complet de l'état de votre toiture",
       icon: "🔍",
-      price: "À partir de 100€"
+      
     },
     {
       title: "Entretien des gouttières",
       description: "Nettoyage et vérification des gouttières",
       icon: "🌊",
-      price: "À partir de 80€"
+      
     },
     {
       title: "Traitement anti-mousse",
       description: "Traitement préventif contre la mousse",
       icon: "🌿",
-      price: "À partir de 8€/m²"
+      
     }
   ];
 
@@ -38,14 +38,28 @@ const Maintenance = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1>Entretien de Toiture</h1>
-            <p>Maintenance préventive pour préserver votre toiture</p>
-          </div>
-        </div>
-      </section>
+      <section 
+  className="hero" 
+  style={{
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://th.bing.com/th/id/R.19780281439d7f8e6ff3586f4844ea0e?rik=umar%2fb7c5Sqw%2fw&riu=http%3a%2f%2fwww.renovationettravaux.fr%2fwp-content%2fuploads%2f2015%2f05%2fnettoyage-dune-toiture.jpg&ehk=QaX9iRVX84i8diBTw%2bhYEUpB4Evfv5XbfIovyNhKvfI%3d&risl=&pid=ImgRaw&r=0')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative'
+  }}
+>
+  <div className="container">
+    <div className="hero-content">
+      <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+        Entretien de Toiture
+      </h1>
+      <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>
+        Maintenance préventive pour préserver votre toiture
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Description Section */}
       <section className="section">
