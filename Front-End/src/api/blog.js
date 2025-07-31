@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 const API_BASE_URL = 'http://localhost:8000/api';
-=======
+
 // Mock data for testing
 const mockBlogPosts = [
   {
@@ -34,7 +33,6 @@ const mockBlogPosts = [
     category: "Entretien"
   }
 ];
->>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
 
 export const fetchBlogPosts = async () => {
   try {

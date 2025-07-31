@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 const API_BASE_URL = 'http://localhost:8000/api';
-=======
+
 // Données enrichies des services
 const servicesData = [
   {
@@ -121,7 +120,6 @@ const servicesData = [
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
   }
 ];
->>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
 
 export const fetchServices = async () => {
   try {

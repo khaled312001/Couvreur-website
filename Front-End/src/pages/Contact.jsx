@@ -97,8 +97,7 @@ const Contact = () => {
                     <div className="contact-icon">📋</div>
                     <div className="contact-text">
                       <h4>Types de projets</h4>
-<<<<<<< HEAD
-                      <p>Neuf - Rénovation - Entretien - Réparation des fuites</p>
+                      <p>Installation - Entretien - Réparation des fuites</p>
                     </div>
                   </div>
                   <div className="contact-item">
@@ -106,9 +105,6 @@ const Contact = () => {
                     <div className="contact-text">
                       <h4>Zone d'intervention</h4>
                       <p>Drôme (26) - Ardèche (07) - Gard (30) - Vaucluse (84)</p>
-=======
-                      <p>  Installation - Entretien - Répartition des fuites</p>
->>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
                     </div>
                   </div>
                 </div>
@@ -141,9 +137,8 @@ const Contact = () => {
             overflow: 'hidden'
           }}>
 
-<<<<<<< HEAD
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.99945010852!2d2.292292615674682!3d48.85837307928752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fddf8a5d77b%3A0x8c0e1c64af0f3e6!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1620383430835!5m2!1sfr!2sfr"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27723.65451093035!2d4.81907325!3d45.758010049999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f4ea51674a90b5%3A0x408ab2ae4baef90!2sLyon!5e0!3m2!1sfr!2sfr!4v1699362975224!5m2!1sfr!2sfr"
               width="100%"
               height="400"
               style={{ border: 0, borderRadius: '12px' }}
@@ -151,20 +146,6 @@ const Contact = () => {
               loading="lazy"
               title="Zone d'intervention"
             ></iframe>
-=======
-<iframe
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27723.65451093035!2d4.81907325!3d45.758010049999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f4ea51674a90b5%3A0x408ab2ae4baef90!2sLyon!5e0!3m2!1sfr!2sfr!4v1699362975224!5m2!1sfr!2sfr"
-  width="100%"
-  height="400"
-  style={{ border: 0 }}
-  allowFullScreen=""
-  loading="lazy"
-  title="Carte de Lyon"
-/>
-
-
-
->>>>>>> 2c3237bce6baee0120d82d92199eeece5e84727b
           </div>
         </div>
       </section>
