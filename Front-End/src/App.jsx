@@ -24,6 +24,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Gallery from "./pages/Gallery";
 import Testimonials from "./pages/Testimonials";
 import Areas from "./pages/Areas";
@@ -48,6 +49,7 @@ import TestimonialsAdmin from "./pages/Admin/TestimonialsAdmin";
 import BlogAdmin from "./pages/Admin/BlogAdmin";
 import GalleryAdmin from "./pages/Admin/GalleryAdmin";
 import ServicesAdmin from "./pages/Admin/ServicesAdmin";
+import ContactAdmin from "./pages/Admin/ContactAdmin";
 import UsersAdmin from "./pages/Admin/UsersAdmin";
 import SettingsAdmin from "./pages/Admin/SettingsAdmin";
 import OrdersAdmin from "./pages/Admin/OrdersAdmin";
@@ -91,6 +93,7 @@ function App() {
               <Route path="blog" element={<BlogAdmin />} />
               <Route path="gallery" element={<GalleryAdmin />} />
               <Route path="services" element={<ServicesAdmin />} />
+              <Route path="contact" element={<ContactAdmin />} />
               <Route path="orders" element={<OrdersAdmin />} />
               <Route path="users" element={<UsersAdmin />} />
               <Route path="settings" element={<SettingsAdmin />} />
@@ -109,6 +112,7 @@ function App() {
                     <Route path="/a-propos" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogDetail />} />
                     <Route path="/realisations" element={<Gallery />} />
                     <Route path="/avis" element={<Testimonials />} />
                     <Route path="/zones" element={<Areas />} />

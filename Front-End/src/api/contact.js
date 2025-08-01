@@ -1,139 +1,139 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import { apiClient } from './apiClient';
 
-export const submitContactForm = async (data) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/contact`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to submit contact form');
+export const contactApi = {
+  // Get all messages
+  getMessages: async (params = {}) => {
+    try {
+      const response = await apiClient.get('/admin/contact', params);
+      return response;
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error submitting contact form:', error);
-    throw error;
-  }
-};
+  },
 
-export const fetchContactMessages = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact`, {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch contact messages');
+  // Get message by ID
+  getMessage: async (id) => {
+    try {
+      const response = await apiClient.get(`/admin/contact/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching message:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching contact messages:', error);
-    return [];
-  }
-};
+  },
 
-export const fetchContactMessageById = async (id) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Contact message not found');
+  // Create new message
+  createMessage: async (data) => {
+    try {
+      const response = await apiClient.post('/contact', data);
+      return response;
+    } catch (error) {
+      console.error('Error creating message:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching contact message:', error);
-    return null;
-  }
-};
+  },
 
-export const updateContactMessage = async (id, data) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to update contact message');
+  // Update message
+  updateMessage: async (id, data) => {
+    try {
+      const response = await apiClient.put(`/admin/contact/${id}`, data);
+      return response;
+    } catch (error) {
+      console.error('Error updating message:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating contact message:', error);
-    throw error;
-  }
-};
+  },
 
-export const deleteContactMessage = async (id) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete contact message');
+  // Delete message
+  deleteMessage: async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/contact/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error deleting contact message:', error);
-    throw error;
-  }
-};
+  },
 
-export const getContactMessagesByStatus = async (status) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact/status/${status}`, {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch contact messages by status');
+  // Get messages by status
+  getMessagesByStatus: async (status) => {
+    try {
+      const response = await apiClient.get(`/admin/contact/status/${status}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching messages by status:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching contact messages by status:', error);
-    return [];
-  }
-};
+  },
 
-export const getUnreadContactMessages = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/contact/unread`, {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch unread contact messages');
+  // Get unread messages
+  getUnreadMessages: async () => {
+    try {
+      const response = await apiClient.get('/admin/contact/unread');
+      return response;
+    } catch (error) {
+      console.error('Error fetching unread messages:', error);
+      throw error;
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching unread contact messages:', error);
-    return [];
+  },
+
+  // Mark message as read
+  markAsRead: async (id) => {
+    try {
+      const response = await apiClient.put(`/admin/contact/${id}`, { status: 'read' });
+      return response;
+    } catch (error) {
+      console.error('Error marking message as read:', error);
+      throw error;
+    }
+  },
+
+  // Reply to message
+  replyToMessage: async (id, response) => {
+    try {
+      const data = {
+        status: 'replied',
+        admin_response: response
+      };
+      const result = await apiClient.put(`/admin/contact/${id}`, data);
+      return result;
+    } catch (error) {
+      console.error('Error replying to message:', error);
+      throw error;
+    }
+  },
+
+  // Get user messages (for authenticated users)
+  getUserMessages: async () => {
+    try {
+      const response = await apiClient.get('/user/messages');
+      return response;
+    } catch (error) {
+      console.error('Error fetching user messages:', error);
+      throw error;
+    }
+  },
+
+  // Get user message by ID
+  getUserMessage: async (id) => {
+    try {
+      const response = await apiClient.get(`/user/messages/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching user message:', error);
+      throw error;
+    }
+  },
+
+  // Create message with user (for authenticated users)
+  createMessageWithUser: async (data) => {
+    try {
+      const response = await apiClient.post('/user/messages', data);
+      return response;
+    } catch (error) {
+      console.error('Error creating message with user:', error);
+      throw error;
+    }
   }
 }; 

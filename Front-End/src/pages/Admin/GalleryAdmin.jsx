@@ -256,13 +256,6 @@ const GalleryAdmin = () => {
                   <Upload size={16} />
                   Ajouter photo
                 </button>
-                <button 
-                  className="btn-secondary"
-                  onClick={handleSettings}
-                >
-                  <Settings size={16} />
-                  Paramètres
-                </button>
               </div>
             </div>
           </motion.div>

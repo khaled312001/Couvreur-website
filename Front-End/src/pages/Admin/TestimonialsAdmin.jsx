@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Search, Filter, Edit, Trash2, Eye, 
-  MessageSquare, Settings, CheckCircle, AlertCircle, Clock, Upload,
+  MessageSquare, CheckCircle, AlertCircle, Clock, Upload,
   X, Save, Star, User, Calendar, ThumbsUp, ThumbsDown
 } from 'lucide-react';
+import { testimonialsApi } from '../../api/testimonials';
 
 const TestimonialsAdmin = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const [filteredTestimonials, setFilteredTestimonials] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   
@@ -21,152 +24,88 @@ const TestimonialsAdmin = () => {
   
   // Form states
   const [formData, setFormData] = useState({
-    authorName: '',
-    authorEmail: '',
-    authorPhone: '',
-    rating: 5,
+    name: '',
+    location: '',
     content: '',
-    status: 'pending',
-    service: '',
-    projectType: ''
+    rating: 5,
+    is_active: true,
+    sort_order: 0
   });
 
-  // Mock testimonials data
-  const mockTestimonials = [
-    {
-      id: 1,
-      authorName: 'Jean Dupont',
-      authorEmail: 'jean.dupont@email.com',
-      authorPhone: '+33 1 23 45 67 89',
-      rating: 5,
-      content: 'Excellent travail de rénovation de notre toiture. L\'équipe a été professionnelle et le résultat est parfait. Je recommande vivement !',
-      status: 'approved',
-      service: 'Rénovation Toiture',
-      projectType: 'Résidentiel',
-      createdAt: '2025-01-15',
-      approvedAt: '2025-01-16'
-    },
-    {
-      id: 2,
-      authorName: 'Marie Martin',
-      authorEmail: 'marie.martin@email.com',
-      authorPhone: '+33 1 23 45 67 90',
-      rating: 4,
-      content: 'Service de qualité pour l\'installation de notre zinguerie. Travail soigné et respect des délais.',
-      status: 'approved',
-      service: 'Installation Zinguerie',
-      projectType: 'Résidentiel',
-      createdAt: '2025-01-14',
-      approvedAt: '2025-01-15'
-    },
-    {
-      id: 3,
-      authorName: 'Pierre Durand',
-      authorEmail: 'pierre.durand@email.com',
-      authorPhone: '+33 1 23 45 67 91',
-      rating: 5,
-      content: 'Intervention rapide et efficace pour réparer notre toiture après la tempête. Équipe réactive et compétente.',
-      status: 'pending',
-      service: 'Réparation Urgente',
-      projectType: 'Résidentiel',
-      createdAt: '2025-01-13'
-    },
-    {
-      id: 4,
-      authorName: 'Sophie Bernard',
-      authorEmail: 'sophie.bernard@email.com',
-      authorPhone: '+33 1 23 45 67 92',
-      rating: 3,
-      content: 'Travail correct mais quelques retards dans les délais. Le résultat final est satisfaisant.',
-      status: 'approved',
-      service: 'Maintenance Annuelle',
-      projectType: 'Commercial',
-      createdAt: '2025-01-12',
-      approvedAt: '2025-01-13'
-    },
-    {
-      id: 5,
-      authorName: 'Lucas Moreau',
-      authorEmail: 'lucas.moreau@email.com',
-      authorPhone: '+33 1 23 45 67 93',
-      rating: 5,
-      content: 'Construction complète de notre charpente traditionnelle. Un travail d\'artisan exceptionnel !',
-      status: 'approved',
-      service: 'Construction Charpente',
-      projectType: 'Résidentiel',
-      createdAt: '2025-01-11',
-      approvedAt: '2025-01-12'
-    },
-    {
-      id: 6,
-      authorName: 'Emma Petit',
-      authorEmail: 'emma.petit@email.com',
-      authorPhone: '+33 1 23 45 67 94',
-      rating: 4,
-      content: 'Installation de couverture en ardoise. Beau travail et respect de l\'environnement.',
-      status: 'pending',
-      service: 'Installation Couverture',
-      projectType: 'Résidentiel',
-      createdAt: '2025-01-10'
-    }
-  ];
-
+  // Load testimonials
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setTestimonials(mockTestimonials);
-      setIsLoading(false);
-    }, 1000);
+    loadTestimonials();
   }, []);
 
-  const filteredTestimonials = testimonials.filter(testimonial => {
-    const matchesSearch = testimonial.authorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         testimonial.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         testimonial.service.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || testimonial.status === filterStatus;
-    return matchesSearch && matchesFilter;
-  });
-
-  const getStatusColor = (status) => {
-    const colors = {
-      approved: '#10B981',
-      pending: '#F59E0B',
-      rejected: '#EF4444'
-    };
-    return colors[status] || '#6B7280';
+  const loadTestimonials = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await testimonialsApi.getAdminTestimonials();
+      const testimonialsData = response.data || response;
+      setTestimonials(testimonialsData);
+      setFilteredTestimonials(testimonialsData);
+    } catch (err) {
+      console.error('Error loading testimonials:', err);
+      setError('Erreur lors du chargement des témoignages');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const getStatusText = (status) => {
-    const texts = {
-      approved: 'Approuvé',
-      pending: 'En attente',
-      rejected: 'Rejeté'
-    };
-    return texts[status] || status;
+  // Filter testimonials
+  useEffect(() => {
+    let filtered = testimonials;
+    
+    if (searchTerm) {
+      filtered = filtered.filter(testimonial =>
+        testimonial.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        testimonial.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        testimonial.content?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(testimonial => 
+        filterStatus === 'active' ? testimonial.is_active : !testimonial.is_active
+      );
+    }
+    
+    setFilteredTestimonials(filtered);
+  }, [testimonials, searchTerm, filterStatus]);
+
+  const getStatusColor = (isActive) => {
+    return isActive ? '#10B981' : '#6B7280';
   };
 
-  // Render star rating
+  const getStatusText = (isActive) => {
+    return isActive ? 'Actif' : 'Inactif';
+  };
+
+  const getStatusIcon = (isActive) => {
+    return isActive ? CheckCircle : AlertCircle;
+  };
+
   const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star
-        key={index}
-        size={16}
-        fill={index < rating ? '#F59E0B' : '#E5E7EB'}
-        color={index < rating ? '#F59E0B' : '#E5E7EB'}
-      />
+    return [...Array(5)].map((_, index) => (
+      <span 
+        key={index} 
+        className={`star ${index < rating ? 'filled' : 'empty'}`}
+        style={{ color: index < rating ? '#F59E0B' : '#D1D5DB' }}
+      >
+        ★
+      </span>
     ));
   };
 
-  // Handle form input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
-  // Handle rating change
   const handleRatingChange = (newRating) => {
     setFormData(prev => ({
       ...prev,
@@ -175,83 +114,80 @@ const TestimonialsAdmin = () => {
   };
 
   // Add new testimonial
-  const handleAddTestimonial = () => {
-    const newTestimonial = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString().split('T')[0]
-    };
-    setTestimonials(prev => [newTestimonial, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      authorName: '',
-      authorEmail: '',
-      authorPhone: '',
-      rating: 5,
-      content: '',
-      status: 'pending',
-      service: '',
-      projectType: ''
-    });
+  const handleAddTestimonial = async () => {
+    try {
+      await testimonialsApi.createTestimonial(formData);
+      await loadTestimonials();
+      setShowAddModal(false);
+      setFormData({
+        name: '',
+        location: '',
+        content: '',
+        rating: 5,
+        is_active: true,
+        sort_order: 0
+      });
+    } catch (error) {
+      console.error('Error adding testimonial:', error);
+      alert('Erreur lors de l\'ajout du témoignage');
+    }
   };
 
   // Edit testimonial
-  const handleEditTestimonial = () => {
-    setTestimonials(prev => 
-      prev.map(testimonial => 
-        testimonial.id === selectedTestimonial.id 
-          ? { ...testimonial, ...formData }
-          : testimonial
-      )
-    );
-    setShowEditModal(false);
-    setSelectedTestimonial(null);
-    setFormData({
-      authorName: '',
-      authorEmail: '',
-      authorPhone: '',
-      rating: 5,
-      content: '',
-      status: 'pending',
-      service: '',
-      projectType: ''
-    });
+  const handleEditTestimonial = async () => {
+    try {
+      await testimonialsApi.updateTestimonial(selectedTestimonial.id, formData);
+      await loadTestimonials();
+      setShowEditModal(false);
+      setSelectedTestimonial(null);
+      setFormData({
+        name: '',
+        location: '',
+        content: '',
+        rating: 5,
+        is_active: true,
+        sort_order: 0
+      });
+    } catch (error) {
+      console.error('Error updating testimonial:', error);
+      alert('Erreur lors de la modification du témoignage');
+    }
   };
 
   // Delete testimonial
-  const handleDeleteTestimonial = () => {
-    setTestimonials(prev => prev.filter(testimonial => testimonial.id !== selectedTestimonial.id));
-    setShowDeleteConfirm(false);
-    setSelectedTestimonial(null);
+  const handleDeleteTestimonial = async () => {
+    try {
+      await testimonialsApi.deleteTestimonial(selectedTestimonial.id);
+      await loadTestimonials();
+      setShowDeleteConfirm(false);
+      setSelectedTestimonial(null);
+    } catch (error) {
+      console.error('Error deleting testimonial:', error);
+      alert('Erreur lors de la suppression du témoignage');
+    }
   };
 
   // Toggle testimonial status
-  const handleToggleStatus = (testimonialId, newStatus) => {
-    setTestimonials(prev => 
-      prev.map(testimonial => 
-        testimonial.id === testimonialId 
-          ? { 
-              ...testimonial, 
-              status: newStatus,
-              approvedAt: newStatus === 'approved' ? new Date().toISOString().split('T')[0] : null
-            }
-          : testimonial
-      )
-    );
+  const handleToggleStatus = async (testimonialId, isActive) => {
+    try {
+      await testimonialsApi.toggleTestimonialStatus(testimonialId, !isActive);
+      await loadTestimonials();
+    } catch (error) {
+      console.error('Error toggling testimonial status:', error);
+      alert('Erreur lors du changement de statut');
+    }
   };
 
   // Open edit modal
   const openEditModal = (testimonial) => {
     setSelectedTestimonial(testimonial);
     setFormData({
-      authorName: testimonial.authorName,
-      authorEmail: testimonial.authorEmail,
-      authorPhone: testimonial.authorPhone,
-      rating: testimonial.rating,
+      name: testimonial.name,
+      location: testimonial.location,
       content: testimonial.content,
-      status: testimonial.status,
-      service: testimonial.service,
-      projectType: testimonial.projectType
+      rating: testimonial.rating,
+      is_active: testimonial.is_active,
+      sort_order: testimonial.sort_order
     });
     setShowEditModal(true);
   };
@@ -268,11 +204,7 @@ const TestimonialsAdmin = () => {
     setShowDeleteConfirm(true);
   };
 
-  // Handle settings
-  const handleSettings = () => {
-    // Simulate settings functionality
-    console.log('Opening testimonials settings');
-  };
+
 
   if (isLoading) {
     return (
@@ -286,6 +218,32 @@ const TestimonialsAdmin = () => {
             >
               <div className="loading-spinner"></div>
               <p>Chargement des témoignages...</p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-container">
+        <div className="admin-main">
+          <div className="admin-content">
+            <motion.div 
+              className="error-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="error-icon">⚠️</div>
+              <h3>Erreur de chargement</h3>
+              <p>{error}</p>
+              <button 
+                onClick={loadTestimonials}
+                className="retry-button"
+              >
+                Réessayer
+              </button>
             </motion.div>
           </div>
         </div>
@@ -317,16 +275,11 @@ const TestimonialsAdmin = () => {
                   <Plus size={16} />
                   Ajouter témoignage
                 </button>
-                <button 
-                  className="btn-secondary"
-                  onClick={handleSettings}
-                >
-                  <Settings size={16} />
-                  Paramètres
-                </button>
               </div>
             </div>
           </motion.div>
+          
+
 
           {/* Stats Cards */}
           <motion.div 
@@ -355,7 +308,7 @@ const TestimonialsAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Approuvés</h3>
-                <div className="stat-value">{testimonials.filter(t => t.status === 'approved').length}</div>
+                <div className="stat-value">{testimonials.filter(t => t.is_active).length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
                   67% approuvés
@@ -369,7 +322,7 @@ const TestimonialsAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>En attente</h3>
-                <div className="stat-value">{testimonials.filter(t => t.status === 'pending').length}</div>
+                <div className="stat-value">{testimonials.filter(t => !t.is_active).length}</div>
                 <div className="stat-trend trend-down">
                   <AlertCircle size={14} />
                   À examiner
@@ -383,10 +336,18 @@ const TestimonialsAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Note Moyenne</h3>
-                <div className="stat-value">4.3/5</div>
+                <div className="stat-value">
+                  {testimonials.length > 0 
+                    ? (testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length).toFixed(1)
+                    : '0.0'
+                  }/5
+                </div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  +0.2 ce mois
+                  {testimonials.length > 0 
+                    ? `${Math.round((testimonials.filter(t => t.rating >= 4).length / testimonials.length) * 100)}% excellents`
+                    : '0% excellents'
+                  }
                 </div>
               </div>
             </div>
@@ -418,22 +379,16 @@ const TestimonialsAdmin = () => {
                   Tous
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'approved' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('approved')}
+                  className={`filter-btn ${filterStatus === 'active' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('active')}
                 >
-                  Approuvés
+                  Actifs
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'pending' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('pending')}
+                  className={`filter-btn ${filterStatus === 'inactive' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('inactive')}
                 >
-                  En attente
-                </button>
-                <button 
-                  className={`filter-btn ${filterStatus === 'rejected' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('rejected')}
-                >
-                  Rejetés
+                  Inactifs
                 </button>
               </div>
             </div>
@@ -458,11 +413,11 @@ const TestimonialsAdmin = () => {
                 <div className="testimonial-header">
                   <div className="testimonial-author">
                     <div className="author-avatar">
-                      {testimonial.authorName.charAt(0)}
+                      {testimonial.name?.charAt(0)}
                     </div>
                     <div className="author-info">
-                      <h3>{testimonial.authorName}</h3>
-                      <p>{testimonial.service}</p>
+                      <h3>{testimonial.name}</h3>
+                      <p>{testimonial.location}</p>
                     </div>
                   </div>
                   <div className="testimonial-rating">
@@ -476,17 +431,20 @@ const TestimonialsAdmin = () => {
 
                 <div className="testimonial-details">
                   <div className="detail-item">
-                    <span className="detail-label">Type:</span>
-                    <span className="detail-value">{testimonial.projectType}</span>
+                    <span className="detail-label">Statut:</span>
+                    <span className="detail-value">
+                      <CheckCircle size={14} color={getStatusColor(testimonial.is_active)} />
+                      {getStatusText(testimonial.is_active)}
+                    </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Ajouté le:</span>
-                    <span className="detail-value">{new Date(testimonial.createdAt).toLocaleDateString('fr-FR')}</span>
+                    <span className="detail-value">{new Date(testimonial.created_at).toLocaleDateString('fr-FR')}</span>
                   </div>
-                  {testimonial.approvedAt && (
+                  {testimonial.updated_at && (
                     <div className="detail-item">
-                      <span className="detail-label">Approuvé le:</span>
-                      <span className="detail-value">{new Date(testimonial.approvedAt).toLocaleDateString('fr-FR')}</span>
+                      <span className="detail-label">Modifié le:</span>
+                      <span className="detail-value">{new Date(testimonial.updated_at).toLocaleDateString('fr-FR')}</span>
                     </div>
                   )}
                 </div>
@@ -495,8 +453,8 @@ const TestimonialsAdmin = () => {
                   <button
                     className="status-badge"
                     style={{ 
-                      backgroundColor: getStatusColor(testimonial.status) + '20', 
-                      color: getStatusColor(testimonial.status),
+                      backgroundColor: getStatusColor(testimonial.is_active) + '20', 
+                      color: getStatusColor(testimonial.is_active),
                       cursor: 'pointer',
                       border: 'none',
                       padding: '4px 8px',
@@ -504,31 +462,47 @@ const TestimonialsAdmin = () => {
                       fontSize: '12px',
                       fontWeight: '600'
                     }}
-                    onClick={() => handleToggleStatus(testimonial.id, testimonial.status === 'approved' ? 'pending' : 'approved')}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleToggleStatus(testimonial.id, testimonial.is_active);
+                    }}
                     title="Cliquer pour changer le statut"
                   >
-                    {getStatusText(testimonial.status)}
+                    {getStatusText(testimonial.is_active)}
                   </button>
                   
                   <div className="action-buttons">
                     <button 
                       className="action-btn" 
                       title="Voir"
-                      onClick={() => openViewModal(testimonial)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openViewModal(testimonial);
+                      }}
                     >
                       <Eye size={14} />
                     </button>
                     <button 
                       className="action-btn" 
                       title="Modifier"
-                      onClick={() => openEditModal(testimonial)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openEditModal(testimonial);
+                      }}
                     >
                       <Edit size={14} />
                     </button>
                     <button 
                       className="action-btn danger" 
                       title="Supprimer"
-                      onClick={() => openDeleteConfirm(testimonial)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openDeleteConfirm(testimonial);
+                      }}
                     >
                       <Trash2 size={14} />
                     </button>
@@ -592,61 +566,34 @@ const TestimonialsAdmin = () => {
                         <label>Nom de l'auteur</label>
                         <input
                           type="text"
-                          name="authorName"
-                          value={formData.authorName}
+                          name="name"
+                          value={formData.name}
                           onChange={handleInputChange}
                           placeholder="Ex: Jean Dupont"
                         />
                       </div>
                       
                       <div className="form-group">
-                        <label>Email</label>
+                        <label>Localisation</label>
                         <input
-                          type="email"
-                          name="authorEmail"
-                          value={formData.authorEmail}
+                          type="text"
+                          name="location"
+                          value={formData.location}
                           onChange={handleInputChange}
-                          placeholder="jean.dupont@email.com"
+                          placeholder="Ex: Paris, France"
                         />
                       </div>
                     </div>
                     
                     <div className="form-group">
-                      <label>Téléphone</label>
-                      <input
-                        type="tel"
-                        name="authorPhone"
-                        value={formData.authorPhone}
+                      <label>Témoignage</label>
+                      <textarea
+                        name="content"
+                        value={formData.content}
                         onChange={handleInputChange}
-                        placeholder="+33 1 23 45 67 89"
+                        placeholder="Rédigez le témoignage..."
+                        rows="4"
                       />
-                    </div>
-                    
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Service</label>
-                        <input
-                          type="text"
-                          name="service"
-                          value={formData.service}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Rénovation Toiture"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Type de projet</label>
-                        <select
-                          name="projectType"
-                          value={formData.projectType}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Sélectionner</option>
-                          <option value="Résidentiel">Résidentiel</option>
-                          <option value="Commercial">Commercial</option>
-                          <option value="Industriel">Industriel</option>
-                        </select>
-                      </div>
                     </div>
                     
                     <div className="form-group">
@@ -667,27 +614,13 @@ const TestimonialsAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>Témoignage</label>
-                      <textarea
-                        name="content"
-                        value={formData.content}
+                      <label>Actif</label>
+                      <input
+                        type="checkbox"
+                        name="is_active"
+                        checked={formData.is_active}
                         onChange={handleInputChange}
-                        placeholder="Rédigez le témoignage..."
-                        rows="4"
                       />
-                    </div>
-                    
-                    <div className="form-group">
-                      <label>Statut</label>
-                      <select
-                        name="status"
-                        value={formData.status}
-                        onChange={handleInputChange}
-                      >
-                        <option value="pending">En attente</option>
-                        <option value="approved">Approuvé</option>
-                        <option value="rejected">Rejeté</option>
-                      </select>
                     </div>
                   </div>
                   
@@ -701,7 +634,7 @@ const TestimonialsAdmin = () => {
                     <button 
                       className="btn-primary"
                       onClick={handleAddTestimonial}
-                      disabled={!formData.authorName || !formData.content}
+                      disabled={!formData.name || !formData.content}
                     >
                       <Save size={16} />
                       Ajouter le témoignage
@@ -745,61 +678,34 @@ const TestimonialsAdmin = () => {
                         <label>Nom de l'auteur</label>
                         <input
                           type="text"
-                          name="authorName"
-                          value={formData.authorName}
+                          name="name"
+                          value={formData.name}
                           onChange={handleInputChange}
                           placeholder="Ex: Jean Dupont"
                         />
                       </div>
                       
                       <div className="form-group">
-                        <label>Email</label>
+                        <label>Localisation</label>
                         <input
-                          type="email"
-                          name="authorEmail"
-                          value={formData.authorEmail}
+                          type="text"
+                          name="location"
+                          value={formData.location}
                           onChange={handleInputChange}
-                          placeholder="jean.dupont@email.com"
+                          placeholder="Ex: Paris, France"
                         />
                       </div>
                     </div>
                     
                     <div className="form-group">
-                      <label>Téléphone</label>
-                      <input
-                        type="tel"
-                        name="authorPhone"
-                        value={formData.authorPhone}
+                      <label>Témoignage</label>
+                      <textarea
+                        name="content"
+                        value={formData.content}
                         onChange={handleInputChange}
-                        placeholder="+33 1 23 45 67 89"
+                        placeholder="Rédigez le témoignage..."
+                        rows="4"
                       />
-                    </div>
-                    
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Service</label>
-                        <input
-                          type="text"
-                          name="service"
-                          value={formData.service}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Rénovation Toiture"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Type de projet</label>
-                        <select
-                          name="projectType"
-                          value={formData.projectType}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Sélectionner</option>
-                          <option value="Résidentiel">Résidentiel</option>
-                          <option value="Commercial">Commercial</option>
-                          <option value="Industriel">Industriel</option>
-                        </select>
-                      </div>
                     </div>
                     
                     <div className="form-group">
@@ -820,27 +726,13 @@ const TestimonialsAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>Témoignage</label>
-                      <textarea
-                        name="content"
-                        value={formData.content}
+                      <label>Actif</label>
+                      <input
+                        type="checkbox"
+                        name="is_active"
+                        checked={formData.is_active}
                         onChange={handleInputChange}
-                        placeholder="Rédigez le témoignage..."
-                        rows="4"
                       />
-                    </div>
-                    
-                    <div className="form-group">
-                      <label>Statut</label>
-                      <select
-                        name="status"
-                        value={formData.status}
-                        onChange={handleInputChange}
-                      >
-                        <option value="pending">En attente</option>
-                        <option value="approved">Approuvé</option>
-                        <option value="rejected">Rejeté</option>
-                      </select>
                     </div>
                   </div>
                   
@@ -854,7 +746,7 @@ const TestimonialsAdmin = () => {
                     <button 
                       className="btn-primary"
                       onClick={handleEditTestimonial}
-                      disabled={!formData.authorName || !formData.content}
+                      disabled={!formData.name || !formData.content}
                     >
                       <Save size={16} />
                       Enregistrer les modifications
@@ -897,12 +789,12 @@ const TestimonialsAdmin = () => {
                       <div className="testimonial-detail-header">
                         <div className="author-detail">
                           <div className="author-avatar-large">
-                            {selectedTestimonial.authorName.charAt(0)}
+                            {selectedTestimonial.name?.charAt(0)}
                           </div>
                           <div className="author-info-detail">
-                            <h3>{selectedTestimonial.authorName}</h3>
-                            <p>{selectedTestimonial.authorEmail}</p>
-                            <p>{selectedTestimonial.authorPhone}</p>
+                            <h3>{selectedTestimonial.name}</h3>
+                            <p>{selectedTestimonial.location}</p>
+                            <p>{selectedTestimonial.content}</p>
                           </div>
                         </div>
                         
@@ -921,16 +813,16 @@ const TestimonialsAdmin = () => {
                         <div className="detail-grid-item">
                           <User size={16} />
                           <div>
-                            <label>Service</label>
-                            <span>{selectedTestimonial.service}</span>
+                            <label>Nom de l'auteur</label>
+                            <span>{selectedTestimonial.name}</span>
                           </div>
                         </div>
                         
                         <div className="detail-grid-item">
                           <Calendar size={16} />
                           <div>
-                            <label>Type de projet</label>
-                            <span>{selectedTestimonial.projectType}</span>
+                            <label>Localisation</label>
+                            <span>{selectedTestimonial.location}</span>
                           </div>
                         </div>
                         
@@ -938,16 +830,16 @@ const TestimonialsAdmin = () => {
                           <Calendar size={16} />
                           <div>
                             <label>Ajouté le</label>
-                            <span>{new Date(selectedTestimonial.createdAt).toLocaleDateString('fr-FR')}</span>
+                            <span>{new Date(selectedTestimonial.created_at).toLocaleDateString('fr-FR')}</span>
                           </div>
                         </div>
                         
-                        {selectedTestimonial.approvedAt && (
+                        {selectedTestimonial.updated_at && (
                           <div className="detail-grid-item">
-                            <CheckCircle size={16} />
+                            <Clock size={16} />
                             <div>
-                              <label>Approuvé le</label>
-                              <span>{new Date(selectedTestimonial.approvedAt).toLocaleDateString('fr-FR')}</span>
+                              <label>Modifié le</label>
+                              <span>{new Date(selectedTestimonial.updated_at).toLocaleDateString('fr-FR')}</span>
                             </div>
                           </div>
                         )}
@@ -1020,7 +912,7 @@ const TestimonialsAdmin = () => {
                     <div className="delete-confirm-content">
                       <AlertCircle size={48} color="#EF4444" />
                       <h3>Êtes-vous sûr de vouloir supprimer ce témoignage ?</h3>
-                      <p>Cette action est irréversible et supprimera définitivement le témoignage de {selectedTestimonial.authorName}.</p>
+                      <p>Cette action est irréversible et supprimera définitivement le témoignage de {selectedTestimonial.name}.</p>
                     </div>
                   </div>
                   

@@ -4,10 +4,32 @@ export const dashboardApi = {
   // Get dashboard data
   getDashboardData: async () => {
     try {
-      const response = await apiClient.get('/admin/dashboard');
-      return response.data;
+      console.log('Fetching dashboard data from:', `http://localhost:8000/api/admin/dashboard`);
+      
+      // Use direct fetch for testing
+      const response = await fetch('http://localhost:8000/api/admin/dashboard', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      console.log('Dashboard API response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Dashboard API response data:', data);
+      return data;
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        response: error.response
+      });
       throw error;
     }
   },
@@ -19,7 +41,7 @@ export const dashboardApi = {
         params: { type, format },
         responseType: format === 'csv' ? 'blob' : 'json'
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error exporting data:', error);
       throw error;
@@ -30,7 +52,7 @@ export const dashboardApi = {
   getQuickStats: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.quick_stats;
+      return response.data.quick_stats;
     } catch (error) {
       console.error('Error fetching quick stats:', error);
       throw error;
@@ -41,7 +63,7 @@ export const dashboardApi = {
   getMonthlyRevenue: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.monthly_revenue;
+      return response.data.monthly_revenue;
     } catch (error) {
       console.error('Error fetching monthly revenue:', error);
       throw error;
@@ -52,7 +74,7 @@ export const dashboardApi = {
   getServiceDistribution: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.service_distribution;
+      return response.data.service_distribution;
     } catch (error) {
       console.error('Error fetching service distribution:', error);
       throw error;
@@ -63,7 +85,7 @@ export const dashboardApi = {
   getRecentQuotes: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.recent_quotes;
+      return response.data.recent_quotes;
     } catch (error) {
       console.error('Error fetching recent quotes:', error);
       throw error;
@@ -74,9 +96,31 @@ export const dashboardApi = {
   getRecentMessages: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.recent_messages;
+      return response.data.recent_messages;
     } catch (error) {
       console.error('Error fetching recent messages:', error);
+      throw error;
+    }
+  },
+
+  // Get recent blog posts
+  getRecentBlogPosts: async () => {
+    try {
+      const response = await apiClient.get('/admin/dashboard');
+      return response.data.recent_blog_posts;
+    } catch (error) {
+      console.error('Error fetching recent blog posts:', error);
+      throw error;
+    }
+  },
+
+  // Get recent testimonials
+  getRecentTestimonials: async () => {
+    try {
+      const response = await apiClient.get('/admin/dashboard');
+      return response.data.recent_testimonials;
+    } catch (error) {
+      console.error('Error fetching recent testimonials:', error);
       throw error;
     }
   },
@@ -85,7 +129,7 @@ export const dashboardApi = {
   getStatusDistribution: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.status_distribution;
+      return response.data.status_distribution;
     } catch (error) {
       console.error('Error fetching status distribution:', error);
       throw error;
@@ -96,9 +140,55 @@ export const dashboardApi = {
   getPerformanceMetrics: async () => {
     try {
       const response = await apiClient.get('/admin/dashboard');
-      return response.data.data.performance_metrics;
+      return response.data.performance_metrics;
     } catch (error) {
       console.error('Error fetching performance metrics:', error);
+      throw error;
+    }
+  },
+
+  // Get notifications
+  getNotifications: async (limit = 20, unreadOnly = false) => {
+    try {
+      const response = await apiClient.get('/admin/notifications', {
+        params: { limit, unread_only: unreadOnly }
+      });
+      return response;
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      throw error;
+    }
+  },
+
+  // Mark notification as read
+  markNotificationAsRead: async (id) => {
+    try {
+      const response = await apiClient.put(`/admin/notifications/${id}/read`);
+      return response;
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+      throw error;
+    }
+  },
+
+  // Mark all notifications as read
+  markAllNotificationsAsRead: async () => {
+    try {
+      const response = await apiClient.put('/admin/notifications/read-all');
+      return response;
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+      throw error;
+    }
+  },
+
+  // Delete notification
+  deleteNotification: async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/notifications/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error deleting notification:', error);
       throw error;
     }
   }

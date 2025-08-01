@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { 
+  Phone, Mail, Clock, Home, Info, Wrench, MapPin, 
+  Star, FileText, Building, MessageSquare, Menu, X,
+  ChevronDown
+} from 'lucide-react';
 import { getServices } from '../api/services';
 import { fetchBlogPosts } from '../api/blog';
 import { getTestimonials } from '../api/testimonials';
@@ -112,17 +117,17 @@ const Header = () => {
           <div className="top-bar-content">
             <div className="top-bar-left">
               <div className="top-bar-item">
-                <span className="icon">📞</span>
+                <Phone size={16} className="icon" />
                 <a href="tel:33780326427" className="top-bar-link">07 80 32 64 27</a>
               </div>
               <div className="top-bar-item">
-                <span className="icon">📧</span>
+                <Mail size={16} className="icon" />
                 <a href="mailto:bnbatimententreprise@gmail.com" className="top-bar-link">bnbatimententreprise@gmail.com</a>
               </div>
             </div>
             <div className="top-bar-right">
               <div className="top-bar-item">
-                <span className="icon">🕒</span>
+                <Clock size={16} className="icon" />
                 <span>Lun-Ven: 8h-18h | Sam: 8h-12h</span>
               </div>
             </div>
@@ -150,7 +155,7 @@ const Header = () => {
             <nav className="nav-menu">
               <div className="nav-item">
                 <NavLink to="/" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">🏠</span>
+                  <Home size={18} className="nav-icon" />
                   <span className="nav-text">ACCUEIL</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -158,7 +163,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/a-propos" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">ℹ️</span>
+                  <Info size={18} className="nav-icon" />
                   <span className="nav-text">À PROPOS</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -166,7 +171,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/services" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">🔧</span>
+                  <Wrench size={18} className="nav-icon" />
                   <span className="nav-text">NOS SERVICES</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -174,7 +179,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/zones" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">📍</span>
+                  <MapPin size={18} className="nav-icon" />
                   <span className="nav-text">ZONES D'INTERVENTION</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -182,7 +187,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/testimonials" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">⭐</span>
+                  <Star size={18} className="nav-icon" />
                   <span className="nav-text">AVIS CLIENTS</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -190,7 +195,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/blog" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">📝</span>
+                  <FileText size={18} className="nav-icon" />
                   <span className="nav-text">BLOG</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -198,7 +203,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/realisations" className="nav-link" onClick={handleNavigationClick}>
-                  <span className="nav-icon">🏠</span>
+                  <Building size={18} className="nav-icon" />
                   <span className="nav-text">RÉALISATIONS</span>
                   <div className="nav-underline"></div>
                 </NavLink>
@@ -206,7 +211,7 @@ const Header = () => {
               
               <div className="nav-item">
                 <NavLink to="/contact" className="cta-button" onClick={handleNavigationClick}>
-                  <span className="cta-icon">📧</span>
+                  <MessageSquare size={18} className="cta-icon" />
                   <span className="cta-text">DEVIS GRATUIT</span>
                   <div className="cta-glow"></div>
                 </NavLink>
@@ -219,11 +224,11 @@ const Header = () => {
               onClick={toggleMobileMenu}
               aria-label="Toggle mobile menu"
             >
-              <div className="hamburger-container">
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
-              </div>
+              {isMobileMenuOpen ? (
+                <X size={24} className="mobile-menu-icon" />
+              ) : (
+                <Menu size={24} className="mobile-menu-icon" />
+              )}
             </button>
           </div>
         </div>
@@ -240,62 +245,62 @@ const Header = () => {
                 className="mobile-close-btn"
                 aria-label="Close mobile menu"
               >
-                ✕
+                <X size={20} />
               </button>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">🏠</span>
+                <Home size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">ACCUEIL</span>
               </NavLink>
             </div>
             
             <div className="mobile-nav-item">
               <NavLink to="/a-propos" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">ℹ️</span>
+                <Info size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">À PROPOS</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/services" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">🔧</span>
+                <Wrench size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">NOS SERVICES</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/zones" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">📍</span>
+                <MapPin size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">ZONES D'INTERVENTION</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/avis" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">⭐</span>
+                <Star size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">AVIS CLIENTS</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/blog" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">📝</span>
+                <FileText size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">BLOG</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
               <NavLink to="/realisations" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <span className="mobile-nav-icon">🏗️</span>
+                <Building size={20} className="mobile-nav-icon" />
                 <span className="mobile-nav-text">RÉALISATIONS</span>
               </NavLink>
             </div>
 
             <div className="mobile-cta">
               <NavLink to="/contact" className="mobile-cta-button" onClick={handleNavigationClick}>
-                <span className="cta-icon">📧</span>
+                <MessageSquare size={20} className="cta-icon" />
                 <span className="cta-text">DEVIS GRATUIT</span>
               </NavLink>
             </div>
@@ -303,19 +308,19 @@ const Header = () => {
             {/* Mobile Contact Info */}
             <div className="mobile-contact-info">
               <div className="mobile-contact-item">
-                <span className="contact-icon">📞</span>
+                <Phone size={18} className="contact-icon" />
                 <a href="tel:33780326427" className="contact-link">
                   07 80 32 64 27
                 </a>
               </div>
               <div className="mobile-contact-item">
-                <span className="contact-icon">📧</span>
+                <Mail size={18} className="contact-icon" />
                 <a href="mailto:bnbatimententreprise@gmail.com" className="contact-link">
                   bnbatimententreprise@gmail.com
                 </a>
               </div>
               <div className="mobile-contact-item">
-                <span className="contact-icon">🕒</span>
+                <Clock size={18} className="contact-icon" />
                 <span className="contact-text">Lun-Ven: 8h-18h | Sam: 8h-12h</span>
               </div>
             </div>

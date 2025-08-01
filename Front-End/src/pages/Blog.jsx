@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchBlogPosts } from "../api/blog";
 
 const Blog = () => {
@@ -112,136 +113,115 @@ const Blog = () => {
               marginTop: '2rem'
             }}>
               {posts.map(post => (
-                <div key={post.id} className="card" style={{
-                  backgroundColor: 'white',
-                  borderRadius: '16px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  border: '1px solid #e5e7eb'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-                }}
+                <Link 
+                  key={post.id} 
+                  to={`/blog/${post.slug || post.id}`} 
+                  style={{ textDecoration: 'none', color: 'inherit' }}
                 >
-                  <div style={{
-                    height: '220px',
-                    backgroundColor: '#e5e7eb',
-                    borderRadius: '16px 16px 0 0',
+                  <div className="card" style={{
+                    backgroundColor: 'white',
+                    borderRadius: '16px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                     overflow: 'hidden',
-                    position: 'relative'
-                  }}>
-                    {post.image ? (
-                      <img 
-                        src={post.image} 
-                        alt={post.title}
-                        style={{
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    border: '1px solid #e5e7eb'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                    e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                  }}
+                  >
+                    <div style={{
+                      height: '220px',
+                      backgroundColor: '#e5e7eb',
+                      borderRadius: '16px 16px 0 0',
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}>
+                      {post.image ? (
+                        <img 
+                          src={post.image} 
+                          alt={post.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            transition: 'transform 0.3s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.05)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                          }}
+                        />
+                      ) : (
+                        <div style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'cover',
-                          transition: 'transform 0.3s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.transform = 'scale(1.05)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.transform = 'scale(1)';
-                        }}
-                      />
-                    ) : (
-                      <div style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#6b7280',
-                        fontSize: '16px',
-                        background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
-                      }}>
-                        <div style={{ textAlign: 'center' }}>
-                          <div style={{ fontSize: '32px', marginBottom: '12px' }}>📷</div>
-                          <div>Image de l'article</div>
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#6b7280',
+                          fontSize: '16px',
+                          background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
+                        }}>
+                          <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '32px', marginBottom: '12px' }}>📷</div>
+                            <div>Image de l'article</div>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="card-content" style={{ padding: '1.5rem' }}>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '15px',
-                      fontSize: '14px',
-                      color: '#6b7280'
-                    }}>
-                      <span style={{
-                        backgroundColor: '#f3f4f6',
-                        padding: '6px 12px',
-                        borderRadius: '20px',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        color: '#374151',
-                        border: '1px solid #e5e7eb'
-                      }}>
-                        {post.category}
-                      </span>
-                      <span style={{ fontSize: '13px' }}>
-                        {new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}
-                      </span>
+                      )}
                     </div>
-                    <h3 style={{ 
-                      marginBottom: '12px',
-                      fontSize: '20px',
-                      fontWeight: '700',
-                      lineHeight: '1.4',
-                      color: '#1f2937'
-                    }}>
-                      {post.title}
-                    </h3>
-                    <p style={{ 
-                      color: '#6b7280', 
-                      marginBottom: '20px',
-                      lineHeight: '1.6',
-                      fontSize: '15px'
-                    }}>
-                      {post.excerpt}
-                    </p>
-                    <a 
-                      href={`/blog/${post.slug || post.id}`} 
-                      className="btn btn-primary"
-                      style={{
-                        display: 'inline-block',
-                        padding: '12px 24px',
-                        backgroundColor: '#1e3a8a',
-                        color: 'white',
-                        textDecoration: 'none',
-                        borderRadius: '8px',
-                        fontWeight: '600',
-                        transition: 'all 0.3s ease',
+                    <div className="card-content" style={{ padding: '1.5rem' }}>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '15px',
                         fontSize: '14px',
-                        border: 'none',
-                        cursor: 'pointer'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = '#1d4ed8';
-                        e.target.style.transform = 'translateY(-2px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = '#1e3a8a';
-                        e.target.style.transform = 'translateY(0)';
-                      }}
-                    >
-                      Lire la suite →
-                    </a>
+                        color: '#6b7280'
+                      }}>
+                        <span style={{
+                          backgroundColor: '#f3f4f6',
+                          padding: '6px 12px',
+                          borderRadius: '20px',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          color: '#374151',
+                          border: '1px solid #e5e7eb'
+                        }}>
+                          {post.category}
+                        </span>
+                        <span style={{ fontSize: '13px' }}>
+                          {new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}
+                        </span>
+                      </div>
+                      <h3 style={{ 
+                        marginBottom: '12px',
+                        fontSize: '20px',
+                        fontWeight: '700',
+                        lineHeight: '1.4',
+                        color: '#1f2937'
+                      }}>
+                        {post.title}
+                      </h3>
+                      <p style={{ 
+                        color: '#6b7280', 
+                        marginBottom: '20px',
+                        lineHeight: '1.6',
+                        fontSize: '15px'
+                      }}>
+                        {post.excerpt}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

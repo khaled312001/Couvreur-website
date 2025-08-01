@@ -53,6 +53,13 @@
   font-size: 0.75rem; /* Further reduced font size */
 }
 
+.top-bar-item .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
 .top-bar-item:hover {
   transform: translateY(-1px); /* Reduced transform */
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -165,6 +172,9 @@
 .nav-icon {
   font-size: 1rem; /* Further reduced icon size */
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-link:hover .nav-icon {
@@ -541,6 +551,9 @@
 .cta-icon {
   font-size: 1rem; /* Further reduced icon size */
   animation: ctaPulse 2s infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes ctaPulse {
@@ -570,6 +583,13 @@
   background: rgba(59, 130, 246, 0.2);
   transform: translateY(-1px); /* Reduced transform */
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.mobile-menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
 }
 
 .hamburger-container {
@@ -703,6 +723,9 @@
 .mobile-nav-icon {
   font-size: 1.1rem; /* Further reduced icon size */
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-nav-text {
@@ -804,6 +827,9 @@
 .contact-icon {
   font-size: 0.9rem; /* Further reduced icon size */
   color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contact-link {

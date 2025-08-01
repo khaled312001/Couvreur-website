@@ -5,10 +5,13 @@ import {
   Users, UserPlus, Shield, CheckCircle, AlertCircle, Clock,
   X, Save, Calendar, Mail, Phone, User, Lock, Unlock
 } from 'lucide-react';
+import { usersApi } from '../../api/users';
 
 const UsersAdmin = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -24,75 +27,56 @@ const UsersAdmin = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    password: '',
     role: 'user',
-    status: 'active',
     phone: '',
-    avatar: ''
+    address: ''
   });
 
-  // Mock users data
-  const mockUsers = [
-    {
-      id: 1,
-      name: 'Admin Principal',
-      email: 'admin@bnbuilding.fr',
-      role: 'admin',
-      status: 'active',
-      phone: '+33 1 23 45 67 89',
-      avatar: 'A',
-      lastLogin: '2025-01-15T10:30:00',
-      createdAt: '2025-01-01'
-    },
-    {
-      id: 2,
-      name: 'Jean Dupont',
-      email: 'jean.dupont@bnbuilding.fr',
-      role: 'manager',
-      status: 'active',
-      phone: '+33 1 23 45 67 90',
-      avatar: 'J',
-      lastLogin: '2025-01-14T15:45:00',
-      createdAt: '2025-01-05'
-    },
-    {
-      id: 3,
-      name: 'Marie Martin',
-      email: 'marie.martin@bnbuilding.fr',
-      role: 'user',
-      status: 'active',
-      phone: '+33 1 23 45 67 91',
-      avatar: 'M',
-      lastLogin: '2025-01-13T09:15:00',
-      createdAt: '2025-01-10'
-    },
-    {
-      id: 4,
-      name: 'Pierre Durand',
-      email: 'pierre.durand@bnbuilding.fr',
-      role: 'user',
-      status: 'inactive',
-      phone: '+33 1 23 45 67 92',
-      avatar: 'P',
-      lastLogin: '2025-01-10T14:20:00',
-      createdAt: '2025-01-08'
-    }
-  ];
-
+  // Load users
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setUsers(mockUsers);
-      setIsLoading(false);
-    }, 1000);
+    loadUsers();
   }, []);
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = filterRole === 'all' || user.role === filterRole;
-    const matchesStatus = filterStatus === 'all' || user.status === filterStatus;
-    return matchesSearch && matchesRole && matchesStatus;
-  });
+  const loadUsers = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await usersApi.getUsers();
+      setUsers(response.data || response);
+      setFilteredUsers(response.data || response);
+    } catch (err) {
+      console.error('Error loading users:', err);
+      setError('Erreur lors du chargement des utilisateurs');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Filter users
+  useEffect(() => {
+    let filtered = users;
+    
+    if (searchTerm) {
+      filtered = filtered.filter(user =>
+        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.phone?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    if (filterRole !== 'all') {
+      filtered = filtered.filter(user => user.role === filterRole);
+    }
+    
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(user => 
+        filterStatus === 'active' ? user.is_active : !user.is_active
+      );
+    }
+    
+    setFilteredUsers(filtered);
+  }, [users, searchTerm, filterRole, filterStatus]);
 
   const getRoleColor = (role) => {
     const colors = {
@@ -112,91 +96,94 @@ const UsersAdmin = () => {
     return texts[role] || role;
   };
 
-  const getStatusColor = (status) => {
-    const colors = {
-      active: '#10B981',
-      inactive: '#EF4444',
-      pending: '#F59E0B'
-    };
-    return colors[status] || '#6B7280';
+  const getStatusColor = (isActive) => {
+    return isActive ? '#10B981' : '#6B7280';
   };
 
-  const getStatusText = (status) => {
-    const texts = {
-      active: 'Actif',
-      inactive: 'Inactif',
-      pending: 'En attente'
-    };
-    return texts[status] || status;
+  const getStatusText = (isActive) => {
+    return isActive ? 'Actif' : 'Inactif';
   };
 
-  // Handle form input changes
+  const getStatusIcon = (isActive) => {
+    return isActive ? CheckCircle : AlertCircle;
+  };
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
   // Add new user
-  const handleAddUser = () => {
-    const newUser = {
-      id: Date.now(),
-      ...formData,
-      avatar: formData.name.charAt(0).toUpperCase(),
-      lastLogin: new Date().toISOString(),
-      createdAt: new Date().toISOString().split('T')[0]
-    };
-    setUsers(prev => [newUser, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      name: '',
-      email: '',
-      role: 'user',
-      status: 'active',
-      phone: '',
-      avatar: ''
-    });
+  const handleAddUser = async () => {
+    try {
+      await usersApi.createUser(formData);
+      await loadUsers();
+      setShowAddModal(false);
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        role: 'user',
+        phone: '',
+        address: ''
+      });
+    } catch (error) {
+      console.error('Error adding user:', error);
+      alert('Erreur lors de l\'ajout de l\'utilisateur');
+    }
   };
 
   // Edit user
-  const handleEditUser = () => {
-    setUsers(prev => 
-      prev.map(user => 
-        user.id === selectedUser.id 
-          ? { ...user, ...formData }
-          : user
-      )
-    );
-    setShowEditModal(false);
-    setSelectedUser(null);
-    setFormData({
-      name: '',
-      email: '',
-      role: 'user',
-      status: 'active',
-      phone: '',
-      avatar: ''
-    });
+  const handleEditUser = async () => {
+    try {
+      const updateData = { ...formData };
+      if (!updateData.password) {
+        delete updateData.password;
+      }
+      
+      await usersApi.updateUser(selectedUser.id, updateData);
+      await loadUsers();
+      setShowEditModal(false);
+      setSelectedUser(null);
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        role: 'user',
+        phone: '',
+        address: ''
+      });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      alert('Erreur lors de la modification de l\'utilisateur');
+    }
   };
 
   // Delete user
-  const handleDeleteUser = () => {
-    setUsers(prev => prev.filter(user => user.id !== selectedUser.id));
-    setShowDeleteConfirm(false);
-    setSelectedUser(null);
+  const handleDeleteUser = async () => {
+    try {
+      await usersApi.deleteUser(selectedUser.id);
+      await loadUsers();
+      setShowDeleteConfirm(false);
+      setSelectedUser(null);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Erreur lors de la suppression de l\'utilisateur');
+    }
   };
 
   // Toggle user status
-  const handleToggleStatus = (userId) => {
-    setUsers(prev => 
-      prev.map(user => 
-        user.id === userId 
-          ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
-          : user
-      )
-    );
+  const handleToggleStatus = async (userId) => {
+    try {
+      await usersApi.toggleUserStatus(userId);
+      await loadUsers();
+    } catch (error) {
+      console.error('Error toggling user status:', error);
+      alert('Erreur lors du changement de statut');
+    }
   };
 
   // Open edit modal
@@ -205,10 +192,10 @@ const UsersAdmin = () => {
     setFormData({
       name: user.name,
       email: user.email,
+      password: '', // Don't show current password
       role: user.role,
-      status: user.status,
-      phone: user.phone,
-      avatar: user.avatar
+      phone: user.phone || '',
+      address: user.address || ''
     });
     setShowEditModal(true);
   };
@@ -244,6 +231,32 @@ const UsersAdmin = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="admin-container">
+        <div className="admin-main">
+          <div className="admin-content">
+            <motion.div 
+              className="error-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="error-icon">⚠️</div>
+              <h3>Erreur de chargement</h3>
+              <p>{error}</p>
+              <button 
+                onClick={loadUsers}
+                className="retry-button"
+              >
+                Réessayer
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-container">
       <div className="admin-main">
@@ -267,10 +280,6 @@ const UsersAdmin = () => {
                 >
                   <Plus size={16} />
                   Nouvel utilisateur
-                </button>
-                <button className="btn-secondary">
-                  <Shield size={16} />
-                  Permissions
                 </button>
               </div>
             </div>
@@ -303,7 +312,7 @@ const UsersAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Utilisateurs Actifs</h3>
-                <div className="stat-value">{users.filter(u => u.status === 'active').length}</div>
+                <div className="stat-value">{users.filter(u => u.is_active).length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
                   75% actifs
@@ -405,7 +414,7 @@ const UsersAdmin = () => {
               >
                 <div className="user-header">
                   <div className="user-avatar">
-                    {user.avatar}
+                    {user.name?.charAt(0)}
                   </div>
                   <div className="user-info">
                     <h3>{user.name}</h3>
@@ -415,8 +424,8 @@ const UsersAdmin = () => {
                     <button
                       className="status-badge"
                       style={{ 
-                        backgroundColor: getStatusColor(user.status) + '20', 
-                        color: getStatusColor(user.status),
+                        backgroundColor: getStatusColor(user.is_active) + '20', 
+                        color: getStatusColor(user.is_active),
                         cursor: 'pointer',
                         border: 'none',
                         padding: '4px 8px',
@@ -427,7 +436,7 @@ const UsersAdmin = () => {
                       onClick={() => handleToggleStatus(user.id)}
                       title="Cliquer pour changer le statut"
                     >
-                      {getStatusText(user.status)}
+                      {getStatusText(user.is_active)}
                     </button>
                   </div>
                 </div>
@@ -449,13 +458,13 @@ const UsersAdmin = () => {
                   <div className="detail-item">
                     <span className="detail-label">Dernière connexion:</span>
                     <span className="detail-value">
-                      {new Date(user.lastLogin).toLocaleDateString('fr-FR')}
+                      {user.last_login ? new Date(user.last_login).toLocaleDateString('fr-FR') : 'Aucune'}
                     </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Créé le:</span>
                     <span className="detail-value">
-                      {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                      {new Date(user.created_at).toLocaleDateString('fr-FR')}
                     </span>
                   </div>
                 </div>
@@ -558,32 +567,28 @@ const UsersAdmin = () => {
                       />
                     </div>
                     
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Rôle</label>
-                        <select
-                          name="role"
-                          value={formData.role}
-                          onChange={handleInputChange}
-                        >
-                          <option value="user">Utilisateur</option>
-                          <option value="manager">Gestionnaire</option>
-                          <option value="admin">Administrateur</option>
-                        </select>
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Statut</label>
-                        <select
-                          name="status"
-                          value={formData.status}
-                          onChange={handleInputChange}
-                        >
-                          <option value="active">Actif</option>
-                          <option value="inactive">Inactif</option>
-                          <option value="pending">En attente</option>
-                        </select>
-                      </div>
+                    <div className="form-group">
+                      <label>Mot de passe</label>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="Mot de passe"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Rôle</label>
+                      <select
+                        name="role"
+                        value={formData.role}
+                        onChange={handleInputChange}
+                      >
+                        <option value="user">Utilisateur</option>
+                        <option value="manager">Gestionnaire</option>
+                        <option value="admin">Administrateur</option>
+                      </select>
                     </div>
                     
                     <div className="form-group">
@@ -594,6 +599,17 @@ const UsersAdmin = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="Ex: +33 1 23 45 67 89"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Adresse</label>
+                      <textarea
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="Ex: 123 Rue de la Construction, 75001 Paris, France"
+                        rows="3"
                       />
                     </div>
                   </div>
@@ -669,32 +685,28 @@ const UsersAdmin = () => {
                       />
                     </div>
                     
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Rôle</label>
-                        <select
-                          name="role"
-                          value={formData.role}
-                          onChange={handleInputChange}
-                        >
-                          <option value="user">Utilisateur</option>
-                          <option value="manager">Gestionnaire</option>
-                          <option value="admin">Administrateur</option>
-                        </select>
-                      </div>
-                      
-                      <div className="form-group">
-                        <label>Statut</label>
-                        <select
-                          name="status"
-                          value={formData.status}
-                          onChange={handleInputChange}
-                        >
-                          <option value="active">Actif</option>
-                          <option value="inactive">Inactif</option>
-                          <option value="pending">En attente</option>
-                        </select>
-                      </div>
+                    <div className="form-group">
+                      <label>Mot de passe</label>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="Mot de passe (laisser vide pour ne pas changer)"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Rôle</label>
+                      <select
+                        name="role"
+                        value={formData.role}
+                        onChange={handleInputChange}
+                      >
+                        <option value="user">Utilisateur</option>
+                        <option value="manager">Gestionnaire</option>
+                        <option value="admin">Administrateur</option>
+                      </select>
                     </div>
                     
                     <div className="form-group">
@@ -705,6 +717,17 @@ const UsersAdmin = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="Ex: +33 1 23 45 67 89"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Adresse</label>
+                      <textarea
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="Ex: 123 Rue de la Construction, 75001 Paris, France"
+                        rows="3"
                       />
                     </div>
                   </div>
@@ -761,18 +784,18 @@ const UsersAdmin = () => {
                     <div className="user-detail-view">
                       <div className="user-detail-header">
                         <div className="user-detail-avatar">
-                          {selectedUser.avatar}
+                          {selectedUser.name?.charAt(0)}
                         </div>
                         <div className="user-detail-info">
                           <h3>{selectedUser.name}</h3>
                           <span 
                             className="status-badge"
                             style={{ 
-                              backgroundColor: getStatusColor(selectedUser.status) + '20', 
-                              color: getStatusColor(selectedUser.status) 
+                              backgroundColor: getStatusColor(selectedUser.is_active) + '20', 
+                              color: getStatusColor(selectedUser.is_active) 
                             }}
                           >
-                            {getStatusText(selectedUser.status)}
+                            {getStatusText(selectedUser.is_active)}
                           </span>
                         </div>
                       </div>
@@ -808,7 +831,7 @@ const UsersAdmin = () => {
                           <Calendar size={16} />
                           <div>
                             <label>Dernière connexion</label>
-                            <span>{new Date(selectedUser.lastLogin).toLocaleDateString('fr-FR')}</span>
+                            <span>{selectedUser.last_login ? new Date(selectedUser.last_login).toLocaleDateString('fr-FR') : 'Aucune'}</span>
                           </div>
                         </div>
                       </div>

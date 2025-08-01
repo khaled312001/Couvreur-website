@@ -38,6 +38,9 @@ const ServicesAdmin = () => {
     sort_order: 0
   });
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
   // Load services from API
   useEffect(() => {
     loadServices();
@@ -176,6 +179,26 @@ const ServicesAdmin = () => {
               name === 'is_active' ? value === 'active' : 
               value
     }));
+  };
+
+  // Handle image upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Clear image
+  const clearImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    setFormData(prev => ({ ...prev, image: '' }));
   };
 
   // Add new service
@@ -365,10 +388,6 @@ const ServicesAdmin = () => {
                 >
                   <Plus size={16} />
                   Nouveau service
-                </button>
-                <button className="btn-secondary">
-                  <Settings size={16} />
-                  Paramètres
                 </button>
               </div>
             </div>

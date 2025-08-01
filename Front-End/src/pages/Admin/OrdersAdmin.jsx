@@ -4,8 +4,9 @@ import {
   Plus, Search, Filter, Edit, Trash2, Eye, 
   Package, Truck, CheckCircle, AlertCircle, Clock,
   X, Save, Calendar, DollarSign, User, MapPin,
-  Phone, Mail, FileText, Star, Award, Target
+  Phone, Mail, FileText, Star, Award, Target, Printer
 } from 'lucide-react';
+import Invoice from '../../components/Invoice';
 
 const OrdersAdmin = () => {
   const [orders, setOrders] = useState([]);
@@ -19,6 +20,7 @@ const OrdersAdmin = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   
   // Form states
@@ -335,10 +337,6 @@ const OrdersAdmin = () => {
                   <Plus size={16} />
                   Nouvelle commande
                 </button>
-                <button className="btn-secondary">
-                  <Package size={16} />
-                  Rapports
-                </button>
               </div>
             </div>
           </motion.div>
@@ -500,7 +498,6 @@ const OrdersAdmin = () => {
                     <button
                       className="status-badge"
                       style={{ 
-                        backgroundColor: getStatusColor(order.status) + '20', 
                         color: getStatusColor(order.status),
                         cursor: 'pointer',
                         border: 'none',
@@ -517,7 +514,6 @@ const OrdersAdmin = () => {
                     <span 
                       className="priority-badge"
                       style={{ 
-                        backgroundColor: getPriorityColor(order.priority) + '20', 
                         color: getPriorityColor(order.priority) 
                       }}
                     >
@@ -563,6 +559,16 @@ const OrdersAdmin = () => {
                     onClick={() => openEditModal(order)}
                   >
                     <Edit size={16} />
+                  </button>
+                  <button 
+                    className="action-btn" 
+                    title="Imprimer la facture"
+                    onClick={() => {
+                      setSelectedOrder(order);
+                      setShowInvoiceModal(true);
+                    }}
+                  >
+                    <Printer size={16} />
                   </button>
                   <button 
                     className="action-btn danger" 
@@ -976,7 +982,6 @@ const OrdersAdmin = () => {
                             <span 
                               className="status-badge"
                               style={{ 
-                                backgroundColor: getStatusColor(selectedOrder.status) + '20', 
                                 color: getStatusColor(selectedOrder.status) 
                               }}
                             >
@@ -985,7 +990,6 @@ const OrdersAdmin = () => {
                             <span 
                               className="priority-badge"
                               style={{ 
-                                backgroundColor: getPriorityColor(selectedOrder.priority) + '20', 
                                 color: getPriorityColor(selectedOrder.priority) 
                               }}
                             >
@@ -1079,6 +1083,16 @@ const OrdersAdmin = () => {
                       className="btn-primary"
                       onClick={() => {
                         setShowViewModal(false);
+                        setShowInvoiceModal(true);
+                      }}
+                    >
+                      <Printer size={16} />
+                      Imprimer Facture
+                    </button>
+                    <button 
+                      className="btn-primary"
+                      onClick={() => {
+                        setShowViewModal(false);
                         openEditModal(selectedOrder);
                       }}
                     >
@@ -1142,6 +1156,24 @@ const OrdersAdmin = () => {
                     </button>
                   </div>
                 </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Invoice Modal */}
+          <AnimatePresence>
+            {showInvoiceModal && selectedOrder && (
+              <motion.div 
+                className="modal-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowInvoiceModal(false)}
+              >
+                <Invoice 
+                  order={selectedOrder} 
+                  onClose={() => setShowInvoiceModal(false)}
+                />
               </motion.div>
             )}
           </AnimatePresence>

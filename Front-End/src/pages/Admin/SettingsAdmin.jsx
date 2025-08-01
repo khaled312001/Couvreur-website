@@ -5,102 +5,163 @@ import {
   Mail, Phone, MapPin, Building, User, Lock, Eye, EyeOff,
   CheckCircle, AlertCircle, Clock, Download, Upload
 } from 'lucide-react';
+import { settingsApi } from '../../api/settings';
 
 const SettingsAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('general');
   const [showPassword, setShowPassword] = useState(false);
+  const [saving, setSaving] = useState(false);
   
   // Settings states
-  const [generalSettings, setGeneralSettings] = useState({
-    siteName: 'BN BÂTIMENT',
-    siteDescription: 'Entreprise de charpente, couverture et zinguerie',
-    contactEmail: 'contact@bnbuilding.fr',
-    contactPhone: '+33 1 23 45 67 89',
-    address: '123 Rue de la Construction, 75001 Paris',
-    workingHours: 'Lun-Ven: 8h-18h, Sam: 9h-17h'
+  const [settings, setSettings] = useState({
+    general: {},
+    notifications: {},
+    security: {},
+    appearance: {},
+    company: {},
+    email: {},
+    social: {}
   });
 
-  const [notificationSettings, setNotificationSettings] = useState({
-    emailNotifications: true,
-    smsNotifications: false,
-    quoteAlerts: true,
-    testimonialAlerts: true,
-    blogAlerts: false
-  });
-
-  const [securitySettings, setSecuritySettings] = useState({
-    twoFactorAuth: false,
-    sessionTimeout: 30,
-    passwordExpiry: 90,
-    loginAttempts: 5
-  });
-
-  const [appearanceSettings, setAppearanceSettings] = useState({
-    theme: 'light',
-    primaryColor: '#3B82F6',
-    language: 'fr',
-    timezone: 'Europe/Paris'
-  });
-
+  // Load settings
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    loadSettings();
   }, []);
 
+  const loadSettings = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await settingsApi.getSettings();
+      setSettings(response.data || response);
+    } catch (err) {
+      console.error('Error loading settings:', err);
+      setError('Erreur lors du chargement des paramètres');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleGeneralChange = (field, value) => {
-    setGeneralSettings(prev => ({
+    setSettings(prev => ({
       ...prev,
-      [field]: value
+      general: {
+        ...prev.general,
+        [field]: value
+      }
     }));
   };
 
   const handleNotificationChange = (field, value) => {
-    setNotificationSettings(prev => ({
+    setSettings(prev => ({
       ...prev,
-      [field]: value
+      notifications: {
+        ...prev.notifications,
+        [field]: value
+      }
     }));
   };
 
   const handleSecurityChange = (field, value) => {
-    setSecuritySettings(prev => ({
+    setSettings(prev => ({
       ...prev,
-      [field]: value
+      security: {
+        ...prev.security,
+        [field]: value
+      }
     }));
   };
 
   const handleAppearanceChange = (field, value) => {
-    setAppearanceSettings(prev => ({
+    setSettings(prev => ({
       ...prev,
-      [field]: value
+      appearance: {
+        ...prev.appearance,
+        [field]: value
+      }
     }));
   };
 
-  const handleSaveSettings = (section) => {
-    // Simulate saving settings
-    console.log(`Saving ${section} settings...`);
-    // In real app, this would call an API
+  const handleCompanyChange = (field, value) => {
+    setSettings(prev => ({
+      ...prev,
+      company: {
+        ...prev.company,
+        [field]: value
+      }
+    }));
   };
 
-  const handleExportSettings = () => {
-    const settings = {
-      general: generalSettings,
-      notifications: notificationSettings,
-      security: securitySettings,
-      appearance: appearanceSettings
+  const handleEmailChange = (field, value) => {
+    setSettings(prev => ({
+      ...prev,
+      email: {
+        ...prev.email,
+        [field]: value
+      }
+    }));
+  };
+
+  const handleSocialChange = (field, value) => {
+    setSettings(prev => ({
+      ...prev,
+      social: {
+        ...prev.social,
+        [field]: value
+      }
+    }));
+  };
+
+  const handleSaveSettings = async (section) => {
+    try {
+      setSaving(true);
+      await settingsApi.updateSettings(section, settings[section]);
+      alert(`${section} settings saved successfully!`);
+    } catch (error) {
+      console.error(`Error saving ${section} settings:`, error);
+      alert(`Error saving ${section} settings`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleExportSettings = async () => {
+    try {
+      const response = await settingsApi.exportSettings();
+      const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = response.filename || 'settings.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting settings:', error);
+      alert('Error exporting settings');
+    }
+  };
+
+  const handleImportSettings = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const importedSettings = JSON.parse(e.target.result);
+        await settingsApi.importSettings(importedSettings);
+        await loadSettings(); // Reload settings
+        alert('Settings imported successfully!');
+      } catch (error) {
+        console.error('Error importing settings:', error);
+        alert('Error importing settings');
+      }
     };
-    
-    const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'settings.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    reader.readAsText(file);
   };
 
   if (isLoading) {
@@ -115,6 +176,32 @@ const SettingsAdmin = () => {
             >
               <div className="loading-spinner"></div>
               <p>Chargement des paramètres...</p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-container">
+        <div className="admin-main">
+          <div className="admin-content">
+            <motion.div 
+              className="error-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="error-icon">⚠️</div>
+              <h3>Erreur de chargement</h3>
+              <p>{error}</p>
+              <button 
+                onClick={loadSettings}
+                className="retry-button"
+              >
+                Réessayer
+              </button>
             </motion.div>
           </div>
         </div>
@@ -216,43 +303,43 @@ const SettingsAdmin = () => {
                   <div className="settings-form">
                     <div className="form-group">
                       <label>Nom du site</label>
-                      <input
-                        type="text"
-                        value={generalSettings.siteName}
-                        onChange={(e) => handleGeneralChange('siteName', e.target.value)}
-                        placeholder="Nom de votre entreprise"
-                      />
+                                              <input
+                          type="text"
+                          value={settings.general.site_name || ''}
+                          onChange={(e) => handleGeneralChange('site_name', e.target.value)}
+                          placeholder="Nom de votre entreprise"
+                        />
                     </div>
                     
                     <div className="form-group">
                       <label>Description du site</label>
-                      <textarea
-                        value={generalSettings.siteDescription}
-                        onChange={(e) => handleGeneralChange('siteDescription', e.target.value)}
-                        placeholder="Description de votre entreprise"
-                        rows="3"
-                      />
+                                              <textarea
+                          value={settings.general.site_description || ''}
+                          onChange={(e) => handleGeneralChange('site_description', e.target.value)}
+                          placeholder="Description de votre entreprise"
+                          rows="3"
+                        />
                     </div>
                     
                     <div className="form-row">
                       <div className="form-group">
                         <label>Email de contact</label>
-                        <input
-                          type="email"
-                          value={generalSettings.contactEmail}
-                          onChange={(e) => handleGeneralChange('contactEmail', e.target.value)}
-                          placeholder="contact@example.com"
-                        />
+                                                  <input
+                            type="email"
+                            value={settings.general.contact_email || ''}
+                            onChange={(e) => handleGeneralChange('contact_email', e.target.value)}
+                            placeholder="contact@example.com"
+                          />
                       </div>
                       
                       <div className="form-group">
                         <label>Téléphone</label>
-                        <input
-                          type="tel"
-                          value={generalSettings.contactPhone}
-                          onChange={(e) => handleGeneralChange('contactPhone', e.target.value)}
-                          placeholder="+33 1 23 45 67 89"
-                        />
+                                                  <input
+                            type="tel"
+                            value={settings.general.contact_phone || ''}
+                            onChange={(e) => handleGeneralChange('contact_phone', e.target.value)}
+                            placeholder="+33 1 23 45 67 89"
+                          />
                       </div>
                     </div>
                     
@@ -260,7 +347,7 @@ const SettingsAdmin = () => {
                       <label>Adresse</label>
                       <input
                         type="text"
-                        value={generalSettings.address}
+                        value={settings.general.address || ''}
                         onChange={(e) => handleGeneralChange('address', e.target.value)}
                         placeholder="Adresse complète"
                       />
@@ -268,21 +355,22 @@ const SettingsAdmin = () => {
                     
                     <div className="form-group">
                       <label>Heures d'ouverture</label>
-                      <input
-                        type="text"
-                        value={generalSettings.workingHours}
-                        onChange={(e) => handleGeneralChange('workingHours', e.target.value)}
-                        placeholder="Lun-Ven: 8h-18h, Sam: 9h-17h"
-                      />
+                                              <input
+                          type="text"
+                          value={settings.general.working_hours || ''}
+                          onChange={(e) => handleGeneralChange('working_hours', e.target.value)}
+                          placeholder="Lun-Ven: 8h-18h, Sam: 9h-17h"
+                        />
                     </div>
                     
                     <div className="form-actions">
                       <button 
                         className="btn-primary"
                         onClick={() => handleSaveSettings('general')}
+                        disabled={saving}
                       >
                         <Save size={16} />
-                        Sauvegarder
+                        {saving ? 'Sauvegarde en cours...' : 'Sauvegarder'}
                       </button>
                     </div>
                   </div>
@@ -308,8 +396,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={notificationSettings.emailNotifications}
-                          onChange={(e) => handleNotificationChange('emailNotifications', e.target.checked)}
+                          checked={settings.notifications.email_notifications || false}
+                          onChange={(e) => handleNotificationChange('email_notifications', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Notifications par email
@@ -320,8 +408,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={notificationSettings.smsNotifications}
-                          onChange={(e) => handleNotificationChange('smsNotifications', e.target.checked)}
+                          checked={settings.notifications.sms_notifications || false}
+                          onChange={(e) => handleNotificationChange('sms_notifications', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Notifications par SMS
@@ -332,8 +420,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={notificationSettings.quoteAlerts}
-                          onChange={(e) => handleNotificationChange('quoteAlerts', e.target.checked)}
+                          checked={settings.notifications.quote_alerts || false}
+                          onChange={(e) => handleNotificationChange('quote_alerts', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Alertes pour nouveaux devis
@@ -344,8 +432,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={notificationSettings.testimonialAlerts}
-                          onChange={(e) => handleNotificationChange('testimonialAlerts', e.target.checked)}
+                          checked={settings.notifications.testimonial_alerts || false}
+                          onChange={(e) => handleNotificationChange('testimonial_alerts', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Alertes pour nouveaux témoignages
@@ -356,8 +444,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={notificationSettings.blogAlerts}
-                          onChange={(e) => handleNotificationChange('blogAlerts', e.target.checked)}
+                          checked={settings.notifications.blog_alerts || false}
+                          onChange={(e) => handleNotificationChange('blog_alerts', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Alertes pour nouveaux articles
@@ -368,9 +456,10 @@ const SettingsAdmin = () => {
                       <button 
                         className="btn-primary"
                         onClick={() => handleSaveSettings('notifications')}
+                        disabled={saving}
                       >
                         <Save size={16} />
-                        Sauvegarder
+                        {saving ? 'Sauvegarde en cours...' : 'Sauvegarder'}
                       </button>
                     </div>
                   </div>
@@ -396,8 +485,8 @@ const SettingsAdmin = () => {
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={securitySettings.twoFactorAuth}
-                          onChange={(e) => handleSecurityChange('twoFactorAuth', e.target.checked)}
+                          checked={settings.security.two_factor_auth || false}
+                          onChange={(e) => handleSecurityChange('two_factor_auth', e.target.checked)}
                         />
                         <span className="checkmark"></span>
                         Authentification à deux facteurs
@@ -406,10 +495,10 @@ const SettingsAdmin = () => {
                     
                     <div className="form-group">
                       <label>Délai d'expiration de session (minutes)</label>
-                      <select
-                        value={securitySettings.sessionTimeout}
-                        onChange={(e) => handleSecurityChange('sessionTimeout', parseInt(e.target.value))}
-                      >
+                                              <select
+                          value={settings.security.session_timeout || 30}
+                          onChange={(e) => handleSecurityChange('session_timeout', parseInt(e.target.value))}
+                        >
                         <option value={15}>15 minutes</option>
                         <option value={30}>30 minutes</option>
                         <option value={60}>1 heure</option>
@@ -419,10 +508,10 @@ const SettingsAdmin = () => {
                     
                     <div className="form-group">
                       <label>Expiration du mot de passe (jours)</label>
-                      <select
-                        value={securitySettings.passwordExpiry}
-                        onChange={(e) => handleSecurityChange('passwordExpiry', parseInt(e.target.value))}
-                      >
+                                              <select
+                          value={settings.security.password_expiry || 90}
+                          onChange={(e) => handleSecurityChange('password_expiry', parseInt(e.target.value))}
+                        >
                         <option value={30}>30 jours</option>
                         <option value={60}>60 jours</option>
                         <option value={90}>90 jours</option>
@@ -432,10 +521,10 @@ const SettingsAdmin = () => {
                     
                     <div className="form-group">
                       <label>Nombre maximum de tentatives de connexion</label>
-                      <select
-                        value={securitySettings.loginAttempts}
-                        onChange={(e) => handleSecurityChange('loginAttempts', parseInt(e.target.value))}
-                      >
+                                              <select
+                          value={settings.security.login_attempts || 5}
+                          onChange={(e) => handleSecurityChange('login_attempts', parseInt(e.target.value))}
+                        >
                         <option value={3}>3 tentatives</option>
                         <option value={5}>5 tentatives</option>
                         <option value={10}>10 tentatives</option>
@@ -446,9 +535,10 @@ const SettingsAdmin = () => {
                       <button 
                         className="btn-primary"
                         onClick={() => handleSaveSettings('security')}
+                        disabled={saving}
                       >
                         <Save size={16} />
-                        Sauvegarder
+                        {saving ? 'Sauvegarde en cours...' : 'Sauvegarder'}
                       </button>
                     </div>
                   </div>
@@ -473,7 +563,7 @@ const SettingsAdmin = () => {
                     <div className="form-group">
                       <label>Thème</label>
                       <select
-                        value={appearanceSettings.theme}
+                        value={settings.appearance.theme || 'light'}
                         onChange={(e) => handleAppearanceChange('theme', e.target.value)}
                       >
                         <option value="light">Clair</option>
@@ -487,10 +577,10 @@ const SettingsAdmin = () => {
                       <div className="color-picker">
                         <input
                           type="color"
-                          value={appearanceSettings.primaryColor}
-                          onChange={(e) => handleAppearanceChange('primaryColor', e.target.value)}
+                          value={settings.appearance.primary_color || '#3B82F6'}
+                          onChange={(e) => handleAppearanceChange('primary_color', e.target.value)}
                         />
-                        <span>{appearanceSettings.primaryColor}</span>
+                        <span>{settings.appearance.primary_color || '#3B82F6'}</span>
                       </div>
                     </div>
                     
@@ -498,7 +588,7 @@ const SettingsAdmin = () => {
                       <div className="form-group">
                         <label>Langue</label>
                         <select
-                          value={appearanceSettings.language}
+                          value={settings.appearance.language || 'fr'}
                           onChange={(e) => handleAppearanceChange('language', e.target.value)}
                         >
                           <option value="fr">Français</option>
@@ -510,7 +600,7 @@ const SettingsAdmin = () => {
                       <div className="form-group">
                         <label>Fuseau horaire</label>
                         <select
-                          value={appearanceSettings.timezone}
+                          value={settings.appearance.timezone || 'Europe/Paris'}
                           onChange={(e) => handleAppearanceChange('timezone', e.target.value)}
                         >
                           <option value="Europe/Paris">Paris (UTC+1)</option>
@@ -524,9 +614,10 @@ const SettingsAdmin = () => {
                       <button 
                         className="btn-primary"
                         onClick={() => handleSaveSettings('appearance')}
+                        disabled={saving}
                       >
                         <Save size={16} />
-                        Sauvegarder
+                        {saving ? 'Sauvegarde en cours...' : 'Sauvegarder'}
                       </button>
                     </div>
                   </div>

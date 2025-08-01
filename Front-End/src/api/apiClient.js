@@ -37,7 +37,8 @@ class ApiClient {
       // Handle different response types
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
-        return await response.json();
+        const jsonResponse = await response.json();
+        return jsonResponse;
       } else if (contentType && contentType.includes('text/csv')) {
         return await response.blob();
       } else {

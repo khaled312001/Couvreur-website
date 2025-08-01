@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,56 @@ use App\Http\Controllers\Api\NotificationController;
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
+
+// Dashboard (temporarily public for testing)
+Route::get('/admin/dashboard', [DashboardController::class, 'index']);
+Route::get('/admin/dashboard/export', [DashboardController::class, 'exportData']);
+
+// Admin Contact Messages (temporarily public for testing)
+Route::get('/admin/contact', [ContactController::class, 'index']);
+Route::get('/admin/contact/{id}', [ContactController::class, 'show']);
+Route::put('/admin/contact/{id}', [ContactController::class, 'update']);
+Route::delete('/admin/contact/{id}', [ContactController::class, 'destroy']);
+Route::get('/admin/contact/status/{status}', [ContactController::class, 'byStatus']);
+Route::get('/admin/contact/unread', [ContactController::class, 'unread']);
+
+// Admin Testimonials (temporarily public for testing)
+Route::get('/admin/testimonials', [TestimonialController::class, 'index']);
+Route::get('/admin/testimonials/{id}', [TestimonialController::class, 'show']);
+Route::post('/admin/testimonials', [TestimonialController::class, 'store']);
+Route::put('/admin/testimonials/{id}', [TestimonialController::class, 'update']);
+Route::delete('/admin/testimonials/{id}', [TestimonialController::class, 'destroy']);
+
+// Admin Users (temporarily public for testing)
+Route::get('/admin/users', [UserController::class, 'index']);
+Route::get('/admin/users/{id}', [UserController::class, 'show']);
+Route::post('/admin/users', [UserController::class, 'store']);
+Route::put('/admin/users/{id}', [UserController::class, 'update']);
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy']);
+Route::get('/admin/users/role/{role}', [UserController::class, 'byRole']);
+Route::put('/admin/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+
+// Admin Settings (temporarily public for testing)
+Route::get('/admin/settings', [SettingsController::class, 'index']);
+Route::put('/admin/settings/{section}', [SettingsController::class, 'update']);
+Route::get('/admin/settings/export', [SettingsController::class, 'export']);
+Route::post('/admin/settings/import', [SettingsController::class, 'import']);
+
+// Admin Blog (temporarily public for testing)
+Route::get('/admin/blog', [BlogController::class, 'index']);
+Route::get('/admin/blog/{id}', [BlogController::class, 'show']);
+Route::post('/admin/blog', [BlogController::class, 'store']);
+Route::put('/admin/blog/{id}', [BlogController::class, 'update']);
+Route::delete('/admin/blog/{id}', [BlogController::class, 'destroy']);
+Route::get('/admin/blog/category/{category}', [BlogController::class, 'byCategory']);
+
+// Admin Gallery (temporarily public for testing)
+Route::get('/admin/gallery', [GalleryController::class, 'index']);
+Route::get('/admin/gallery/{id}', [GalleryController::class, 'show']);
+Route::post('/admin/gallery', [GalleryController::class, 'store']);
+Route::put('/admin/gallery/{id}', [GalleryController::class, 'update']);
+Route::delete('/admin/gallery/{id}', [GalleryController::class, 'destroy']);
+Route::get('/admin/gallery/category/{category}', [GalleryController::class, 'byCategory']);
 
 // Services
 Route::get('/services', [ServiceController::class, 'index']);
@@ -78,21 +130,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy']);
 
-    // Admin Blog
-    Route::post('/admin/blog', [BlogController::class, 'store']);
-    Route::put('/admin/blog/{id}', [BlogController::class, 'update']);
-    Route::delete('/admin/blog/{id}', [BlogController::class, 'destroy']);
-
-    // Admin Gallery
-    Route::post('/admin/gallery', [GalleryController::class, 'store']);
-    Route::put('/admin/gallery/{id}', [GalleryController::class, 'update']);
-    Route::delete('/admin/gallery/{id}', [GalleryController::class, 'destroy']);
-
-    // Admin Testimonials
-    Route::post('/admin/testimonials', [TestimonialController::class, 'store']);
-    Route::put('/admin/testimonials/{id}', [TestimonialController::class, 'update']);
-    Route::delete('/admin/testimonials/{id}', [TestimonialController::class, 'destroy']);
-
     // Admin Quotes
     Route::get('/admin/quotes', [QuoteController::class, 'index']);
     Route::get('/admin/quotes/{id}', [QuoteController::class, 'show']);
@@ -109,22 +146,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
     Route::put('/admin/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::put('/admin/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
-
-    // Admin Contact Messages
-    Route::get('/admin/contact', [ContactController::class, 'index']);
-    Route::get('/admin/contact/{id}', [ContactController::class, 'show']);
-    Route::put('/admin/contact/{id}', [ContactController::class, 'update']);
-    Route::delete('/admin/contact/{id}', [ContactController::class, 'destroy']);
-    Route::get('/admin/contact/status/{status}', [ContactController::class, 'byStatus']);
-    Route::get('/admin/contact/unread', [ContactController::class, 'unread']);
-
-    // Dashboard
-    Route::get('/admin/dashboard', [DashboardController::class, 'index']);
-    Route::get('/admin/dashboard/export', [DashboardController::class, 'exportData']);
-    
-    // Notifications
-    // Route::get('/admin/notifications', [DashboardController::class, 'getNotifications']); // This line is removed as per the new_code
-    // Route::put('/admin/notifications/{id}/read', [DashboardController::class, 'markAsRead']); // This line is removed as per the new_code
-    // Route::put('/admin/notifications/read-all', [DashboardController::class, 'markAllAsRead']); // This line is removed as per the new_code
-    // Route::delete('/admin/notifications/{id}', [DashboardController::class, 'deleteNotification']); // This line is removed as per the new_code
 }); 

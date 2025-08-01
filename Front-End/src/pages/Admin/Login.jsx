@@ -99,7 +99,11 @@ const Login = () => {
         >
           <div className="logo-container">
             <div className="logo-icon">
-              <Building2 size={32} />
+              <img 
+                src="/logo.png" 
+                alt="BN BÂTIMENT Logo" 
+                style={{ height: 40, width: 'auto', objectFit: 'contain' }} 
+              />
             </div>
             <div className="logo-text">
               <h1 className="logo-title">BN BÂTIMENT</h1>
@@ -119,10 +123,10 @@ const Login = () => {
           <p>Connectez-vous à votre espace d'administration</p>
         </motion.div>
 
-        {/* Form */}
+        {/* Enhanced Form */}
         <motion.form 
           onSubmit={handleSubmit}
-          className="login-form"
+          className="login-form enhanced-form"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -130,26 +134,27 @@ const Login = () => {
           <AnimatePresence>
             {error && (
               <motion.div 
-                className="error-message"
+                className="error-message enhanced-error"
                 initial={{ opacity: 0, y: -10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
               >
-                <AlertCircle size={16} />
-                {error}
+                <AlertCircle size={18} style={{ marginRight: 8, color: '#ef4444' }} />
+                <span>{error}</span>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Email Field */}
-          <div className="form-group">
-            <label className="form-label">
-              <Mail size={16} />
+          <div className={`form-group enhanced-form-group ${isFocused.email ? 'focused' : ''}`}>
+            <label className="form-label enhanced-label" htmlFor="email">
+              <Mail size={18} style={{ marginRight: 8, color: isFocused.email ? '#2563eb' : '#9ca3af' }} />
               Adresse email
             </label>
-            <div className={`input-wrapper ${isFocused.email ? 'focused' : ''}`}>
+            <div className={`input-wrapper enhanced-input-wrapper ${isFocused.email ? 'focused' : ''}`}>
               <input
+                id="email"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -157,20 +162,33 @@ const Login = () => {
                 onFocus={() => handleFocus('email')}
                 onBlur={() => handleBlur('email')}
                 required
-                className="form-input"
+                className="form-input enhanced-input"
                 placeholder="admin@bnbuilding.fr"
+                autoComplete="username"
+                style={{
+                  border: isFocused.email ? '2px solid #2563eb' : '1.5px solid #e5e7eb',
+                  boxShadow: isFocused.email ? '0 0 0 2px #dbeafe' : 'none',
+                  transition: 'all 0.2s',
+                  background: '#f9fafb',
+                  paddingLeft: 14,
+                  fontSize: '1rem',
+                  borderRadius: 8,
+                  height: 44,
+                  outline: 'none'
+                }}
               />
             </div>
           </div>
 
           {/* Password Field */}
-          <div className="form-group">
-            <label className="form-label">
-              <Lock size={16} />
+          <div className={`form-group enhanced-form-group ${isFocused.password ? 'focused' : ''}`}>
+            <label className="form-label enhanced-label" htmlFor="password">
+              <Lock size={18} style={{ marginRight: 8, color: isFocused.password ? '#2563eb' : '#9ca3af' }} />
               Mot de passe
             </label>
-            <div className={`input-wrapper ${isFocused.password ? 'focused' : ''}`}>
+            <div className={`input-wrapper enhanced-input-wrapper ${isFocused.password ? 'focused' : ''}`} style={{ position: 'relative' }}>
               <input
+                id="password"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
@@ -178,16 +196,45 @@ const Login = () => {
                 onFocus={() => handleFocus('password')}
                 onBlur={() => handleBlur('password')}
                 required
-                className="form-input"
+                className="form-input enhanced-input"
                 placeholder="••••••••"
+                autoComplete="current-password"
+                style={{
+                  border: isFocused.password ? '2px solid #2563eb' : '1.5px solid #e5e7eb',
+                  boxShadow: isFocused.password ? '0 0 0 2px #dbeafe' : 'none',
+                  transition: 'all 0.2s',
+                  background: '#f9fafb',
+                  paddingLeft: 14,
+                  fontSize: '1rem',
+                  borderRadius: 8,
+                  height: 44,
+                  outline: 'none',
+                  paddingRight: 44
+                }}
               />
               <button
                 type="button"
-                className="password-toggle"
+                className="password-toggle enhanced-password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  color: '#6b7280'
+                }}
+                aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
+            </div>
+            <div className="enhanced-password-hint" style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: 4 }}>
+              <span>Le mot de passe est sensible à la casse.</span>
             </div>
           </div>
 
@@ -195,29 +242,51 @@ const Login = () => {
           <motion.button
             type="submit"
             disabled={isLoading}
-            className="submit-button"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="submit-button enhanced-submit"
+            whileHover={{ scale: isLoading ? 1 : 1.04 }}
+            whileTap={{ scale: isLoading ? 1 : 0.98 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
+            style={{
+              width: '100%',
+              background: 'linear-gradient(90deg, #2563eb 0%, #1e40af 100%)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: '1.08rem',
+              border: 'none',
+              borderRadius: 8,
+              padding: '0.95rem 0',
+              marginTop: 18,
+              boxShadow: '0 4px 16px rgba(37,99,235,0.08)',
+              letterSpacing: '0.01em',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 10,
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.7 : 1,
+              transition: 'all 0.2s'
+            }}
           >
             {isLoading ? (
               <motion.div 
-                className="loading-content"
+                className="loading-content enhanced-loading"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8 }}
               >
-                <Loader2 size={18} className="spin" />
+                <Loader2 size={20} className="spin" style={{ color: '#fff' }} />
                 Connexion en cours...
               </motion.div>
             ) : (
               <motion.div 
-                className="button-content"
+                className="button-content enhanced-button-content"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                style={{ display: 'flex', alignItems: 'center', gap: 8 }}
               >
-                <Shield size={18} />
+                <Shield size={20} style={{ color: '#fff' }} />
                 Se connecter
               </motion.div>
             )}
@@ -226,23 +295,23 @@ const Login = () => {
 
         {/* Demo Credentials */}
         <motion.div 
-          className="demo-credentials"
+          className="demo-credentials enhanced-demo-credentials"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
+          style={{
+            marginTop: 28,
+            background: 'linear-gradient(90deg, #f1f5f9 0%, #e0e7ef 100%)',
+            borderRadius: 10,
+            padding: '1.1rem 1.2rem',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.06)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            minHeight: 48
+          }}
         >
-          <div className="demo-header">
-            <CheckCircle size={16} />
-            <span>Démonstration</span>
-          </div>
-          <div className="demo-content">
-            <div className="demo-item">
-              <strong>Email:</strong> admin@bnbuilding.fr
-            </div>
-            <div className="demo-item">
-              <strong>Mot de passe:</strong> admin123
-            </div>
-          </div>
+         
         </motion.div>
 
         {/* Footer */}
@@ -252,7 +321,9 @@ const Login = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
         >
-          <p>© 2025 BN BÂTIMENT. Tous droits réservés.</p>
+          <p style={{ color: '#64748b', fontSize: '0.98rem', marginTop: 32 }}>
+            © 2025 BN BÂTIMENT. Tous droits réservés.
+          </p>
         </motion.div>
       </motion.div>
     </div>

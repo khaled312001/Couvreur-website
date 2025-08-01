@@ -31,11 +31,21 @@ const Dashboard = () => {
       try {
         setIsLoading(true);
         setError(null);
+        console.log('Loading dashboard data...');
+        
         const response = await dashboardApi.getDashboardData();
-        setDashboardData(response.data);
+        console.log('Dashboard response:', response);
+        
+        if (response.success && response.data) {
+          setDashboardData(response.data);
+          console.log('Dashboard data set successfully');
+        } else {
+          console.error('Invalid response structure:', response);
+          setError('Structure de réponse invalide');
+        }
       } catch (err) {
         console.error('Error loading dashboard data:', err);
-        setError('Erreur lors du chargement des données du tableau de bord');
+        setError('Erreur lors du chargement des données du tableau de bord: ' + (err.message || 'Erreur inconnue'));
       } finally {
         setIsLoading(false);
       }
@@ -44,30 +54,31 @@ const Dashboard = () => {
     loadDashboardData();
   }, []);
 
-  // Mock data for charts (fallback)
+  // Process data for charts
   const monthlyData = dashboardData?.monthly_revenue?.map(item => ({
     name: item.month,
     revenus: item.revenue,
-    devis: item.quotes
+    devis: item.quotes,
+    commandes: item.accepted_quotes || 0
   })) || [];
 
   const serviceData = dashboardData?.service_distribution?.map(item => ({
     name: item.service,
     value: item.count,
+    amount: item.amount,
+    percentage: item.percentage,
     color: '#3B82F6'
   })) || [];
 
   const performanceData = dashboardData?.performance_metrics ? [
     { name: 'Taux de conversion', value: dashboardData.performance_metrics.conversion_rate, fill: '#3B82F6' },
     { name: 'Satisfaction client', value: dashboardData.performance_metrics.customer_satisfaction, fill: '#10B981' },
-    { name: 'Temps de réponse', value: 100 - dashboardData.performance_metrics.average_response_time, fill: '#F59E0B' },
+    { name: 'Temps de réponse', value: 100 - (dashboardData.performance_metrics.average_response_time || 24), fill: '#F59E0B' },
     { name: 'Croissance mensuelle', value: dashboardData.performance_metrics.monthly_growth, fill: '#8B5CF6' },
   ] : [];
 
   const recentQuotes = dashboardData?.recent_quotes || [];
-
   const recentBlogPosts = dashboardData?.recent_blog_posts || [];
-
   const recentTestimonials = dashboardData?.recent_testimonials || [];
 
   const quickStats = dashboardData?.quick_stats ? [
@@ -173,11 +184,6 @@ const Dashboard = () => {
     }
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
   const toggleCard = (cardId) => {
     setExpandedCards(prev => ({
       ...prev,
@@ -187,20 +193,22 @@ const Dashboard = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      en_attente: '#F59E0B',
-      approuvé: '#10B981',
-      terminé: '#3B82F6',
-      en_cours: '#8B5CF6'
+      pending: '#F59E0B',
+      accepted: '#10B981',
+      quoted: '#3B82F6',
+      contacted: '#8B5CF6',
+      rejected: '#EF4444'
     };
     return colors[status] || '#6B7280';
   };
 
   const getStatusText = (status) => {
     const texts = {
-      en_attente: 'En attente',
-      approuvé: 'Approuvé',
-      terminé: 'Terminé',
-      en_cours: 'En cours'
+      pending: 'En attente',
+      accepted: 'Approuvé',
+      quoted: 'Devisé',
+      contacted: 'Contacté',
+      rejected: 'Rejeté'
     };
     return texts[status] || status;
   };
@@ -280,6 +288,14 @@ const Dashboard = () => {
               <div className="error-icon">⚠️</div>
               <h3>Erreur de chargement</h3>
               <p>{error}</p>
+              <div style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
+                <p>Détails techniques:</p>
+                <ul style={{ textAlign: 'left', marginLeft: '2rem' }}>
+                  <li>Frontend: http://localhost:5173</li>
+                  <li>Backend: http://localhost:8000</li>
+                  <li>API Endpoint: http://localhost:8000/api/admin/dashboard</li>
+                </ul>
+              </div>
               <button 
                 onClick={() => window.location.reload()}
                 className="retry-button"
@@ -309,7 +325,6 @@ const Dashboard = () => {
                 <h1>Tableau de bord</h1>
                 <p>Gestion complète de votre site BN BÂTIMENT</p>
               </div>
-             
             </div>
           </motion.div>
 
@@ -478,7 +493,7 @@ const Dashboard = () => {
                       />
                       <Area 
                         type="monotone" 
-                        dataKey="services" 
+                        dataKey="devis" 
                         stroke="#10B981" 
                         fill="url(#colorServices)"
                         strokeWidth={2}
@@ -529,7 +544,7 @@ const Dashboard = () => {
                     {serviceData.map((item, index) => (
                       <div key={index} className="legend-item">
                         <div className="legend-color" style={{ backgroundColor: item.color }}></div>
-                        <span>{item.name}</span>
+                        <span>{item.name} ({item.percentage}%)</span>
                       </div>
                     ))}
                   </div>
@@ -879,3 +894,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+   

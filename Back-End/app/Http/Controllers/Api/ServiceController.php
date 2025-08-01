@@ -42,13 +42,21 @@ class ServiceController extends Controller
             'sub_services' => 'required|array',
             'materials' => 'required|array',
             'advantages' => 'required|array',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_active' => 'boolean',
             'sort_order' => 'integer'
         ]);
 
         $data = $request->all();
         $data['slug'] = Str::slug($request->title);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/services'), $imageName);
+            $data['image'] = '/uploads/services/' . $imageName;
+        }
 
         $service = Service::create($data);
         
@@ -74,13 +82,26 @@ class ServiceController extends Controller
             'sub_services' => 'required|array',
             'materials' => 'required|array',
             'advantages' => 'required|array',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_active' => 'boolean',
             'sort_order' => 'integer'
         ]);
 
         $data = $request->all();
         $data['slug'] = Str::slug($request->title);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($service->image && file_exists(public_path($service->image))) {
+                unlink(public_path($service->image));
+            }
+            
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/services'), $imageName);
+            $data['image'] = '/uploads/services/' . $imageName;
+        }
 
         $service->update($data);
         

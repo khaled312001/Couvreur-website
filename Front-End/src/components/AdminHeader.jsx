@@ -78,13 +78,8 @@ const AdminHeader = () => {
         </button>
 
         {/* Search Bar */}
-        <div className="admin-header-search">
-          <Search size={16} />
-          <input 
-            type="text" 
-            placeholder="Rechercher..." 
-            className="search-input"
-          />
+        <div className="">
+         
         </div>
 
         {/* Header Actions */}

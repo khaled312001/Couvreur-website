@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('service_type');
             $table->text('description');
-            $table->string('urgency')->default('normal');
+            $table->string('urgency', 20)->default('normal');
             $table->string('status')->default('pending');
             $table->text('admin_notes')->nullable();
             $table->timestamps();

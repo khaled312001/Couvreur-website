@@ -1,25 +1,110 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import { apiClient } from './apiClient';
 
+export const galleryApi = {
+  // Get all gallery items (public)
+  getGalleryItems: async () => {
+    try {
+      const response = await apiClient.get('/gallery');
+      return response;
+    } catch (error) {
+      console.error('Error fetching gallery items:', error);
+      throw error;
+    }
+  },
+
+  // Get gallery item by ID (public)
+  getGalleryItem: async (id) => {
+    try {
+      const response = await apiClient.get(`/gallery/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching gallery item:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Get all gallery items
+  getAdminGalleryItems: async () => {
+    try {
+      const response = await apiClient.get('/admin/gallery');
+      return response;
+    } catch (error) {
+      console.error('Error fetching admin gallery items:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Get gallery item by ID
+  getAdminGalleryItem: async (id) => {
+    try {
+      const response = await apiClient.get(`/admin/gallery/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching admin gallery item:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Create gallery item
+  createGalleryItem: async (data) => {
+    try {
+      const response = await apiClient.post('/admin/gallery', data);
+      return response;
+    } catch (error) {
+      console.error('Error creating gallery item:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Update gallery item
+  updateGalleryItem: async (id, data) => {
+    try {
+      const response = await apiClient.put(`/admin/gallery/${id}`, data);
+      return response;
+    } catch (error) {
+      console.error('Error updating gallery item:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Delete gallery item
+  deleteGalleryItem: async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/gallery/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error deleting gallery item:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Get gallery items by category
+  getGalleryItemsByCategory: async (category) => {
+    try {
+      const response = await apiClient.get(`/admin/gallery/category/${category}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching gallery items by category:', error);
+      throw error;
+    }
+  }
+};
+
+// Legacy functions for backward compatibility
 export const fetchGalleryItems = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/gallery`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch gallery items');
-    }
-    return await response.json();
+    const response = await galleryApi.getGalleryItems();
+    return response;
   } catch (error) {
-    console.error('Error fetching gallery items:', error);
-    return [];
+    console.log('Using mock gallery data');
+    return getMockGallery();
   }
 };
 
 export const fetchGalleryItemById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/gallery/${id}`);
-    if (!response.ok) {
-      throw new Error('Gallery item not found');
-    }
-    return await response.json();
+    const response = await galleryApi.getGalleryItem(id);
+    return response;
   } catch (error) {
     console.error('Error fetching gallery item:', error);
     return null;
@@ -28,20 +113,8 @@ export const fetchGalleryItemById = async (id) => {
 
 export const createGalleryItem = async (data) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/gallery`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to create gallery item');
-    }
-    return await response.json();
+    const response = await galleryApi.createGalleryItem(data);
+    return response;
   } catch (error) {
     console.error('Error creating gallery item:', error);
     throw error;
@@ -50,20 +123,8 @@ export const createGalleryItem = async (data) => {
 
 export const updateGalleryItem = async (id, data) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/gallery/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to update gallery item');
-    }
-    return await response.json();
+    const response = await galleryApi.updateGalleryItem(id, data);
+    return response;
   } catch (error) {
     console.error('Error updating gallery item:', error);
     throw error;
@@ -72,18 +133,8 @@ export const updateGalleryItem = async (id, data) => {
 
 export const deleteGalleryItem = async (id) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/gallery/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete gallery item');
-    }
-    return await response.json();
+    const response = await galleryApi.deleteGalleryItem(id);
+    return response;
   } catch (error) {
     console.error('Error deleting gallery item:', error);
     throw error;
@@ -92,11 +143,8 @@ export const deleteGalleryItem = async (id) => {
 
 export const getGalleryItemsByCategory = async (category) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/gallery/category/${category}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch gallery items by category');
-    }
-    return await response.json();
+    const response = await galleryApi.getGalleryItemsByCategory(category);
+    return response;
   } catch (error) {
     console.error('Error fetching gallery items by category:', error);
     return [];

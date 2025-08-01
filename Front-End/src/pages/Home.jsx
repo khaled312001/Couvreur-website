@@ -886,15 +886,7 @@ const Home = () => {
       </section>
 
       {/* CTA Bar */}
-      <section className="cta-bar">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Votre couvreur dans le Rhône</h2>
-            <a href="/contact" className="cta-button">DEMANDER UN DEVIS</a>
-            <p>Devis gratuit et intervention rapide</p>
-          </div>
-        </div>
-      </section>
+     
     </div>
   );
 };

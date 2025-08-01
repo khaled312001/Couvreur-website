@@ -1,12 +1,115 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import { apiClient } from './apiClient';
 
+export const testimonialsApi = {
+  // Get all testimonials (public)
+  getTestimonials: async () => {
+    try {
+      const response = await apiClient.get('/testimonials');
+      return response;
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+      throw error;
+    }
+  },
+
+  // Get testimonial by ID (public)
+  getTestimonial: async (id) => {
+    try {
+      const response = await apiClient.get(`/testimonials/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching testimonial:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Get all testimonials
+  getAdminTestimonials: async () => {
+    try {
+      const response = await apiClient.get('/admin/testimonials');
+      return response;
+    } catch (error) {
+      console.error('Error fetching admin testimonials:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Get testimonial by ID
+  getAdminTestimonial: async (id) => {
+    try {
+      const response = await apiClient.get(`/admin/testimonials/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching admin testimonial:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Create testimonial
+  createTestimonial: async (data) => {
+    try {
+      const response = await apiClient.post('/admin/testimonials', data);
+      return response;
+    } catch (error) {
+      console.error('Error creating testimonial:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Update testimonial
+  updateTestimonial: async (id, data) => {
+    try {
+      const response = await apiClient.put(`/admin/testimonials/${id}`, data);
+      return response;
+    } catch (error) {
+      console.error('Error updating testimonial:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Delete testimonial
+  deleteTestimonial: async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/testimonials/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error deleting testimonial:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Toggle testimonial status
+  toggleTestimonialStatus: async (id, isActive) => {
+    try {
+      const response = await apiClient.put(`/admin/testimonials/${id}`, {
+        is_active: isActive
+      });
+      return response;
+    } catch (error) {
+      console.error('Error toggling testimonial status:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Update testimonial order
+  updateTestimonialOrder: async (id, sortOrder) => {
+    try {
+      const response = await apiClient.put(`/admin/testimonials/${id}`, {
+        sort_order: sortOrder
+      });
+      return response;
+    } catch (error) {
+      console.error('Error updating testimonial order:', error);
+      throw error;
+    }
+  }
+};
+
+// Legacy functions for backward compatibility
 export const fetchTestimonials = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/testimonials`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch testimonials');
-    }
-    return await response.json();
+    const response = await apiClient.get('/testimonials');
+    return response;
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     return [];
@@ -15,8 +118,8 @@ export const fetchTestimonials = async () => {
 
 export const getTestimonials = async () => {
   try {
-    const testimonials = await fetchTestimonials();
-    return testimonials;
+    const response = await apiClient.get('/testimonials');
+    return response;
   } catch (error) {
     console.log('Using mock testimonials data');
     return getMockTestimonials();
@@ -61,11 +164,8 @@ export const getMockTestimonials = () => {
 
 export const fetchTestimonialById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/testimonials/${id}`);
-    if (!response.ok) {
-      throw new Error('Testimonial not found');
-    }
-    return await response.json();
+    const response = await apiClient.get(`/testimonials/${id}`);
+    return response;
   } catch (error) {
     console.error('Error fetching testimonial:', error);
     return null;
@@ -74,20 +174,8 @@ export const fetchTestimonialById = async (id) => {
 
 export const createTestimonial = async (data) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/testimonials`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to create testimonial');
-    }
-    return await response.json();
+    const response = await apiClient.post('/admin/testimonials', data);
+    return response;
   } catch (error) {
     console.error('Error creating testimonial:', error);
     throw error;
@@ -96,20 +184,8 @@ export const createTestimonial = async (data) => {
 
 export const updateTestimonial = async (id, data) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/testimonials/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to update testimonial');
-    }
-    return await response.json();
+    const response = await apiClient.put(`/admin/testimonials/${id}`, data);
+    return response;
   } catch (error) {
     console.error('Error updating testimonial:', error);
     throw error;
@@ -118,18 +194,8 @@ export const updateTestimonial = async (id, data) => {
 
 export const deleteTestimonial = async (id) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${API_BASE_URL}/admin/testimonials/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete testimonial');
-    }
-    return await response.json();
+    const response = await apiClient.delete(`/admin/testimonials/${id}`);
+    return response;
   } catch (error) {
     console.error('Error deleting testimonial:', error);
     throw error;

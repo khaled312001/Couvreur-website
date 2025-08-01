@@ -1,0 +1,123 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+*.tgz
+*.tar.gz
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Laravel specific
+/vendor/
+/node_modules/
+/public/hot
+/public/storage
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+
+# Composer
+composer.phar
+/vendor/
+
+# PHP
+*.php~
+*.php.bak
+
+# Database
+*.sqlite
+*.db
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Temporary files
+tmp/
+temp/
+
+# Uploads (keep structure but ignore content)
+Back-End/public/uploads/*
+!Back-End/public/uploads/.gitkeep
+
+# Storage (keep structure but ignore content)
+Back-End/storage/app/*
+!Back-End/storage/app/.gitkeep
+Back-End/storage/framework/cache/*
+!Back-End/storage/framework/cache/.gitkeep
+Back-End/storage/framework/sessions/*
+!Back-End/storage/framework/sessions/.gitkeep
+Back-End/storage/framework/views/*
+!Back-End/storage/framework/views/.gitkeep
+Back-End/storage/logs/*
+!Back-End/storage/logs/.gitkeep
+
+# Bootstrap cache
+Back-End/bootstrap/cache/*
+!Back-End/bootstrap/cache/.gitkeep 
