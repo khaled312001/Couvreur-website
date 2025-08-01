@@ -67,8 +67,8 @@ class Notification extends Model
     public static function createQuoteNotification($quote)
     {
         return self::create([
-            'title' => 'طلب عرض سعر جديد',
-            'message' => "تم استلام طلب عرض سعر جديد من {$quote->name}",
+            'title' => 'Nouvelle demande de devis',
+            'message' => "Une nouvelle demande de devis a été reçue de {$quote->name}",
             'type' => 'info',
             'category' => 'quotes',
             'related_id' => $quote->id,
@@ -79,8 +79,8 @@ class Notification extends Model
     public static function createContactNotification($contact)
     {
         return self::create([
-            'title' => 'رسالة جديدة',
-            'message' => "تم استلام رسالة جديدة من {$contact->name}",
+            'title' => 'Nouveau message',
+            'message' => "Un nouveau message a été reçu de {$contact->name}",
             'type' => 'info',
             'category' => 'contact',
             'related_id' => $contact->id,
@@ -91,18 +91,72 @@ class Notification extends Model
     public static function createServiceNotification($service, $action = 'created')
     {
         $actions = [
-            'created' => 'تم إنشاء خدمة جديدة',
-            'updated' => 'تم تحديث خدمة',
-            'deleted' => 'تم حذف خدمة'
+            'created' => 'Nouveau service créé',
+            'updated' => 'Service mis à jour',
+            'deleted' => 'Service supprimé'
         ];
 
         return self::create([
-            'title' => $actions[$action] ?? 'تحديث في الخدمات',
+            'title' => $actions[$action] ?? 'Mise à jour des services',
             'message' => "{$actions[$action]}: {$service->title}",
             'type' => $action === 'deleted' ? 'warning' : 'success',
             'category' => 'services',
             'related_id' => $service->id,
             'related_type' => 'App\Models\Service'
+        ]);
+    }
+
+    public static function createBlogNotification($blog, $action = 'created')
+    {
+        $actions = [
+            'created' => 'Nouvel article publié',
+            'updated' => 'Article mis à jour',
+            'deleted' => 'Article supprimé'
+        ];
+
+        return self::create([
+            'title' => $actions[$action] ?? 'Mise à jour du blog',
+            'message' => "{$actions[$action]}: {$blog->title}",
+            'type' => $action === 'deleted' ? 'warning' : 'success',
+            'category' => 'blog',
+            'related_id' => $blog->id,
+            'related_type' => 'App\Models\BlogPost'
+        ]);
+    }
+
+    public static function createGalleryNotification($gallery, $action = 'created')
+    {
+        $actions = [
+            'created' => 'Nouvelle image ajoutée',
+            'updated' => 'Image mise à jour',
+            'deleted' => 'Image supprimée'
+        ];
+
+        return self::create([
+            'title' => $actions[$action] ?? 'Mise à jour de la galerie',
+            'message' => "{$actions[$action]}: {$gallery->title}",
+            'type' => $action === 'deleted' ? 'warning' : 'success',
+            'category' => 'gallery',
+            'related_id' => $gallery->id,
+            'related_type' => 'App\Models\GalleryItem'
+        ]);
+    }
+
+    public static function createTestimonialNotification($testimonial, $action = 'created')
+    {
+        $actions = [
+            'created' => 'Nouveau témoignage reçu',
+            'updated' => 'Témoignage mis à jour',
+            'deleted' => 'Témoignage supprimé'
+        ];
+
+        return self::create([
+            'title' => $actions[$action] ?? 'Mise à jour des témoignages',
+            'message' => "{$actions[$action]}: {$testimonial->name}",
+            'type' => $action === 'deleted' ? 'warning' : 'success',
+            'category' => 'testimonials',
+            'related_id' => $testimonial->id,
+            'related_type' => 'App\Models\Testimonial'
         ]);
     }
 }

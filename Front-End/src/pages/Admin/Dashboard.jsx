@@ -49,56 +49,35 @@ const Dashboard = () => {
     name: item.month,
     revenus: item.revenue,
     devis: item.quotes
-  })) || [
-    { name: 'Jan', devis: 45, services: 12, revenus: 12500, commandes: 8 },
-    { name: 'Fév', devis: 52, services: 18, revenus: 15800, commandes: 12 },
-    { name: 'Mar', devis: 38, services: 15, revenus: 14200, commandes: 10 },
-    { name: 'Avr', devis: 65, services: 22, revenus: 18900, commandes: 15 },
-    { name: 'Mai', devis: 58, services: 19, revenus: 16500, commandes: 13 },
-    { name: 'Juin', devis: 72, services: 25, revenus: 22100, commandes: 18 },
-  ];
+  })) || [];
 
   const serviceData = dashboardData?.service_distribution?.map(item => ({
     name: item.service,
     value: item.count,
     color: '#3B82F6'
-  })) || [
-    { name: 'Charpente', value: 35, color: '#3B82F6' },
-    { name: 'Couverture', value: 25, color: '#10B981' },
-    { name: 'Zinguerie', value: 20, color: '#F59E0B' },
-    { name: 'Entretien', value: 20, color: '#EF4444' },
-  ];
+  })) || [];
 
   const performanceData = dashboardData?.performance_metrics ? [
     { name: 'Taux de conversion', value: dashboardData.performance_metrics.conversion_rate, fill: '#3B82F6' },
     { name: 'Satisfaction client', value: dashboardData.performance_metrics.customer_satisfaction, fill: '#10B981' },
     { name: 'Temps de réponse', value: 100 - dashboardData.performance_metrics.average_response_time, fill: '#F59E0B' },
     { name: 'Croissance mensuelle', value: dashboardData.performance_metrics.monthly_growth, fill: '#8B5CF6' },
-  ] : [
-    { name: 'Efficacité', value: 85, fill: '#3B82F6' },
-    { name: 'Qualité', value: 92, fill: '#10B981' },
-    { name: 'Rapidité', value: 78, fill: '#F59E0B' },
-    { name: 'Satisfaction', value: 95, fill: '#8B5CF6' },
-  ];
+  ] : [];
 
-  const recentQuotes = dashboardData?.recent_quotes || [
-    { id: 1, client: 'Jean Dupont', service: 'Installation de Toiture', montant: 8500, statut: 'en_attente', date: '2025-01-15' },
-    { id: 2, client: 'Marie Martin', service: 'Maintenance Annuelle', montant: 1200, statut: 'approuvé', date: '2025-01-14' },
-    { id: 3, client: 'Pierre Durand', service: 'Réparation Urgente', montant: 3200, statut: 'terminé', date: '2025-01-13' },
-    { id: 4, client: 'Sophie Bernard', service: 'Installation Étanchéité', montant: 6500, statut: 'en_cours', date: '2025-01-12' },
-  ];
+  const recentQuotes = dashboardData?.recent_quotes || [];
+
+  const recentBlogPosts = dashboardData?.recent_blog_posts || [];
+
+  const recentTestimonials = dashboardData?.recent_testimonials || [];
 
   const quickStats = dashboardData?.quick_stats ? [
     { title: 'Devis en attente', value: dashboardData.quick_stats.pending_quotes, icon: FileText, color: '#F59E0B', trend: '+5%', trendUp: true },
     { title: 'Commandes actives', value: dashboardData.quick_stats.approved_quotes, icon: Package, color: '#3B82F6', trend: '+12%', trendUp: true },
     { title: 'Services actifs', value: dashboardData.quick_stats.active_services, icon: Target, color: '#10B981', trend: '+8%', trendUp: true },
+    { title: 'Articles publiés', value: dashboardData.quick_stats.published_blog_posts, icon: BookOpen, color: '#8B5CF6', trend: '+3%', trendUp: true },
+    { title: 'Témoignages actifs', value: dashboardData.quick_stats.approved_testimonials, icon: MessageSquare, color: '#F59E0B', trend: '+2%', trendUp: true },
     { title: 'Revenus totaux', value: `€${dashboardData.quick_stats.total_revenue?.toLocaleString() || '0'}`, icon: DollarSign, color: '#8B5CF6', trend: '+15%', trendUp: true },
-  ] : [
-    { title: 'Devis en attente', value: 12, icon: FileText, color: '#F59E0B', trend: '+5%', trendUp: true },
-    { title: 'Commandes actives', value: 8, icon: Package, color: '#3B82F6', trend: '+12%', trendUp: true },
-    { title: 'Services actifs', value: 6, icon: Target, color: '#10B981', trend: '+8%', trendUp: true },
-    { title: 'Revenus mensuels', value: '€22,100', icon: DollarSign, color: '#8B5CF6', trend: '+15%', trendUp: true },
-  ];
+  ] : [];
 
   const managementModules = [
     {
@@ -106,12 +85,12 @@ const Dashboard = () => {
       description: 'Gérer les services de charpente, couverture et zinguerie',
       icon: Target,
       color: '#3B82F6',
-      count: dashboardData?.quick_stats?.total_services || 6,
+      count: dashboardData?.quick_stats?.total_services || 0,
       link: '/admin/services',
       stats: { 
-        total: dashboardData?.quick_stats?.total_services || 6, 
-        actifs: dashboardData?.quick_stats?.active_services || 5, 
-        en_attente: 1 
+        total: dashboardData?.quick_stats?.total_services || 0, 
+        actifs: dashboardData?.quick_stats?.active_services || 0, 
+        en_attente: 0 
       }
     },
     {
@@ -119,12 +98,12 @@ const Dashboard = () => {
       description: 'Gérer les devis et demandes clients',
       icon: Package,
       color: '#EF4444',
-      count: dashboardData?.quick_stats?.total_quotes || 18,
+      count: dashboardData?.quick_stats?.total_quotes || 0,
       link: '/admin/quotes',
       stats: { 
-        total: dashboardData?.quick_stats?.total_quotes || 18, 
-        en_cours: dashboardData?.quick_stats?.approved_quotes || 8, 
-        en_attente: dashboardData?.quick_stats?.pending_quotes || 6
+        total: dashboardData?.quick_stats?.total_quotes || 0, 
+        en_cours: dashboardData?.quick_stats?.approved_quotes || 0, 
+        en_attente: dashboardData?.quick_stats?.pending_quotes || 0
       }
     },
     {
@@ -132,12 +111,12 @@ const Dashboard = () => {
       description: 'Gérer les photos et projets de travaux',
       icon: Image,
       color: '#10B981',
-      count: dashboardData?.quick_stats?.total_gallery_items || 8,
+      count: dashboardData?.quick_stats?.total_gallery_items || 0,
       link: '/admin/gallery',
       stats: { 
-        total: dashboardData?.quick_stats?.total_gallery_items || 8, 
-        publiés: 7, 
-        brouillons: 1 
+        total: dashboardData?.quick_stats?.total_gallery_items || 0, 
+        publiés: dashboardData?.quick_stats?.total_gallery_items || 0, 
+        brouillons: 0 
       }
     },
     {
@@ -145,12 +124,12 @@ const Dashboard = () => {
       description: 'Gérer les avis et recommandations clients',
       icon: MessageSquare,
       color: '#F59E0B',
-      count: dashboardData?.quick_stats?.total_testimonials || 12,
+      count: dashboardData?.quick_stats?.total_testimonials || 0,
       link: '/admin/testimonials',
       stats: { 
-        total: dashboardData?.quick_stats?.total_testimonials || 12, 
-        approuvés: dashboardData?.quick_stats?.approved_testimonials || 10, 
-        en_attente: 2 
+        total: dashboardData?.quick_stats?.total_testimonials || 0, 
+        approuvés: dashboardData?.quick_stats?.approved_testimonials || 0, 
+        en_attente: 0 
       }
     },
     {
@@ -158,27 +137,39 @@ const Dashboard = () => {
       description: 'Gérer les articles et conseils',
       icon: BookOpen,
       color: '#8B5CF6',
-      count: 15,
+      count: dashboardData?.quick_stats?.total_blog_posts || 0,
       link: '/admin/blog',
-      stats: { total: 15, publiés: 12, brouillons: 3 }
+      stats: { 
+        total: dashboardData?.quick_stats?.total_blog_posts || 0, 
+        publiés: dashboardData?.quick_stats?.published_blog_posts || 0, 
+        brouillons: 0 
+      }
     },
     {
-      title: 'Suivi des Devis',
-      description: 'Suivre l\'état des devis et demandes clients',
-      icon: FileText,
+      title: 'Gestion des Messages',
+      description: 'Gérer les messages de contact',
+      icon: MessageSquare,
       color: '#06B6D4',
-      count: 25,
-      link: '/admin/quotes',
-      stats: { total: 25, nouveaux: 8, en_cours: 12, terminés: 5 }
+      count: dashboardData?.quick_stats?.total_contact_messages || 0,
+      link: '/admin/contact',
+      stats: { 
+        total: dashboardData?.quick_stats?.total_contact_messages || 0, 
+        lus: dashboardData?.quick_stats?.total_contact_messages - (dashboardData?.quick_stats?.unread_messages || 0), 
+        non_lus: dashboardData?.quick_stats?.unread_messages || 0 
+      }
     },
     {
       title: 'Gestion des Utilisateurs',
       description: 'Gérer les comptes utilisateurs et permissions',
       icon: UserPlus,
       color: '#8B5CF6',
-      count: 3,
+      count: dashboardData?.quick_stats?.total_users || 0,
       link: '/admin/users',
-      stats: { total: 3, actifs: 2, inactifs: 1 }
+      stats: { 
+        total: dashboardData?.quick_stats?.total_users || 0, 
+        actifs: dashboardData?.quick_stats?.total_users || 0, 
+        inactifs: 0 
+      }
     }
   ];
 
@@ -694,62 +685,191 @@ const Dashboard = () => {
               </div>
               
               <div className="table-body">
-                {filteredQuotes.map((quote, index) => (
-                  <motion.div
-                    key={quote.id}
-                    className="table-row"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 * index }}
-                    whileHover={{ backgroundColor: '#F9FAFB' }}
-                  >
-                    <div className="table-cell">
-                      <div className="client-info">
-                        <div className="client-avatar">
-                          {quote.client_name?.charAt(0) || 'C'}
+                {filteredQuotes.length === 0 ? (
+                  <div className="empty-state">
+                    <p>Aucun devis récent</p>
+                  </div>
+                ) : (
+                  filteredQuotes.map((quote, index) => (
+                    <motion.div
+                      key={quote.id}
+                      className="table-row"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 * index }}
+                      whileHover={{ backgroundColor: '#F9FAFB' }}
+                    >
+                      <div className="table-cell">
+                        <div className="client-info">
+                          <div className="client-avatar">
+                            {quote.client_name?.charAt(0) || 'C'}
+                          </div>
+                          <span>{quote.client_name || 'Client'}</span>
                         </div>
-                        <span>{quote.client_name || 'Client'}</span>
                       </div>
+                      <div className="table-cell">{quote.service_type || 'Service'}</div>
+                      <div className="table-cell">€{quote.amount?.toLocaleString() || '0'}</div>
+                      <div className="table-cell">
+                        <span 
+                          className="status-badge"
+                          style={{ backgroundColor: getStatusColor(quote.status) + '20', color: getStatusColor(quote.status) }}
+                        >
+                          {getStatusText(quote.status)}
+                        </span>
+                      </div>
+                      <div className="table-cell">{new Date(quote.created_at).toLocaleDateString('fr-FR')}</div>
+                      <div className="table-cell">
+                        <div className="action-buttons">
+                          <button 
+                            className="action-btn" 
+                            title="Voir"
+                            onClick={() => handleViewQuote(quote.id)}
+                          >
+                            <Eye size={14} />
+                          </button>
+                          <button 
+                            className="action-btn" 
+                            title="Modifier"
+                            onClick={() => handleEditQuote(quote.id)}
+                          >
+                            <Edit size={14} />
+                          </button>
+                          <button 
+                            className="action-btn danger" 
+                            title="Supprimer"
+                            onClick={() => handleDeleteQuote(quote.id)}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Recent Blog Posts Section */}
+          <motion.div 
+            className="recent-blog-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+          >
+            <div className="section-header">
+              <h3>Articles récents</h3>
+              <div className="section-actions">
+                <button 
+                  className="btn-secondary"
+                  onClick={() => navigate('/admin/blog')}
+                >
+                  <ExternalLink size={16} />
+                  Voir tous
+                </button>
+              </div>
+            </div>
+            
+            <div className="blog-grid">
+              {recentBlogPosts.length === 0 ? (
+                <div className="empty-state">
+                  <p>Aucun article récent</p>
+                </div>
+              ) : (
+                recentBlogPosts.map((post, index) => (
+                  <motion.div
+                    key={post.id}
+                    className="blog-card"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="blog-image">
+                      <img 
+                        src={post.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400'} 
+                        alt={post.title}
+                      />
                     </div>
-                    <div className="table-cell">{quote.service_type || 'Service'}</div>
-                    <div className="table-cell">€{quote.amount?.toLocaleString() || '0'}</div>
-                    <div className="table-cell">
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(quote.status) + '20', color: getStatusColor(quote.status) }}
-                      >
-                        {getStatusText(quote.status)}
-                      </span>
-                    </div>
-                    <div className="table-cell">{new Date(quote.created_at).toLocaleDateString('fr-FR')}</div>
-                    <div className="table-cell">
-                      <div className="action-buttons">
-                        <button 
-                          className="action-btn" 
-                          title="Voir"
-                          onClick={() => handleViewQuote(quote.id)}
-                        >
-                          <Eye size={14} />
-                        </button>
-                        <button 
-                          className="action-btn" 
-                          title="Modifier"
-                          onClick={() => handleEditQuote(quote.id)}
-                        >
-                          <Edit size={14} />
-                        </button>
-                        <button 
-                          className="action-btn danger" 
-                          title="Supprimer"
-                          onClick={() => handleDeleteQuote(quote.id)}
-                        >
-                          <Trash2 size={14} />
-                        </button>
+                    <div className="blog-content">
+                      <div className="blog-meta">
+                        <span className="blog-category">{post.category}</span>
+                        <span className="blog-date">{new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}</span>
+                      </div>
+                      <h4 className="blog-title">{post.title}</h4>
+                      <p className="blog-excerpt">{post.excerpt}</p>
+                      <div className="blog-author">
+                        <span>Par {post.author}</span>
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                ))
+              )}
+            </div>
+          </motion.div>
+
+          {/* Recent Testimonials Section */}
+          <motion.div 
+            className="recent-testimonials-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.4 }}
+          >
+            <div className="section-header">
+              <h3>Témoignages récents</h3>
+              <div className="section-actions">
+                <button 
+                  className="btn-secondary"
+                  onClick={() => navigate('/admin/testimonials')}
+                >
+                  <ExternalLink size={16} />
+                  Voir tous
+                </button>
               </div>
+            </div>
+            
+            <div className="testimonials-grid">
+              {recentTestimonials.length === 0 ? (
+                <div className="empty-state">
+                  <p>Aucun témoignage récent</p>
+                </div>
+              ) : (
+                recentTestimonials.map((testimonial, index) => (
+                  <motion.div
+                    key={testimonial.id}
+                    className="testimonial-card"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="testimonial-content">
+                      <div className="testimonial-rating">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={`star ${i < testimonial.rating ? '' : 'empty'}`}>
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                      <p className="testimonial-text">
+                        "{testimonial.content}"
+                      </p>
+                      <div className="testimonial-author">
+                        <div className="author-avatar">
+                          <span>{testimonial.name?.charAt(0)?.toUpperCase() || 'A'}</span>
+                        </div>
+                        <div className="author-info">
+                          <h4>{testimonial.name}</h4>
+                          <span>{testimonial.location}</span>
+                        </div>
+                      </div>
+                      <div className="testimonial-date">
+                        {new Date(testimonial.created_at).toLocaleDateString('fr-FR')}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </div>
           </motion.div>
         </div>

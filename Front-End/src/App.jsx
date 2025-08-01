@@ -67,6 +67,9 @@ import UserMessages from "./pages/UserMessages";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
+// Import Invoice page
+import Invoice from "./pages/Invoice";
+
 // Import 404 page
 import NotFound from "./pages/NotFound";
 
@@ -121,6 +124,9 @@ function App() {
                     {/* Payment Routes */}
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/payment-success" element={<PaymentSuccess />} />
+
+                    {/* Invoice Route */}
+                    <Route path="/facture" element={<Invoice />} />
 
                     {/* Services Pages */}
                     <Route path="/services" element={<Services />} />

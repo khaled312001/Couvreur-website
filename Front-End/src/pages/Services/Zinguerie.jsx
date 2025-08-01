@@ -220,9 +220,16 @@ const Zinguerie = () => {
           <p className="section-subtitle">
             Contactez-nous pour un devis gratuit et personnalisé
           </p>
-          <Link to="/contact" className="btn btn-primary hover-glow">
-            DEVIS GRATUIT
-          </Link>
+          <div className="cta-buttons">
+            <Link to="/contact" className="btn btn-primary hover-glow">
+              <span>📋</span>
+              DEVIS GRATUIT
+            </Link>
+            <a href="tel:33780326427" className="btn btn-secondary">
+              <span>📞</span>
+              Appelez maintenant
+            </a>
+          </div>
         </div>
       </section>
     </div>

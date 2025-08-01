@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Notification;
 use Carbon\Carbon;
@@ -16,82 +15,69 @@ class NotificationSeeder extends Seeder
     {
         $notifications = [
             [
-                'title' => 'طلب عرض سعر جديد',
-                'message' => 'تم استلام طلب عرض سعر جديد من أحمد محمد',
+                'title' => 'Nouvelle demande de devis',
+                'message' => 'Une nouvelle demande de devis a été reçue de Jean Dupont pour des travaux de couverture.',
                 'type' => 'info',
                 'category' => 'quotes',
                 'is_read' => false,
                 'created_at' => Carbon::now()->subMinutes(5),
-                'updated_at' => Carbon::now()->subMinutes(5)
             ],
             [
-                'title' => 'رسالة جديدة',
-                'message' => 'تم استلام رسالة جديدة من سارة أحمد',
+                'title' => 'Nouveau message de contact',
+                'message' => 'Un nouveau message a été reçu de Marie Martin concernant vos services.',
                 'type' => 'info',
                 'category' => 'contact',
                 'is_read' => false,
                 'created_at' => Carbon::now()->subMinutes(15),
-                'updated_at' => Carbon::now()->subMinutes(15)
             ],
             [
-                'title' => 'تم إنشاء خدمة جديدة',
-                'message' => 'تم إنشاء خدمة جديدة: صيانة الأسقف',
+                'title' => 'Service mis à jour',
+                'message' => 'Le service "Installation de couverture" a été mis à jour avec de nouvelles informations.',
                 'type' => 'success',
                 'category' => 'services',
+                'is_read' => true,
+                'created_at' => Carbon::now()->subHours(2),
+            ],
+            [
+                'title' => 'Nouvel article publié',
+                'message' => 'Un nouvel article "Les tendances de la couverture en 2024" a été publié sur le blog.',
+                'type' => 'success',
+                'category' => 'blog',
                 'is_read' => false,
-                'created_at' => Carbon::now()->subHours(1),
-                'updated_at' => Carbon::now()->subHours(1)
+                'created_at' => Carbon::now()->subHours(4),
             ],
             [
-                'title' => 'طلب عرض سعر عاجل',
-                'message' => 'تم استلام طلب عرض سعر عاجل من محمد علي',
-                'type' => 'warning',
-                'category' => 'quotes',
-                'is_read' => true,
-                'read_at' => Carbon::now()->subHours(2),
-                'created_at' => Carbon::now()->subHours(3),
-                'updated_at' => Carbon::now()->subHours(2)
-            ],
-            [
-                'title' => 'تم تحديث خدمة',
-                'message' => 'تم تحديث خدمة: تركيب الزنك',
+                'title' => 'Nouveau témoignage reçu',
+                'message' => 'Un nouveau témoignage a été reçu de Pierre Durand pour vos services de zinguerie.',
                 'type' => 'success',
-                'category' => 'services',
+                'category' => 'testimonials',
                 'is_read' => true,
-                'read_at' => Carbon::now()->subHours(4),
-                'created_at' => Carbon::now()->subHours(5),
-                'updated_at' => Carbon::now()->subHours(4)
+                'created_at' => Carbon::now()->subHours(6),
             ],
             [
-                'title' => 'رسالة استفسار',
-                'message' => 'تم استلام رسالة استفسار من فاطمة حسن',
+                'title' => 'Image ajoutée à la galerie',
+                'message' => 'Une nouvelle image "Travaux de charpente" a été ajoutée à la galerie.',
                 'type' => 'info',
-                'category' => 'contact',
-                'is_read' => true,
-                'read_at' => Carbon::now()->subHours(6),
-                'created_at' => Carbon::now()->subHours(7),
-                'updated_at' => Carbon::now()->subHours(6)
+                'category' => 'gallery',
+                'is_read' => false,
+                'created_at' => Carbon::now()->subHours(8),
             ],
             [
-                'title' => 'طلب عرض سعر كبير',
-                'message' => 'تم استلام طلب عرض سعر لمشروع كبير من شركة البناء الحديثة',
-                'type' => 'info',
-                'category' => 'quotes',
-                'is_read' => true,
-                'read_at' => Carbon::now()->subHours(8),
-                'created_at' => Carbon::now()->subHours(9),
-                'updated_at' => Carbon::now()->subHours(8)
-            ],
-            [
-                'title' => 'تم حذف خدمة',
-                'message' => 'تم حذف خدمة: تنظيف المزاريب',
+                'title' => 'Maintenance du système',
+                'message' => 'Le système sera en maintenance demain de 2h à 4h du matin.',
                 'type' => 'warning',
-                'category' => 'services',
-                'is_read' => true,
-                'read_at' => Carbon::now()->subHours(10),
-                'created_at' => Carbon::now()->subHours(11),
-                'updated_at' => Carbon::now()->subHours(10)
-            ]
+                'category' => 'system',
+                'is_read' => false,
+                'created_at' => Carbon::now()->subHours(12),
+            ],
+            [
+                'title' => 'Erreur de sauvegarde',
+                'message' => 'Une erreur est survenue lors de la sauvegarde automatique des données.',
+                'type' => 'error',
+                'category' => 'system',
+                'is_read' => false,
+                'created_at' => Carbon::now()->subHours(24),
+            ],
         ];
 
         foreach ($notifications as $notification) {

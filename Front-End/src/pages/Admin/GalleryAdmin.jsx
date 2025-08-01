@@ -5,12 +5,14 @@ import {
   Image, Settings, CheckCircle, AlertCircle, Clock, Upload,
   X, Save, Camera, Download, Share, Star, Heart, Calendar, Tag
 } from 'lucide-react';
+import { fetchGalleryItems, createGalleryItem, updateGalleryItem, deleteGalleryItem } from '../../api/gallery';
 
 const GalleryAdmin = () => {
   const [gallery, setGallery] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [error, setError] = useState(null);
   
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
@@ -24,100 +26,28 @@ const GalleryAdmin = () => {
     title: '',
     description: '',
     category: 'Charpente',
-    status: 'draft',
-    image: null
+    is_active: true,
+    image: null,
+    sort_order: 0
   });
 
-  // Mock gallery data
-  const mockGallery = [
-    {
-      id: 1,
-      title: "Rénovation Toiture Tuiles",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Rénovation complète d'une toiture en tuiles",
-      category: "Charpente",
-      status: "published",
-      createdAt: "2025-01-15",
-      views: 245
-    },
-    {
-      id: 2,
-      title: "Installation Zinc",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Installation de zinguerie en zinc",
-      category: "Zinguerie",
-      status: "published",
-      createdAt: "2025-01-14",
-      views: 189
-    },
-    {
-      id: 3,
-      title: "Réparation Gouttières",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Réparation et remplacement de gouttières",
-      category: "Couverture",
-      status: "published",
-      createdAt: "2025-01-13",
-      views: 156
-    },
-    {
-      id: 4,
-      title: "Isolation Thermique",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Isolation thermique de toiture",
-      category: "Charpente",
-      status: "draft",
-      createdAt: "2025-01-12",
-      views: 0
-    },
-    {
-      id: 5,
-      title: "Charpente Traditionnelle",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Construction de charpente traditionnelle",
-      category: "Charpente",
-      status: "published",
-      createdAt: "2025-01-11",
-      views: 312
-    },
-    {
-      id: 6,
-      title: "Couverture Ardoise",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Installation de couverture en ardoise",
-      category: "Couverture",
-      status: "published",
-      createdAt: "2025-01-10",
-      views: 278
-    },
-    {
-      id: 7,
-      title: "Zinguerie Étanchéité",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Travaux d'étanchéité et zinguerie",
-      category: "Zinguerie",
-      status: "published",
-      createdAt: "2025-01-09",
-      views: 203
-    },
-    {
-      id: 8,
-      title: "Rénovation Complète",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      description: "Rénovation complète de toiture",
-      category: "Couverture",
-      status: "published",
-      createdAt: "2025-01-08",
-      views: 189
-    }
-  ];
-
+  // Load gallery items from API
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setGallery(mockGallery);
-      setIsLoading(false);
-    }, 1000);
+    const loadGalleryItems = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const items = await fetchGalleryItems();
+        setGallery(items);
+      } catch (error) {
+        console.error('Error loading gallery items:', error);
+        setError('Erreur lors du chargement de la galerie');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadGalleryItems();
   }, []);
 
   const filteredGallery = gallery.filter(item => {
@@ -150,7 +80,7 @@ const GalleryAdmin = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'is_active' ? value === 'published' : value
     }));
   };
 
@@ -170,60 +100,85 @@ const GalleryAdmin = () => {
   };
 
   // Add new gallery item
-  const handleAddItem = () => {
-    const newItem = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString().split('T')[0],
-      views: 0
-    };
-    setGallery(prev => [newItem, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      title: '',
-      description: '',
-      category: 'Charpente',
-      status: 'draft',
-      image: null
-    });
+  const handleAddItem = async () => {
+    try {
+      const newItem = await createGalleryItem(formData);
+      setGallery(prev => [newItem, ...prev]);
+      setShowAddModal(false);
+      setFormData({
+        title: '',
+        description: '',
+        category: 'Charpente',
+        is_active: true,
+        image: null,
+        sort_order: 0
+      });
+    } catch (error) {
+      console.error('Error adding gallery item:', error);
+      setError('Erreur lors de l\'ajout de la photo');
+    }
   };
 
   // Edit gallery item
-  const handleEditItem = () => {
-    setGallery(prev => 
-      prev.map(item => 
-        item.id === selectedItem.id 
-          ? { ...item, ...formData }
-          : item
-      )
-    );
-    setShowEditModal(false);
-    setSelectedItem(null);
-    setFormData({
-      title: '',
-      description: '',
-      category: 'Charpente',
-      status: 'draft',
-      image: null
-    });
+  const handleEditItem = async () => {
+    if (!selectedItem) return;
+    try {
+      const updatedItem = await updateGalleryItem(selectedItem.id, formData);
+      setGallery(prev => 
+        prev.map(item => 
+          item.id === selectedItem.id 
+            ? updatedItem
+            : item
+        )
+      );
+      setShowEditModal(false);
+      setSelectedItem(null);
+      setFormData({
+        title: '',
+        description: '',
+        category: 'Charpente',
+        is_active: true,
+        image: null,
+        sort_order: 0
+      });
+    } catch (error) {
+      console.error('Error editing gallery item:', error);
+      setError('Erreur lors de la modification de la photo');
+    }
   };
 
   // Delete gallery item
-  const handleDeleteItem = () => {
-    setGallery(prev => prev.filter(item => item.id !== selectedItem.id));
-    setShowDeleteConfirm(false);
-    setSelectedItem(null);
+  const handleDeleteItem = async () => {
+    if (!selectedItem) return;
+    try {
+      await deleteGalleryItem(selectedItem.id);
+      setGallery(prev => prev.filter(item => item.id !== selectedItem.id));
+      setShowDeleteConfirm(false);
+      setSelectedItem(null);
+    } catch (error) {
+      console.error('Error deleting gallery item:', error);
+      setError('Erreur lors de la suppression de la photo');
+    }
   };
 
   // Toggle item status
-  const handleToggleStatus = (itemId, newStatus) => {
-    setGallery(prev => 
-      prev.map(item => 
-        item.id === itemId 
-          ? { ...item, status: newStatus }
-          : item
-      )
-    );
+  const handleToggleStatus = async (itemId, newStatus) => {
+    const itemToUpdate = gallery.find(item => item.id === itemId);
+    if (!itemToUpdate) return;
+
+    try {
+      const updatedItem = await updateGalleryItem(itemId, { ...itemToUpdate, is_active: newStatus });
+      setGallery(prev => 
+        prev.map(item => 
+          item.id === itemId 
+            ? updatedItem
+            : item
+        )
+      );
+    } catch (error) {
+      console.error('Error toggling status:', error);
+      setError('Erreur lors du changement de statut');
+    }
   };
 
   // Open edit modal
@@ -233,8 +188,9 @@ const GalleryAdmin = () => {
       title: item.title,
       description: item.description,
       category: item.category,
-      status: item.status,
-      image: item.image
+      is_active: item.is_active,
+      image: item.image,
+      sort_order: item.sort_order
     });
     setShowEditModal(true);
   };
@@ -338,7 +294,7 @@ const GalleryAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Publiées</h3>
-                <div className="stat-value">{gallery.filter(g => g.status === 'published').length}</div>
+                <div className="stat-value">{gallery.filter(g => g.is_active).length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
                   87% publiées
@@ -352,7 +308,7 @@ const GalleryAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Brouillons</h3>
-                <div className="stat-value">{gallery.filter(g => g.status === 'draft').length}</div>
+                <div className="stat-value">{gallery.filter(g => !g.is_active).length}</div>
                 <div className="stat-trend trend-down">
                   <AlertCircle size={14} />
                   À publier
@@ -365,11 +321,11 @@ const GalleryAdmin = () => {
                 <Eye size={24} />
               </div>
               <div className="stat-content">
-                <h3>Vues Totales</h3>
-                <div className="stat-value">{gallery.reduce((sum, item) => sum + item.views, 0)}</div>
+                <h3>Catégories</h3>
+                <div className="stat-value">{new Set(gallery.map(item => item.category)).size}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  +12% ce mois
+                  {gallery.length} photos
                 </div>
               </div>
             </div>
@@ -473,8 +429,8 @@ const GalleryAdmin = () => {
                     <button
                       className="status-badge"
                       style={{ 
-                        backgroundColor: getStatusColor(item.status) + '20', 
-                        color: getStatusColor(item.status),
+                        backgroundColor: item.is_active ? '#10B981' + '20' : '#F59E0B' + '20', 
+                        color: item.is_active ? '#10B981' : '#F59E0B',
                         cursor: 'pointer',
                         border: 'none',
                         padding: '4px 8px',
@@ -482,10 +438,10 @@ const GalleryAdmin = () => {
                         fontSize: '12px',
                         fontWeight: '600'
                       }}
-                      onClick={() => handleToggleStatus(item.id, item.status === 'published' ? 'draft' : 'published')}
+                      onClick={() => handleToggleStatus(item.id, !item.is_active)}
                       title="Cliquer pour changer le statut"
                     >
-                      {getStatusText(item.status)}
+                      {item.is_active ? 'Publié' : 'Brouillon'}
                     </button>
                   </div>
                   
@@ -497,12 +453,12 @@ const GalleryAdmin = () => {
                       <span className="detail-value">{item.category}</span>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">Vues:</span>
-                      <span className="detail-value">{item.views}</span>
+                      <span className="detail-label">Statut:</span>
+                      <span className="detail-value">{item.is_active ? 'Publié' : 'Brouillon'}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Ajouté le:</span>
-                      <span className="detail-value">{new Date(item.createdAt).toLocaleDateString('fr-FR')}</span>
+                      <span className="detail-value">{new Date(item.created_at).toLocaleDateString('fr-FR')}</span>
                     </div>
                   </div>
                 </div>
@@ -598,12 +554,12 @@ const GalleryAdmin = () => {
                       <div className="form-group">
                         <label>Statut</label>
                         <select
-                          name="status"
-                          value={formData.status}
+                          name="is_active"
+                          value={formData.is_active ? 'published' : 'draft'}
                           onChange={handleInputChange}
                         >
-                          <option value="draft">Brouillon</option>
                           <option value="published">Publié</option>
+                          <option value="draft">Brouillon</option>
                         </select>
                       </div>
                     </div>
@@ -726,12 +682,12 @@ const GalleryAdmin = () => {
                       <div className="form-group">
                         <label>Statut</label>
                         <select
-                          name="status"
-                          value={formData.status}
+                          name="is_active"
+                          value={formData.is_active ? 'published' : 'draft'}
                           onChange={handleInputChange}
                         >
-                          <option value="draft">Brouillon</option>
                           <option value="published">Publié</option>
+                          <option value="draft">Brouillon</option>
                         </select>
                       </div>
                     </div>
@@ -826,12 +782,12 @@ const GalleryAdmin = () => {
                         
                         <div className="gallery-detail-stats">
                           <div className="stat-item">
-                            <Eye size={16} />
-                            <span>{selectedItem.views} vues</span>
+                            <CheckCircle size={16} />
+                            <span>{selectedItem.is_active ? 'Publié' : 'Brouillon'}</span>
                           </div>
                           <div className="stat-item">
                             <Calendar size={16} />
-                            <span>Ajouté le {new Date(selectedItem.createdAt).toLocaleDateString('fr-FR')}</span>
+                            <span>Ajouté le {new Date(selectedItem.created_at).toLocaleDateString('fr-FR')}</span>
                           </div>
                           <div className="stat-item">
                             <Tag size={16} />

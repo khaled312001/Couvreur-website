@@ -18,7 +18,8 @@ class BlogPost extends Model
         'image',
         'slug',
         'is_published',
-        'published_at'
+        'published_at',
+        'readTime'
     ];
 
     protected $casts = [

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             BlogPostSeeder::class,
             TestimonialSeeder::class,
+            GalleryItemSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }

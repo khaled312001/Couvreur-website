@@ -1,119 +1,123 @@
 import React, { useEffect, useState } from "react";
-import { getTestimonials } from "../api/testimonials";
+import { getTestimonials, getMockTestimonials } from "../api/testimonials";
 import Testimonial from "../components/Testimonial";
+import "../styles/testimonials.css";
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTestimonials().then(setTestimonials);
+    const loadTestimonials = async () => {
+      try {
+        setLoading(true);
+        const data = await getTestimonials();
+        if (data && data.length > 0) {
+          setTestimonials(data);
+        } else {
+          // Fallback to mock data if API returns empty
+          setTestimonials(getMockTestimonials());
+        }
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+        // Use mock data as fallback
+        setTestimonials(getMockTestimonials());
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTestimonials();
   }, []);
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero" style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://f.hellowork.com/blogdumoderateur/2022/06/avis-clients-5-etoiles-1200x628.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        position: 'relative'
-      }}>
-        <div className="container">
-          <div className="hero-content">
-            <h1 style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>Avis Clients</h1>
-            <p style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}>Ce que nos clients disent de nos services</p>
-          </div>
+      <section className="testimonials-hero">
+        <div className="testimonials-hero-content">
+          <h1>Avis Clients</h1>
+          <p>Ce que nos clients disent de nos services</p>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="section">
+      <section className="testimonials-section">
         <div className="container">
-          <h2 className="section-title">Témoignages clients</h2>
-          <p className="section-subtitle">
+          <h2 className="section-title fade-in-on-scroll">Témoignages clients</h2>
+          <p className="section-subtitle fade-in-on-scroll">
             Découvrez les avis de nos clients satisfaits
           </p>
-          <div className="grid grid-3">
-            {Array.isArray(testimonials) && testimonials.map(t => (
-              <Testimonial key={t.id} testimonial={t} />
-            ))}
-          </div>
+          
+          {loading ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem 0',
+              color: '#6b7280'
+            }}>
+              <div className="loading-spinner"></div>
+              <p>Chargement des témoignages...</p>
+            </div>
+          ) : testimonials.length > 0 ? (
+            <div className="testimonials-grid">
+              {testimonials.map(t => (
+                <Testimonial key={t.id} testimonial={t} />
+              ))}
+            </div>
+          ) : (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem 0',
+              color: '#6b7280'
+            }}>
+              <p>Aucun témoignage disponible pour le moment.</p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="section section-gray">
+      <section className="testimonials-stats">
         <div className="container">
-          <h2 className="section-title">Nos chiffres</h2>
-          <div className="grid grid-4">
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                fontSize: '48px',
-                fontWeight: 'bold',
-                color: '#1e3a8a',
-                marginBottom: '10px'
-              }}>
-                500+
-              </div>
-              <div style={{ color: '#6b7280', fontSize: '18px' }}>
-                Clients satisfaits
-              </div>
+          <h2 className="section-title fade-in-on-scroll" style={{ color: 'white' }}>Nos chiffres</h2>
+          <div className="testimonials-stats-grid">
+            <div className="testimonials-stat-item fade-in-on-scroll">
+              <span className="testimonials-stat-number">500+</span>
+              <span className="testimonials-stat-label">Clients satisfaits</span>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                fontSize: '48px',
-                fontWeight: 'bold',
-                color: '#1e3a8a',
-                marginBottom: '10px'
-              }}>
-                15+
-              </div>
-              <div style={{ color: '#6b7280', fontSize: '18px' }}>
-                Années d'expérience
-              </div>
+            <div className="testimonials-stat-item fade-in-on-scroll">
+              <span className="testimonials-stat-number">15+</span>
+              <span className="testimonials-stat-label">Années d'expérience</span>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                fontSize: '48px',
-                fontWeight: 'bold',
-                color: '#1e3a8a',
-                marginBottom: '10px'
-              }}>
-                1000+
-              </div>
-              <div style={{ color: '#6b7280', fontSize: '18px' }}>
-                Projets réalisés
-              </div>
+            <div className="testimonials-stat-item fade-in-on-scroll">
+              <span className="testimonials-stat-number">1000+</span>
+              <span className="testimonials-stat-label">Projets réalisés</span>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{
-                fontSize: '48px',
-                fontWeight: 'bold',
-                color: '#1e3a8a',
-                marginBottom: '10px'
-              }}>
-                4.9/5
-              </div>
-              <div style={{ color: '#6b7280', fontSize: '18px' }}>
-                Note moyenne
-              </div>
+            <div className="testimonials-stat-item fade-in-on-scroll">
+              <span className="testimonials-stat-number">4.9/5</span>
+              <span className="testimonials-stat-label">Note moyenne</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section">
+      <section className="testimonials-contact">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <h2 className="section-title">Besoin d'un devis ?</h2>
-            <p className="section-subtitle">
-              Contactez-nous pour un devis gratuit et personnalisé
+          <div className="testimonials-contact-content fade-in-on-scroll">
+            <h2>Besoin d'un devis ?</h2>
+            <p>
+              Contactez-nous pour un devis gratuit et personnalisé. Notre équipe 
+              d'experts est prête à vous accompagner dans tous vos projets de 
+              construction et rénovation.
             </p>
-            <div style={{ marginTop: '40px' }}>
-              <a href="/contact" className="btn btn-primary">
+            <div className="testimonials-contact-buttons">
+              <a href="/contact" className="btn-primary">
+                <span>📋</span>
                 Demander un devis gratuit
+              </a>
+              <a href="tel:33780326427" className="btn-secondary">
+                <span>📞</span>
+                Appelez maintenant
               </a>
             </div>
           </div>

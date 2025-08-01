@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getServices } from '../../api/services';
+import '../../styles/services.css';
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -130,10 +131,12 @@ const Services = () => {
             <p>Contactez-nous maintenant et obtenez un devis personnalisé</p>
             <div className="cta-buttons">
               <Link to="/contact" className="btn-primary">
+                <span>📋</span>
                 Demander un devis
               </Link>
               <a href="tel:33780326427" className="btn-secondary">
-                📞 Appelez maintenant
+                <span>📞</span>
+                Appelez maintenant
               </a>
             </div>
           </div>

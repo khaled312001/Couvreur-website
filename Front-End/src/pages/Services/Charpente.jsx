@@ -140,10 +140,12 @@ const Charpente = () => {
                 onClick={handlePayment}
                 className="btn-primary"
               >
+                <span>📋</span>
                 Demander un devis
               </button>
               <a href="tel:33780326427" className="btn-secondary">
-                📞 Appelez maintenant
+                <span>📞</span>
+                Appelez maintenant
               </a>
             </div>
           </div>

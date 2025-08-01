@@ -36,6 +36,7 @@ class DashboardController extends Controller
                 'approved_testimonials' => Testimonial::where('is_active', true)->count(),
                 'total_gallery_items' => GalleryItem::count(),
                 'total_blog_posts' => BlogPost::count(),
+                'published_blog_posts' => BlogPost::where('is_published', true)->count(),
                 'total_contact_messages' => ContactMessage::count(),
                 'unread_messages' => ContactMessage::where('status', 'unread')->count(),
                 'total_users' => User::count(),
@@ -91,6 +92,45 @@ class DashboardController extends Controller
                     ];
                 });
 
+            // Recent Blog Posts
+            $recentBlogPosts = BlogPost::where('is_published', true)
+                ->orderBy('published_at', 'desc')
+                ->limit(5)
+                ->get()
+                ->map(function ($post) {
+                    return [
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'excerpt' => $post->excerpt,
+                        'author' => $post->author,
+                        'category' => $post->category,
+                        'image' => $post->image,
+                        'slug' => $post->slug,
+                        'is_published' => $post->is_published,
+                        'published_at' => $post->published_at ? $post->published_at->format('Y-m-d') : null,
+                        'created_at' => $post->created_at->format('Y-m-d')
+                    ];
+                });
+
+            // Recent Testimonials
+            $recentTestimonials = Testimonial::where('is_active', true)
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get()
+                ->map(function ($testimonial) {
+                    return [
+                        'id' => $testimonial->id,
+                        'name' => $testimonial->name,
+                        'location' => $testimonial->location,
+                        'content' => $testimonial->content,
+                        'rating' => $testimonial->rating,
+                        'image' => $testimonial->image,
+                        'is_active' => $testimonial->is_active,
+                        'sort_order' => $testimonial->sort_order,
+                        'created_at' => $testimonial->created_at->format('Y-m-d')
+                    ];
+                });
+
             // Status Distribution
             $statusDistribution = [
                 'quotes' => [
@@ -103,6 +143,14 @@ class DashboardController extends Controller
                 'messages' => [
                     'read' => ContactMessage::where('status', 'read')->count(),
                     'unread' => ContactMessage::where('status', 'unread')->count(),
+                ],
+                'blog_posts' => [
+                    'published' => BlogPost::where('is_published', true)->count(),
+                    'draft' => BlogPost::where('is_published', false)->count(),
+                ],
+                'testimonials' => [
+                    'active' => Testimonial::where('is_active', true)->count(),
+                    'inactive' => Testimonial::where('is_active', false)->count(),
                 ]
             ];
 
@@ -124,6 +172,8 @@ class DashboardController extends Controller
                     'service_distribution' => $serviceDistribution,
                     'recent_quotes' => $recentQuotes,
                     'recent_messages' => $recentMessages,
+                    'recent_blog_posts' => $recentBlogPosts,
+                    'recent_testimonials' => $recentTestimonials,
                     'status_distribution' => $statusDistribution,
                     'performance_metrics' => $performanceMetrics,
                 ]

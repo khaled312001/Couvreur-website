@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getServices } from '../api/services';
 import { getGallery } from '../api/gallery';
 import { getTestimonials } from '../api/testimonials';
+import { fetchBlogPosts } from '../api/blog';
 import ServiceCard from '../components/ServiceCard';
 import GalleryItem from '../components/GalleryItem';
 import Testimonial from '../components/Testimonial';
@@ -11,22 +12,29 @@ const Home = () => {
   const [services, setServices] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Load data on component mount
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [servicesData, galleryData, testimonialsData] = await Promise.all([
+        setLoading(true);
+        const [servicesData, galleryData, testimonialsData, blogData] = await Promise.all([
           getServices(),
           getGallery(),
-          getTestimonials()
+          getTestimonials(),
+          fetchBlogPosts()
         ]);
         setServices(servicesData);
         setGallery(galleryData);
         setTestimonials(testimonialsData);
+        setBlogPosts(blogData);
       } catch (error) {
         console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -650,162 +658,15 @@ const Home = () => {
             <p className="section-subtitle">Découvrez ce que nos clients disent de nos services</p>
           </div>
           <div className="testimonials-grid">
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.1s'}}>
-              
-              
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Excellent travail de rénovation de notre toiture. L'équipe a été professionnelle 
-                  et le résultat est parfait. Je recommande vivement !"
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>M</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Marie Dubois</h4>
-                    <span>Valence, Drôme</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.2s'}}>
-             
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Installation de gouttières impeccable. Prix compétitifs et travail soigné. 
-                  L'équipe respecte les délais et la propreté du chantier."
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>P</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Pierre Martin</h4>
-                    <span>Annonay, Ardèche</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.3s'}}>
-              
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Intervention rapide pour une fuite de toiture. L'équipe est venue 
-                  le jour même et a résolu le problème efficacement. Très satisfait !"
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>S</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Sophie Bernard</h4>
-                    <span>Romans-sur-Isère, Drôme</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.4s'}}>
-              
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Isolation de nos combles parfaite. Économies d'énergie visibles 
-                  dès le premier hiver. Devis respecté et travail de qualité."
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>L</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Laurent Moreau</h4>
-                    <span>Privas, Ardèche</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.5s'}}>
-              
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Nettoyage professionnel de notre toiture. Élimination complète 
-                  des mousses et lichens. Résultat impeccable et durable."
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>C</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Claire Durand</h4>
-                    <span>Bourg-lès-Valence, Drôme</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card fade-in-on-scroll" style={{animationDelay: '0.6s'}}>
-             
-              <div className="testimonial-content">
-                <div className="testimonial-rating">
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                  <span className="star">★</span>
-                </div>
-                <p className="testimonial-text">
-                  "Installation de velux dans nos combles. Travail soigné et 
-                  finitions parfaites. Notre espace est maintenant lumineux !"
-                </p>
-                <div className="testimonial-author">
-                  <div className="author-avatar">
-                    <span>J</span>
-                  </div>
-                  <div className="author-info">
-                    <h4>Jean Petit</h4>
-                    <span>Tournon-sur-Rhône, Ardèche</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {loading ? (
+              <p>Chargement des avis...</p>
+            ) : testimonials.length === 0 ? (
+              <p>Aucun avis disponible pour le moment.</p>
+            ) : (
+              testimonials.map((testimonial, index) => (
+                <Testimonial key={testimonial.id} testimonial={testimonial} />
+              ))
+            )}
           </div>
           
           <div className="testimonials-stats fade-in-on-scroll" style={{animationDelay: '0.7s'}}>
@@ -916,9 +777,15 @@ const Home = () => {
             <p className="section-subtitle">Découvrez nos derniers projets de couverture et zinguerie</p>
           </div>
           <div className="gallery-grid grid grid-4">
-            {Array.isArray(gallery) && gallery.slice(0, 8).map((item, index) => (
-              <GalleryItem key={item.id} item={item} index={index} />
-            ))}
+            {loading ? (
+              <p>Chargement des galeries...</p>
+            ) : gallery.length === 0 ? (
+              <p>Aucune galerie disponible pour le moment.</p>
+            ) : (
+              gallery.slice(0, 8).map((item, index) => (
+                <GalleryItem key={item.id} item={item} index={index} />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -993,21 +860,27 @@ const Home = () => {
             <p className="section-subtitle">Conseils et actualités du secteur de la couverture</p>
           </div>
           <div className="blog-grid grid grid-3">
-            {[1, 2, 3].map((post, index) => (
-              <div key={post} className="blog-card card fade-in-on-scroll" style={{animationDelay: `${index * 0.2}s`}}>
-                <div className="blog-image">
-                  <img 
-                    src={`https://images.unsplash.com/photo-${1581578731548 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80`} 
-                    alt={`Article ${post}`} 
-                  />
+            {loading ? (
+              <p>Chargement des articles...</p>
+            ) : blogPosts.length === 0 ? (
+              <p>Aucun article disponible pour le moment.</p>
+            ) : (
+              blogPosts.map((post, index) => (
+                <div key={post.id} className="blog-card card fade-in-on-scroll" style={{animationDelay: `${index * 0.2}s`}}>
+                  <div className="blog-image">
+                    <img 
+                      src={post.imageUrl || `https://images.unsplash.com/photo-${1581578731548 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80`} 
+                      alt={post.title} 
+                    />
+                  </div>
+                  <div className="card-content">
+                    <h3>{post.title}</h3>
+                    <p>{post.excerpt}</p>
+                    <a href={`/blog/${post.id}`} className="card-button">Lire la suite</a>
+                  </div>
                 </div>
-                <div className="card-content">
-                  <h3>Conseils pour l'entretien de votre toiture</h3>
-                  <p>Découvrez les bonnes pratiques pour maintenir votre toiture en parfait état...</p>
-                  <a href="/blog" className="card-button">Lire la suite</a>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </section>

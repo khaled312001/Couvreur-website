@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -36,7 +37,8 @@ class BlogController extends Controller
             'category' => 'required|string',
             'image' => 'nullable|string',
             'is_published' => 'boolean',
-            'published_at' => 'nullable|date'
+            'published_at' => 'nullable|date',
+            'readTime' => 'nullable|string'
         ]);
 
         $data = $request->all();
@@ -53,27 +55,33 @@ class BlogController extends Controller
 
     public function update(Request $request, $id)
     {
-        $post = BlogPost::findOrFail($id);
+        try {
+            $post = BlogPost::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'excerpt' => 'required|string',
-            'category' => 'required|string',
-            'image' => 'nullable|string',
-            'is_published' => 'boolean',
-            'published_at' => 'nullable|date'
-        ]);
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'excerpt' => 'required|string',
+                'category' => 'required|string',
+                'image' => 'nullable|string',
+                'is_published' => 'boolean',
+                'published_at' => 'nullable|date',
+                'readTime' => 'nullable|string'
+            ]);
 
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->title);
+            $data = $request->all();
+            $data['slug'] = Str::slug($request->title);
 
-        if ($request->is_published && !$request->published_at) {
-            $data['published_at'] = now();
+            if ($request->is_published && !$request->published_at) {
+                $data['published_at'] = now();
+            }
+
+            $post->update($data);
+            return response()->json($post);
+        } catch (\Exception $e) {
+            Log::error('Blog update error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        $post->update($data);
-        return response()->json($post);
     }
 
     public function destroy($id)

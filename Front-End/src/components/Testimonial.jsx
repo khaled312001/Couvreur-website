@@ -14,20 +14,22 @@ const Testimonial = ({ testimonial }) => {
   };
 
   return (
-    <div className="testimonial hover-lift">
-      <div className="testimonial-stars">
-        {renderStars(testimonial.rating)}
-      </div>
-      <div className="testimonial-text">
-        "{testimonial.text}"
-      </div>
-      <div className="testimonial-author">
-        <div className="author-info">
-          <h4>{testimonial.author}</h4>
-          <p>{testimonial.location}</p>
+    <div className="testimonial-card fade-in-on-scroll">
+      <div className="testimonial-content">
+        <div className="testimonial-rating">
+          {renderStars(testimonial.rating)}
         </div>
-        <div className="testimonial-date">
-          {testimonial.date}
+        <p className="testimonial-text">
+          "{testimonial.content}"
+        </p>
+        <div className="testimonial-author">
+          <div className="author-avatar">
+            <span>{testimonial.name ? testimonial.name.charAt(0).toUpperCase() : 'A'}</span>
+          </div>
+          <div className="author-info">
+            <h4>{testimonial.name}</h4>
+            <span>{testimonial.location}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Bell, Check, X, Trash2, Settings } from 'lucide-react';
 import { notificationsApi } from '../api/notifications';
 import { useAuth } from '../context/AuthContext';
 
@@ -116,20 +117,18 @@ const NotificationsDropdown = () => {
     }
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="notification-dropdown" ref={dropdownRef}>
             {/* Notification Bell */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition-colors duration-200"
+                className="notification-bell"
+                title="Notifications"
             >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <Bell className="w-6 h-6" />
                 
                 {/* Unread Badge */}
                 {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    <span className="notification-badge">
                         {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                 )}
@@ -137,74 +136,79 @@ const NotificationsDropdown = () => {
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
+                <div className="notification-dropdown-menu">
                     {/* Header */}
-                    <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-                        <h3 className="text-lg font-semibold text-gray-900">الإشعارات</h3>
+                    <div className="notification-header">
+                        <div className="notification-header-title">
+                            <Bell className="w-5 h-5" />
+                            <span>Notifications</span>
+                        </div>
                         {unreadCount > 0 && (
                             <button
                                 onClick={handleMarkAllAsRead}
-                                className="text-sm text-blue-600 hover:text-blue-800"
+                                className="mark-all-read-btn"
                             >
-                                تحديد الكل كمقروء
+                                <Check className="w-4 h-4" />
+                                Tout marquer comme lu
                             </button>
                         )}
                     </div>
 
                     {/* Notifications List */}
-                    <div className="py-2">
+                    <div className="notification-list">
                         {loading ? (
-                            <div className="px-4 py-8 text-center text-gray-500">
-                                جاري التحميل...
+                            <div className="notification-loading">
+                                <div className="notification-loading-spinner"></div>
+                                <p>Chargement...</p>
                             </div>
                         ) : notifications.length === 0 ? (
-                            <div className="px-4 py-8 text-center text-gray-500">
-                                لا توجد إشعارات
+                            <div className="notification-empty">
+                                <Bell className="w-12 h-12" />
+                                <p className="notification-empty-title">Aucune notification</p>
+                                <p className="notification-empty-subtitle">Vous serez notifié ici des nouvelles activités</p>
                             </div>
                         ) : (
                             notifications.map((notification) => (
                                 <div
                                     key={notification.id}
-                                    className={`px-4 py-3 border-l-4 ${getNotificationColor(notification.type)} ${
-                                        !notification.is_read ? 'bg-blue-50' : ''
-                                    } hover:bg-gray-50 transition-colors duration-200`}
+                                    className={`notification-item ${!notification.is_read ? 'unread' : ''}`}
                                 >
-                                    <div className="flex items-start justify-between">
-                                        <div className="flex items-start space-x-3 rtl:space-x-reverse">
-                                            <span className="text-lg mt-0.5">
-                                                {getNotificationIcon(notification.type)}
-                                            </span>
-                                            <div className="flex-1 min-w-0">
-                                                <p className={`text-sm font-medium ${
-                                                    !notification.is_read ? 'text-gray-900' : 'text-gray-700'
-                                                }`}>
-                                                    {notification.title}
-                                                </p>
-                                                <p className="text-sm text-gray-600 mt-1">
-                                                    {notification.message}
-                                                </p>
-                                                <p className="text-xs text-gray-500 mt-2">
-                                                    {notification.time_ago}
-                                                </p>
-                                            </div>
+                                    <div className="notification-content">
+                                        <div className="notification-icon">
+                                            {getNotificationIcon(notification.type)}
                                         </div>
-                                        
-                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                                            {!notification.is_read && (
-                                                <button
-                                                    onClick={() => handleMarkAsRead(notification.id)}
-                                                    className="text-xs text-blue-600 hover:text-blue-800"
-                                                >
-                                                    تحديد كمقروء
-                                                </button>
-                                            )}
+                                        <div className="notification-details">
+                                            <p className="notification-title">
+                                                {notification.title}
+                                            </p>
+                                            <p className="notification-message">
+                                                {notification.message}
+                                            </p>
+                                            <p className="notification-time">
+                                                {notification.time_ago}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="notification-actions">
+                                        {!notification.is_read && (
                                             <button
-                                                onClick={() => handleDeleteNotification(notification.id)}
-                                                className="text-xs text-red-600 hover:text-red-800"
+                                                onClick={() => handleMarkAsRead(notification.id)}
+                                                className="notification-action-btn read"
+                                                title="Marquer comme lu"
                                             >
-                                                حذف
+                                                <Check className="w-3 h-3" />
+                                                Lu
                                             </button>
-                                        </div>
+                                        )}
+                                        <button
+                                            onClick={() => handleDeleteNotification(notification.id)}
+                                            className="notification-action-btn delete"
+                                            title="Supprimer"
+                                        >
+                                            <Trash2 className="w-3 h-3" />
+                                            Supprimer
+                                        </button>
                                     </div>
                                 </div>
                             ))
@@ -213,12 +217,12 @@ const NotificationsDropdown = () => {
 
                     {/* Footer */}
                     {notifications.length > 0 && (
-                        <div className="px-4 py-3 border-t border-gray-200 text-center">
+                        <div className="notification-footer">
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="text-sm text-gray-600 hover:text-gray-800"
+                                className="notification-close-btn"
                             >
-                                إغلاق
+                                Fermer
                             </button>
                         </div>
                     )}

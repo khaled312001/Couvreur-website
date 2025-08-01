@@ -1025,3 +1025,68 @@ header.scrolled {
 .auth-buttons a:last-child:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Mobile Testimonial and Blog Styles */
+.mobile-testimonial-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+  margin: 4px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mobile-rating {
+  display: flex;
+  gap: 1px;
+  margin-top: 4px;
+}
+
+.mobile-rating .star {
+  color: #fbbf24;
+  font-size: 0.75rem;
+}
+
+.mobile-blog-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+}
+
+.mobile-category {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+.mobile-date {
+  color: #9ca3af;
+  font-size: 0.625rem;
+}
+
+/* Loading state for header */
+.header-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.header-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

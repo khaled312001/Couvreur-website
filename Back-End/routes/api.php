@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +101,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/quotes/status/{status}', [QuoteController::class, 'byStatus']);
     Route::get('/admin/quotes/urgency/{urgency}', [QuoteController::class, 'byUrgency']);
 
+    // Admin Notifications
+    Route::get('/admin/notifications', [NotificationController::class, 'index']);
+    Route::get('/admin/notifications/{id}', [NotificationController::class, 'show']);
+    Route::post('/admin/notifications', [NotificationController::class, 'store']);
+    Route::put('/admin/notifications/{id}', [NotificationController::class, 'update']);
+    Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
+    Route::put('/admin/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::put('/admin/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+
     // Admin Contact Messages
     Route::get('/admin/contact', [ContactController::class, 'index']);
     Route::get('/admin/contact/{id}', [ContactController::class, 'show']);
@@ -113,8 +123,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/dashboard/export', [DashboardController::class, 'exportData']);
     
     // Notifications
-    Route::get('/admin/notifications', [DashboardController::class, 'getNotifications']);
-    Route::put('/admin/notifications/{id}/read', [DashboardController::class, 'markAsRead']);
-    Route::put('/admin/notifications/read-all', [DashboardController::class, 'markAllAsRead']);
-    Route::delete('/admin/notifications/{id}', [DashboardController::class, 'deleteNotification']);
+    // Route::get('/admin/notifications', [DashboardController::class, 'getNotifications']); // This line is removed as per the new_code
+    // Route::put('/admin/notifications/{id}/read', [DashboardController::class, 'markAsRead']); // This line is removed as per the new_code
+    // Route::put('/admin/notifications/read-all', [DashboardController::class, 'markAllAsRead']); // This line is removed as per the new_code
+    // Route::delete('/admin/notifications/{id}', [DashboardController::class, 'deleteNotification']); // This line is removed as per the new_code
 }); 

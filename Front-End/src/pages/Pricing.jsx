@@ -160,9 +160,14 @@ const Pricing = () => {
             <p className="section-subtitle">
               Contactez-nous pour un devis gratuit et détaillé
             </p>
-            <div style={{ marginTop: '40px' }}>
+            <div className="cta-buttons" style={{ marginTop: '40px' }}>
               <a href="/contact" className="btn btn-primary">
+                <span>📋</span>
                 DEVIS GRATUIT
+              </a>
+              <a href="tel:33780326427" className="btn btn-secondary">
+                <span>📞</span>
+                Appelez maintenant
               </a>
             </div>
           </div>

@@ -1,37 +1,63 @@
 import React from "react";
+import "../styles/areas.css";
 
 const Areas = () => {
   const areas = [
     {
       name: "Ardèche",
-      cities: ["Annonay", "Aubenas", "Privas", "Tournon-sur-Rhône", "Valence"],
-      description: "Intervention dans tout le département de l'Ardèche"
+      cities: ["Annonay", "Aubenas", "Privas", "Tournon-sur-Rhône", "Valence", "Viviers", "Largentière"],
+      description: "Intervention dans tout le département de l'Ardèche pour tous vos travaux de couverture",
+      icon: "🏔️",
+      population: "330,000+",
+      coverage: "5,529 km²"
     },
     {
       name: "Drôme",
-      cities: ["Valence", "Romans-sur-Isère", "Montélimar", "Die", "Nyons"],
-      description: "Couverture et rénovation dans la Drôme"
+      cities: ["Valence", "Romans-sur-Isère", "Montélimar", "Die", "Nyons", "Crest", "Pierrelatte"],
+      description: "Couverture et rénovation dans la Drôme avec expertise locale",
+      icon: "🌿",
+      population: "510,000+",
+      coverage: "6,530 km²"
     },
     {
       name: "Isère",
-      cities: ["Grenoble", "Vienne", "Voiron", "Saint-Marcellin", "La Tour-du-Pin"],
-      description: "Services de couverture en Isère"
+      cities: ["Grenoble", "Vienne", "Voiron", "Saint-Marcellin", "La Tour-du-Pin", "Bourgoin-Jallieu"],
+      description: "Services de couverture en Isère avec intervention rapide",
+      icon: "⛰️",
+      population: "1,250,000+",
+      coverage: "7,431 km²"
     },
     {
       name: "Loire",
-      cities: ["Saint-Étienne", "Roanne", "Montbrison", "Feurs", "Saint-Chamond"],
-      description: "Intervention dans la Loire"
+      cities: ["Saint-Étienne", "Roanne", "Montbrison", "Feurs", "Saint-Chamond", "Firminy"],
+      description: "Intervention dans la Loire pour tous types de toitures",
+      icon: "🏭",
+      population: "760,000+",
+      coverage: "4,781 km²"
     },
     {
       name: "Rhône",
-      cities: ["Lyon", "Villefranche-sur-Saône", "Tarare", "Belleville", "Givors"],
-      description: "Couverture dans le Rhône"
+      cities: ["Lyon", "Villefranche-sur-Saône", "Tarare", "Belleville", "Givors", "Caluire-et-Cuire"],
+      description: "Couverture dans le Rhône avec expertise métropolitaine",
+      icon: "🏙️",
+      population: "1,850,000+",
+      coverage: "3,249 km²"
     },
     {
       name: "Ain",
-      cities: ["Bourg-en-Bresse", "Oyonnax", "Belley", "Ambérieu-en-Bugey", "Gex"],
-      description: "Services dans l'Ain"
+      cities: ["Bourg-en-Bresse", "Oyonnax", "Belley", "Ambérieu-en-Bugey", "Gex", "Ferney-Voltaire"],
+      description: "Services dans l'Ain avec intervention sur mesure",
+      icon: "🌲",
+      population: "650,000+",
+      coverage: "5,762 km²"
     }
+  ];
+
+  const stats = [
+    { number: "6", label: "Départements couverts" },
+    { number: "50+", label: "Villes principales" },
+    { number: "24h", label: "Intervention d'urgence" },
+    { number: "100%", label: "Zone couverte" }
   ];
 
   return (
@@ -118,9 +144,14 @@ const Areas = () => {
             <p className="section-subtitle">
               Contactez-nous pour un devis gratuit et personnalisé
             </p>
-            <div style={{ marginTop: '40px' }}>
+            <div className="cta-buttons" style={{ marginTop: '40px' }}>
               <a href="/contact" className="btn btn-primary">
+                <span>📋</span>
                 Demander un devis gratuit
+              </a>
+              <a href="tel:33780326427" className="btn btn-secondary">
+                <span>📞</span>
+                Appelez maintenant
               </a>
             </div>
           </div>

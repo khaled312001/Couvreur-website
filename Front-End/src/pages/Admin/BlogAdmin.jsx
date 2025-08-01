@@ -5,12 +5,14 @@ import {
   BookOpen, Settings, CheckCircle, AlertCircle, Clock, Calendar,
   X, Save, Upload, User, Tag, Eye as EyeIcon, Clock as ClockIcon
 } from 'lucide-react';
+import { fetchBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '../../api/blog';
 
 const BlogAdmin = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [error, setError] = useState(null);
   
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
@@ -25,123 +27,50 @@ const BlogAdmin = () => {
     content: '',
     excerpt: '',
     category: 'Conseils',
-    status: 'draft',
+    is_published: false,
     image: null,
     readTime: '5 min'
   });
 
-  // Mock blog data
-  const mockBlogPosts = [
-    {
-      id: 1,
-      title: "Comment choisir le bon type de toiture",
-      content: "Guide complet pour choisir le type de toiture adapté à votre maison et votre budget. Nous vous expliquons les différents matériaux disponibles, leurs avantages et inconvénients, ainsi que les critères à prendre en compte pour faire le bon choix.",
-      excerpt: "Découvrez les différents types de toitures et leurs avantages respectifs.",
-      author: "BN BUILDING",
-      date: "2025-01-15",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Conseils",
-      status: "published",
-      views: 1250,
-      readTime: "5 min"
-    },
-    {
-      id: 2,
-      title: "L'importance de l'isolation thermique",
-      content: "L'isolation thermique de votre toiture peut réduire significativement vos factures d'énergie. Découvrez les techniques d'isolation modernes et les matériaux les plus efficaces pour optimiser votre confort et vos économies.",
-      excerpt: "Pourquoi l'isolation thermique est essentielle pour votre confort et vos économies.",
-      author: "BN BUILDING",
-      date: "2025-01-10",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Isolation",
-      status: "published",
-      views: 890,
-      readTime: "4 min"
-    },
-    {
-      id: 3,
-      title: "Entretien préventif de votre toiture",
-      content: "Un entretien régulier de votre toiture prolonge sa durée de vie et évite les réparations coûteuses. Nous vous donnons tous les conseils pratiques pour maintenir votre toiture en excellent état tout au long de l'année.",
-      excerpt: "Les bonnes pratiques pour maintenir votre toiture en excellent état.",
-      author: "BN BUILDING",
-      date: "2025-01-05",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Entretien",
-      status: "published",
-      views: 756,
-      readTime: "6 min"
-    },
-    {
-      id: 4,
-      title: "Les avantages du zinc en couverture",
-      content: "Le zinc est un matériau de couverture très apprécié pour sa durabilité et son esthétique. Découvrez pourquoi le zinc est un excellent choix pour votre toiture et comment il s'intègre parfaitement dans tous les styles architecturaux.",
-      excerpt: "Découvrez pourquoi le zinc est un excellent choix pour votre toiture.",
-      author: "BN BUILDING",
-      date: "2025-01-02",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Matériaux",
-      status: "draft",
-      views: 0,
-      readTime: "7 min"
-    },
-    {
-      id: 5,
-      title: "Réparation d'urgence : que faire en cas de fuite",
-      content: "En cas de fuite de toiture, il est important d'agir rapidement pour limiter les dégâts. Nous vous expliquons les étapes à suivre en urgence et comment procéder pour une réparation efficace et durable.",
-      excerpt: "Les étapes à suivre en cas d'urgence pour réparer une fuite de toiture.",
-      author: "BN BUILDING",
-      date: "2024-12-28",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Réparation",
-      status: "published",
-      views: 1120,
-      readTime: "8 min"
-    },
-    {
-      id: 6,
-      title: "Choisir ses fenêtres de toit",
-      content: "Les fenêtres de toit apportent lumière et ventilation à vos combles. Nous vous guidons dans le choix des bonnes fenêtres selon vos besoins, votre budget et les contraintes techniques de votre toiture.",
-      excerpt: "Guide pour choisir les bonnes fenêtres de toit selon vos besoins.",
-      author: "BN BUILDING",
-      date: "2024-12-25",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-      category: "Installation",
-      status: "published",
-      views: 634,
-      readTime: "5 min"
-    }
-  ];
-
+  // Load blog posts from API
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setBlogPosts(mockBlogPosts);
-      setIsLoading(false);
-    }, 1000);
+    const loadBlogPosts = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const posts = await fetchBlogPosts();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+        setError('Erreur lors du chargement des articles');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadBlogPosts();
   }, []);
 
   const filteredBlogPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || post.status === filterStatus;
+    const matchesFilter = filterStatus === 'all' || post.is_published === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
   const getStatusColor = (status) => {
     const colors = {
-      published: '#10B981',
-      draft: '#F59E0B',
-      archived: '#EF4444'
+      true: '#10B981',
+      false: '#F59E0B',
     };
     return colors[status] || '#6B7280';
   };
 
   const getStatusText = (status) => {
     const texts = {
-      published: 'Publié',
-      draft: 'Brouillon',
-      archived: 'Archivé'
+      true: 'Publié',
+      false: 'Brouillon',
     };
     return texts[status] || status;
   };
@@ -151,7 +80,7 @@ const BlogAdmin = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'is_published' ? value === 'true' : value
     }));
   };
 
@@ -171,65 +100,82 @@ const BlogAdmin = () => {
   };
 
   // Add new blog post
-  const handleAddPost = () => {
-    const newPost = {
-      id: Date.now(),
-      ...formData,
-      author: "BN BUILDING",
-      date: new Date().toISOString().split('T')[0],
-      views: 0
-    };
-    setBlogPosts(prev => [newPost, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      title: '',
-      content: '',
-      excerpt: '',
-      category: 'Conseils',
-      status: 'draft',
-      image: null,
-      readTime: '5 min'
-    });
+  const handleAddPost = async () => {
+    try {
+      const newPost = await createBlogPost(formData);
+      setBlogPosts(prev => [newPost, ...prev]);
+      setShowAddModal(false);
+      setFormData({
+        title: '',
+        content: '',
+        excerpt: '',
+        category: 'Conseils',
+        is_published: false,
+        image: null,
+        readTime: '5 min'
+      });
+    } catch (error) {
+      console.error('Error adding blog post:', error);
+      setError('Erreur lors de la création de l\'article');
+    }
   };
 
   // Edit blog post
-  const handleEditPost = () => {
-    setBlogPosts(prev => 
-      prev.map(post => 
-        post.id === selectedPost.id 
-          ? { ...post, ...formData }
-          : post
-      )
-    );
-    setShowEditModal(false);
-    setSelectedPost(null);
-    setFormData({
-      title: '',
-      content: '',
-      excerpt: '',
-      category: 'Conseils',
-      status: 'draft',
-      image: null,
-      readTime: '5 min'
-    });
+  const handleEditPost = async () => {
+    try {
+      const updatedPost = await updateBlogPost(selectedPost.id, formData);
+      setBlogPosts(prev => 
+        prev.map(post => 
+          post.id === selectedPost.id 
+            ? updatedPost
+            : post
+        )
+      );
+      setShowEditModal(false);
+      setSelectedPost(null);
+      setFormData({
+        title: '',
+        content: '',
+        excerpt: '',
+        category: 'Conseils',
+        is_published: false,
+        image: null,
+        readTime: '5 min'
+      });
+    } catch (error) {
+      console.error('Error editing blog post:', error);
+      setError('Erreur lors de la modification de l\'article');
+    }
   };
 
   // Delete blog post
-  const handleDeletePost = () => {
-    setBlogPosts(prev => prev.filter(post => post.id !== selectedPost.id));
-    setShowDeleteConfirm(false);
-    setSelectedPost(null);
+  const handleDeletePost = async () => {
+    try {
+      await deleteBlogPost(selectedPost.id);
+      setBlogPosts(prev => prev.filter(post => post.id !== selectedPost.id));
+      setShowDeleteConfirm(false);
+      setSelectedPost(null);
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+      setError('Erreur lors de la suppression de l\'article');
+    }
   };
 
   // Toggle post status
-  const handleToggleStatus = (postId, newStatus) => {
-    setBlogPosts(prev => 
-      prev.map(post => 
-        post.id === postId 
-          ? { ...post, status: newStatus }
-          : post
-      )
-    );
+  const handleToggleStatus = async (postId, newStatus) => {
+    try {
+      const updatedPost = await updateBlogPost(postId, { is_published: newStatus });
+      setBlogPosts(prev => 
+        prev.map(post => 
+          post.id === postId 
+            ? updatedPost
+            : post
+        )
+      );
+    } catch (error) {
+      console.error('Error toggling post status:', error);
+      setError('Erreur lors du changement de statut de l\'article');
+    }
   };
 
   // Open edit modal
@@ -240,9 +186,9 @@ const BlogAdmin = () => {
       content: post.content,
       excerpt: post.excerpt,
       category: post.category,
-      status: post.status,
+      is_published: post.is_published,
       image: post.image,
-      readTime: post.readTime
+      readTime: post.readTime || '5 min'
     });
     setShowEditModal(true);
   };
@@ -346,10 +292,10 @@ const BlogAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Publiés</h3>
-                <div className="stat-value">{blogPosts.filter(p => p.status === 'published').length}</div>
+                <div className="stat-value">{blogPosts.filter(p => p.is_published).length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  83% publiés
+                  {blogPosts.length > 0 ? Math.round((blogPosts.filter(p => p.is_published).length / blogPosts.length) * 100) : 0}% publiés
                 </div>
               </div>
             </div>
@@ -360,7 +306,7 @@ const BlogAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Brouillons</h3>
-                <div className="stat-value">{blogPosts.filter(p => p.status === 'draft').length}</div>
+                <div className="stat-value">{blogPosts.filter(p => !p.is_published).length}</div>
                 <div className="stat-trend trend-down">
                   <AlertCircle size={14} />
                   À publier
@@ -370,18 +316,37 @@ const BlogAdmin = () => {
 
             <div className="stat-card">
               <div className="stat-icon" style={{ backgroundColor: '#8B5CF6' + '20', color: '#8B5CF6' }}>
-                <Eye size={24} />
+                <BookOpen size={24} />
               </div>
               <div className="stat-content">
-                <h3>Vues Totales</h3>
-                <div className="stat-value">{blogPosts.reduce((sum, post) => sum + post.views, 0)}</div>
+                <h3>Catégories</h3>
+                <div className="stat-value">{new Set(blogPosts.map(p => p.category)).size}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
-                  +15% ce mois
+                  Variées
                 </div>
               </div>
             </div>
           </motion.div>
+
+          {/* Error Display */}
+          {error && (
+            <motion.div 
+              className="error-message"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <AlertCircle size={20} />
+              <span>{error}</span>
+              <button 
+                onClick={() => setError(null)}
+                className="error-close"
+              >
+                <X size={16} />
+              </button>
+            </motion.div>
+          )}
 
           {/* Filters and Search */}
           <motion.div 
@@ -409,14 +374,14 @@ const BlogAdmin = () => {
                   Tous
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'published' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('published')}
+                  className={`filter-btn ${filterStatus === 'true' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('true')}
                 >
                   Publiés
                 </button>
                 <button 
-                  className={`filter-btn ${filterStatus === 'draft' ? 'active' : ''}`}
-                  onClick={() => setFilterStatus('draft')}
+                  className={`filter-btn ${filterStatus === 'false' ? 'active' : ''}`}
+                  onClick={() => setFilterStatus('false')}
                 >
                   Brouillons
                 </button>
@@ -447,54 +412,57 @@ const BlogAdmin = () => {
                 whileHover={{ scale: 1.02, y: -5 }}
               >
                 <div className="blog-image">
-                  <img src={post.image} alt={post.title} />
-                  <div className="image-overlay">
-                    <div className="overlay-actions">
-                      <button 
-                        className="overlay-btn" 
-                        title="Voir"
-                        onClick={() => openViewModal(post)}
-                      >
-                        <Eye size={16} />
-                      </button>
-                      <button 
-                        className="overlay-btn" 
-                        title="Modifier"
-                        onClick={() => openEditModal(post)}
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button 
-                        className="overlay-btn danger" 
-                        title="Supprimer"
-                        onClick={() => openDeleteConfirm(post)}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
+                  <img 
+                    src={post.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400'} 
+                    alt={post.title} 
+                  />
                 </div>
 
                 <div className="blog-content">
                   <div className="blog-header">
                     <h3>{post.title}</h3>
-                    <button
-                      className="status-badge"
-                      style={{ 
-                        backgroundColor: getStatusColor(post.status) + '20', 
-                        color: getStatusColor(post.status),
-                        cursor: 'pointer',
-                        border: 'none',
-                        padding: '4px 8px',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        fontWeight: '600'
-                      }}
-                      onClick={() => handleToggleStatus(post.id, post.status === 'published' ? 'draft' : 'published')}
-                      title="Cliquer pour changer le statut"
-                    >
-                      {getStatusText(post.status)}
-                    </button>
+                    <div className="blog-actions">
+                      <button
+                        className="status-badge"
+                        style={{ 
+                          backgroundColor: getStatusColor(post.is_published) + '20', 
+                          color: getStatusColor(post.is_published),
+                          cursor: 'pointer',
+                          border: 'none',
+                          padding: '4px 8px',
+                          borderRadius: '6px',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}
+                        onClick={() => handleToggleStatus(post.id, !post.is_published)}
+                        title="Cliquer pour changer le statut"
+                      >
+                        {getStatusText(post.is_published)}
+                      </button>
+                      <div className="action-buttons">
+                        <button 
+                          className="action-btn view-btn" 
+                          title="Voir"
+                          onClick={() => openViewModal(post)}
+                        >
+                          <Eye size={14} />
+                        </button>
+                        <button 
+                          className="action-btn edit-btn" 
+                          title="Modifier"
+                          onClick={() => openEditModal(post)}
+                        >
+                          <Edit size={14} />
+                        </button>
+                        <button 
+                          className="action-btn delete-btn" 
+                          title="Supprimer"
+                          onClick={() => openDeleteConfirm(post)}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   
                   <p className="blog-excerpt">{post.excerpt}</p>
@@ -502,23 +470,19 @@ const BlogAdmin = () => {
                   <div className="blog-meta">
                     <div className="meta-item">
                       <User size={14} />
-                      <span>{post.author}</span>
+                      <span>{post.author || 'BN BUILDING'}</span>
                     </div>
                     <div className="meta-item">
                       <Calendar size={14} />
-                      <span>{new Date(post.date).toLocaleDateString('fr-FR')}</span>
+                      <span>{new Date(post.published_at || post.created_at).toLocaleDateString('fr-FR')}</span>
                     </div>
                     <div className="meta-item">
                       <Tag size={14} />
                       <span>{post.category}</span>
                     </div>
                     <div className="meta-item">
-                      <EyeIcon size={14} />
-                      <span>{post.views} vues</span>
-                    </div>
-                    <div className="meta-item">
                       <ClockIcon size={14} />
-                      <span>{post.readTime}</span>
+                      <span>{post.readTime || '5 min'}</span>
                     </div>
                   </div>
                 </div>
@@ -669,13 +633,12 @@ const BlogAdmin = () => {
                     <div className="form-group">
                       <label>Statut</label>
                       <select
-                        name="status"
-                        value={formData.status}
+                        name="is_published"
+                        value={formData.is_published ? 'true' : 'false'}
                         onChange={handleInputChange}
                       >
-                        <option value="draft">Brouillon</option>
-                        <option value="published">Publié</option>
-                        <option value="archived">Archivé</option>
+                        <option value="false">Brouillon</option>
+                        <option value="true">Publié</option>
                       </select>
                     </div>
                   </div>
@@ -823,13 +786,12 @@ const BlogAdmin = () => {
                     <div className="form-group">
                       <label>Statut</label>
                       <select
-                        name="status"
-                        value={formData.status}
+                        name="is_published"
+                        value={formData.is_published ? 'true' : 'false'}
                         onChange={handleInputChange}
                       >
-                        <option value="draft">Brouillon</option>
-                        <option value="published">Publié</option>
-                        <option value="archived">Archivé</option>
+                        <option value="false">Brouillon</option>
+                        <option value="true">Publié</option>
                       </select>
                     </div>
                   </div>
@@ -885,7 +847,10 @@ const BlogAdmin = () => {
                   <div className="modal-body">
                     <div className="blog-detail-view">
                       <div className="blog-detail-image">
-                        <img src={selectedPost.image} alt={selectedPost.title} />
+                        <img 
+                          src={selectedPost.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400'} 
+                          alt={selectedPost.title} 
+                        />
                       </div>
                       
                       <div className="blog-detail-info">
@@ -895,23 +860,19 @@ const BlogAdmin = () => {
                         <div className="blog-detail-meta">
                           <div className="meta-item">
                             <User size={16} />
-                            <span>{selectedPost.author}</span>
+                            <span>{selectedPost.author || 'BN BUILDING'}</span>
                           </div>
                           <div className="meta-item">
                             <Calendar size={16} />
-                            <span>{new Date(selectedPost.date).toLocaleDateString('fr-FR')}</span>
+                            <span>{new Date(selectedPost.published_at || selectedPost.created_at).toLocaleDateString('fr-FR')}</span>
                           </div>
                           <div className="meta-item">
                             <Tag size={16} />
                             <span>{selectedPost.category}</span>
                           </div>
                           <div className="meta-item">
-                            <EyeIcon size={16} />
-                            <span>{selectedPost.views} vues</span>
-                          </div>
-                          <div className="meta-item">
                             <ClockIcon size={16} />
-                            <span>{selectedPost.readTime}</span>
+                            <span>{selectedPost.readTime || '5 min'}</span>
                           </div>
                         </div>
                         
