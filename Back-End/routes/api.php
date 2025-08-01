@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,4 +107,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/contact/{id}', [ContactController::class, 'destroy']);
     Route::get('/admin/contact/status/{status}', [ContactController::class, 'byStatus']);
     Route::get('/admin/contact/unread', [ContactController::class, 'unread']);
+
+    // Dashboard
+    Route::get('/admin/dashboard', [DashboardController::class, 'index']);
+    Route::get('/admin/dashboard/export', [DashboardController::class, 'exportData']);
+    
+    // Notifications
+    Route::get('/admin/notifications', [DashboardController::class, 'getNotifications']);
+    Route::put('/admin/notifications/{id}/read', [DashboardController::class, 'markAsRead']);
+    Route::put('/admin/notifications/read-all', [DashboardController::class, 'markAllAsRead']);
+    Route::delete('/admin/notifications/{id}', [DashboardController::class, 'deleteNotification']);
 }); 

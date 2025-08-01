@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Quote;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -33,6 +34,10 @@ class QuoteController extends Controller
         ]);
 
         $quote = Quote::create($request->all());
+        
+        // Create notification for new quote
+        Notification::createQuoteNotification($quote);
+        
         return response()->json($quote, 201);
     }
 

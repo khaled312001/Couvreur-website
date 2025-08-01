@@ -5,6 +5,7 @@ import { getTestimonials } from '../api/testimonials';
 import ServiceCard from '../components/ServiceCard';
 import GalleryItem from '../components/GalleryItem';
 import Testimonial from '../components/Testimonial';
+import AnimatedSection from '../components/AnimatedSection';
 
 const Home = () => {
   const [services, setServices] = useState([]);
@@ -181,13 +182,19 @@ const Home = () => {
               <div className="slide-overlay">
                 <div className="container">
                   <div className="slide-content">
-                    <h1 className="slide-title animate-fadeInUp">{slide.title}</h1>
-                    <h2 className="slide-subtitle animate-slideInLeft">{slide.subtitle}</h2>
-                    <p className="slide-description animate-slideInRight">{slide.description}</p>
-                    <div className="slide-buttons animate-bounceIn">
+                    <AnimatedSection animationType="fade-in-left" className="slide-title">
+                      {slide.title}
+                    </AnimatedSection>
+                    <AnimatedSection animationType="fade-in-right" className="slide-subtitle" delay={0.2}>
+                      {slide.subtitle}
+                    </AnimatedSection>
+                    <AnimatedSection animationType="slide-up-bounce" className="slide-description" delay={0.4}>
+                      {slide.description}
+                    </AnimatedSection>
+                    <AnimatedSection animationType="scale-in" className="slide-buttons" delay={0.6}>
                       <a href="/contact" className="hero-btn primary">{slide.cta}</a>
                       <a href="/services" className="hero-btn secondary">NOS SERVICES</a>
-                    </div>
+                    </AnimatedSection>
                   </div>
                 </div>
               </div>
@@ -219,7 +226,7 @@ const Home = () => {
       <section className="about-section section section-gray">
         <div className="container">
           <div className="about-grid">
-            <div className="about-content fade-in-on-scroll">
+            <AnimatedSection animationType="fade-in-left" className="about-content">
               <div className="about-header">
                 <div className="about-badge">
                   <div className="badge-square"></div>
@@ -271,8 +278,8 @@ const Home = () => {
                 <a href="/a-propos" className="btn btn-primary">En savoir plus</a>
                 <a href="/contact" className="btn btn-secondary">Devis gratuit</a>
               </div>
-            </div>
-            <div className="about-visual fade-in-on-scroll">
+            </AnimatedSection>
+            <AnimatedSection animationType="fade-in-right" className="about-visual" delay={0.2}>
               <img 
                 src="https://img.freepik.com/premium-vector/flat-design-construction-company-logo_1002026-152.jpg" 
                 alt="Artisan couvreur au travail" 
@@ -284,7 +291,7 @@ const Home = () => {
                   height: 'auto'
                 }}
               />
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -293,11 +300,11 @@ const Home = () => {
       <section className="online-presence-section">
         <div className="container">
           <div className="presence-content">
-            <div className="presence-header fade-in-on-scroll">
+            <AnimatedSection animationType="slide-up-bounce" className="presence-header">
               <h2 className="presence-title">Trouvez-nous sur :</h2>
-            </div>
+            </AnimatedSection>
             <div className="presence-cards">
-              <div className="presence-card fade-in-on-scroll" style={{animationDelay: '0.1s'}}>
+              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.1}>
                 <div className="card-logo">
                   <div className="google-logo">
                     <div className="google-building"></div>
@@ -308,9 +315,9 @@ const Home = () => {
                   <div className="card-title">Google My Business</div>
                   <div className="card-subtitle">Google</div>
                 </div>
-              </div>
+              </AnimatedSection>
               
-              <div className="presence-card fade-in-on-scroll" style={{animationDelay: '0.2s'}}>
+              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.2}>
                 <div className="card-logo">
                   <div className="figaro-logo">
                     <span className="figaro-text">LE FIGARO</span>
@@ -320,9 +327,9 @@ const Home = () => {
                 <div className="card-text">
                   <div className="card-subtitle">Figaro Entreprise</div>
                 </div>
-              </div>
+              </AnimatedSection>
               
-              <div className="presence-card fade-in-on-scroll" style={{animationDelay: '0.3s'}}>
+              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.3}>
                 <div className="card-logo">
                   <div className="societe-logo">
                     <span className="societe-text">Societe</span>
@@ -332,9 +339,9 @@ const Home = () => {
                 <div className="card-text">
                   <div className="card-subtitle">Société.com</div>
                 </div>
-              </div>
+              </AnimatedSection>
               
-              <div className="presence-card fade-in-on-scroll" style={{animationDelay: '0.4s'}}>
+              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.4}>
                 <div className="card-logo">
                   <div className="mappy-logo">
                     <span className="mappy-text">mappy</span>
@@ -344,10 +351,10 @@ const Home = () => {
                 <div className="card-text">
                   <div className="card-subtitle">Mappy</div>
                 </div>
-              </div>
+              </AnimatedSection>
             </div>
             
-            <div className="reviews-widget fade-in-on-scroll" style={{animationDelay: '0.5s'}}>
+            <AnimatedSection animationType="slide-up-bounce" className="reviews-widget" delay={0.5}>
               <div className="google-reviews">
                 <div className="reviews-logo">
                   <div className="google-g-colorful">G</div>
@@ -367,7 +374,7 @@ const Home = () => {
                   <a href="/testimonials" className="reviews-link">Lire nos 34 avis</a>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -376,7 +383,7 @@ const Home = () => {
       <section className="about-section section">
         <div className="container">
           <div className="about-grid">
-            <div className="about-content fade-in-on-scroll">
+            <AnimatedSection animationType="fade-in-left" className="about-content">
               <div className="about-header">
                 <div className="about-badge">
                   <div className="badge-square"></div>
@@ -397,7 +404,7 @@ const Home = () => {
               </div>
               
               <div className="about-features">
-                <div className="about-feature fade-in-on-scroll" style={{animationDelay: '0.1s'}}>
+                <AnimatedSection animationType="scale-in" className="about-feature" delay={0.1}>
                   <div className="feature-icon">
                     <div className="team-icon">👥</div>
                   </div>
@@ -408,9 +415,9 @@ const Home = () => {
                       nécessaire pour vos futurs projets de toiture.
                     </p>
                   </div>
-                </div>
+                </AnimatedSection>
                 
-                <div className="about-feature fade-in-on-scroll" style={{animationDelay: '0.2s'}}>
+                <AnimatedSection animationType="scale-in" className="about-feature" delay={0.2}>
                   <div className="feature-icon">
                     <div className="tools-icon">🔧</div>
                   </div>
@@ -421,9 +428,9 @@ const Home = () => {
                       qui allient performance et respect de l'environnement.
                     </p>
                   </div>
-                </div>
+                </AnimatedSection>
                 
-                <div className="about-feature fade-in-on-scroll" style={{animationDelay: '0.3s'}}>
+                <AnimatedSection animationType="scale-in" className="about-feature" delay={0.3}>
                   <div className="feature-icon">
                     <div className="price-icon">💰</div>
                   </div>
@@ -434,9 +441,9 @@ const Home = () => {
                       de nos interventions de toiture.
                     </p>
                   </div>
-                </div>
+                </AnimatedSection>
                 
-                <div className="about-feature fade-in-on-scroll" style={{animationDelay: '0.4s'}}>
+                <AnimatedSection animationType="scale-in" className="about-feature" delay={0.4}>
                   <div className="feature-icon">
                     <div className="warranty-icon">🛡️</div>
                   </div>
@@ -447,13 +454,13 @@ const Home = () => {
                       assurée et certifiée pour votre tranquillité d'esprit.
                     </p>
                   </div>
-                </div>
+                </AnimatedSection>
               </div>
               
               <a href="/about" className="about-cta">PLUS À PROPOS DE NOUS</a>
-            </div>
+            </AnimatedSection>
             
-            <div className="about-visual fade-in-on-scroll">
+            <AnimatedSection animationType="fade-in-right" className="about-visual" delay={0.2}>
               <div className="worker-illustration">
                 <div className="roof-scene">
                   <div className="roof"></div>
@@ -469,7 +476,7 @@ const Home = () => {
                   <div className="badge-text">ans d'expérience</div>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -478,7 +485,7 @@ const Home = () => {
       <section className="quality-section section">
         <div className="container">
           <div className="quality-grid">
-            <div className="quality-content fade-in-on-scroll">
+            <AnimatedSection animationType="fade-in-left" className="quality-content">
               <h2 className="section-title">Qualité et Fiabilité</h2>
               <p className="section-description">
                 Notre engagement envers l'excellence se traduit par des prestations de qualité, 
@@ -515,8 +522,8 @@ const Home = () => {
                 </div>
               </div>
               <a href="/contact" className="cta-button">DEMANDER UN DEVIS</a>
-            </div>
-            <div className="quality-image fade-in-on-scroll">
+            </AnimatedSection>
+            <AnimatedSection animationType="fade-in-right" className="quality-image" delay={0.2}>
               <img 
                 src="https://th.bing.com/th/id/OIP.D2pE_dpnerxSFd8p46aA_wHaEM?w=251&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" 
                 alt="Travailleur sur toiture" 
@@ -526,7 +533,7 @@ const Home = () => {
                 <span>10+</span>
                 <span>Années d'expérience</span>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -534,7 +541,7 @@ const Home = () => {
       {/* Services Section with Different Images */}
       <section className="services-section section section-gray">
         <div className="container">
-          <div className="section-header fade-in-on-scroll">
+          <AnimatedSection animationType="slide-up-bounce" className="section-header">
             <div className="section-badge">
               <div className="badge-square"></div>
               <span>NOS SERVICES</span>
@@ -543,9 +550,9 @@ const Home = () => {
             <p className="section-subtitle">
               Nous proposons de nombreux services répondant chacun aux besoins spécifiques de nos clients en Lyon (69) - Saint-Étienne (42) - Valence (26)
             </p>
-          </div>
+          </AnimatedSection>
           <div className="services-grid grid grid-3">
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.1s'}}>
+            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.1}>
               <div className="service-image">
                 <img src="https://th.bing.com/th/id/OIP.byinHvCNLGPMajojSqKM-QHaE8?w=241&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" alt="Rénovation de toiture" />
               </div>
@@ -554,9 +561,9 @@ const Home = () => {
                 <p>Nous rénovons et prenons soin de tout type de toiture en Drôme (26) et Ardèche (07)</p>
                 <a href="/services/renovation" className="card-button">Voir le détail</a>
               </div>
-            </div>
+            </AnimatedSection>
             
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.2s'}}>
+            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.2}>
               <div className="service-image">
                 <img src="https://th.bing.com/th/id/R.3ded85b1ec4807586d07c65ce4b6d743?rik=zl4%2fPqN1ZLKL4w&pid=ImgRaw&r=0" alt="Réparation de toiture" />
               </div>
@@ -565,9 +572,9 @@ const Home = () => {
                 <p>Nous inspectons et réparons tout type de toiture.</p>
                 <a href="/services/reparation" className="card-button">Voir le détail</a>
               </div>
-            </div>
+            </AnimatedSection>
             
-            <div className="service-card card fade-in-on-scroll" style={{animationDelay: '0.3s'}}>
+            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.3}>
               <div className="service-image">
                 <img src="https://tse2.mm.bing.net/th/id/OIP.4v_TRfVxL_mOwlGPbXIQNQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" />
               </div>
@@ -576,10 +583,10 @@ const Home = () => {
                 <p>Nous entretenons, traitons et nettoyons vos toitures.</p>
                 <a href="/services/entretien" className="card-button">Voir le détail</a>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
           
-          <div className="services-footer fade-in-on-scroll">
+          <AnimatedSection animationType="slide-up-bounce" className="services-footer">
             <div className="footer-cta">
               <a href="/contact" className="cta-button">
                 <span className="calendar-icon">📅</span>
@@ -596,7 +603,7 @@ const Home = () => {
                 <span>Lundi - Samedi | 7h00 - 20h</span>
               </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 

@@ -38,22 +38,36 @@ const Login = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate API call
-    setTimeout(() => {
-      if (formData.email === 'admin@bnbuilding.fr' && formData.password === 'admin123') {
-        localStorage.setItem('adminToken', 'admin-token-123');
-        localStorage.setItem('adminUser', JSON.stringify({
-          id: 1,
-          name: 'Admin',
-          email: formData.email,
-          role: 'admin'
-        }));
-        navigate('/admin/dashboard');
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Check if user is admin
+        if (data.user.role === 'admin') {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/admin/dashboard');
+        } else {
+          setError('Accès refusé. Seuls les administrateurs peuvent accéder à cette section.');
+        }
       } else {
-        setError('Email ou mot de passe incorrect');
+        setError(data.message || 'Email ou mot de passe incorrect');
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Erreur de connexion. Veuillez réessayer.');
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

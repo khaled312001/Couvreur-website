@@ -14,16 +14,42 @@ import {
   Settings, Image, MessageSquare, BookOpen, UserPlus, Shield,
   ExternalLink, Package
 } from 'lucide-react';
+import { dashboardApi } from '../../api/dashboard';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [expandedCards, setExpandedCards] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
+  const [dashboardData, setDashboardData] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Mock data for charts
-  const monthlyData = [
+  // Load dashboard data
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await dashboardApi.getDashboardData();
+        setDashboardData(response.data);
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        setError('Erreur lors du chargement des données du tableau de bord');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
+  // Mock data for charts (fallback)
+  const monthlyData = dashboardData?.monthly_revenue?.map(item => ({
+    name: item.month,
+    revenus: item.revenue,
+    devis: item.quotes
+  })) || [
     { name: 'Jan', devis: 45, services: 12, revenus: 12500, commandes: 8 },
     { name: 'Fév', devis: 52, services: 18, revenus: 15800, commandes: 12 },
     { name: 'Mar', devis: 38, services: 15, revenus: 14200, commandes: 10 },
@@ -32,28 +58,42 @@ const Dashboard = () => {
     { name: 'Juin', devis: 72, services: 25, revenus: 22100, commandes: 18 },
   ];
 
-  const serviceData = [
+  const serviceData = dashboardData?.service_distribution?.map(item => ({
+    name: item.service,
+    value: item.count,
+    color: '#3B82F6'
+  })) || [
     { name: 'Charpente', value: 35, color: '#3B82F6' },
     { name: 'Couverture', value: 25, color: '#10B981' },
     { name: 'Zinguerie', value: 20, color: '#F59E0B' },
     { name: 'Entretien', value: 20, color: '#EF4444' },
   ];
 
-  const performanceData = [
+  const performanceData = dashboardData?.performance_metrics ? [
+    { name: 'Taux de conversion', value: dashboardData.performance_metrics.conversion_rate, fill: '#3B82F6' },
+    { name: 'Satisfaction client', value: dashboardData.performance_metrics.customer_satisfaction, fill: '#10B981' },
+    { name: 'Temps de réponse', value: 100 - dashboardData.performance_metrics.average_response_time, fill: '#F59E0B' },
+    { name: 'Croissance mensuelle', value: dashboardData.performance_metrics.monthly_growth, fill: '#8B5CF6' },
+  ] : [
     { name: 'Efficacité', value: 85, fill: '#3B82F6' },
     { name: 'Qualité', value: 92, fill: '#10B981' },
     { name: 'Rapidité', value: 78, fill: '#F59E0B' },
     { name: 'Satisfaction', value: 95, fill: '#8B5CF6' },
   ];
 
-  const recentQuotes = [
+  const recentQuotes = dashboardData?.recent_quotes || [
     { id: 1, client: 'Jean Dupont', service: 'Installation de Toiture', montant: 8500, statut: 'en_attente', date: '2025-01-15' },
     { id: 2, client: 'Marie Martin', service: 'Maintenance Annuelle', montant: 1200, statut: 'approuvé', date: '2025-01-14' },
     { id: 3, client: 'Pierre Durand', service: 'Réparation Urgente', montant: 3200, statut: 'terminé', date: '2025-01-13' },
     { id: 4, client: 'Sophie Bernard', service: 'Installation Étanchéité', montant: 6500, statut: 'en_cours', date: '2025-01-12' },
   ];
 
-  const quickStats = [
+  const quickStats = dashboardData?.quick_stats ? [
+    { title: 'Devis en attente', value: dashboardData.quick_stats.pending_quotes, icon: FileText, color: '#F59E0B', trend: '+5%', trendUp: true },
+    { title: 'Commandes actives', value: dashboardData.quick_stats.approved_quotes, icon: Package, color: '#3B82F6', trend: '+12%', trendUp: true },
+    { title: 'Services actifs', value: dashboardData.quick_stats.active_services, icon: Target, color: '#10B981', trend: '+8%', trendUp: true },
+    { title: 'Revenus totaux', value: `€${dashboardData.quick_stats.total_revenue?.toLocaleString() || '0'}`, icon: DollarSign, color: '#8B5CF6', trend: '+15%', trendUp: true },
+  ] : [
     { title: 'Devis en attente', value: 12, icon: FileText, color: '#F59E0B', trend: '+5%', trendUp: true },
     { title: 'Commandes actives', value: 8, icon: Package, color: '#3B82F6', trend: '+12%', trendUp: true },
     { title: 'Services actifs', value: 6, icon: Target, color: '#10B981', trend: '+8%', trendUp: true },
@@ -66,36 +106,52 @@ const Dashboard = () => {
       description: 'Gérer les services de charpente, couverture et zinguerie',
       icon: Target,
       color: '#3B82F6',
-      count: 6,
+      count: dashboardData?.quick_stats?.total_services || 6,
       link: '/admin/services',
-      stats: { total: 6, actifs: 5, en_attente: 1 }
+      stats: { 
+        total: dashboardData?.quick_stats?.total_services || 6, 
+        actifs: dashboardData?.quick_stats?.active_services || 5, 
+        en_attente: 1 
+      }
     },
     {
-      title: 'Gestion des Commandes',
-      description: 'Gérer les commandes et projets de construction',
+      title: 'Gestion des Devis',
+      description: 'Gérer les devis et demandes clients',
       icon: Package,
       color: '#EF4444',
-      count: 18,
-      link: '/admin/orders',
-      stats: { total: 18, en_cours: 8, en_attente: 6, terminés: 4 }
+      count: dashboardData?.quick_stats?.total_quotes || 18,
+      link: '/admin/quotes',
+      stats: { 
+        total: dashboardData?.quick_stats?.total_quotes || 18, 
+        en_cours: dashboardData?.quick_stats?.approved_quotes || 8, 
+        en_attente: dashboardData?.quick_stats?.pending_quotes || 6
+      }
     },
     {
       title: 'Gestion de la Galerie',
       description: 'Gérer les photos et projets de travaux',
       icon: Image,
       color: '#10B981',
-      count: 8,
+      count: dashboardData?.quick_stats?.total_gallery_items || 8,
       link: '/admin/gallery',
-      stats: { total: 8, publiés: 7, brouillons: 1 }
+      stats: { 
+        total: dashboardData?.quick_stats?.total_gallery_items || 8, 
+        publiés: 7, 
+        brouillons: 1 
+      }
     },
     {
       title: 'Gestion des Témoignages',
       description: 'Gérer les avis et recommandations clients',
       icon: MessageSquare,
       color: '#F59E0B',
-      count: 12,
+      count: dashboardData?.quick_stats?.total_testimonials || 12,
       link: '/admin/testimonials',
-      stats: { total: 12, approuvés: 10, en_attente: 2 }
+      stats: { 
+        total: dashboardData?.quick_stats?.total_testimonials || 12, 
+        approuvés: dashboardData?.quick_stats?.approved_testimonials || 10, 
+        en_attente: 2 
+      }
     },
     {
       title: 'Gestion du Blog',
@@ -107,8 +163,8 @@ const Dashboard = () => {
       stats: { total: 15, publiés: 12, brouillons: 3 }
     },
     {
-      title: 'Gestion des Devis',
-      description: 'Gérer les demandes de devis clients',
+      title: 'Suivi des Devis',
+      description: 'Suivre l\'état des devis et demandes clients',
       icon: FileText,
       color: '#06B6D4',
       count: 25,
@@ -163,25 +219,23 @@ const Dashboard = () => {
     navigate(link);
   };
 
-  const handleExportData = () => {
-    // Simulate export functionality
-    const data = {
-      monthlyData,
-      serviceData,
-      performanceData,
-      recentQuotes,
-      quickStats
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'dashboard-data.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  const handleExportData = async () => {
+    try {
+      const response = await dashboardApi.exportData('quotes', 'json');
+      
+      const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dashboard-data.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting data:', error);
+      alert('Erreur lors de l\'exportation des données');
+    }
   };
 
   const handleViewQuote = (quoteId) => {
@@ -199,8 +253,8 @@ const Dashboard = () => {
   };
 
   const filteredQuotes = recentQuotes.filter(quote =>
-    quote.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    quote.service.toLowerCase().includes(searchTerm.toLowerCase())
+    quote.client_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    quote.service_type?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isLoading) {
@@ -215,6 +269,32 @@ const Dashboard = () => {
             >
               <div className="loading-spinner"></div>
               <p>Chargement du tableau de bord...</p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-container">
+        <div className="admin-main">
+          <div className="admin-content">
+            <motion.div 
+              className="error-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="error-icon">⚠️</div>
+              <h3>Erreur de chargement</h3>
+              <p>{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="retry-button"
+              >
+                Réessayer
+              </button>
             </motion.div>
           </div>
         </div>
@@ -626,22 +706,22 @@ const Dashboard = () => {
                     <div className="table-cell">
                       <div className="client-info">
                         <div className="client-avatar">
-                          {quote.client.charAt(0)}
+                          {quote.client_name?.charAt(0) || 'C'}
                         </div>
-                        <span>{quote.client}</span>
+                        <span>{quote.client_name || 'Client'}</span>
                       </div>
                     </div>
-                    <div className="table-cell">{quote.service}</div>
-                    <div className="table-cell">€{quote.montant.toLocaleString()}</div>
+                    <div className="table-cell">{quote.service_type || 'Service'}</div>
+                    <div className="table-cell">€{quote.amount?.toLocaleString() || '0'}</div>
                     <div className="table-cell">
                       <span 
                         className="status-badge"
-                        style={{ backgroundColor: getStatusColor(quote.statut) + '20', color: getStatusColor(quote.statut) }}
+                        style={{ backgroundColor: getStatusColor(quote.status) + '20', color: getStatusColor(quote.status) }}
                       >
-                        {getStatusText(quote.statut)}
+                        {getStatusText(quote.status)}
                       </span>
                     </div>
-                    <div className="table-cell">{new Date(quote.date).toLocaleDateString('fr-FR')}</div>
+                    <div className="table-cell">{new Date(quote.created_at).toLocaleDateString('fr-FR')}</div>
                     <div className="table-cell">
                       <div className="action-buttons">
                         <button 

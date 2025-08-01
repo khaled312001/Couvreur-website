@@ -1,59 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Bell, User, Settings, LogOut, ExternalLink, 
+  User, Settings, LogOut, ExternalLink, 
   ChevronDown, Search, Menu, X, Home, ArrowUpRight
 } from 'lucide-react';
+import NotificationsDropdown from './NotificationsDropdown';
 import '../styles/admin.css';
 
 const AdminHeader = () => {
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Mock notifications data
-  const notifications = [
-    {
-      id: 1,
-      type: 'info',
-      title: 'Nouveau devis reçu',
-      message: 'Un nouveau devis a été soumis par Jean Dupont',
-      time: 'Il y a 5 minutes',
-      unread: true
-    },
-    {
-      id: 2,
-      type: 'success',
-      title: 'Commande terminée',
-      message: 'La commande #1234 a été livrée avec succès',
-      time: 'Il y a 1 heure',
-      unread: true
-    },
-    {
-      id: 3,
-      type: 'warning',
-      title: 'Maintenance requise',
-      message: 'Le service de maintenance est dû cette semaine',
-      time: 'Il y a 2 heures',
-      unread: false
-    },
-    {
-      id: 4,
-      type: 'info',
-      title: 'Nouveau témoignage',
-      message: 'Un nouveau témoignage client a été ajouté',
-      time: 'Il y a 3 heures',
-      unread: false
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
     }
-  ];
-
-  const unreadCount = notifications.filter(n => n.unread).length;
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.admin-header-notifications') && !event.target.closest('.admin-header-user')) {
-        setNotificationsOpen(false);
+      if (!event.target.closest('.admin-header-user')) {
         setUserMenuOpen(false);
       }
     };
@@ -62,10 +31,25 @@ const AdminHeader = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    // Simulate logout
-    localStorage.removeItem('adminToken');
-    navigate('/admin/login');
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await fetch('http://localhost:8000/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/admin/login');
+    }
   };
 
   const handleViewSite = () => {
@@ -80,36 +64,6 @@ const AdminHeader = () => {
   const handleNavigateToProfile = () => {
     navigate('/admin/profile');
     setUserMenuOpen(false);
-  };
-
-  const handleNotificationClick = (notification) => {
-    // Navigate based on notification type
-    switch (notification.type) {
-      case 'info':
-        if (notification.title.includes('devis')) {
-          navigate('/admin/quotes');
-        } else if (notification.title.includes('témoignage')) {
-          navigate('/admin/testimonials');
-        }
-        break;
-      case 'success':
-        if (notification.title.includes('Commande')) {
-          navigate('/admin/orders');
-        }
-        break;
-      case 'warning':
-        navigate('/admin/services');
-        break;
-      default:
-        break;
-    }
-    setNotificationsOpen(false);
-  };
-
-  const markAllAsRead = () => {
-    // Simulate marking all as read
-    console.log('Marking all notifications as read');
-    setNotificationsOpen(false);
   };
 
   return (
@@ -146,65 +100,8 @@ const AdminHeader = () => {
             <ArrowUpRight size={14} />
           </button>
 
-          {/* Notifications */}
-          <div className="admin-header-notifications">
-            <button 
-              className="notification-btn"
-              onClick={() => setNotificationsOpen(!notificationsOpen)}
-            >
-              <Bell size={20} />
-              {unreadCount > 0 && (
-                <span className="notification-badge">{unreadCount}</span>
-              )}
-            </button>
-
-            {notificationsOpen && (
-              <div className="admin-header-notifications-dropdown">
-                <div className="notifications-header">
-                  <h3>Notifications</h3>
-                  <button 
-                    className="mark-all-read"
-                    onClick={markAllAsRead}
-                  >
-                    Tout marquer comme lu
-                  </button>
-                </div>
-                
-                <div className="notifications-list">
-                  {notifications.map(notification => (
-                    <div 
-                      key={notification.id}
-                      className={`notification-item ${notification.unread ? 'unread' : ''}`}
-                      onClick={() => handleNotificationClick(notification)}
-                    >
-                      <div className="notification-icon">
-                        {notification.type === 'info' && <Bell size={16} />}
-                        {notification.type === 'success' && <Bell size={16} />}
-                        {notification.type === 'warning' && <Bell size={16} />}
-                      </div>
-                      <div className="notification-content">
-                        <h4>{notification.title}</h4>
-                        <p>{notification.message}</p>
-                        <span className="notification-time">{notification.time}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="notifications-footer">
-                  <button 
-                    className="view-all-notifications"
-                    onClick={() => {
-                      setNotificationsOpen(false);
-                      // Navigate to notifications page if exists
-                    }}
-                  >
-                    Voir toutes les notifications
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          {/* Notifications - Using the new component */}
+          <NotificationsDropdown />
 
           {/* User Menu */}
           <div className="admin-header-user">
@@ -215,7 +112,7 @@ const AdminHeader = () => {
               <div className="user-avatar">
                 <User size={16} />
               </div>
-              <span className="user-name">Jean Dupont</span>
+              <span className="user-name">{user?.name || 'Admin'}</span>
               <ChevronDown size={16} />
             </button>
 
@@ -226,7 +123,7 @@ const AdminHeader = () => {
                     <User size={24} />
                   </div>
                   <div className="user-details">
-                    <h4>Jean Dupont</h4>
+                    <h4>{user?.name || 'Admin'}</h4>
                     <p>Administrateur Principal</p>
                   </div>
                 </div>

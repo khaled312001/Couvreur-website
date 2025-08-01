@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -31,6 +32,10 @@ class ContactController extends Controller
         ]);
 
         $message = ContactMessage::create($request->all());
+        
+        // Create notification for new contact message
+        Notification::createContactNotification($message);
+        
         return response()->json($message, 201);
     }
 

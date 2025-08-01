@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getServices } from '../../api/services';
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     loadServices();
@@ -20,15 +19,6 @@ const Services = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePayment = (service) => {
-    navigate('/payment', { 
-      state: { 
-        service: service,
-        amount: service.price_range || service.price || 0
-      }
-    });
   };
 
   if (loading) {
@@ -93,35 +83,42 @@ const Services = () => {
                   <h3 className="service-title">{service.title}</h3>
                   <p className="service-description">{service.description}</p>
                   
-                  <div className="service-features">
-                    <h4>Caractéristiques:</h4>
-                    <ul>
-                      {service.features && service.features.slice(0, 3).map((feature, index) => (
-                        <li key={index}>{feature}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  {service.features && service.features.length > 0 && (
+                    <div className="service-features">
+                      <h4>Caractéristiques:</h4>
+                      <ul>
+                        {service.features.slice(0, 3).map((feature, index) => (
+                          <li key={index}>{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                  <div className="service-price">
-                    <span className="price-label">Prix:</span>
-                    <span className="price-value">
-                      {service.price_range || service.price || 'Contactez-nous'}
-                    </span>
+                  <div className="service-meta">
+                    <div className="meta-item">
+                      <strong>Catégorie:</strong> {service.category}
+                    </div>
+                    <div className="meta-item">
+                      <strong>Durée:</strong> {service.duration}
+                    </div>
+                    <div className="meta-item">
+                      <strong>Prix:</strong> {service.price_range}
+                    </div>
                   </div>
 
                   <div className="service-actions">
                     <Link 
                       to={`/services/${service.slug}`} 
+                      className="btn-primary"
+                    >
+                      Voir les détails
+                    </Link>
+                    <Link 
+                      to="/contact" 
                       className="btn-secondary"
                     >
-                      Détails
+                      Demander un devis
                     </Link>
-                    <button 
-                      onClick={() => handlePayment(service)}
-                      className="btn-primary payment-btn"
-                    >
-                      💳 Demander le service
-                    </button>
                   </div>
                 </div>
               </div>

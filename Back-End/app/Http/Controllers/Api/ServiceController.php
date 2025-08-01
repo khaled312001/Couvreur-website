@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -50,6 +51,10 @@ class ServiceController extends Controller
         $data['slug'] = Str::slug($request->title);
 
         $service = Service::create($data);
+        
+        // Create notification for new service
+        Notification::createServiceNotification($service, 'created');
+        
         return response()->json($service, 201);
     }
 
@@ -78,12 +83,20 @@ class ServiceController extends Controller
         $data['slug'] = Str::slug($request->title);
 
         $service->update($data);
+        
+        // Create notification for updated service
+        Notification::createServiceNotification($service, 'updated');
+        
         return response()->json($service);
     }
 
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
+        
+        // Create notification for deleted service before deleting
+        Notification::createServiceNotification($service, 'deleted');
+        
         $service->delete();
         return response()->json(['success' => true]);
     }

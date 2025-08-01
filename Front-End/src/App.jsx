@@ -7,6 +7,8 @@ import "./styles/auth.css";
 import "./styles/payment.css";
 import "./styles/services.css";
 import "./styles/service-details.css";
+import "./styles/not-found.css";
+import "./styles/animations.css";
 
 // Import contexts
 import { AuthProvider } from "./context/AuthContext";
@@ -14,6 +16,8 @@ import { AuthProvider } from "./context/AuthContext";
 // Import Header and Footer components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import SmoothScroll from "./components/SmoothScroll";
 
 // Import all pages
 import Home from "./pages/Home";
@@ -27,6 +31,7 @@ import Pricing from "./pages/Pricing";
 
 // Import Services pages
 import Services from "./pages/Services/Services";
+import ServiceDetail from "./pages/Services/ServiceDetail";
 import Charpente from "./pages/Services/Charpente";
 import Couverture from "./pages/Services/Couverture";
 import Zinguerie from "./pages/Services/Zinguerie";
@@ -62,10 +67,15 @@ import UserMessages from "./pages/UserMessages";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
+// Import 404 page
+import NotFound from "./pages/NotFound";
+
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
+        <SmoothScroll />
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
           <Routes>
             {/* Admin Routes */}
@@ -114,6 +124,7 @@ function App() {
 
                     {/* Services Pages */}
                     <Route path="/services" element={<Services />} />
+                    <Route path="/services/:slug" element={<ServiceDetail />} />
                     <Route path="/services/charpente" element={<Charpente />} />
                     <Route path="/services/couverture" element={<Couverture />} />
                     <Route path="/services/zinguerie" element={<Zinguerie />} />
@@ -121,6 +132,9 @@ function App() {
                     <Route path="/services/repair" element={<Repair />} />
                     <Route path="/services/maintenance" element={<Maintenance />} />
                     <Route path="/services/extras" element={<Extras />} />
+
+                    {/* 404 Page - Must be last */}
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
                 <Footer />

@@ -5,6 +5,7 @@ import {
   Target, Settings, CheckCircle, AlertCircle, Clock,
   X, Save, Calendar, DollarSign, Tag, FileText
 } from 'lucide-react';
+import { createService, updateService, deleteService } from '../../api/services';
 
 const ServicesAdmin = () => {
   const [services, setServices] = useState([]);
@@ -23,15 +24,54 @@ const ServicesAdmin = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    long_description: '',
     icon: '🏗️',
     category: '',
-    price: '',
     duration: '',
-    status: 'active'
+    price_range: '',
+    features: [],
+    sub_services: [],
+    materials: [],
+    advantages: [],
+    image: '',
+    is_active: true,
+    sort_order: 0
   });
 
-  // Mock services data
-  const mockServices = [
+  // Load services from API
+  useEffect(() => {
+    loadServices();
+  }, []);
+
+  const loadServices = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:8000/api/admin/services', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setServices(data.data || data);
+      } else {
+        console.error('Failed to load services');
+        // Fallback to mock data if API fails
+        setServices(getMockServices());
+      }
+    } catch (error) {
+      console.error('Error loading services:', error);
+      // Fallback to mock data
+      setServices(getMockServices());
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Mock services data for fallback
+  const getMockServices = () => [
     {
       id: 1,
       title: "Charpente",
@@ -39,9 +79,9 @@ const ServicesAdmin = () => {
       icon: "🏗️",
       status: "active",
       category: "Charpente",
-      price: "Sur devis",
+      price_range: "Sur devis",
       duration: "2-4 semaines",
-      createdAt: "2025-01-15"
+      created_at: "2025-01-15"
     },
     {
       id: 2,
@@ -50,9 +90,9 @@ const ServicesAdmin = () => {
       icon: "🏠",
       status: "active",
       category: "Couverture",
-      price: "Sur devis",
+      price_range: "Sur devis",
       duration: "1-3 semaines",
-      createdAt: "2025-01-14"
+      created_at: "2025-01-14"
     },
     {
       id: 3,
@@ -61,9 +101,9 @@ const ServicesAdmin = () => {
       icon: "⚡",
       status: "active",
       category: "Zinguerie",
-      price: "Sur devis",
+      price_range: "Sur devis",
       duration: "1-2 semaines",
-      createdAt: "2025-01-13"
+      created_at: "2025-01-13"
     },
     {
       id: 4,
@@ -72,9 +112,9 @@ const ServicesAdmin = () => {
       icon: "🧹",
       status: "draft",
       category: "Entretien",
-      price: "À partir de 500€",
+      price_range: "À partir de 500€",
       duration: "1 jour",
-      createdAt: "2025-01-12"
+      created_at: "2025-01-12"
     },
     {
       id: 5,
@@ -83,9 +123,9 @@ const ServicesAdmin = () => {
       icon: "🏠",
       status: "active",
       category: "Isolation",
-      price: "Sur devis",
+      price_range: "Sur devis",
       duration: "3-5 jours",
-      createdAt: "2025-01-11"
+      created_at: "2025-01-11"
     },
     {
       id: 6,
@@ -94,24 +134,18 @@ const ServicesAdmin = () => {
       icon: "🪟",
       status: "active",
       category: "Installation",
-      price: "Sur devis",
+      price_range: "Sur devis",
       duration: "1-2 jours",
-      createdAt: "2025-01-10"
+      created_at: "2025-01-10"
     }
   ];
-
-  useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setServices(mockServices);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
 
   const filteredServices = services.filter(service => {
     const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          service.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || service.status === filterStatus;
+    const matchesFilter = filterStatus === 'all' || 
+                         (filterStatus === 'active' && service.is_active) ||
+                         (filterStatus === 'inactive' && !service.is_active);
     return matchesSearch && matchesFilter;
   });
 
@@ -135,71 +169,124 @@ const ServicesAdmin = () => {
 
   // Handle form input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? e.target.checked : 
+              name === 'is_active' ? value === 'active' : 
+              value
     }));
   };
 
   // Add new service
-  const handleAddService = () => {
-    const newService = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString().split('T')[0]
-    };
-    setServices(prev => [newService, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      title: '',
-      description: '',
-      icon: '🏗️',
-      category: '',
-      price: '',
-      duration: '',
-      status: 'active'
-    });
+  const handleAddService = async () => {
+    try {
+      const response = await createService(formData);
+      if (response.ok) {
+        const newService = await response.json();
+        setServices(prev => [newService.data, ...prev]);
+        setShowAddModal(false);
+        setFormData({
+          title: '',
+          description: '',
+          long_description: '',
+          icon: '🏗️',
+          category: '',
+          duration: '',
+          price_range: '',
+          features: [],
+          sub_services: [],
+          materials: [],
+          advantages: [],
+          image: '',
+          is_active: true,
+          sort_order: 0
+        });
+      } else {
+        console.error('Failed to add service');
+      }
+    } catch (error) {
+      console.error('Error adding service:', error);
+    }
   };
 
   // Edit service
-  const handleEditService = () => {
-    setServices(prev => 
-      prev.map(service => 
-        service.id === selectedService.id 
-          ? { ...service, ...formData }
-          : service
-      )
-    );
-    setShowEditModal(false);
-    setSelectedService(null);
-    setFormData({
-      title: '',
-      description: '',
-      icon: '🏗️',
-      category: '',
-      price: '',
-      duration: '',
-      status: 'active'
-    });
+  const handleEditService = async () => {
+    try {
+      const response = await updateService(selectedService.id, formData);
+      if (response.ok) {
+        const updatedService = await response.json();
+        setServices(prev => 
+          prev.map(service => 
+            service.id === selectedService.id 
+              ? updatedService.data
+              : service
+          )
+        );
+        setShowEditModal(false);
+        setSelectedService(null);
+        setFormData({
+          title: '',
+          description: '',
+          long_description: '',
+          icon: '🏗️',
+          category: '',
+          duration: '',
+          price_range: '',
+          features: [],
+          sub_services: [],
+          materials: [],
+          advantages: [],
+          image: '',
+          is_active: true,
+          sort_order: 0
+        });
+      } else {
+        console.error('Failed to update service');
+      }
+    } catch (error) {
+      console.error('Error updating service:', error);
+    }
   };
 
   // Delete service
-  const handleDeleteService = () => {
-    setServices(prev => prev.filter(service => service.id !== selectedService.id));
-    setShowDeleteConfirm(false);
-    setSelectedService(null);
+  const handleDeleteService = async () => {
+    try {
+      const response = await deleteService(selectedService.id);
+      if (response.ok) {
+        setServices(prev => prev.filter(service => service.id !== selectedService.id));
+        setShowDeleteConfirm(false);
+        setSelectedService(null);
+      } else {
+        console.error('Failed to delete service');
+      }
+    } catch (error) {
+      console.error('Error deleting service:', error);
+    }
   };
 
   // Toggle service status
-  const handleToggleStatus = (serviceId) => {
-    setServices(prev => 
-      prev.map(service => 
-        service.id === serviceId 
-          ? { ...service, status: service.status === 'active' ? 'draft' : 'active' }
-          : service
-      )
-    );
+  const handleToggleStatus = async (serviceId) => {
+    const currentService = services.find(s => s.id === serviceId);
+    if (currentService) {
+      try {
+        const response = await updateService(serviceId, { is_active: !currentService.is_active });
+        if (response.ok) {
+          const updatedService = await response.json();
+          setServices(prev => 
+            prev.map(service => 
+              service.id === serviceId 
+                ? updatedService.data
+                : service
+            )
+          );
+        } else {
+          console.error('Failed to toggle status');
+        }
+      } catch (error) {
+        console.error('Error toggling status:', error);
+      }
+    }
   };
 
   // Open edit modal
@@ -208,11 +295,18 @@ const ServicesAdmin = () => {
     setFormData({
       title: service.title,
       description: service.description,
+      long_description: service.long_description,
       icon: service.icon,
       category: service.category,
-      price: service.price,
       duration: service.duration,
-      status: service.status
+      price_range: service.price_range,
+      features: service.features || [],
+      sub_services: service.sub_services || [],
+      materials: service.materials || [],
+      advantages: service.advantages || [],
+      image: service.image,
+      is_active: service.is_active,
+      sort_order: service.sort_order
     });
     setShowEditModal(true);
   };
@@ -307,7 +401,7 @@ const ServicesAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>Services Actifs</h3>
-                <div className="stat-value">{services.filter(s => s.status === 'active').length}</div>
+                <div className="stat-value">{services.filter(s => s.is_active).length}</div>
                 <div className="stat-trend trend-up">
                   <CheckCircle size={14} />
                   100% actifs
@@ -321,7 +415,7 @@ const ServicesAdmin = () => {
               </div>
               <div className="stat-content">
                 <h3>En Brouillon</h3>
-                <div className="stat-value">{services.filter(s => s.status === 'draft').length}</div>
+                <div className="stat-value">{services.filter(s => !s.is_active).length}</div>
                 <div className="stat-trend trend-down">
                   <AlertCircle size={14} />
                   À publier
@@ -413,8 +507,8 @@ const ServicesAdmin = () => {
                     <button
                       className="status-badge"
                       style={{ 
-                        backgroundColor: getStatusColor(service.status) + '20', 
-                        color: getStatusColor(service.status),
+                        backgroundColor: getStatusColor(service.is_active ? 'active' : 'inactive') + '20', 
+                        color: getStatusColor(service.is_active ? 'active' : 'inactive'),
                         cursor: 'pointer',
                         border: 'none',
                         padding: '4px 8px',
@@ -425,7 +519,7 @@ const ServicesAdmin = () => {
                       onClick={() => handleToggleStatus(service.id)}
                       title="Cliquer pour changer le statut"
                     >
-                      {getStatusText(service.status)}
+                      {getStatusText(service.is_active ? 'active' : 'inactive')}
                     </button>
                   </div>
                 </div>
@@ -437,7 +531,7 @@ const ServicesAdmin = () => {
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Prix:</span>
-                    <span className="detail-value">{service.price}</span>
+                    <span className="detail-value">{service.price_range}</span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Durée:</span>
@@ -445,7 +539,7 @@ const ServicesAdmin = () => {
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Créé le:</span>
-                    <span className="detail-value">{new Date(service.createdAt).toLocaleDateString('fr-FR')}</span>
+                    <span className="detail-value">{new Date(service.created_at).toLocaleDateString('fr-FR')}</span>
                   </div>
                 </div>
 
@@ -547,6 +641,17 @@ const ServicesAdmin = () => {
                       />
                     </div>
                     
+                    <div className="form-group">
+                      <label>Description longue</label>
+                      <textarea
+                        name="long_description"
+                        value={formData.long_description}
+                        onChange={handleInputChange}
+                        placeholder="Description détaillée et détaillée du service..."
+                        rows="5"
+                      />
+                    </div>
+
                     <div className="form-row">
                       <div className="form-group">
                         <label>Icône</label>
@@ -573,17 +678,6 @@ const ServicesAdmin = () => {
                     
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Prix</label>
-                        <input
-                          type="text"
-                          name="price"
-                          value={formData.price}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Sur devis"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
                         <label>Durée</label>
                         <input
                           type="text"
@@ -593,17 +687,27 @@ const ServicesAdmin = () => {
                           placeholder="Ex: 2-4 semaines"
                         />
                       </div>
+                      
+                      <div className="form-group">
+                        <label>Prix</label>
+                        <input
+                          type="text"
+                          name="price_range"
+                          value={formData.price_range}
+                          onChange={handleInputChange}
+                          placeholder="Ex: Sur devis"
+                        />
+                      </div>
                     </div>
                     
                     <div className="form-group">
                       <label>Statut</label>
                       <select
-                        name="status"
-                        value={formData.status}
+                        name="is_active"
+                        value={formData.is_active ? 'active' : 'inactive'}
                         onChange={handleInputChange}
                       >
                         <option value="active">Actif</option>
-                        <option value="draft">Brouillon</option>
                         <option value="inactive">Inactif</option>
                       </select>
                     </div>
@@ -680,6 +784,17 @@ const ServicesAdmin = () => {
                       />
                     </div>
                     
+                    <div className="form-group">
+                      <label>Description longue</label>
+                      <textarea
+                        name="long_description"
+                        value={formData.long_description}
+                        onChange={handleInputChange}
+                        placeholder="Description détaillée et détaillée du service..."
+                        rows="5"
+                      />
+                    </div>
+
                     <div className="form-row">
                       <div className="form-group">
                         <label>Icône</label>
@@ -706,17 +821,6 @@ const ServicesAdmin = () => {
                     
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Prix</label>
-                        <input
-                          type="text"
-                          name="price"
-                          value={formData.price}
-                          onChange={handleInputChange}
-                          placeholder="Ex: Sur devis"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
                         <label>Durée</label>
                         <input
                           type="text"
@@ -726,17 +830,27 @@ const ServicesAdmin = () => {
                           placeholder="Ex: 2-4 semaines"
                         />
                       </div>
+                      
+                      <div className="form-group">
+                        <label>Prix</label>
+                        <input
+                          type="text"
+                          name="price_range"
+                          value={formData.price_range}
+                          onChange={handleInputChange}
+                          placeholder="Ex: Sur devis"
+                        />
+                      </div>
                     </div>
                     
                     <div className="form-group">
                       <label>Statut</label>
                       <select
-                        name="status"
-                        value={formData.status}
+                        name="is_active"
+                        value={formData.is_active ? 'active' : 'inactive'}
                         onChange={handleInputChange}
                       >
                         <option value="active">Actif</option>
-                        <option value="draft">Brouillon</option>
                         <option value="inactive">Inactif</option>
                       </select>
                     </div>
@@ -801,11 +915,11 @@ const ServicesAdmin = () => {
                           <span 
                             className="status-badge"
                             style={{ 
-                              backgroundColor: getStatusColor(selectedService.status) + '20', 
-                              color: getStatusColor(selectedService.status) 
+                              backgroundColor: getStatusColor(selectedService.is_active ? 'active' : 'inactive') + '20', 
+                              color: getStatusColor(selectedService.is_active ? 'active' : 'inactive') 
                             }}
                           >
-                            {getStatusText(selectedService.status)}
+                            {getStatusText(selectedService.is_active ? 'active' : 'inactive')}
                           </span>
                         </div>
                       </div>
@@ -813,6 +927,11 @@ const ServicesAdmin = () => {
                       <div className="service-detail-description">
                         <h4>Description</h4>
                         <p>{selectedService.description}</p>
+                      </div>
+
+                      <div className="service-detail-description">
+                        <h4>Description Longue</h4>
+                        <p>{selectedService.long_description}</p>
                       </div>
                       
                       <div className="service-detail-grid">
@@ -828,7 +947,7 @@ const ServicesAdmin = () => {
                           <DollarSign size={16} />
                           <div>
                             <label>Prix</label>
-                            <span>{selectedService.price}</span>
+                            <span>{selectedService.price_range}</span>
                           </div>
                         </div>
                         
@@ -844,7 +963,7 @@ const ServicesAdmin = () => {
                           <Calendar size={16} />
                           <div>
                             <label>Créé le</label>
-                            <span>{new Date(selectedService.createdAt).toLocaleDateString('fr-FR')}</span>
+                            <span>{new Date(selectedService.created_at).toLocaleDateString('fr-FR')}</span>
                           </div>
                         </div>
                       </div>

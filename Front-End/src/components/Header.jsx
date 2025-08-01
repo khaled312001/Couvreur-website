@@ -10,6 +10,7 @@ const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [services, setServices] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState(null);
+  const [isMenuHovered, setIsMenuHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,11 +46,16 @@ const Header = () => {
     };
   }, [dropdownTimeout]);
 
-  // Handle click outside mobile menu
+  // Handle click outside mobile menu and dropdowns
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isMobileMenuOpen && !event.target.closest('.mobile-menu-content') && !event.target.closest('.mobile-menu-btn')) {
         closeMobileMenu();
+      }
+      
+      // Close dropdowns when clicking outside
+      if (activeDropdown && !event.target.closest('.nav-item')) {
+        setActiveDropdown(null);
       }
     };
 
@@ -57,9 +63,13 @@ const Header = () => {
       if (isMobileMenuOpen && event.key === 'Escape') {
         closeMobileMenu();
       }
+      
+      if (activeDropdown && event.key === 'Escape') {
+        setActiveDropdown(null);
+      }
     };
 
-    if (isMobileMenuOpen) {
+    if (isMobileMenuOpen || activeDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('touchstart', handleClickOutside);
       document.addEventListener('keydown', handleEscapeKey);
@@ -70,7 +80,7 @@ const Header = () => {
       document.removeEventListener('touchstart', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, activeDropdown]);
 
   const toggleMobileMenu = () => {
     console.log('Toggling mobile menu, current state:', isMobileMenuOpen);
@@ -89,6 +99,17 @@ const Header = () => {
     document.body.style.overflow = 'unset';
   };
 
+  const handleNavigationClick = () => {
+    // Scroll to top when navigating
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+    closeMobileMenu();
+    setActiveDropdown(null);
+  };
+
   const handleDropdownLeave = () => {
     // Clear any existing timeout
     if (dropdownTimeout) {
@@ -98,7 +119,7 @@ const Header = () => {
     // Set a new timeout to close the dropdown
     const timeout = setTimeout(() => {
       setActiveDropdown(null);
-    }, 150);
+    }, 200);
     
     setDropdownTimeout(timeout);
   };
@@ -112,26 +133,51 @@ const Header = () => {
     setActiveDropdown(dropdown);
   };
 
+  const handleDropdownClick = (dropdown) => {
+    if (activeDropdown === dropdown) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(dropdown);
+    }
+  };
+
   const zonesData = {
-    'Lyon (69)': [],
-    'Saint-Étienne (42)': [],
-    'Valence (26)': [],
+    'Lyon (69)': {
+      description: 'Couvreur professionnel à Lyon',
+      services: ['Couverture', 'Zinguerie', 'Isolation']
+    },
+    'Saint-Étienne (42)': {
+      description: 'Couvreur professionnel à Saint-Étienne',
+      services: ['Couverture', 'Zinguerie', 'Isolation']
+    },
+    'Valence (26)': {
+      description: 'Couvreur professionnel à Valence',
+      services: ['Couverture', 'Zinguerie', 'Isolation']
+    },
+    'Grenoble (38)': {
+      description: 'Couvreur professionnel à Grenoble',
+      services: ['Couverture', 'Zinguerie', 'Isolation']
+    },
+    'Chambéry (73)': {
+      description: 'Couvreur professionnel à Chambéry',
+      services: ['Couverture', 'Zinguerie', 'Isolation']
+    }
   };
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
-      {/* Top Bar - Visible on all devices */}
+      {/* Top Bar - Enhanced with animations */}
       <div className="top-bar">
         <div className="container">
           <div className="top-bar-content">
             <div className="top-bar-left">
               <div className="top-bar-item">
                 <span className="icon">📞</span>
-                <a href="tel:33780326427">07 80 32 64 27</a>
+                <a href="tel:33780326427" className="top-bar-link">07 80 32 64 27</a>
               </div>
               <div className="top-bar-item">
                 <span className="icon">📧</span>
-                <a href="mailto:bnbatimententreprise@gmail.com">bnbatimententreprise@gmail.com</a>
+                <a href="mailto:bnbatimententreprise@gmail.com" className="top-bar-link">bnbatimententreprise@gmail.com</a>
               </div>
             </div>
             <div className="top-bar-right">
@@ -139,437 +185,122 @@ const Header = () => {
                 <span className="icon">🕒</span>
                 <span>Lun-Ven: 8h-18h | Sam: 8h-12h</span>
               </div>
-              
-              {/* Auth Buttons in Top Bar */}
-              <div className="top-bar-auth">
-                {user ? (
-                  <div className="user-menu" style={{ position: 'relative' }}>
-                    <button 
-                      className="user-menu-btn"
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        color: 'white',
-                        padding: '8px 16px',
-                        borderRadius: '20px',
-                        fontSize: '0.9rem',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                        e.target.style.transform = 'translateY(-1px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                        e.target.style.transform = 'translateY(0)';
-                      }}
-                    >
-                      <span>👤</span>
-                      <span>{user.name}</span>
-                      <span style={{ fontSize: '0.8rem' }}>▼</span>
-                    </button>
-                    <div className="user-dropdown" style={{
-                      position: 'absolute',
-                      top: '100%',
-                      right: '0',
-                      minWidth: '200px',
-                      background: 'white',
-                      borderRadius: '12px',
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-                      border: '1px solid rgba(0,0,0,0.1)',
-                      zIndex: 1000,
-                      marginTop: '8px',
-                      overflow: 'hidden'
-                    }}>
-                      <NavLink 
-                        to="/profile" 
-                        className="dropdown-item"
-                        style={{
-                          display: 'block',
-                          padding: '12px 16px',
-                          color: '#374151',
-                          textDecoration: 'none',
-                          borderBottom: '1px solid #f3f4f6',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.background = '#f8fafc';
-                          e.target.style.color = '#1f2937';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.background = 'transparent';
-                          e.target.style.color = '#374151';
-                        }}
-                      >
-                        <span style={{ marginRight: '8px' }}>⚙️</span>
-                        Mon Profil
-                      </NavLink>
-                      <NavLink 
-                        to="/quotes" 
-                        className="dropdown-item"
-                        style={{
-                          display: 'block',
-                          padding: '12px 16px',
-                          color: '#374151',
-                          textDecoration: 'none',
-                          borderBottom: '1px solid #f3f4f6',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.background = '#f8fafc';
-                          e.target.style.color = '#1f2937';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.background = 'transparent';
-                          e.target.style.color = '#374151';
-                        }}
-                      >
-                        <span style={{ marginRight: '8px' }}>📋</span>
-                        Mes Devis
-                      </NavLink>
-                      <NavLink 
-                        to="/messages" 
-                        className="dropdown-item"
-                        style={{
-                          display: 'block',
-                          padding: '12px 16px',
-                          color: '#374151',
-                          textDecoration: 'none',
-                          borderBottom: '1px solid #f3f4f6',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.background = '#f8fafc';
-                          e.target.style.color = '#1f2937';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.background = 'transparent';
-                          e.target.style.color = '#374151';
-                        }}
-                      >
-                        <span style={{ marginRight: '8px' }}>💬</span>
-                        Mes Messages
-                      </NavLink>
-                      <button
-                        onClick={logout}
-                        className="dropdown-item"
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          textAlign: 'left',
-                          padding: '12px 16px',
-                          border: 'none',
-                          background: 'transparent',
-                          color: '#dc2626',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.background = '#fef2f2';
-                          e.target.style.color = '#b91c1c';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.background = 'transparent';
-                          e.target.style.color = '#dc2626';
-                        }}
-                      >
-                        <span style={{ marginRight: '8px' }}>🚪</span>
-                        Se déconnecter
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="auth-buttons" style={{ display: 'flex', gap: '8px' }}>
-                    <NavLink
-                      to="/login"
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        color: 'white',
-                        padding: '8px 16px',
-                        borderRadius: '20px',
-                        fontSize: '0.9rem',
-                        textDecoration: 'none',
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                        e.target.style.transform = 'translateY(-1px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                        e.target.style.transform = 'translateY(0)';
-                      }}
-                    >
-                      <span>🔐</span>
-                      Se connecter
-                    </NavLink>
-                    <NavLink
-                      to="/register"
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.2)',
-                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                        color: 'white',
-                        padding: '8px 16px',
-                        borderRadius: '20px',
-                        fontSize: '0.9rem',
-                        textDecoration: 'none',
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontWeight: '500'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                        e.target.style.transform = 'translateY(-1px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                        e.target.style.transform = 'translateY(0)';
-                      }}
-                    >
-                      <span>➕</span>
-                      S'inscrire
-                    </NavLink>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation */}
+      {/* Main Navigation - Enhanced with modern design */}
       <div className="nav-main">
         <div className="container">
           <div className="nav-content">
-            {/* Logo */}
-            <NavLink to="/" className="logo" onClick={closeMobileMenu}>
-              <div className="logo-container" style={{ display: 'flex', alignItems: 'center' }}>
+            {/* Logo with enhanced animations */}
+            <NavLink to="/" className="logo" onClick={handleNavigationClick}>
+              <div className="logo-container">
                 <img 
                   src="/logo.png" 
                   alt="BN BÂTIMENT Logo" 
-                  style={{ height: '60px', width: 'auto', objectFit: 'contain' }} 
+                  className="logo-image"
                 />
+                <div className="logo-glow"></div>
               </div>
             </NavLink>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Enhanced with consistent styling */}
             <nav className="nav-menu">
               <div className="nav-item">
-                <NavLink to="/" className="nav-link">ACCUEIL</NavLink>
+                <NavLink to="/" className="nav-link" onClick={handleNavigationClick}>
+                  <span className="nav-icon">🏠</span>
+                  <span className="nav-text">ACCUEIL</span>
+                  <div className="nav-underline"></div>
+                </NavLink>
               </div>
+              
               <div className="nav-item">
-                <NavLink to="/a-propos" className="nav-link">À PROPOS</NavLink>
+                <NavLink to="/a-propos" className="nav-link" onClick={handleNavigationClick}>
+                  <span className="nav-icon">ℹ️</span>
+                  <span className="nav-text">À PROPOS</span>
+                  <div className="nav-underline"></div>
+                </NavLink>
               </div>
+              
               <div 
-                className="nav-item"
-                style={{ position: 'relative' }}
+                className="nav-item dropdown-item"
                 onMouseEnter={() => handleDropdownEnter('services')}
                 onMouseLeave={handleDropdownLeave}
               >
-                <NavLink to="/services" className="nav-link">
-                  NOS SERVICES
+                <div className="nav-link dropdown-trigger">
+                  <span className="nav-icon">🔧</span>
+                  <span className="nav-text">NOS SERVICES</span>
                   <span className="dropdown-arrow">▼</span>
-                </NavLink>
-                {activeDropdown === 'services' && (
-                  <div className="submenu visible" style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '0',
-                    minWidth: '280px',
-                    padding: '1.5rem',
-                    borderRadius: '12px',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    backdropFilter: 'blur(10px)',
-                    zIndex: 1000,
-                    marginTop: '0.5rem'
-                  }}
-                  onMouseEnter={() => setActiveDropdown('services')}
-                  onMouseLeave={handleDropdownLeave}
-                >
-                  <div className="submenu-header" style={{
-                    borderBottom: '2px solid #e2e8f0',
-                    paddingBottom: '1rem',
-                    marginBottom: '1rem'
-                  }}>
-                    <h4 style={{
-                      fontSize: '1.1rem',
-                      fontWeight: '700',
-                      color: '#1e293b',
-                      margin: '0',
-                      textAlign: 'center'
-                    }}>NOS SERVICES</h4>
-                  </div>
-                  <div className="submenu-list" style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.5rem'
-                  }}>
-                    {Array.isArray(services) && services.map((service) => (
-                      <div key={service.id} className="submenu-item-container">
-                        <NavLink 
-                          to={`/services/${service.slug}`} 
-                          className="submenu-item"
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0.75rem 1rem',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            color: '#475569',
-                            transition: 'all 0.3s ease',
-                            border: '1px solid transparent',
-                            background: 'transparent'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.target.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-                            e.target.style.color = 'white';
-                            e.target.style.transform = 'translateX(5px)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.background = 'transparent';
-                            e.target.style.color = '#475569';
-                            e.target.style.transform = 'translateX(0)';
-                            e.target.style.boxShadow = 'none';
-                          }}
-                        >
-                          <div className="submenu-item-header" style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            width: '100%'
-                          }}>
-                            <span className="submenu-icon" style={{
-                              fontSize: '1.5rem',
-                              minWidth: '2rem',
-                              textAlign: 'center'
-                            }}>{service.icon}</span>
-                            <div className="submenu-item-content">
-                              <h5 style={{
-                                fontSize: '0.95rem',
-                                fontWeight: '600',
-                                margin: '0',
-                                lineHeight: '1.2'
-                              }}>{service.title}</h5>
-                            </div>
-                          </div>
-                        </NavLink>
-                      </div>
-                    ))}
-                  </div>
+                  <div className="nav-underline"></div>
                 </div>
+                {activeDropdown === 'services' && (
+                  <div className="submenu visible">
+                    <div className="submenu-header">
+                      <h4>🔧 NOS SERVICES</h4>
+                      <p>Découvrez notre expertise</p>
+                    </div>
+                    <div className="submenu-list">
+                      {Array.isArray(services) && services.map((service) => (
+                        <div key={service.id} className="submenu-item-container">
+                          <NavLink 
+                            to={`/services/${service.slug}`} 
+                            className="submenu-item"
+                            onClick={handleNavigationClick}
+                          >
+                            <div className="submenu-item-header">
+                              <span className="submenu-icon">{service.icon}</span>
+                              <div className="submenu-item-content">
+                                <h5>{service.title}</h5>
+                              </div>
+                            </div>
+                            <div className="submenu-hover-effect"></div>
+                          </NavLink>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
+              
               <div 
-                className="nav-item"
-                style={{ position: 'relative' }}
+                className="nav-item dropdown-item"
                 onMouseEnter={() => handleDropdownEnter('zones')}
                 onMouseLeave={handleDropdownLeave}
               >
-                <NavLink to="/zones" className="nav-link">
-                  ZONES D'INTERVENTION
+                <div className="nav-link dropdown-trigger">
+                  <span className="nav-icon">📍</span>
+                  <span className="nav-text">ZONES D'INTERVENTION</span>
                   <span className="dropdown-arrow">▼</span>
-                </NavLink>
+                  <div className="nav-underline"></div>
+                </div>
                 {activeDropdown === 'zones' && (
-                  <div 
-                    className="submenu visible" 
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: '0',
-                      minWidth: '280px',
-                      padding: '1.5rem',
-                      borderRadius: '12px',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                      backdropFilter: 'blur(10px)',
-                      zIndex: 1000,
-                      marginTop: '0.5rem'
-                    }}
-                    onMouseEnter={() => setActiveDropdown('zones')}
-                    onMouseLeave={handleDropdownLeave}
-                  >
-                    <div className="submenu-header" style={{
-                      borderBottom: '2px solid #e2e8f0',
-                      paddingBottom: '1rem',
-                      marginBottom: '1rem'
-                    }}>
-                      <h4 style={{
-                        fontSize: '1.1rem',
-                        fontWeight: '700',
-                        color: '#1e293b',
-                        margin: '0',
-                        textAlign: 'center'
-                      }}>ZONES D'INTERVENTION</h4>
+                  <div className="submenu visible zones-submenu">
+                    <div className="submenu-header zones-header">
+                      <h4>📍 ZONES D'INTERVENTION</h4>
+                      <p>Nos zones de couverture</p>
                     </div>
-                    <div className="submenu-list" style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.5rem'
-                    }}>
-                      {Object.keys(zonesData).map((zone) => (
+                    <div className="submenu-list">
+                      {Object.keys(zonesData).map((zone, index) => (
                         <div key={zone} className="submenu-item-container">
-                          <div 
-                            className="submenu-item"
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              padding: '0.75rem 1rem',
-                              borderRadius: '8px',
-                              color: '#475569',
-                              transition: 'all 0.3s ease',
-                              border: '1px solid transparent',
-                              background: 'transparent',
-                              cursor: 'pointer'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-                              e.target.style.color = 'white';
-                              e.target.style.transform = 'translateX(5px)';
-                              e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.background = 'transparent';
-                              e.target.style.color = '#475569';
-                              e.target.style.transform = 'translateX(0)';
-                              e.target.style.boxShadow = 'none';
-                            }}
-                            onClick={() => window.location.href = '/zones'}
-                          >
-                            <div className="submenu-item-header" style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.75rem',
-                              width: '100%'
-                            }}>
-                              <span className="submenu-icon" style={{
-                                fontSize: '1.5rem',
-                                minWidth: '2rem',
-                                textAlign: 'center'
-                              }}>📍</span>
+                          <div className="submenu-item zone-item">
+                            <div className="submenu-item-header">
+                              <div className="zone-icon">📍</div>
                               <div className="submenu-item-content">
-                                <h5 style={{
-                                  fontSize: '0.95rem',
-                                  fontWeight: '600',
-                                  margin: '0',
-                                  lineHeight: '1.2'
-                                }}>{zone}</h5>
+                                <h5>{zone}</h5>
+                                <p>{zonesData[zone].description}</p>
+                                <div className="zone-services">
+                                  {zonesData[zone].services.slice(0, 2).map((service, idx) => (
+                                    <span key={idx} className="service-tag">
+                                      {service}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
+                              <div className="arrow-icon">→</div>
                             </div>
+                            <div className="submenu-hover-effect"></div>
                           </div>
                         </div>
                       ))}
@@ -577,51 +308,160 @@ const Header = () => {
                   </div>
                 )}
               </div>
-              <div className="nav-item">
-                <NavLink to="/avis" className="nav-link">AVIS CLIENTS</NavLink>
+              
+              <div 
+                className="nav-item dropdown-item"
+                onMouseEnter={() => handleDropdownEnter('avis')}
+                onMouseLeave={handleDropdownLeave}
+              >
+                <div className="nav-link dropdown-trigger">
+                  <span className="nav-icon">⭐</span>
+                  <span className="nav-text">AVIS CLIENTS</span>
+                  <span className="dropdown-arrow">▼</span>
+                  <div className="nav-underline"></div>
+                </div>
+                {activeDropdown === 'avis' && (
+                  <div className="submenu visible avis-submenu">
+                    <div className="submenu-header avis-header">
+                      <h4>⭐ AVIS CLIENTS</h4>
+                      <p>Témoignages de nos clients</p>
+                    </div>
+                    <div className="submenu-list">
+                      {[
+                        { name: 'Marie L.', rating: 5, text: 'Excellent travail, très professionnel!' },
+                        { name: 'Pierre D.', rating: 5, text: 'Rapide et de qualité, je recommande!' },
+                        { name: 'Sophie M.', rating: 5, text: 'Service impeccable, prix raisonnables.' }
+                      ].map((avis, index) => (
+                        <div key={index} className="submenu-item-container">
+                          <div className="submenu-item avis-item">
+                            <div className="submenu-item-header">
+                              <div className="avis-icon">⭐</div>
+                              <div className="submenu-item-content">
+                                <h5>{avis.name}</h5>
+                                <div className="rating-stars">
+                                  {[...Array(avis.rating)].map((_, i) => (
+                                    <span key={i} className="star">★</span>
+                                  ))}
+                                </div>
+                                <p className="avis-text">"{avis.text}"</p>
+                              </div>
+                              <div className="arrow-icon">→</div>
+                            </div>
+                            <div className="submenu-hover-effect"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="nav-item">
-                <NavLink to="/blog" className="nav-link">BLOG</NavLink>
+              
+              <div 
+                className="nav-item dropdown-item"
+                onMouseEnter={() => handleDropdownEnter('blog')}
+                onMouseLeave={handleDropdownLeave}
+              >
+                <div className="nav-link dropdown-trigger">
+                  <span className="nav-icon">📝</span>
+                  <span className="nav-text">BLOG</span>
+                  <span className="dropdown-arrow">▼</span>
+                  <div className="nav-underline"></div>
+                </div>
+                {activeDropdown === 'blog' && (
+                  <div className="submenu visible blog-submenu">
+                    <div className="submenu-header blog-header">
+                      <h4>📝 BLOG</h4>
+                      <p>Conseils et actualités</p>
+                    </div>
+                    <div className="submenu-list">
+                      {[
+                        { title: 'Guide Couverture', category: 'Conseils', date: '2024' },
+                        { title: 'Isolation Toiture', category: 'Techniques', date: '2024' },
+                        { title: 'Entretien Zinguerie', category: 'Maintenance', date: '2024' }
+                      ].map((article, index) => (
+                        <div key={index} className="submenu-item-container">
+                          <div className="submenu-item blog-item">
+                            <div className="submenu-item-header">
+                              <div className="blog-icon">📝</div>
+                              <div className="submenu-item-content">
+                                <h5>{article.title}</h5>
+                                <div className="article-meta">
+                                  <span className="category-tag">{article.category}</span>
+                                  <span className="date-tag">{article.date}</span>
+                                </div>
+                              </div>
+                              <div className="arrow-icon">→</div>
+                            </div>
+                            <div className="submenu-hover-effect"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="nav-item">
-                <NavLink to="/realisations" className="nav-link">RÉALISATIONS</NavLink>
+              
+              <div 
+                className="nav-item dropdown-item"
+                onMouseEnter={() => handleDropdownEnter('realisations')}
+                onMouseLeave={handleDropdownLeave}
+              >
+                <div className="nav-link dropdown-trigger">
+                  <span className="nav-icon">🏠</span>
+                  <span className="nav-text">RÉALISATIONS</span>
+                  <span className="dropdown-arrow">▼</span>
+                  <div className="nav-underline"></div>
+                </div>
+                {activeDropdown === 'realisations' && (
+                  <div className="submenu visible realisations-submenu">
+                    <div className="submenu-header realisations-header">
+                      <h4>🏠 RÉALISATIONS</h4>
+                      <p>Nos projets réalisés</p>
+                    </div>
+                    <div className="submenu-list">
+                      {[
+                        { title: 'Couverture Maison Lyon', type: 'Couverture', location: 'Lyon' },
+                        { title: 'Isolation Toiture', type: 'Isolation', location: 'Saint-Étienne' },
+                        { title: 'Zinguerie Villa', type: 'Zinguerie', location: 'Valence' }
+                      ].map((projet, index) => (
+                        <div key={index} className="submenu-item-container">
+                          <div className="submenu-item realisations-item">
+                            <div className="submenu-item-header">
+                              <div className="realisations-icon">🏠</div>
+                              <div className="submenu-item-content">
+                                <h5>{projet.title}</h5>
+                                <div className="projet-meta">
+                                  <span className="type-tag">{projet.type}</span>
+                                  <span className="location-tag">📍 {projet.location}</span>
+                                </div>
+                              </div>
+                              <div className="arrow-icon">→</div>
+                            </div>
+                            <div className="submenu-hover-effect"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+              
               <div className="nav-item">
-                <NavLink to="/contact" className="cta-button">
+                <NavLink to="/contact" className="cta-button" onClick={handleNavigationClick}>
                   <span className="cta-icon">📧</span>
-                  DEVIS GRATUIT
+                  <span className="cta-text">DEVIS GRATUIT</span>
+                  <div className="cta-glow"></div>
                 </NavLink>
               </div>
             </nav>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Enhanced */}
             <button 
-              className={`mobile-menu-btn md:hidden ${isMobileMenuOpen ? 'open' : ''}`}
+              className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
               onClick={toggleMobileMenu}
               aria-label="Toggle mobile menu"
-              style={{
-                minWidth: '44px',
-                minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-                borderRadius: '8px',
-                transition: 'all 0.3s ease',
-                zIndex: 1000,
-                position: 'relative'
-              }}
             >
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
-                width: '24px',
-                height: '24px'
-              }}>
+              <div className="hamburger-container">
                 <span className="hamburger-line"></span>
                 <span className="hamburger-line"></span>
                 <span className="hamburger-line"></span>
@@ -631,34 +471,15 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Enhanced with animations */}
       {isMobileMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-content">
-            <div className="mobile-menu-header" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '2rem',
-              paddingBottom: '1rem',
-              borderBottom: '2px solid #e5e7eb'
-            }}>
-              <h3 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: '#1e293b',
-                margin: '0'
-              }}>Menu</h3>
+            <div className="mobile-menu-header">
+              <h3>Menu</h3>
               <button 
                 onClick={closeMobileMenu}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '1.5rem',
-                  cursor: 'pointer',
-                  color: '#6b7280',
-                  padding: '0.5rem'
-                }}
+                className="mobile-close-btn"
                 aria-label="Close mobile menu"
               >
                 ✕
@@ -666,20 +487,23 @@ const Header = () => {
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/" className="mobile-nav-link" onClick={closeMobileMenu}>
-                🏠 ACCUEIL
+              <NavLink to="/" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">🏠</span>
+                <span className="mobile-nav-text">ACCUEIL</span>
               </NavLink>
             </div>
             
             <div className="mobile-nav-item">
-              <NavLink to="/a-propos" className="mobile-nav-link" onClick={closeMobileMenu}>
-                ℹ️ À PROPOS
+              <NavLink to="/a-propos" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">ℹ️</span>
+                <span className="mobile-nav-text">À PROPOS</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/services" className="mobile-nav-link" onClick={closeMobileMenu}>
-                🔧 NOS SERVICES
+              <NavLink to="/services" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">🔧</span>
+                <span className="mobile-nav-text">NOS SERVICES</span>
               </NavLink>
               <div className="mobile-submenu">
                 {Array.isArray(services) && services.map((service) => (
@@ -687,12 +511,12 @@ const Header = () => {
                     key={service.id} 
                     to={`/services/${service.slug}`} 
                     className="mobile-submenu-item"
-                    onClick={closeMobileMenu}
+                    onClick={handleNavigationClick}
                   >
                     <div className="mobile-submenu-item-content">
                       <span className="mobile-submenu-icon">{service.icon}</span>
                       <div>
-                        <h6 style={{ margin: '0', fontSize: '0.9rem' }}>{service.title}</h6>
+                        <h6>{service.title}</h6>
                       </div>
                     </div>
                   </NavLink>
@@ -701,83 +525,64 @@ const Header = () => {
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/zones" className="mobile-nav-link" onClick={closeMobileMenu}>
-                📍 ZONES D'INTERVENTION
+              <NavLink to="/zones" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">📍</span>
+                <span className="mobile-nav-text">ZONES D'INTERVENTION</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/tarifs" className="mobile-nav-link" onClick={closeMobileMenu}>
-                💰 TARIFS
+              <NavLink to="/tarifs" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">💰</span>
+                <span className="mobile-nav-text">TARIFS</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/avis" className="mobile-nav-link" onClick={closeMobileMenu}>
-                ⭐ AVIS CLIENTS
+              <NavLink to="/avis" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">⭐</span>
+                <span className="mobile-nav-text">AVIS CLIENTS</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/blog" className="mobile-nav-link" onClick={closeMobileMenu}>
-                📝 BLOG
+              <NavLink to="/blog" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">📝</span>
+                <span className="mobile-nav-text">BLOG</span>
               </NavLink>
             </div>
 
             <div className="mobile-nav-item">
-              <NavLink to="/realisations" className="mobile-nav-link" onClick={closeMobileMenu}>
-                🏗️ RÉALISATIONS
+              <NavLink to="/realisations" className="mobile-nav-link" onClick={handleNavigationClick}>
+                <span className="mobile-nav-icon">🏗️</span>
+                <span className="mobile-nav-text">RÉALISATIONS</span>
               </NavLink>
             </div>
 
             <div className="mobile-cta">
-              <NavLink to="/contact" className="mobile-cta-button" onClick={closeMobileMenu}>
+              <NavLink to="/contact" className="mobile-cta-button" onClick={handleNavigationClick}>
                 <span className="cta-icon">📧</span>
-                DEVIS GRATUIT
+                <span className="cta-text">DEVIS GRATUIT</span>
               </NavLink>
             </div>
 
             {/* Mobile Contact Info */}
-            <div className="mobile-contact-info" style={{
-              marginTop: '2rem',
-              paddingTop: '1.5rem',
-              borderTop: '2px solid #e5e7eb'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem',
-                fontSize: '0.9rem',
-                color: '#6b7280'
-              }}>
-                <span>📞</span>
-                <a href="tel:33780326427" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+            <div className="mobile-contact-info">
+              <div className="mobile-contact-item">
+                <span className="contact-icon">📞</span>
+                <a href="tel:33780326427" className="contact-link">
                   07 80 32 64 27
                 </a>
               </div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem',
-                fontSize: '0.9rem',
-                color: '#6b7280'
-              }}>
-                <span>📧</span>
-                <a href="mailto:bnbatimententreprise@gmail.com" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+              <div className="mobile-contact-item">
+                <span className="contact-icon">📧</span>
+                <a href="mailto:bnbatimententreprise@gmail.com" className="contact-link">
                   bnbatimententreprise@gmail.com
                 </a>
               </div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                fontSize: '0.9rem',
-                color: '#6b7280'
-              }}>
-                <span>🕒</span>
-                <span>Lun-Ven: 8h-18h | Sam: 8h-12h</span>
+              <div className="mobile-contact-item">
+                <span className="contact-icon">🕒</span>
+                <span className="contact-text">Lun-Ven: 8h-18h | Sam: 8h-12h</span>
               </div>
             </div>
           </div>

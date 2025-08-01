@@ -2,6 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const handleNavigationClick = () => {
+    // Scroll to top when navigating
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -53,12 +62,12 @@ const Footer = () => {
             <div className="fade-in-on-scroll">
               <h4>Liens Rapides</h4>
               <div className="footer-links">
-                <Link to="/">Accueil</Link>
-                <Link to="/a-propos">À Propos</Link>
-                <Link to="/services">Nos Services</Link>
+                <Link to="/" onClick={handleNavigationClick}>Accueil</Link>
+                <Link to="/a-propos" onClick={handleNavigationClick}>À Propos</Link>
+                <Link to="/services" onClick={handleNavigationClick}>Nos Services</Link>
                 
-                <Link to="/zones">Zones d'intervention</Link>
-                <Link to="/contact">Contact</Link>
+                <Link to="/zones" onClick={handleNavigationClick}>Zones d'intervention</Link>
+                <Link to="/contact" onClick={handleNavigationClick}>Contact</Link>
               </div>
             </div>
 
@@ -66,12 +75,12 @@ const Footer = () => {
             <div className="fade-in-on-scroll">
               <h4>Nos Services</h4>
               <div className="footer-links">
-                <Link to="/services/charpente">Charpente</Link>
-                <Link to="/services/couverture">Couverture</Link>
-                <Link to="/services/zinguerie">Zinguerie</Link>
-                <Link to="/realisations">Réalisations</Link>
-                <Link to="/avis">Avis Clients</Link>
-                <Link to="/blog">Blog</Link>
+                <Link to="/services/charpente" onClick={handleNavigationClick}>Charpente</Link>
+                <Link to="/services/couverture" onClick={handleNavigationClick}>Couverture</Link>
+                <Link to="/services/zinguerie" onClick={handleNavigationClick}>Zinguerie</Link>
+                <Link to="/realisations" onClick={handleNavigationClick}>Réalisations</Link>
+                <Link to="/avis" onClick={handleNavigationClick}>Avis Clients</Link>
+                <Link to="/blog" onClick={handleNavigationClick}>Blog</Link>
               </div>
             </div>
           </div>
