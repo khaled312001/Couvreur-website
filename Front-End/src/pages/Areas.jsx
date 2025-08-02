@@ -8,70 +8,90 @@ const Areas = () => {
 
   const areas = [
     {
-      name: "Ardèche",
-      cities: ["Annonay", "Aubenas", "Privas", "Tournon-sur-Rhône", "Valence", "Viviers", "Largentière"],
-      description: "Intervention dans tout le département de l'Ardèche pour tous vos travaux de couverture",
-      icon: "🏔️",
-      population: "330,000+",
-      coverage: "5,529 km²",
-      coordinates: { lat: 44.6167, lng: 4.3833 },
-      color: "#f97316"
-    },
-    {
-      name: "Drôme",
-      cities: ["Valence", "Romans-sur-Isère", "Montélimar", "Die", "Nyons", "Crest", "Pierrelatte"],
-      description: "Couverture et rénovation dans la Drôme avec expertise locale",
-      icon: "🌿",
-      population: "510,000+",
-      coverage: "6,530 km²",
-      coordinates: { lat: 44.9333, lng: 4.8833 },
-      color: "#10b981"
-    },
-    {
-      name: "Isère",
-      cities: ["Grenoble", "Vienne", "Voiron", "Saint-Marcellin", "La Tour-du-Pin", "Bourgoin-Jallieu"],
-      description: "Services de couverture en Isère avec intervention rapide",
-      icon: "⛰️",
-      population: "1,250,000+",
-      coverage: "7,431 km²",
-      coordinates: { lat: 45.1833, lng: 5.7167 },
-      color: "#3b82f6"
-    },
-    {
-      name: "Loire",
-      cities: ["Saint-Étienne", "Roanne", "Montbrison", "Feurs", "Saint-Chamond", "Firminy"],
-      description: "Intervention dans la Loire pour tous types de toitures",
-      icon: "🏭",
-      population: "760,000+",
-      coverage: "4,781 km²",
-      coordinates: { lat: 45.4333, lng: 4.3833 },
-      color: "#8b5cf6"
-    },
-    {
-      name: "Rhône",
-      cities: ["Lyon", "Villefranche-sur-Saône", "Tarare", "Belleville", "Givors", "Caluire-et-Cuire"],
-      description: "Couverture dans le Rhône avec expertise métropolitaine",
+      name: "Lyon",
+      cities: ["Lyon Centre", "Lyon Part-Dieu", "Lyon Vaise", "Lyon Gerland", "Lyon Croix-Rousse", "Lyon Confluence"],
+      description: "Intervention dans toute la métropole lyonnaise pour tous vos travaux de couverture et rénovation",
       icon: "🏙️",
-      population: "1,850,000+",
-      coverage: "3,249 km²",
+      population: "500,000+",
+      coverage: "À moins de 50 km de Lyon",
       coordinates: { lat: 45.7578, lng: 4.8320 },
       color: "#ef4444"
     },
     {
-      name: "Ain",
-      cities: ["Bourg-en-Bresse", "Oyonnax", "Belley", "Ambérieu-en-Bugey", "Gex", "Ferney-Voltaire"],
-      description: "Services dans l'Ain avec intervention sur mesure",
-      icon: "🌲",
-      population: "650,000+",
-      coverage: "5,762 km²",
-      coordinates: { lat: 46.2000, lng: 5.2167 },
+      name: "Saint-Étienne",
+      cities: ["Saint-Étienne Centre", "Saint-Étienne Nord", "Saint-Étienne Sud", "Saint-Étienne Est", "Saint-Étienne Ouest"],
+      description: "Couverture et rénovation à Saint-Étienne avec expertise locale",
+      icon: "🏭",
+      population: "170,000+",
+      coverage: "79.97 km²",
+      coordinates: { lat: 45.4333, lng: 4.3833 },
+      color: "#8b5cf6"
+    },
+    {
+      name: "Valence",
+      cities: ["Valence Centre", "Valence Nord", "Valence Sud", "Valence Est", "Valence Ouest"],
+      description: "Services de couverture à Valence avec intervention rapide",
+      icon: "🌿",
+      population: "65,000+",
+      coverage: "36.69 km²",
+      coordinates: { lat: 44.9333, lng: 4.8833 },
+      color: "#10b981"
+    },
+    {
+      name: "Clermont-Ferrand",
+      cities: ["Clermont-Ferrand Centre", "Clermont-Ferrand Nord", "Clermont-Ferrand Sud", "Clermont-Ferrand Est", "Clermont-Ferrand Ouest"],
+      description: "Intervention à Clermont-Ferrand pour tous types de toitures",
+      icon: "⛰️",
+      population: "147,000+",
+      coverage: "42.67 km²",
+      coordinates: { lat: 45.7833, lng: 3.0833 },
+      color: "#3b82f6"
+    },
+    {
+      name: "Francheville",
+      cities: ["Francheville Centre", "Francheville Nord", "Francheville Sud", "Francheville Est", "Francheville Ouest"],
+      description: "Couverture à Francheville avec expertise métropolitaine",
+      icon: "🏡",
+      population: "15,000+",
+      coverage: "20.56 km²",
+      coordinates: { lat: 45.7333, lng: 4.7667 },
+      color: "#f97316"
+    },
+    {
+      name: "Givors",
+      cities: ["Givors Centre", "Givors Nord", "Givors Sud", "Givors Est", "Givors Ouest"],
+      description: "Services à Givors avec intervention sur mesure",
+      icon: "🏭",
+      population: "20,000+",
+      coverage: "17.34 km²",
+      coordinates: { lat: 45.5833, lng: 4.7667 },
       color: "#f59e0b"
+    },
+    {
+      name: "Vienne",
+      cities: ["Vienne Centre", "Vienne Nord", "Vienne Sud", "Vienne Est", "Vienne Ouest"],
+      description: "Intervention à Vienne pour tous vos travaux de couverture",
+      icon: "🏛️",
+      population: "30,000+",
+      coverage: "22.65 km²",
+      coordinates: { lat: 45.5167, lng: 4.8833 },
+      color: "#06b6d4"
+    },
+    {
+      name: "Annonay",
+      cities: ["Annonay Centre", "Annonay Nord", "Annonay Sud", "Annonay Est", "Annonay Ouest"],
+      description: "Couverture et rénovation à Annonay avec expertise locale",
+      icon: "🏔️",
+      population: "17,000+",
+      coverage: "21.20 km²",
+      coordinates: { lat: 45.2333, lng: 4.6667 },
+      color: "#84cc16"
     }
   ];
 
   const stats = [
-    { number: "6", label: "Départements couverts", icon: MapPin },
-    { number: "50+", label: "Villes principales", icon: Users },
+    { number: "8", label: "Villes couvertes", icon: MapPin },
+    { number: "40+", label: "Quartiers desservis", icon: Users },
     { number: "24h", label: "Intervention d'urgence", icon: Clock },
     { number: "100%", label: "Zone couverte", icon: Car }
   ];
@@ -268,11 +288,31 @@ const Areas = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero">
+      <section className="hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://tse2.mm.bing.net/th/id/OIP.segGigN8RbRXhQDFxb475AHaDt?w=555&h=278&rs=1&pid=ImgDetMain&o=7&rm=3')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "5rem 1rem",
+        textAlign: "center",
+      }}>
         <div className="container">
           <div className="hero-content">
-            <h1>Zones d'intervention</h1>
-            <p>Nous intervenons dans toute la région Rhône-Alpes</p>
+            <h1 style={{
+              color: "#ffffff",
+              fontSize: "3rem",
+              fontWeight: "700",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
+            }}>
+              Zones d'intervention
+            </h1>
+            <p style={{
+              color: "white",
+              fontSize: "1.25rem",
+              fontWeight: "500",
+              textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+            }}>
+              Nous intervenons dans toute la région Rhône-Alpes
+            </p>
           </div>
         </div>
       </section>

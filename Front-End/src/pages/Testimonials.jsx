@@ -33,10 +33,30 @@ const Testimonials = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="testimonials-hero">
+      <section className="testimonials-hero" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "5rem 1rem",
+        textAlign: "center",
+      }}>
         <div className="testimonials-hero-content">
-          <h1>Avis Clients</h1>
-          <p>Ce que nos clients disent de nos services</p>
+          <h1 style={{
+            color: "#ffffff",
+            fontSize: "3rem",
+            fontWeight: "700",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
+          }}>
+            Avis Clients
+          </h1>
+          <p style={{
+            color: "white",
+            fontSize: "1.25rem",
+            fontWeight: "500",
+            textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+          }}>
+            Ce que nos clients disent de nos services
+          </p>
         </div>
       </section>
 
@@ -85,7 +105,7 @@ const Testimonials = () => {
               <span className="testimonials-stat-label">Clients satisfaits</span>
             </div>
             <div className="testimonials-stat-item fade-in-on-scroll">
-              <span className="testimonials-stat-number">15+</span>
+              <span className="testimonials-stat-number">10+</span>
               <span className="testimonials-stat-label">Années d'expérience</span>
             </div>
             <div className="testimonials-stat-item fade-in-on-scroll">
