@@ -1,5 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
+import { 
+  Phone, Clock, ArrowRight, MapPin, CheckCircle, 
+  Wrench, Shield, Target, Building
+} from 'lucide-react';
+import '../../styles/service-details.css';
 
 const Zinguerie = () => {
   const heroData = {
@@ -209,6 +215,142 @@ const Zinguerie = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="section">
+        <div className="container">
+          <div className="process-section">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="process-header"
+            >
+              <div className="section-badge">
+                <div className="badge-square"></div>
+                <span>NOTRE PROCESSUS</span>
+              </div>
+              <h2>Notre processus de zinguerie</h2>
+              <p>Une approche technique pour vos travaux de zinguerie</p>
+            </motion.div>
+            
+            <div className="process-steps">
+              <motion.div 
+                className="process-step"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+              >
+                <div className="step-number">1</div>
+                <div className="step-icon">
+                  <Phone size={32} />
+                </div>
+                <div className="step-content">
+                  <h4>Contact initial</h4>
+                  <p>Appel ou formulaire pour comprendre vos besoins en zinguerie</p>
+                  <div className="step-duration">
+                    <Clock size={16} />
+                    <span>15-30 min</span>
+                  </div>
+                </div>
+                <div className="step-arrow">
+                  <ArrowRight size={24} />
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="process-step"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+              >
+                <div className="step-number">2</div>
+                <div className="step-icon">
+                  <MapPin size={32} />
+                </div>
+                <div className="step-content">
+                  <h4>Visite technique</h4>
+                  <p>Inspection de votre toiture et analyse des raccordements nécessaires</p>
+                  <div className="step-duration">
+                    <Clock size={16} />
+                    <span>1-2 heures</span>
+                  </div>
+                </div>
+                <div className="step-arrow">
+                  <ArrowRight size={24} />
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="process-step"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.6 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+              >
+                <div className="step-number">3</div>
+                <div className="step-icon">
+                  <CheckCircle size={32} />
+                </div>
+                <div className="step-content">
+                  <h4>Validation du projet</h4>
+                  <p>Signature du devis et planification des travaux de zinguerie</p>
+                  <div className="step-duration">
+                    <Clock size={16} />
+                    <span>1-3 jours</span>
+                  </div>
+                </div>
+                <div className="step-arrow">
+                  <ArrowRight size={24} />
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="process-step"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.8 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+              >
+                <div className="step-number">4</div>
+                <div className="step-icon">
+                  <Wrench size={32} />
+                </div>
+                <div className="step-content">
+                  <h4>Réalisation</h4>
+                  <p>Exécution des travaux de zinguerie avec suivi qualité</p>
+                  <div className="step-duration">
+                    <Clock size={16} />
+                    <span>Selon projet</span>
+                  </div>
+                </div>
+                <div className="step-completion">
+                  <CheckCircle size={20} />
+                </div>
+              </motion.div>
+            </div>
+            
+            <motion.div 
+              className="process-summary"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.0 }}
+            >
+              <div className="summary-card">
+                <div className="summary-icon">
+                  <Shield size={32} />
+                </div>
+                <div className="summary-content">
+                  <h4>Garantie et expertise</h4>
+                  <p>Tous nos travaux de zinguerie bénéficient d'une garantie décennale et d'un suivi post-réalisation</p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

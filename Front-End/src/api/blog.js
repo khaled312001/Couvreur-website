@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import apiClient from './apiClient';
 
 export const blogApi = {
   // Get all blog posts (public)

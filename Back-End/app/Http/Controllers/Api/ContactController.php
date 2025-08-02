@@ -36,12 +36,16 @@ class ContactController extends Controller
         $message = ContactMessage::create($request->all());
         
         // Create notification for new contact message
-        Notification::createContactNotification($message);
+        $notification = Notification::createContactNotification($message);
         
         // Send email notification
         $this->sendEmailNotification($message);
         
-        return response()->json($message, 201);
+        // Return both message and notification for immediate update
+        return response()->json([
+            'message' => $message,
+            'notification' => $notification
+        ], 201);
     }
 
     public function update(Request $request, $id)

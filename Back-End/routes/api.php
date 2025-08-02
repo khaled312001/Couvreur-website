@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,14 +123,25 @@ Route::get('/chat/messages/{sessionId}', [ChatController::class, 'getMessages'])
 Route::post('/chat/message', [ChatController::class, 'sendMessage']);
 Route::put('/chat/mark-read/{sessionId}', [ChatController::class, 'markAsRead']);
 
+// Admin Orders (temporarily public for testing)
+Route::get('/admin/orders', [OrdersController::class, 'index']);
+Route::get('/admin/orders/{id}', [OrdersController::class, 'show']);
+Route::post('/admin/orders', [OrdersController::class, 'store']);
+Route::put('/admin/orders/{id}', [OrdersController::class, 'update']);
+Route::delete('/admin/orders/{id}', [OrdersController::class, 'destroy']);
+Route::put('/admin/orders/{id}/status', [OrdersController::class, 'updateStatus']);
+Route::get('/admin/orders/statistics', [OrdersController::class, 'statistics']);
+
 // Quote requests
 Route::post('/quotes', [QuoteController::class, 'store']);
+
+
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
     // Auth
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
     Route::put('/auth/password', [AuthController::class, 'changePassword']);
 
@@ -164,4 +176,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/notifications/{id}', [NotificationController::class, 'destroy']);
     Route::put('/admin/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::put('/admin/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+
 }); 

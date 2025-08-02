@@ -5,6 +5,7 @@ import {
   Phone, Mail, MapPin, ArrowRight, Award,
   Building, Users, Zap, Target
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Installation = () => {
   const navigate = useNavigate();
@@ -236,12 +237,30 @@ const Installation = () => {
       <section className="section">
         <div className="container">
           <div className="process-section">
-            <h2>Notre processus d'installation</h2>
-            <p>Une méthodologie éprouvée pour garantir la réussite de votre projet</p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="process-header"
+            >
+              <div className="section-badge">
+                <div className="badge-square"></div>
+                <span>NOTRE PROCESSUS</span>
+              </div>
+              <h2>Notre processus d'installation</h2>
+              <p>Une méthodologie éprouvée pour garantir la réussite de votre projet</p>
+            </motion.div>
             
             <div className="process-steps">
               {service.process.map((step, index) => (
-                <div key={index} className="process-step">
+                <motion.div 
+                  key={index} 
+                  className="process-step"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.2 + (index * 0.2) }}
+                  whileHover={{ scale: 1.05, y: -10 }}
+                >
                   <div className="step-number">{step.step}</div>
                   <div className="step-icon">
                     {step.icon}
@@ -249,10 +268,41 @@ const Installation = () => {
                   <div className="step-content">
                     <h4>{step.title}</h4>
                     <p>{step.description}</p>
+                    <div className="step-duration">
+                      <Clock size={16} />
+                      <span>Selon projet</span>
+                    </div>
                   </div>
-                </div>
+                  {index < service.process.length - 1 && (
+                    <div className="step-arrow">
+                      <ArrowRight size={24} />
+                    </div>
+                  )}
+                  {index === service.process.length - 1 && (
+                    <div className="step-completion">
+                      <CheckCircle size={20} />
+                    </div>
+                  )}
+                </motion.div>
               ))}
             </div>
+            
+            <motion.div 
+              className="process-summary"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.0 }}
+            >
+              <div className="summary-card">
+                <div className="summary-icon">
+                  <Shield size={32} />
+                </div>
+                <div className="summary-content">
+                  <h4>Garantie décennale</h4>
+                  <p>Tous nos travaux d'installation bénéficient d'une garantie décennale et d'un suivi post-réalisation</p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

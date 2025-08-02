@@ -1,4 +1,5 @@
-import { apiClient } from './apiClient';
+// Contact API - Updated
+import apiClient from './apiClient';
 
 export const contactApi = {
   // Get all messages

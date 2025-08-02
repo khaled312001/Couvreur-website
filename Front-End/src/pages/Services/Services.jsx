@@ -1,37 +1,117 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { getServices } from '../../api/services';
-import { getImageUrl } from '../../utils/imageUtils';
 import '../../styles/services.css';
 
 const Services = () => {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadServices();
-  }, []);
-
-  const loadServices = async () => {
-    try {
-      const data = await getServices();
-      setServices(data);
-    } catch (error) {
-      console.error('Error loading services:', error);
-    } finally {
-      setLoading(false);
+  // قاعدة بيانات الخدمات الثابتة
+  const services = [
+    {
+      id: 1,
+      title: "Charpente traditionnelle et moderne",
+      description: "Construction et rénovation de charpentes traditionnelles et modernes",
+      category: "Construction",
+      duration: "2-4 semaines",
+      price_range: "Sur devis",
+      slug: "charpente",
+      features: [
+        "Charpente traditionnelle en bois",
+        "Charpente moderne en métal",
+        "Rénovation de charpente existante"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 2,
+      title: "Couverture traditionnelle",
+      description: "Installation et réparation de toitures traditionnelles",
+      category: "Couverture",
+      duration: "1-3 semaines",
+      price_range: "Sur devis",
+      slug: "couverture",
+      features: [
+        "Tuiles traditionnelles",
+        "Ardoises naturelles",
+        "Couvertures métalliques"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 3,
+      title: "Zinguerie et étanchéité",
+      description: "Travaux de zinguerie et d'étanchéité complète",
+      category: "Zinguerie",
+      duration: "3-7 jours",
+      price_range: "Sur devis",
+      slug: "zinguerie",
+      features: [
+        "Gouttières en zinc et PVC",
+        "Chéneaux et raccordements",
+        "Membranes d'étanchéité"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 4,
+      title: "Installation de toiture neuve",
+      description: "Installation complète d'une nouvelle toiture",
+      category: "Installation",
+      duration: "3-6 semaines",
+      price_range: "Sur devis",
+      slug: "installation",
+      features: [
+        "Installation de la charpente",
+        "Pose de l'isolation thermique",
+        "Installation des tuiles"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 5,
+      title: "Réparation de toiture",
+      description: "Réparation et maintenance de toitures",
+      category: "Réparation",
+      duration: "1-5 jours",
+      price_range: "À partir de 500€",
+      slug: "repair",
+      features: [
+        "Réparation de fuites",
+        "Remplacement de tuiles",
+        "Réparation de gouttières"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 6,
+      title: "Maintenance de toiture",
+      description: "Entretien et maintenance préventive",
+      category: "Maintenance",
+      duration: "1-3 jours",
+      price_range: "À partir de 300€",
+      slug: "maintenance",
+      features: [
+        "Nettoyage de toiture",
+        "Traitement anti-mousse",
+        "Vérification d'étanchéité"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      id: 7,
+      title: "Services complémentaires",
+      description: "Services additionnels et finitions",
+      category: "Extras",
+      duration: "Selon projet",
+      price_range: "Sur devis",
+      slug: "extras",
+      features: [
+        "Installation de lucarnes",
+        "Pose de velux",
+        "Isolation thermique"
+      ],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     }
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Chargement des services...</p>
-      </div>
-    );
-  }
+  ];
 
   return (
     <div>
@@ -76,16 +156,17 @@ const Services = () => {
           </div>
 
           <div className="services-grid">
-            {services.map((service) => (
-              <div key={service.id} className="service-card">
+            {services.map((service, index) => (
+              <motion.div 
+                key={service.id} 
+                className="service-card"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+              >
                 <div className="service-image">
-                  {service.image ? (
-                    <img src={getImageUrl(service.image)} alt={service.title} />
-                  ) : (
-                    <div className="service-placeholder">
-                      <span>📷</span>
-                    </div>
-                  )}
+                  <img src={service.image} alt={service.title} />
                 </div>
                 
                 <div className="service-content">
@@ -130,7 +211,7 @@ const Services = () => {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 

@@ -20,12 +20,17 @@ export const AuthProvider = ({ children }) => {
     // Check if user is already logged in on app start
     const checkAuth = async () => {
       try {
+        console.log('AuthContext: Checking authentication...');
         const userData = await getCurrentUser();
+        console.log('AuthContext: getCurrentUser result:', userData);
         if (userData) {
           setUser(userData);
+          console.log('AuthContext: User authenticated:', userData);
+        } else {
+          console.log('AuthContext: No user data found');
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
+        console.error('AuthContext: Auth check failed:', error);
       } finally {
         setLoading(false);
       }

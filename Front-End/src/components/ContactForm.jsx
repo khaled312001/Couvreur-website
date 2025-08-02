@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { chatApi } from "../api/chat";
+import { getServices } from "../api/services";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,34 @@ const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [services, setServices] = useState([]);
+  const [loadingServices, setLoadingServices] = useState(true);
+
+  // Fetch services from backend
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        setLoadingServices(true);
+        const servicesData = await getServices();
+        setServices(servicesData);
+      } catch (err) {
+        console.error('Error fetching services:', err);
+        // Fallback to default services if API fails
+        setServices([
+          { id: 1, title: "Installation", slug: "installation" },
+          { id: 2, title: "Réparation", slug: "reparation" },
+          { id: 3, title: "Entretien", slug: "entretien" },
+          { id: 4, title: "Isolation", slug: "isolation" },
+          { id: 5, title: "Charpente", slug: "charpente" },
+          { id: 6, title: "Zinguerie", slug: "zinguerie" }
+        ]);
+      } finally {
+        setLoadingServices(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -145,16 +174,24 @@ const ContactForm = () => {
               value={formData.service}
               onChange={handleChange}
               className="form-select"
+              disabled={loadingServices}
             >
-              <option value="">Sélectionner un service</option>
-              <option value="installation">Installation de toiture</option>
-              <option value="repair">Réparation des fuites</option>
-              <option value="maintenance">Entretien de toiture</option>
-              <option value="isolation">Isolation de toiture</option>
-              <option value="charpente">Charpente</option>
-              <option value="zinguerie">Zinguerie</option>
-              <option value="other">Autre</option>
+              <option value="">
+                {loadingServices ? "Chargement des services..." : "Sélectionner un service"}
+              </option>
+              {services.map((service) => (
+                <option key={service.id} value={service.slug || service.id}>
+                  {service.title}
+                </option>
+              ))}
+              <option value="other">Autre service</option>
             </select>
+            {loadingServices && (
+              <div className="loading-indicator">
+                <span className="loading-spinner-small"></span>
+                <span>Chargement des services...</span>
+              </div>
+            )}
           </div>
         </div>
 

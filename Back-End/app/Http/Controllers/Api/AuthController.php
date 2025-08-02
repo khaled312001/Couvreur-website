@@ -70,7 +70,15 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        try {
+            $user = $request->user();
+            if (!$user) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 
     public function updateProfile(Request $request)

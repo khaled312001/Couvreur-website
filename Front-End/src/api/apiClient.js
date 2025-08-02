@@ -21,8 +21,13 @@ class ApiClient {
       ...options,
     };
 
+    console.log('apiClient: Making request to:', url);
+    console.log('apiClient: Headers:', config.headers);
+
     try {
       const response = await fetch(url, config);
+      
+      console.log('apiClient: Response status:', response.status);
       
       if (!response.ok) {
         if (response.status === 401) {
@@ -31,6 +36,21 @@ class ApiClient {
           localStorage.removeItem('user');
           throw new Error('Unauthorized');
         }
+        
+        // Try to get detailed error information
+        try {
+          const errorData = await response.json();
+          console.error('apiClient: Error response:', errorData);
+          if (errorData.errors) {
+            throw new Error(`Validation errors: ${JSON.stringify(errorData.errors)}`);
+          } else if (errorData.message) {
+            throw new Error(errorData.message);
+          }
+        } catch (parseError) {
+          // If we can't parse the error response, fall back to status code
+          console.error('apiClient: Could not parse error response:', parseError);
+        }
+        
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -38,6 +58,7 @@ class ApiClient {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const jsonResponse = await response.json();
+        console.log('apiClient: JSON response:', jsonResponse);
         return jsonResponse;
       } else if (contentType && contentType.includes('text/csv')) {
         return await response.blob();
@@ -45,7 +66,7 @@ class ApiClient {
         return await response.text();
       }
     } catch (error) {
-      console.error('API request failed:', error);
+      console.error('apiClient: API request failed:', error);
       throw error;
     }
   }
@@ -74,10 +95,6 @@ class ApiClient {
     const isFormData = data instanceof FormData;
     const headers = isFormData ? {} : this.getAuthHeaders();
     
-    console.log('PUT request - isFormData:', isFormData);
-    console.log('PUT request - data type:', typeof data);
-    console.log('PUT request - headers:', headers);
-    
     return this.request(endpoint, {
       method: 'PUT',
       body: isFormData ? data : JSON.stringify(data),
@@ -99,4 +116,5 @@ class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient(); 
+const apiClient = new ApiClient();
+export default apiClient; 

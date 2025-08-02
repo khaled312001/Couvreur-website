@@ -79,8 +79,8 @@ class Notification extends Model
     public static function createContactNotification($contact)
     {
         return self::create([
-            'title' => 'Nouveau message',
-            'message' => "Un nouveau message a été reçu de {$contact->name}",
+            'title' => 'Nouveau message de contact',
+            'message' => "Un nouveau message a été reçu de {$contact->name} - {$contact->subject}",
             'type' => 'info',
             'category' => 'contact',
             'related_id' => $contact->id,

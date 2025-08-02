@@ -39,7 +39,7 @@ const Invoice = ({ order, onClose }) => {
           <style>
             @page {
               size: A4;
-              margin: 1cm;
+              margin: 0.5cm;
             }
             @media print {
               body { 
@@ -47,6 +47,8 @@ const Invoice = ({ order, onClose }) => {
                 padding: 0; 
                 font-family: 'Arial', sans-serif; 
                 background: white !important;
+                min-height: auto !important;
+                height: auto !important;
               }
               .no-print { display: none !important; }
               .invoice-close-btn { display: none !important; }
@@ -57,31 +59,44 @@ const Invoice = ({ order, onClose }) => {
                 padding: 0 !important;
                 max-width: none !important;
                 width: 100% !important;
+                min-height: auto !important;
+                height: auto !important;
+              }
+              .invoice-body { 
+                padding: 15px !important;
               }
               .invoice-header { 
                 background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+                padding: 12px 15px !important;
               }
               .accent-section { 
                 background: #fef3c7 !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+                padding: 12px !important;
+                margin-bottom: 12px !important;
               }
               .service-section { 
                 background: #f8fafc !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+                padding: 12px !important;
+                margin-bottom: 12px !important;
               }
               .totals-section { 
                 background: #ecfdf5 !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+                padding: 12px !important;
+                margin-top: 12px !important;
               }
               .footer { 
                 background: #f1f5f9 !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+                padding: 12px !important;
               }
             }
             body { 
@@ -89,7 +104,7 @@ const Invoice = ({ order, onClose }) => {
               margin: 0; 
               padding: 20px; 
               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              min-height: 100vh;
+              min-height: auto;
             }
             .invoice-container { 
               max-width: 210mm; 
@@ -98,13 +113,14 @@ const Invoice = ({ order, onClose }) => {
               border-radius: 16px; 
               box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
               overflow: hidden;
-              min-height: 297mm;
+              min-height: auto;
+              height: auto;
               position: relative;
             }
             .invoice-header { 
               background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
               color: white; 
-              padding: 40px 30px; 
+              padding: 20px 25px; 
               text-align: center;
               position: relative;
               overflow: hidden;
@@ -123,15 +139,15 @@ const Invoice = ({ order, onClose }) => {
               0%, 100% { transform: translateY(0px) rotate(0deg); }
               50% { transform: translateY(-20px) rotate(180deg); }
             }
-            .company-info { margin-bottom: 25px; position: relative; z-index: 1; }
+            .company-info { margin-bottom: 15px; position: relative; z-index: 1; }
             .company-name { 
-              font-size: 32px; 
+              font-size: 24px; 
               font-weight: bold; 
-              margin-bottom: 8px;
+              margin-bottom: 6px;
               text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             }
             .company-tagline { 
-              font-size: 16px; 
+              font-size: 14px; 
               opacity: 0.95;
               font-weight: 500;
             }
@@ -139,43 +155,43 @@ const Invoice = ({ order, onClose }) => {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              margin-top: 25px;
+              margin-top: 15px;
               position: relative;
               z-index: 1;
             }
             .invoice-number { 
-              font-size: 20px; 
+              font-size: 16px; 
               font-weight: bold;
               background: rgba(255,255,255,0.2);
-              padding: 8px 16px;
+              padding: 6px 12px;
               border-radius: 8px;
               backdrop-filter: blur(10px);
             }
             .invoice-date { 
-              font-size: 16px; 
+              font-size: 14px; 
               opacity: 0.9;
               background: rgba(255,255,255,0.1);
-              padding: 6px 12px;
+              padding: 4px 10px;
               border-radius: 6px;
             }
             .status-badge { 
               display: inline-flex;
               align-items: center;
-              gap: 6px;
-              padding: 8px 16px; 
-              border-radius: 25px; 
-              font-size: 14px; 
+              gap: 5px;
+              padding: 6px 12px; 
+              border-radius: 20px; 
+              font-size: 12px; 
               font-weight: 600;
               background: linear-gradient(135deg, #10b981 0%, #059669 100%);
               color: white;
               box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             }
-            .invoice-body { padding: 40px 30px; }
+            .invoice-body { padding: 15px 20px; }
             .accent-section { 
               background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); 
-              padding: 30px; 
+              padding: 15px; 
               border-radius: 12px; 
-              margin-bottom: 30px;
+              margin-bottom: 15px;
               border: 2px solid #f59e0b;
               position: relative;
             }
@@ -190,10 +206,10 @@ const Invoice = ({ order, onClose }) => {
               border-radius: 12px 12px 0 0;
             }
             .section-title { 
-              font-size: 20px; 
+              font-size: 16px; 
               font-weight: bold; 
               color: #1e293b; 
-              margin-bottom: 20px;
+              margin-bottom: 10px;
               display: flex;
               align-items: center;
               gap: 10px;
@@ -204,13 +220,13 @@ const Invoice = ({ order, onClose }) => {
             .client-info { 
               display: grid; 
               grid-template-columns: 1fr 1fr; 
-              gap: 20px;
+              gap: 12px;
             }
             .info-item { 
               display: flex; 
               align-items: center; 
-              gap: 12px;
-              padding: 12px;
+              gap: 8px;
+              padding: 8px;
               background: rgba(255,255,255,0.7);
               border-radius: 8px;
               border: 1px solid rgba(245, 158, 11, 0.2);
@@ -222,25 +238,25 @@ const Invoice = ({ order, onClose }) => {
             .info-label { 
               font-weight: 600; 
               color: #374151; 
-              font-size: 14px;
+              font-size: 13px;
               margin-bottom: 2px;
             }
             .info-value { 
               color: #1e293b; 
-              font-size: 15px;
+              font-size: 14px;
               font-weight: 500;
             }
             .service-section { 
               background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-              padding: 30px; 
+              padding: 15px; 
               border-radius: 12px; 
-              margin-bottom: 30px;
+              margin-bottom: 15px;
               border: 2px solid #e2e8f0;
             }
             .service-table { 
               width: 100%; 
               border-collapse: collapse; 
-              margin-top: 20px;
+              margin-top: 10px;
               background: white;
               border-radius: 8px;
               overflow: hidden;
@@ -249,15 +265,15 @@ const Invoice = ({ order, onClose }) => {
             .service-table th { 
               background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
               color: white;
-              padding: 16px 12px; 
+              padding: 10px 8px; 
               text-align: left; 
               font-weight: 600; 
-              font-size: 14px;
+              font-size: 12px;
             }
             .service-table td { 
-              padding: 18px 12px; 
+              padding: 10px 8px; 
               border-bottom: 1px solid #e2e8f0;
-              font-size: 14px;
+              font-size: 12px;
             }
             .service-table tr:last-child td {
               border-bottom: none;
@@ -265,25 +281,25 @@ const Invoice = ({ order, onClose }) => {
             .service-name { 
               font-weight: 600; 
               color: #1e293b; 
-              font-size: 16px;
+              font-size: 13px;
             }
             .service-description { 
               color: #64748b; 
-              font-size: 14px; 
-              margin-top: 6px;
-              line-height: 1.4;
+              font-size: 11px; 
+              margin-top: 3px;
+              line-height: 1.2;
             }
             .amount-cell { 
               text-align: right; 
               font-weight: 600;
               color: #059669;
-              font-size: 16px;
+              font-size: 13px;
             }
             .totals-section { 
               background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); 
-              padding: 30px; 
+              padding: 15px; 
               border-radius: 12px; 
-              margin-top: 30px;
+              margin-top: 15px;
               border: 2px solid #10b981;
             }
             .totals-table { 
@@ -291,14 +307,14 @@ const Invoice = ({ order, onClose }) => {
               border-collapse: collapse;
             }
             .totals-table td { 
-              padding: 12px 0; 
+              padding: 8px 0; 
               border-bottom: 1px solid #d1fae5;
-              font-size: 16px;
+              font-size: 13px;
             }
             .totals-table tr:last-child td { 
               border-bottom: none; 
               font-weight: bold; 
-              font-size: 20px;
+              font-size: 16px;
               color: #059669;
             }
             .total-label { 
@@ -312,7 +328,7 @@ const Invoice = ({ order, onClose }) => {
             }
             .footer { 
               background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); 
-              padding: 30px; 
+              padding: 15px; 
               text-align: center;
               border-top: 2px solid #e2e8f0;
             }
@@ -320,7 +336,7 @@ const Invoice = ({ order, onClose }) => {
               display: flex; 
               justify-content: space-between; 
               align-items: flex-start;
-              gap: 30px;
+              gap: 15px;
             }
             .payment-info { 
               text-align: left;
@@ -329,13 +345,13 @@ const Invoice = ({ order, onClose }) => {
             .payment-title { 
               font-weight: bold; 
               color: #1e293b; 
-              margin-bottom: 8px;
-              font-size: 16px;
+              margin-bottom: 4px;
+              font-size: 13px;
             }
             .payment-details { 
               color: #64748b; 
-              font-size: 14px;
-              line-height: 1.5;
+              font-size: 11px;
+              line-height: 1.3;
             }
             .due-date-info {
               text-align: right;
@@ -343,7 +359,7 @@ const Invoice = ({ order, onClose }) => {
             }
             .print-buttons { 
               text-align: center; 
-              padding: 25px; 
+              padding: 20px; 
               background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); 
               border-top: 2px solid #e2e8f0;
             }
@@ -380,26 +396,26 @@ const Invoice = ({ order, onClose }) => {
               display: flex;
               align-items: center;
               justify-content: center;
-              gap: 12px;
-              margin-bottom: 15px;
+              gap: 10px;
+              margin-bottom: 10px;
             }
             .logo-icon {
-              width: 50px;
-              height: 50px;
+              width: 40px;
+              height: 40px;
               background: rgba(255,255,255,0.2);
-              border-radius: 12px;
+              border-radius: 10px;
               display: flex;
               align-items: center;
               justify-content: center;
               backdrop-filter: blur(10px);
             }
             .company-logo-image {
-              width: 60px;
-              height: 60px;
+              width: 45px;
+              height: 45px;
               object-fit: contain;
-              border-radius: 12px;
+              border-radius: 10px;
               background: rgba(255,255,255,0.2);
-              padding: 8px;
+              padding: 6px;
               backdrop-filter: blur(10px);
             }
             .watermark {
@@ -407,8 +423,8 @@ const Invoice = ({ order, onClose }) => {
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%) rotate(-45deg);
-              font-size: 120px;
-              color: rgba(0,0,0,0.03);
+              font-size: 80px;
+              color: rgba(0,0,0,0.02);
               font-weight: bold;
               pointer-events: none;
               z-index: 0;
@@ -434,8 +450,8 @@ const Invoice = ({ order, onClose }) => {
   };
 
   return (
-    <div className="invoice-modal" onClick={onClose}>
-      <div className="invoice-container" ref={invoiceRef} onClick={(e) => e.stopPropagation()}>
+    <div className="invoice-modal-simple">
+      <div className="invoice-container" ref={invoiceRef}>
         <button className="invoice-close-btn" onClick={onClose}>
           <X size={20} />
         </button>
@@ -489,7 +505,7 @@ const Invoice = ({ order, onClose }) => {
                 <User size={18} />
                 <div>
                   <div className="info-label">Nom</div>
-                  <div className="info-value">{order.clientName}</div>
+                  <div className="info-value">{order.client_name}</div>
                 </div>
               </div>
               <div className="info-item">
@@ -587,16 +603,12 @@ const Invoice = ({ order, onClose }) => {
         </div>
 
         {/* Print Buttons */}
-        <div className="print-buttons no-print">
-          <button className="print-btn" onClick={handlePrint}>
+        <div className="print-buttons no-print" style={{display: 'flex', justifyContent: 'center', gap: '16px', background: 'none', border: 'none', boxShadow: 'none', padding: 0}}>
+          <button className="print-btn" onClick={handlePrint} style={{minWidth: 180}}>
             <Printer size={18} />
             Imprimer la facture
           </button>
-          <button className="print-btn secondary" onClick={handleDownload}>
-            <Download size={18} />
-            Télécharger PDF
-          </button>
-          <button className="print-btn secondary" onClick={onClose}>
+          <button className="print-btn secondary" onClick={onClose} style={{minWidth: 120}}>
             Fermer
           </button>
         </div>

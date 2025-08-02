@@ -8,6 +8,7 @@ import {
   Send, ReplyAll, Archive as ArchiveIcon, Trash, EyeOff, X
 } from 'lucide-react';
 import { contactApi } from '../../api/contact';
+import { notificationsApi } from '../../api/notifications';
 
 const ContactAdmin = () => {
   const [messages, setMessages] = useState([]);
@@ -72,11 +73,24 @@ const ContactAdmin = () => {
                       response.filter(m => m.status === 'replied').length || 0;
       
       setStats({ total, unread, read, replied });
+      
+      // Trigger notification update when new messages are loaded
+      triggerNotificationUpdate();
     } catch (err) {
       console.error('Error loading messages:', err);
       setError('Erreur lors du chargement des messages: ' + err.message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function to trigger notification update
+  const triggerNotificationUpdate = async () => {
+    try {
+      // Dispatch a custom event to notify the NotificationsDropdown
+      window.dispatchEvent(new CustomEvent('notifications-update'));
+    } catch (error) {
+      console.error('Error triggering notification update:', error);
     }
   };
 
