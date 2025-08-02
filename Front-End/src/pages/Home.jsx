@@ -10,6 +10,30 @@ import Testimonial from '../components/Testimonial';
 import AnimatedSection from '../components/AnimatedSection';
 
 const Home = () => {
+  // Helper function to get service image based on title
+  const getServiceImage = (serviceTitle) => {
+    const title = serviceTitle.toLowerCase();
+    
+    if (title.includes('installation') || title.includes('pose')) {
+      return 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop';
+    } else if (title.includes('réparation') || title.includes('reparation') || title.includes('fuite')) {
+      return 'https://images.unsplash.com/photo-1581578731548-c64695b5c3c1?w=800&h=600&fit=crop';
+    } else if (title.includes('entretien') || title.includes('nettoyage')) {
+      return 'https://images.unsplash.com/photo-1581578731548-c64695b5c3c1?w=800&h=600&fit=crop';
+    } else if (title.includes('isolation') || title.includes('isolation')) {
+      return 'https://images.unsplash.com/photo-1581578731548-c64695b5c3c1?w=800&h=600&fit=crop';
+    } else if (title.includes('charpente') || title.includes('structure')) {
+      return 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop';
+    } else if (title.includes('zinguerie') || title.includes('zinc')) {
+      return 'https://images.unsplash.com/photo-1581578731548-c64695b5c3c1?w=800&h=600&fit=crop';
+    } else if (title.includes('démoussage') || title.includes('demoussage')) {
+      return 'https://images.unsplash.com/photo-1581578731548-c64695b5c3c1?w=800&h=600&fit=crop';
+    } else {
+      // Default high-quality roofing image
+      return 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop';
+    }
+  };
+
   const [services, setServices] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
@@ -322,163 +346,6 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section className="about-section section section-gray">
-        <div className="container">
-          <div className="about-grid">
-            <AnimatedSection animationType="fade-in-left" className="about-content">
-              <div className="about-header">
-                <div className="about-badge">
-                  <div className="badge-square"></div>
-                  <span>À PROPOS</span>
-                </div>
-                <h2 className="about-title">
-                  BN BÂTIMENT : Votre artisan couvreur de confiance
-                </h2>
-                <p className="about-subtitle">
-                  Plus de 10 ans d'expérience au service de votre toiture
-                </p>
-              </div>
-              <div className="about-text">
-                <p>
-                  BN BÂTIMENT est votre artisan couvreur professionnel spécialisé dans la couverture, 
-                  la zinguerie et la charpente. Nous intervenons dans toute la région Rhône-Alpes 
-                  pour vous garantir des travaux de qualité et une satisfaction totale.
-                </p>
-                <p>
-                  Notre équipe d'experts qualifiés met son savoir-faire à votre service pour tous vos 
-                  projets de toiture : installation, réparation, entretien et rénovation. 
-                  Nous respectons les normes en vigueur et vous offrons une garantie décennale.
-                </p>
-              </div>
-              <div className="about-features">
-                <div className="feature-item">
-                  <span className="feature-icon">🏗️</span>
-                  <div className="feature-content">
-                    <h4>Expertise</h4>
-                    <p>Plus de 10 ans d'expérience</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">⭐</span>
-                  <div className="feature-content">
-                    <h4>Qualité</h4>
-                    <p>Matériaux premium et garantie</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">⚡</span>
-                  <div className="feature-content">
-                    <h4>Réactivité</h4>
-                    <p>Intervention rapide et devis gratuit</p>
-                  </div>
-                </div>
-              </div>
-              <div className="about-cta">
-                <a href="/a-propos" className="btn btn-primary">En savoir plus</a>
-                <a href="/contact" className="btn btn-secondary">Devis gratuit</a>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection animationType="fade-in-right" className="about-visual" delay={0.2}>
-              <img 
-                src="https://img.freepik.com/premium-vector/flat-design-construction-company-logo_1002026-152.jpg" 
-                alt="Artisan couvreur au travail" 
-                className="about-image"
-                style={{
-                  borderRadius: '15px',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                  width: '100%',
-                  height: 'auto'
-                }}
-              />
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* Online Presence Section */}
-      <section className="online-presence-section">
-        <div className="container">
-          <div className="presence-content">
-            <AnimatedSection animationType="slide-up-bounce" className="presence-header">
-              <h2 className="presence-title">Trouvez-nous sur :</h2>
-            </AnimatedSection>
-            <div className="presence-cards">
-              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.1}>
-                <div className="card-logo">
-                  <div className="google-logo">
-                    <div className="google-building"></div>
-                    <div className="google-g">G</div>
-                  </div>
-                </div>
-                <div className="card-text">
-                  <div className="card-title">Google My Business</div>
-                  <div className="card-subtitle">Google</div>
-                </div>
-              </AnimatedSection>
-              
-              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.2}>
-                <div className="card-logo">
-                  <div className="figaro-logo">
-                    <span className="figaro-text">LE FIGARO</span>
-                    <span className="figaro-emploi">emploi</span>
-                  </div>
-                </div>
-                <div className="card-text">
-                  <div className="card-subtitle">Figaro Entreprise</div>
-                </div>
-              </AnimatedSection>
-              
-              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.3}>
-                <div className="card-logo">
-                  <div className="societe-logo">
-                    <span className="societe-text">Societe</span>
-                    <div className="societe-dot">i</div>
-                  </div>
-                </div>
-                <div className="card-text">
-                  <div className="card-subtitle">Société.com</div>
-                </div>
-              </AnimatedSection>
-              
-              <AnimatedSection animationType="scale-in" className="presence-card" delay={0.4}>
-                <div className="card-logo">
-                  <div className="mappy-logo">
-                    <span className="mappy-text">mappy</span>
-                    <div className="mappy-dot"></div>
-                  </div>
-                </div>
-                <div className="card-text">
-                  <div className="card-subtitle">Mappy</div>
-                </div>
-              </AnimatedSection>
-            </div>
-            
-            <AnimatedSection animationType="slide-up-bounce" className="reviews-widget" delay={0.5}>
-              <div className="google-reviews">
-                <div className="reviews-logo">
-                  <div className="google-g-colorful">G</div>
-                </div>
-                <div className="reviews-content">
-                  <h3 className="reviews-title">Avis Clients</h3>
-                  <div className="reviews-rating">
-                    <span className="rating-score">5.0</span>
-                    <div className="rating-stars">
-                      <span className="star">★</span>
-                      <span className="star">★</span>
-                      <span className="star">★</span>
-                      <span className="star">★</span>
-                      <span className="star">★</span>
-                    </div>
-                  </div>
-                  <a href="/testimonials" className="reviews-link">Lire nos 34 avis</a>
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
       <section className="about-section section">
         <div className="container">
           <div className="about-grid">
@@ -560,15 +427,27 @@ const Home = () => {
             </AnimatedSection>
             
             <AnimatedSection animationType="fade-in-right" className="about-visual" delay={0.2}>
-              <div className="worker-illustration">
-                <div className="roof-scene">
-                  <div className="roof"></div>
-                  <div className="worker">
-                    <div className="worker-body"></div>
-                    <div className="worker-head"></div>
-                    <div className="worker-tool"></div>
+              <div className="quality-image-container">
+                <div className="quality-image-wrapper">
+                  <img 
+                    src="/1.jpg" 
+                    alt="Qualité et fiabilité - BN BÂTIMENT" 
+                    className="quality-image"
+                  />
+                  <div className="image-overlay">
+                    <div className="overlay-content">
+                      <div className="quality-badge">
+                        <span className="badge-icon">⭐</span>
+                        <span className="badge-text">Qualité Garantie</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="ladder"></div>
+                  <div className="floating-elements">
+                    <div className="floating-element element-1">🏠</div>
+                    <div className="floating-element element-2">🔧</div>
+                    <div className="floating-element element-3">⭐</div>
+                    <div className="floating-element element-4">🛡️</div>
+                  </div>
                 </div>
                 <div className="experience-badge">
                   <div className="badge-number">10</div>
@@ -651,38 +530,93 @@ const Home = () => {
             </p>
           </AnimatedSection>
           <div className="services-grid grid grid-3">
-            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.1}>
-              <div className="service-image">
-                <img src="https://th.bing.com/th/id/OIP.byinHvCNLGPMajojSqKM-QHaE8?w=241&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" alt="Rénovation de toiture" />
-              </div>
-              <div className="card-content">
-                <h3>Installation de toiture</h3>
-                <p>Nous rénovons et prenons soin de tout type de toiture en Drôme (26) et Ardèche (07)</p>
-                <a href="/services/renovation" className="card-button">Voir le détail</a>
-              </div>
-            </AnimatedSection>
-            
-            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.2}>
-              <div className="service-image">
-                <img src="https://th.bing.com/th/id/R.3ded85b1ec4807586d07c65ce4b6d743?rik=zl4%2fPqN1ZLKL4w&pid=ImgRaw&r=0" alt="Réparation de toiture" />
-              </div>
-              <div className="card-content">
-                <h3>Réparation des fuites</h3>
-                <p>Nous inspectons et réparons tout type de toiture.</p>
-                <a href="/services/reparation" className="card-button">Voir le détail</a>
-              </div>
-            </AnimatedSection>
-            
-            <AnimatedSection animationType="scale-in" className="service-card card" delay={0.3}>
-              <div className="service-image">
-                <img src="https://tse2.mm.bing.net/th/id/OIP.4v_TRfVxL_mOwlGPbXIQNQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" />
-              </div>
-              <div className="card-content">
-                <h3>Entretien de toiture</h3>
-                <p>Nous entretenons, traitons et nettoyons vos toitures.</p>
-                <a href="/services/entretien" className="card-button">Voir le détail</a>
-              </div>
-            </AnimatedSection>
+            {loading ? (
+              <p>Chargement des services...</p>
+            ) : services.length === 0 ? (
+              <p>Aucun service disponible pour le moment.</p>
+            ) : (
+              <>
+                  {services.map((service, index) => (
+                    <div key={`${service.id}-${index}`} className="services-carousel-item">
+                      <AnimatedSection animationType="scale-in" className="service-card card" delay={index * 0.1}>
+                        <a href={`/services/${service.slug || service.id}`} className="service-card-link">
+                          <div className="service-image">
+                            <img 
+                              src={service.image || getServiceImage(service.title)} 
+                              alt={service.title}
+                            />
+                            <div className="service-overlay">
+                              <div className="overlay-content">
+                                <div className="service-badge">
+                                  <span className="badge-icon">🔧</span>
+                                  <span className="badge-text">{service.category || 'Service'}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-content">
+                            <h3>{service.title}</h3>
+                            <p>{service.description}</p>
+                            <div className="service-features">
+                              {service.features && service.features.length > 0 && (
+                                <div className="features-list">
+                                  {service.features.slice(0, 3).map((feature, idx) => (
+                                    <span key={idx} className="feature-tag">✓ {feature}</span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <div className="card-button">
+                              Voir le détail
+                              <span className="button-arrow">→</span>
+                            </div>
+                          </div>
+                        </a>
+                      </AnimatedSection>
+                    </div>
+                  ))}
+                  {/* Duplicate items for seamless loop */}
+                  {services.map((service, index) => (
+                    <div key={`${service.id}-${index}-duplicate`} className="services-carousel-item">
+                      <AnimatedSection animationType="scale-in" className="service-card card" delay={index * 0.1}>
+                        <a href={`/services/${service.slug || service.id}`} className="service-card-link">
+                          <div className="service-image">
+                            <img 
+                              src={service.image || getServiceImage(service.title)} 
+                              alt={service.title}
+                            />
+                            <div className="service-overlay">
+                              <div className="overlay-content">
+                                <div className="service-badge">
+                                  <span className="badge-icon">🔧</span>
+                                  <span className="badge-text">{service.category || 'Service'}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-content">
+                            <h3>{service.title}</h3>
+                            <p>{service.description}</p>
+                            <div className="service-features">
+                              {service.features && service.features.length > 0 && (
+                                <div className="features-list">
+                                  {service.features.slice(0, 3).map((feature, idx) => (
+                                    <span key={idx} className="feature-tag">✓ {feature}</span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <div className="card-button">
+                              Voir le détail
+                              <span className="button-arrow">→</span>
+                            </div>
+                          </div>
+                        </a>
+                      </AnimatedSection>
+                    </div>
+                  ))}
+              </>
+            )}
           </div>
           
           <AnimatedSection animationType="slide-up-bounce" className="services-footer">
@@ -748,16 +682,65 @@ const Home = () => {
             <h2 className="section-title">Nos clients témoignent</h2>
             <p className="section-subtitle">Découvrez ce que nos clients disent de nos services</p>
           </div>
-          <div className="testimonials-grid">
-            {loading ? (
-              <p>Chargement des avis...</p>
-            ) : testimonials.length === 0 ? (
-              <p>Aucun avis disponible pour le moment.</p>
-            ) : (
-              testimonials.map((testimonial, index) => (
-                <Testimonial key={testimonial.id} testimonial={testimonial} />
-              ))
-            )}
+          <div className="testimonials-carousel-container">
+            <div className="testimonials-carousel-track" id="testimonialsCarousel">
+              {loading ? (
+                <div className="carousel-loading">
+                  <div className="loading-spinner"></div>
+                  <p>Chargement des avis...</p>
+                </div>
+              ) : testimonials.length === 0 ? (
+                <div className="carousel-empty">
+                  <p>Aucun avis disponible pour le moment.</p>
+                </div>
+              ) : (
+                <>
+                  {testimonials.map((testimonial, index) => (
+                    <div key={`${testimonial.id}-${index}`} className="testimonials-carousel-item">
+                      <AnimatedSection animationType="scale-in" className="testimonial-card" delay={index * 0.1}>
+                        <Testimonial testimonial={testimonial} />
+                      </AnimatedSection>
+                    </div>
+                  ))}
+                  {/* Duplicate items for seamless loop */}
+                  {testimonials.map((testimonial, index) => (
+                    <div key={`${testimonial.id}-${index}-duplicate`} className="testimonials-carousel-item">
+                      <AnimatedSection animationType="scale-in" className="testimonial-card" delay={index * 0.1}>
+                        <Testimonial testimonial={testimonial} />
+                      </AnimatedSection>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+            <button 
+              className="carousel-nav carousel-prev" 
+              onClick={() => {
+                const track = document.getElementById('testimonialsCarousel');
+                if (track) {
+                  track.scrollBy({ left: -400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Précédent"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <button 
+              className="carousel-nav carousel-next" 
+              onClick={() => {
+                const track = document.getElementById('testimonialsCarousel');
+                if (track) {
+                  track.scrollBy({ left: 400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Suivant"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9,18 15,12 9,6"></polyline>
+              </svg>
+            </button>
           </div>
           
           <div className="testimonials-stats fade-in-on-scroll" style={{animationDelay: '0.7s'}}>
@@ -867,16 +850,61 @@ const Home = () => {
             <h2 className="section-title">Nos réalisations</h2>
             <p className="section-subtitle">Découvrez nos derniers projets de couverture et zinguerie</p>
           </div>
-          <div className="gallery-grid grid grid-4">
-            {loading ? (
-              <p>Chargement des galeries...</p>
-            ) : gallery.length === 0 ? (
-              <p>Aucune galerie disponible pour le moment.</p>
-            ) : (
-              gallery.slice(0, 8).map((item, index) => (
-                <GalleryItem key={item.id} item={item} index={index} />
-              ))
-            )}
+          <div className="gallery-carousel-container">
+            <div className="gallery-carousel-track" id="galleryCarousel">
+              {loading ? (
+                <div className="carousel-loading">
+                  <div className="loading-spinner"></div>
+                  <p>Chargement des galeries...</p>
+                </div>
+              ) : gallery.length === 0 ? (
+                <div className="carousel-empty">
+                  <p>Aucune galerie disponible pour le moment.</p>
+                </div>
+              ) : (
+                <>
+                  {gallery.map((item, index) => (
+                    <div key={`${item.id}-${index}`} className="gallery-carousel-item">
+                      <GalleryItem item={item} index={index} />
+                    </div>
+                  ))}
+                  {/* Duplicate items for seamless loop */}
+                  {gallery.map((item, index) => (
+                    <div key={`${item.id}-${index}-duplicate`} className="gallery-carousel-item">
+                      <GalleryItem item={item} index={index} />
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+            <button 
+              className="carousel-nav carousel-prev" 
+              onClick={() => {
+                const track = document.getElementById('galleryCarousel');
+                if (track) {
+                  track.scrollBy({ left: -400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Précédent"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <button 
+              className="carousel-nav carousel-next" 
+              onClick={() => {
+                const track = document.getElementById('galleryCarousel');
+                if (track) {
+                  track.scrollBy({ left: 400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Suivant"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9,18 15,12 9,6"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
       </section>
@@ -1013,42 +1041,40 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Blog Section - Horizontal Scrolling Carousel */}
+      {/* Blog Carousel Section */}
       <section className="blog-carousel-section section section-gray">
         <div className="container">
           <div className="section-header fade-in-on-scroll">
-            <h2 className="section-title">Nos réalisations</h2>
-            <p className="section-subtitle">Découvrez nos derniers projets et réalisations</p>
+            <h2 className="section-title">Nos derniers articles</h2>
+            <p className="section-subtitle">Conseils et actualités sur la toiture</p>
           </div>
-          
           <div className="blog-carousel-container">
             <div className="blog-carousel-track" id="blogCarousel">
               {loading ? (
                 <div className="carousel-loading">
                   <div className="loading-spinner"></div>
-                  <p>Chargement des réalisations...</p>
+                  <p>Chargement des articles...</p>
                 </div>
               ) : blogPosts.length === 0 ? (
                 <div className="carousel-empty">
-                  <p>Aucune réalisation disponible pour le moment.</p>
+                  <p>Aucun article disponible pour le moment.</p>
                 </div>
               ) : (
                 <>
-                  {/* Duplicate items for seamless loop */}
-                  {[...blogPosts, ...blogPosts].map((post, index) => (
+                  {blogPosts.map((post, index) => (
                     <div key={`${post.id}-${index}`} className="blog-carousel-item">
-                      <div className="blog-card card">
+                      <AnimatedSection animationType="scale-in" className="blog-card" delay={index * 0.1}>
                         <div className="blog-image">
                           <img 
-                            src={post.imageUrl || `https://images.unsplash.com/photo-${1581578731548 + (index % blogPosts.length)}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80`} 
-                            alt={post.title} 
+                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
+                            alt={post.title}
                           />
                           <div className="blog-overlay">
                             <div className="blog-overlay-content">
                               <h3>{post.title}</h3>
                               <p>{post.excerpt}</p>
-                              <a href={`/blog/${post.id}`} className="blog-overlay-button">
-                                Voir plus
+                              <a href={`/blog/${post.slug}`} className="blog-overlay-button">
+                                Lire l'article
                               </a>
                             </div>
                           </div>
@@ -1056,24 +1082,79 @@ const Home = () => {
                         <div className="card-content">
                           <h3>{post.title}</h3>
                           <p>{post.excerpt}</p>
-                          <a href={`/blog/${post.id}`} className="card-button">Lire la suite</a>
+                          <div className="blog-meta">
+                            <span className="blog-date">{new Date(post.created_at).toLocaleDateString('fr-FR')}</span>
+                            <span className="blog-category">{post.category}</span>
+                          </div>
+                          <a href={`/blog/${post.slug}`} className="card-button">
+                            Lire l'article
+                          </a>
                         </div>
-                      </div>
+                      </AnimatedSection>
+                    </div>
+                  ))}
+                  {/* Duplicate items for seamless loop */}
+                  {blogPosts.map((post, index) => (
+                    <div key={`${post.id}-${index}-duplicate`} className="blog-carousel-item">
+                      <AnimatedSection animationType="scale-in" className="blog-card" delay={index * 0.1}>
+                        <div className="blog-image">
+                          <img 
+                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
+                            alt={post.title}
+                          />
+                          <div className="blog-overlay">
+                            <div className="blog-overlay-content">
+                              <h3>{post.title}</h3>
+                              <p>{post.excerpt}</p>
+                              <a href={`/blog/${post.slug}`} className="blog-overlay-button">
+                                Lire l'article
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="card-content">
+                          <h3>{post.title}</h3>
+                          <p>{post.excerpt}</p>
+                          <div className="blog-meta">
+                            <span className="blog-date">{new Date(post.created_at).toLocaleDateString('fr-FR')}</span>
+                            <span className="blog-category">{post.category}</span>
+                          </div>
+                          <a href={`/blog/${post.slug}`} className="card-button">
+                            Lire l'article
+                          </a>
+                        </div>
+                      </AnimatedSection>
                     </div>
                   ))}
                 </>
               )}
             </div>
-            
-            {/* Navigation arrows */}
-            <button className="carousel-nav carousel-prev" onClick={scrollCarouselLeft}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6"/>
+            <button 
+              className="carousel-nav carousel-prev" 
+              onClick={() => {
+                const track = document.getElementById('blogCarousel');
+                if (track) {
+                  track.scrollBy({ left: -400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Précédent"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
               </svg>
             </button>
-            <button className="carousel-nav carousel-next" onClick={scrollCarouselRight}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6"/>
+            <button 
+              className="carousel-nav carousel-next" 
+              onClick={() => {
+                const track = document.getElementById('blogCarousel');
+                if (track) {
+                  track.scrollBy({ left: 400, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Suivant"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9,18 15,12 9,6"></polyline>
               </svg>
             </button>
           </div>
