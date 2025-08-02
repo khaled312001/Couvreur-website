@@ -28,7 +28,7 @@ const Blog = () => {
       <section 
         className="hero" 
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&h=600&fit=crop')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media.istockphoto.com/id/1476897744/photo/closeup-of-business-woman-hand-typing-and-working-on-laptop-computer-searching-the.jpg?s=612x612&w=0&k=20&c=8OtIN-VKQ4trfJfc_oCMuOL47aN9DB88WtvQIUDF3hI=')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',

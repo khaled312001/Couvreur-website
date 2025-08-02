@@ -33,32 +33,35 @@ const Testimonials = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="testimonials-hero" style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        padding: "5rem 1rem",
-        textAlign: "center",
+      <section className="hero" style={{
+  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://plus.unsplash.com/premium_photo-1738559289370-adc1ab16db45?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  padding: "5rem 1rem",
+  textAlign: "center",
+}}>
+  <div className="container">
+    <div className="hero-content">
+      <h1 style={{
+        color: "#ffffff",
+        fontSize: "3rem",
+        fontWeight: "700",
+        textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
       }}>
-        <div className="testimonials-hero-content">
-          <h1 style={{
-            color: "#ffffff",
-            fontSize: "3rem",
-            fontWeight: "700",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
-          }}>
-            Avis Clients
-          </h1>
-          <p style={{
-            color: "white",
-            fontSize: "1.25rem",
-            fontWeight: "500",
-            textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
-          }}>
-            Ce que nos clients disent de nos services
-          </p>
-        </div>
-      </section>
+        Avis Clients
+      </h1>
+      <p style={{
+        color: "white",
+        fontSize: "1.25rem",
+        fontWeight: "500",
+        textShadow: "1px 1px 2px rgba(0,0,0,0.7)",
+      }}>
+        Ce que nos clients disent de nos services
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Testimonials Section */}
       <section className="testimonials-section">

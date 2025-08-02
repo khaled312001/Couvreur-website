@@ -35,7 +35,7 @@ const Gallery = () => {
       <section 
         className="hero" 
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&h=600&fit=crop')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media.istockphoto.com/id/1329368655/photo/roofing-work-new-covering-of-a-tiled-roof.jpg?s=612x612&w=0&k=20&c=8FLEyDkZPygAx9z-7Jnclbs--AVjKQGfUpN7JVwHI34=')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',

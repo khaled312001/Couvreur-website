@@ -289,7 +289,7 @@ const Areas = () => {
     <div>
       {/* Hero Section */}
       <section className="hero" style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://tse2.mm.bing.net/th/id/OIP.segGigN8RbRXhQDFxb475AHaDt?w=555&h=278&rs=1&pid=ImgDetMain&o=7&rm=3')`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://as2.ftcdn.net/v2/jpg/07/73/28/07/1000_F_773280751_D1Hmsv70vu2sd5AnOiLf5JQzdKhmGQYQ.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: "5rem 1rem",
