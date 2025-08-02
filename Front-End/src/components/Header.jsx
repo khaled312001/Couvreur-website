@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
   Phone, Mail, Clock, Home, Info, Wrench, MapPin, 
   Star, FileText, Building, MessageSquare, Menu, X,
@@ -111,29 +112,101 @@ const Header = () => {
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''} ${loading ? 'header-loading' : ''}`}>
-      {/* Top Bar - Enhanced with animations */}
-      <div className="top-bar">
+      {/* Top Bar - Enhanced with animated gradient */}
+      <motion.div 
+        className="top-bar animated"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="animated-background">
+          <div className="gradient-layer layer-1"></div>
+          <div className="gradient-layer layer-2"></div>
+          <div className="gradient-layer layer-3"></div>
+          <div className="floating-particles">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="particle"
+                animate={{
+                  y: [0, -30, 0],
+                  opacity: [0, 1, 0],
+                  scale: [0, 1, 0]
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 3,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        
         <div className="container">
           <div className="top-bar-content">
             <div className="top-bar-left">
-              <div className="top-bar-item">
-                <Phone size={16} className="icon" />
-                <a href="tel:33780326427" className="top-bar-link">07 80 32 64 27</a>
-              </div>
-              <div className="top-bar-item">
-                <Mail size={16} className="icon" />
-                <a href="mailto:bnbatimententreprise@gmail.com" className="top-bar-link">bnbatimententreprise@gmail.com</a>
-              </div>
+              <motion.div 
+                className="top-bar-item"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="icon-wrapper"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                >
+                  <Phone size={16} className="icon" />
+                </motion.div>
+                <a href="tel:33780326427" className="top-bar-link">
+                  <span className="link-text">07 80 32 64 27</span>
+                  <div className="link-glow"></div>
+                </a>
+              </motion.div>
+              
+              <motion.div 
+                className="top-bar-item"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="icon-wrapper"
+                  animate={{ rotate: [0, -360] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                >
+                  <Mail size={16} className="icon" />
+                </motion.div>
+                <a href="mailto:bnbatimententreprise@gmail.com" className="top-bar-link">
+                  <span className="link-text">bnbatimententreprise@gmail.com</span>
+                  <div className="link-glow"></div>
+                </a>
+              </motion.div>
             </div>
+            
             <div className="top-bar-right">
-              <div className="top-bar-item">
-                <Clock size={16} className="icon" />
-                <span>Lun-Ven: 8h-18h | Sam: 8h-12h</span>
-              </div>
+              <motion.div 
+                className="top-bar-item"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="icon-wrapper"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                >
+                  <Clock size={16} className="icon" />
+                </motion.div>
+                <span className="schedule-text">
+                  <span className="schedule-part">Lun-Ven: 8h-18h</span>
+                  <span className="schedule-separator">|</span>
+                  <span className="schedule-part">Sam: 8h-12h</span>
+                </span>
+              </motion.div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Navigation - Enhanced with modern design */}
       <div className="nav-main">

@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import apiClient from './apiClient';
 
 // Helper function to properly format FormData for Laravel
 const formatFormData = (serviceData) => {

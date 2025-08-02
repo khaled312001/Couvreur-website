@@ -49,10 +49,13 @@ export const logout = async () => {
 export const getCurrentUser = async () => {
   try {
     const token = localStorage.getItem('token');
+    console.log('getCurrentUser: token exists:', !!token);
     if (!token) {
+      console.log('getCurrentUser: No token found, returning null');
       return null;
     }
 
+    console.log('getCurrentUser: Making request to /auth/user');
     const response = await fetch(`${API_BASE_URL}/auth/user`, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -60,12 +63,17 @@ export const getCurrentUser = async () => {
       },
     });
 
+    console.log('getCurrentUser: response status:', response.status);
     if (!response.ok) {
+      console.log('getCurrentUser: response not ok, throwing error');
       throw new Error('Unauthorized');
     }
 
-    return await response.json();
+    const userData = await response.json();
+    console.log('getCurrentUser: userData:', userData);
+    return userData;
   } catch (error) {
+    console.error('getCurrentUser error:', error);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     return null;

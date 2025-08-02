@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import apiClient from './apiClient';
 
 export const galleryApi = {
   // Get all gallery items (public)

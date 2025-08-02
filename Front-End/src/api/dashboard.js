@@ -1,4 +1,5 @@
-import { apiClient } from './apiClient';
+// Dashboard API - Updated
+import apiClient from './apiClient';
 
 export const dashboardApi = {
   // Get dashboard data

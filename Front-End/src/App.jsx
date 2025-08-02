@@ -1,3 +1,4 @@
+// App Component - Updated
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // Import styles
@@ -33,13 +34,6 @@ import Pricing from "./pages/Pricing";
 // Import Services pages
 import Services from "./pages/Services/Services";
 import ServiceDetail from "./pages/Services/ServiceDetail";
-import Charpente from "./pages/Services/Charpente";
-import Couverture from "./pages/Services/Couverture";
-import Zinguerie from "./pages/Services/Zinguerie";
-import Installation from "./pages/Services/Installation";
-import Repair from "./pages/Services/Repair";
-import Maintenance from "./pages/Services/Maintenance";
-import Extras from "./pages/Services/Extras";
 
 // Import Admin pages and components
 import Login from "./pages/Admin/Login";
@@ -49,6 +43,7 @@ import TestimonialsAdmin from "./pages/Admin/TestimonialsAdmin";
 import BlogAdmin from "./pages/Admin/BlogAdmin";
 import GalleryAdmin from "./pages/Admin/GalleryAdmin";
 import ServicesAdmin from "./pages/Admin/ServicesAdmin";
+// ContactAdmin import - Updated - Fixed
 import ContactAdmin from "./pages/Admin/ContactAdmin";
 import UsersAdmin from "./pages/Admin/UsersAdmin";
 import SettingsAdmin from "./pages/Admin/SettingsAdmin";
@@ -138,14 +133,6 @@ function App() {
                     {/* Services Pages */}
                     <Route path="/services" element={<Services />} />
                     <Route path="/services/:slug" element={<ServiceDetail />} />
-                    <Route path="/services/charpente" element={<Charpente />} />
-                    <Route path="/services/couverture" element={<Couverture />} />
-                    <Route path="/services/couverture-traditionnelle" element={<Couverture />} />
-                    <Route path="/services/zinguerie" element={<Zinguerie />} />
-                    <Route path="/services/installation" element={<Installation />} />
-                    <Route path="/services/repair" element={<Repair />} />
-                    <Route path="/services/maintenance" element={<Maintenance />} />
-                    <Route path="/services/extras" element={<Extras />} />
 
                     {/* 404 Page - Must be last */}
                     <Route path="*" element={<NotFound />} />

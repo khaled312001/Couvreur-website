@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TestimonialSeeder::class,
             GalleryItemSeeder::class,
             NotificationSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

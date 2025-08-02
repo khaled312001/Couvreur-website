@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Target, Image, MessageSquare, BookOpen, Users, Settings, LogOut, Package, MessageCircle
+  LayoutDashboard, Target, Image, MessageSquare, BookOpen, Users, LogOut, Package, MessageCircle
 } from 'lucide-react';
 import '../styles/admin.css';
 
@@ -46,11 +46,7 @@ const sidebarLinks = [
     label: 'Utilisateurs',
     icon: Users
   },
-  {
-    to: '/admin/settings',
-    label: 'Paramètres',
-    icon: Settings
-  }
+
 ];
 
 const SidebarAdmin = () => {

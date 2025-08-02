@@ -26,6 +26,8 @@ const Home = () => {
   const [contactFormLoading, setContactFormLoading] = useState(false);
   const [contactFormSuccess, setContactFormSuccess] = useState(false);
   const [contactFormError, setContactFormError] = useState('');
+  const [contactFormServices, setContactFormServices] = useState([]);
+  const [loadingContactServices, setLoadingContactServices] = useState(true);
 
   // Load data on component mount
   useEffect(() => {
@@ -50,6 +52,32 @@ const Home = () => {
     };
     
     loadData();
+  }, []);
+
+  // Load services for contact form
+  useEffect(() => {
+    const loadContactServices = async () => {
+      try {
+        setLoadingContactServices(true);
+        const servicesData = await getServices();
+        setContactFormServices(servicesData);
+      } catch (err) {
+        console.error('Error fetching contact services:', err);
+        // Fallback to default services if API fails
+        setContactFormServices([
+          { id: 1, title: "Installation", slug: "installation" },
+          { id: 2, title: "Réparation", slug: "reparation" },
+          { id: 3, title: "Entretien", slug: "entretien" },
+          { id: 4, title: "Isolation", slug: "isolation" },
+          { id: 5, title: "Charpente", slug: "charpente" },
+          { id: 6, title: "Zinguerie", slug: "zinguerie" }
+        ]);
+      } finally {
+        setLoadingContactServices(false);
+      }
+    };
+
+    loadContactServices();
   }, []);
 
   // Hero slides data with different images
@@ -204,6 +232,27 @@ const Home = () => {
       setContactFormError('Une erreur s\'est produite. Veuillez réessayer.');
     } finally {
       setContactFormLoading(false);
+    }
+  };
+
+  // Carousel functions
+  const scrollCarouselLeft = () => {
+    const carousel = document.getElementById('blogCarousel');
+    if (carousel) {
+      carousel.scrollBy({
+        left: -carousel.offsetWidth,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollCarouselRight = () => {
+    const carousel = document.getElementById('blogCarousel');
+    if (carousel) {
+      carousel.scrollBy({
+        left: carousel.offsetWidth,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -892,14 +941,24 @@ const Home = () => {
                       value={contactFormData.service}
                       onChange={handleContactFormChange}
                       className="form-select"
+                      disabled={loadingContactServices}
                     >
-                      <option value="">Sélectionner un service</option>
-                      <option value="Devis gratuit">Devis gratuit</option>
-                      <option value="Réparation">Réparation</option>
-                      <option value="Installation">Installation</option>
-                      <option value="Entretien">Entretien</option>
-                      <option value="Autre">Autre</option>
+                      <option value="">
+                        {loadingContactServices ? "Chargement des services..." : "Sélectionner un service"}
+                      </option>
+                      {contactFormServices.map((service) => (
+                        <option key={service.id} value={service.slug || service.id}>
+                          {service.title}
+                        </option>
+                      ))}
+                      <option value="other">Autre service</option>
                     </select>
+                    {loadingContactServices && (
+                      <div className="loading-indicator">
+                        <span className="loading-spinner-small"></span>
+                        <span>Chargement des services...</span>
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <label className="form-label">Message</label>
@@ -954,35 +1013,69 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Blog Section */}
-      <section className="blog-section section section-gray">
+      {/* Blog Section - Horizontal Scrolling Carousel */}
+      <section className="blog-carousel-section section section-gray">
         <div className="container">
           <div className="section-header fade-in-on-scroll">
-            <h2 className="section-title">Nos dernières publications</h2>
-            <p className="section-subtitle">Conseils et actualités du secteur de la couverture</p>
+            <h2 className="section-title">Nos réalisations</h2>
+            <p className="section-subtitle">Découvrez nos derniers projets et réalisations</p>
           </div>
-          <div className="blog-grid grid grid-3">
-            {loading ? (
-              <p>Chargement des articles...</p>
-            ) : blogPosts.length === 0 ? (
-              <p>Aucun article disponible pour le moment.</p>
-            ) : (
-              blogPosts.map((post, index) => (
-                <div key={post.id} className="blog-card card fade-in-on-scroll" style={{animationDelay: `${index * 0.2}s`}}>
-                  <div className="blog-image">
-                    <img 
-                      src={post.imageUrl || `https://images.unsplash.com/photo-${1581578731548 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80`} 
-                      alt={post.title} 
-                    />
-                  </div>
-                  <div className="card-content">
-                    <h3>{post.title}</h3>
-                    <p>{post.excerpt}</p>
-                    <a href={`/blog/${post.id}`} className="card-button">Lire la suite</a>
-                  </div>
+          
+          <div className="blog-carousel-container">
+            <div className="blog-carousel-track" id="blogCarousel">
+              {loading ? (
+                <div className="carousel-loading">
+                  <div className="loading-spinner"></div>
+                  <p>Chargement des réalisations...</p>
                 </div>
-              ))
-            )}
+              ) : blogPosts.length === 0 ? (
+                <div className="carousel-empty">
+                  <p>Aucune réalisation disponible pour le moment.</p>
+                </div>
+              ) : (
+                <>
+                  {/* Duplicate items for seamless loop */}
+                  {[...blogPosts, ...blogPosts].map((post, index) => (
+                    <div key={`${post.id}-${index}`} className="blog-carousel-item">
+                      <div className="blog-card card">
+                        <div className="blog-image">
+                          <img 
+                            src={post.imageUrl || `https://images.unsplash.com/photo-${1581578731548 + (index % blogPosts.length)}?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80`} 
+                            alt={post.title} 
+                          />
+                          <div className="blog-overlay">
+                            <div className="blog-overlay-content">
+                              <h3>{post.title}</h3>
+                              <p>{post.excerpt}</p>
+                              <a href={`/blog/${post.id}`} className="blog-overlay-button">
+                                Voir plus
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="card-content">
+                          <h3>{post.title}</h3>
+                          <p>{post.excerpt}</p>
+                          <a href={`/blog/${post.id}`} className="card-button">Lire la suite</a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+            
+            {/* Navigation arrows */}
+            <button className="carousel-nav carousel-prev" onClick={scrollCarouselLeft}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <button className="carousel-nav carousel-next" onClick={scrollCarouselRight}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
           </div>
         </div>
       </section>

@@ -7,6 +7,7 @@ import {
   Phone, Mail, FileText, Star, Award, Target, Printer
 } from 'lucide-react';
 import Invoice from '../../components/Invoice';
+import { ordersApi } from '../../api/orders';
 
 const OrdersAdmin = () => {
   const [orders, setOrders] = useState([]);
@@ -25,122 +26,40 @@ const OrdersAdmin = () => {
   
   // Form states
   const [formData, setFormData] = useState({
-    clientName: '',
-    clientEmail: '',
-    clientPhone: '',
+    client_name: '',
+    client_email: '',
+    client_phone: '',
     service: '',
     description: '',
     priority: 'normal',
     status: 'en_attente',
     budget: '',
-    deadline: '',
+    deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow by default
     address: ''
   });
 
-  // Mock orders data
-  const mockOrders = [
-    {
-      id: 1,
-      clientName: 'Jean Dupont',
-      clientEmail: 'jean.dupont@email.com',
-      clientPhone: '+33 1 23 45 67 89',
-      service: 'Installation de Toiture',
-      description: 'Installation complète d\'une toiture en tuiles pour maison de 120m²',
-      priority: 'urgent',
-      status: 'en_cours',
-      budget: 8500,
-      deadline: '2025-02-15',
-      address: '123 Rue de la Paix, 75001 Paris',
-      createdAt: '2025-01-15',
-      estimatedDuration: '2-3 semaines'
-    },
-    {
-      id: 2,
-      clientName: 'Marie Martin',
-      clientEmail: 'marie.martin@email.com',
-      clientPhone: '+33 1 23 45 67 90',
-      service: 'Réparation de Charpente',
-      description: 'Réparation urgente de la charpente après tempête',
-      priority: 'urgent',
-      status: 'en_attente',
-      budget: 3200,
-      deadline: '2025-01-25',
-      address: '456 Avenue des Champs, 75008 Paris',
-      createdAt: '2025-01-14',
-      estimatedDuration: '1 semaine'
-    },
-    {
-      id: 3,
-      clientName: 'Pierre Durand',
-      clientEmail: 'pierre.durand@email.com',
-      clientPhone: '+33 1 23 45 67 91',
-      service: 'Maintenance Annuelle',
-      description: 'Maintenance préventive de la toiture et nettoyage des gouttières',
-      priority: 'normal',
-      status: 'planifié',
-      budget: 1200,
-      deadline: '2025-02-01',
-      address: '789 Boulevard Saint-Germain, 75006 Paris',
-      createdAt: '2025-01-13',
-      estimatedDuration: '3-4 jours'
-    },
-    {
-      id: 4,
-      clientName: 'Sophie Bernard',
-      clientEmail: 'sophie.bernard@email.com',
-      clientPhone: '+33 1 23 45 67 92',
-      service: 'Installation Étanchéité',
-      description: 'Installation d\'une membrane d\'étanchéité pour terrasse',
-      priority: 'normal',
-      status: 'terminé',
-      budget: 4500,
-      deadline: '2025-01-20',
-      address: '321 Rue de Rivoli, 75001 Paris',
-      createdAt: '2025-01-12',
-      estimatedDuration: '1-2 semaines'
-    },
-    {
-      id: 5,
-      clientName: 'Lucas Moreau',
-      clientEmail: 'lucas.moreau@email.com',
-      clientPhone: '+33 1 23 45 67 93',
-      service: 'Zinguerie',
-      description: 'Remplacement complet de la zinguerie et descentes d\'eau',
-      priority: 'normal',
-      status: 'en_attente',
-      budget: 2800,
-      deadline: '2025-02-10',
-      address: '654 Rue du Commerce, 75015 Paris',
-      createdAt: '2025-01-11',
-      estimatedDuration: '1 semaine'
-    },
-    {
-      id: 6,
-      clientName: 'Emma Petit',
-      clientEmail: 'emma.petit@email.com',
-      clientPhone: '+33 1 23 45 67 94',
-      service: 'Démoussage',
-      description: 'Nettoyage professionnel de la toiture et traitement anti-mousse',
-      priority: 'faible',
-      status: 'planifié',
-      budget: 800,
-      deadline: '2025-02-05',
-      address: '987 Avenue de la République, 75011 Paris',
-      createdAt: '2025-01-10',
-      estimatedDuration: '1 jour'
-    }
-  ];
+
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setOrders(mockOrders);
-      setIsLoading(false);
-    }, 1000);
+    fetchOrders();
   }, []);
 
+  const fetchOrders = async () => {
+    try {
+      setIsLoading(true);
+      const response = await ordersApi.getAll();
+      if (response.success) {
+        setOrders(response.data);
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des commandes:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = order.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          order.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          order.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
@@ -191,6 +110,7 @@ const OrdersAdmin = () => {
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log('Input change:', name, value);
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -198,79 +118,174 @@ const OrdersAdmin = () => {
   };
 
   // Add new order
-  const handleAddOrder = () => {
-    const newOrder = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toISOString().split('T')[0],
-      estimatedDuration: 'À déterminer'
-    };
-    setOrders(prev => [newOrder, ...prev]);
-    setShowAddModal(false);
-    setFormData({
-      clientName: '',
-      clientEmail: '',
-      clientPhone: '',
-      service: '',
-      description: '',
-      priority: 'normal',
-      status: 'en_attente',
-      budget: '',
-      deadline: '',
-      address: ''
-    });
+  const handleAddOrder = async () => {
+    console.log('handleAddOrder called');
+    console.log('formData:', formData);
+    
+    try {
+      // Basic client-side validation
+      if (!formData.client_name || !formData.client_email || !formData.client_phone || 
+          !formData.service || !formData.description || !formData.budget || !formData.deadline || !formData.address) {
+        console.log('Validation failed - missing fields');
+        console.log('client_name:', formData.client_name);
+        console.log('client_email:', formData.client_email);
+        console.log('client_phone:', formData.client_phone);
+        console.log('service:', formData.service);
+        console.log('description:', formData.description);
+        console.log('budget:', formData.budget);
+        console.log('deadline:', formData.deadline);
+        console.log('address:', formData.address);
+        alert('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+
+      // Ensure budget is a number
+      const budget = parseFloat(formData.budget);
+      if (isNaN(budget) || budget < 0) {
+        alert('Le budget doit être un nombre positif.');
+        return;
+      }
+
+      // Ensure deadline is in the future
+      const deadline = new Date(formData.deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (deadline <= today) {
+        alert('La date d\'échéance doit être dans le futur.');
+        return;
+      }
+
+      // Prepare data with proper types
+      const orderData = {
+        ...formData,
+        budget: budget
+      };
+
+      console.log('Sending order data to server:', orderData);
+      const response = await ordersApi.create(orderData);
+      if (response.success) {
+        setOrders(prev => [response.data, ...prev]);
+        setShowAddModal(false);
+        setFormData({
+          client_name: '',
+          client_email: '',
+          client_phone: '',
+          service: '',
+          description: '',
+          priority: 'normal',
+          status: 'en_attente',
+          budget: '',
+          deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow by default
+          address: ''
+        });
+      }
+    } catch (error) {
+      console.error('Erreur lors de la création de la commande:', error);
+      alert('Erreur lors de la création de la commande: ' + error.message);
+    }
   };
 
   // Edit order
-  const handleEditOrder = () => {
-    setOrders(prev => 
-      prev.map(order => 
-        order.id === selectedOrder.id 
-          ? { ...order, ...formData }
-          : order
-      )
-    );
-    setShowEditModal(false);
-    setSelectedOrder(null);
-    setFormData({
-      clientName: '',
-      clientEmail: '',
-      clientPhone: '',
-      service: '',
-      description: '',
-      priority: 'normal',
-      status: 'en_attente',
-      budget: '',
-      deadline: '',
-      address: ''
-    });
+  const handleEditOrder = async () => {
+    try {
+      // Basic client-side validation
+      if (!formData.client_name || !formData.client_email || !formData.client_phone || 
+          !formData.service || !formData.description || !formData.budget || !formData.deadline || !formData.address) {
+        alert('Veuillez remplir tous les champs obligatoires.');
+        return;
+      }
+
+      // Ensure budget is a number
+      const budget = parseFloat(formData.budget);
+      if (isNaN(budget) || budget < 0) {
+        alert('Le budget doit être un nombre positif.');
+        return;
+      }
+
+      // Ensure deadline is in the future
+      const deadline = new Date(formData.deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (deadline <= today) {
+        alert('La date d\'échéance doit être dans le futur.');
+        return;
+      }
+
+      // Prepare data with proper types
+      const orderData = {
+        ...formData,
+        budget: budget
+      };
+
+      const response = await ordersApi.update(selectedOrder.id, orderData);
+      if (response.success) {
+        setOrders(prev => 
+          prev.map(order => 
+            order.id === selectedOrder.id 
+              ? response.data
+              : order
+          )
+        );
+        setShowEditModal(false);
+        setSelectedOrder(null);
+        setFormData({
+          client_name: '',
+          client_email: '',
+          client_phone: '',
+          service: '',
+          description: '',
+          priority: 'normal',
+          status: 'en_attente',
+          budget: '',
+          deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow by default
+          address: ''
+        });
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la commande:', error);
+      alert('Erreur lors de la mise à jour de la commande: ' + error.message);
+    }
   };
 
   // Delete order
-  const handleDeleteOrder = () => {
-    setOrders(prev => prev.filter(order => order.id !== selectedOrder.id));
-    setShowDeleteConfirm(false);
-    setSelectedOrder(null);
+  const handleDeleteOrder = async () => {
+    try {
+      const response = await ordersApi.delete(selectedOrder.id);
+      if (response.success) {
+        setOrders(prev => prev.filter(order => order.id !== selectedOrder.id));
+        setShowDeleteConfirm(false);
+        setSelectedOrder(null);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la commande:', error);
+    }
   };
 
   // Toggle order status
-  const handleToggleStatus = (orderId, newStatus) => {
-    setOrders(prev => 
-      prev.map(order => 
-        order.id === orderId 
-          ? { ...order, status: newStatus }
-          : order
-      )
-    );
+  const handleToggleStatus = async (orderId, newStatus) => {
+    try {
+      const response = await ordersApi.updateStatus(orderId, newStatus);
+      if (response.success) {
+        setOrders(prev => 
+          prev.map(order => 
+            order.id === orderId 
+              ? response.data
+              : order
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut:', error);
+    }
   };
 
   // Open edit modal
   const openEditModal = (order) => {
     setSelectedOrder(order);
     setFormData({
-      clientName: order.clientName,
-      clientEmail: order.clientEmail,
-      clientPhone: order.clientPhone,
+      client_name: order.client_name,
+      client_email: order.client_email,
+      client_phone: order.client_phone,
       service: order.service,
       description: order.description,
       priority: order.priority,
@@ -280,6 +295,22 @@ const OrdersAdmin = () => {
       address: order.address
     });
     setShowEditModal(true);
+  };
+
+  // Reset form data
+  const resetFormData = () => {
+    setFormData({
+      client_name: '',
+      client_email: '',
+      client_phone: '',
+      service: '',
+      description: '',
+      priority: 'normal',
+      status: 'en_attente',
+      budget: '',
+      deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow by default
+      address: ''
+    });
   };
 
   // Open view modal
@@ -525,7 +556,7 @@ const OrdersAdmin = () => {
                 <div className="order-details">
                   <div className="detail-item">
                     <span className="detail-label">Client:</span>
-                    <span className="detail-value">{order.clientName}</span>
+                                            <span className="detail-value">{order.client_name}</span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Budget:</span>
@@ -595,7 +626,10 @@ const OrdersAdmin = () => {
               <p>Aucune commande ne correspond à vos critères de recherche.</p>
               <button 
                 className="btn-primary"
-                onClick={() => setShowAddModal(true)}
+                onClick={() => {
+                  resetFormData();
+                  setShowAddModal(true);
+                }}
               >
                 <Plus size={16} />
                 Ajouter une commande
@@ -635,8 +669,8 @@ const OrdersAdmin = () => {
                       <label>Nom du client</label>
                       <input
                         type="text"
-                        name="clientName"
-                        value={formData.clientName}
+                        name="client_name"
+                        value={formData.client_name}
                         onChange={handleInputChange}
                         placeholder="Ex: Jean Dupont"
                       />
@@ -647,8 +681,8 @@ const OrdersAdmin = () => {
                         <label>Email</label>
                         <input
                           type="email"
-                          name="clientEmail"
-                          value={formData.clientEmail}
+                          name="client_email"
+                          value={formData.client_email}
                           onChange={handleInputChange}
                           placeholder="jean.dupont@email.com"
                         />
@@ -658,8 +692,8 @@ const OrdersAdmin = () => {
                         <label>Téléphone</label>
                         <input
                           type="tel"
-                          name="clientPhone"
-                          value={formData.clientPhone}
+                          name="client_phone"
+                          value={formData.client_phone}
                           onChange={handleInputChange}
                           placeholder="+33 1 23 45 67 89"
                         />
@@ -762,7 +796,7 @@ const OrdersAdmin = () => {
                     <button 
                       className="btn-primary"
                       onClick={handleAddOrder}
-                      disabled={!formData.clientName || !formData.service}
+                      disabled={!formData.client_name || !formData.service}
                     >
                       <Save size={16} />
                       Ajouter la commande
@@ -805,8 +839,8 @@ const OrdersAdmin = () => {
                       <label>Nom du client</label>
                       <input
                         type="text"
-                        name="clientName"
-                        value={formData.clientName}
+                        name="client_name"
+                        value={formData.client_name}
                         onChange={handleInputChange}
                         placeholder="Ex: Jean Dupont"
                       />
@@ -817,8 +851,8 @@ const OrdersAdmin = () => {
                         <label>Email</label>
                         <input
                           type="email"
-                          name="clientEmail"
-                          value={formData.clientEmail}
+                          name="client_email"
+                          value={formData.client_email}
                           onChange={handleInputChange}
                           placeholder="jean.dupont@email.com"
                         />
@@ -828,8 +862,8 @@ const OrdersAdmin = () => {
                         <label>Téléphone</label>
                         <input
                           type="tel"
-                          name="clientPhone"
-                          value={formData.clientPhone}
+                          name="client_phone"
+                          value={formData.client_phone}
                           onChange={handleInputChange}
                           placeholder="+33 1 23 45 67 89"
                         />
@@ -932,7 +966,7 @@ const OrdersAdmin = () => {
                     <button 
                       className="btn-primary"
                       onClick={handleEditOrder}
-                      disabled={!formData.clientName || !formData.service}
+                      disabled={!formData.client_name || !formData.service}
                     >
                       <Save size={16} />
                       Enregistrer les modifications
@@ -1009,7 +1043,7 @@ const OrdersAdmin = () => {
                           <User size={16} />
                           <div>
                             <label>Client</label>
-                            <span>{selectedOrder.clientName}</span>
+                            <span>{selectedOrder.client_name}</span>
                           </div>
                         </div>
                         
@@ -1017,7 +1051,7 @@ const OrdersAdmin = () => {
                           <Mail size={16} />
                           <div>
                             <label>Email</label>
-                            <span>{selectedOrder.clientEmail}</span>
+                            <span>{selectedOrder.client_email}</span>
                           </div>
                         </div>
                         
@@ -1025,7 +1059,7 @@ const OrdersAdmin = () => {
                           <Phone size={16} />
                           <div>
                             <label>Téléphone</label>
-                            <span>{selectedOrder.clientPhone}</span>
+                            <span>{selectedOrder.client_phone}</span>
                           </div>
                         </div>
                         
@@ -1136,7 +1170,7 @@ const OrdersAdmin = () => {
                     <div className="delete-confirm-content">
                       <AlertCircle size={48} color="#EF4444" />
                       <h3>Êtes-vous sûr de vouloir supprimer cette commande ?</h3>
-                      <p>Cette action est irréversible et supprimera définitivement la commande "{selectedOrder.service}" pour {selectedOrder.clientName}.</p>
+                      <p>Cette action est irréversible et supprimera définitivement la commande "{selectedOrder.service}" pour {selectedOrder.client_name}.</p>
                     </div>
                   </div>
                   
