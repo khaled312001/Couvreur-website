@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -36,6 +38,9 @@ class ContactController extends Controller
         // Create notification for new contact message
         Notification::createContactNotification($message);
         
+        // Send email notification
+        $this->sendEmailNotification($message);
+        
         return response()->json($message, 201);
     }
 
@@ -44,12 +49,12 @@ class ContactController extends Controller
         $message = ContactMessage::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email',
             'phone' => 'nullable|string|max:20',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-            'status' => 'required|in:unread,read,replied',
+            'subject' => 'sometimes|string|max:255',
+            'message' => 'sometimes|string',
+            'status' => 'sometimes|in:unread,read,replied,archived',
             'admin_response' => 'nullable|string'
         ]);
 
@@ -117,5 +122,34 @@ class ContactController extends Controller
         ]);
 
         return response()->json($message, 201);
+    }
+
+    private function sendEmailNotification($contactMessage)
+    {
+        $adminEmail = 'khaledahmedhaggay@gmail.com';
+        
+        $emailData = [
+            'name' => $contactMessage->name,
+            'email' => $contactMessage->email,
+            'userMessage' => $contactMessage->message,
+            'subject' => $contactMessage->subject,
+            'phone' => $contactMessage->phone,
+            'admin_url' => url('/admin/contact')
+        ];
+
+        try {
+            // Send email using Laravel's Mail facade
+            Mail::send('emails.new_contact', $emailData, function ($mailMessage) use ($adminEmail, $contactMessage) {
+                $mailMessage->to($adminEmail)
+                        ->subject("Nouveau message de contact de {$contactMessage->name}")
+                        ->from('noreply@bnbatiment.com', 'BN Bâtiment');
+            });
+            
+            // Log success
+            Log::info("Email notification sent to $adminEmail for contact from {$contactMessage->name}");
+        } catch (\Exception $e) {
+            // Log error but don't fail the request
+            Log::error("Failed to send email notification: " . $e->getMessage());
+        }
     }
 } 

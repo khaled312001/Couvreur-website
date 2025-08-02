@@ -16,7 +16,8 @@ class ContactMessage extends Model
         'subject',
         'message',
         'status',
-        'admin_response'
+        'admin_response',
+        'session_id'
     ];
 
     protected $casts = [

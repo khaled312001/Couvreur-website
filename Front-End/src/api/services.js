@@ -1,5 +1,37 @@
 import { apiClient } from './apiClient';
 
+// Helper function to properly format FormData for Laravel
+const formatFormData = (serviceData) => {
+  const formData = new FormData();
+  
+  Object.keys(serviceData).forEach(key => {
+    if (key === 'image' && serviceData[key] instanceof File) {
+      formData.append('image', serviceData[key]);
+    } else if (key !== 'image' && key !== 'icon') {
+      if (Array.isArray(serviceData[key])) {
+        // Handle arrays properly for Laravel
+        serviceData[key].forEach((item, index) => {
+          if (typeof item === 'object') {
+            // For nested objects in arrays
+            Object.keys(item).forEach(subKey => {
+              formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+            });
+          } else {
+            // For simple arrays
+            formData.append(`${key}[${index}]`, item);
+          }
+        });
+      } else if (typeof serviceData[key] === 'object' && serviceData[key] !== null) {
+        formData.append(key, JSON.stringify(serviceData[key]));
+      } else {
+        formData.append(key, serviceData[key]);
+      }
+    }
+  });
+  
+  return formData;
+};
+
 // Get all services
 export const getServices = async () => {
   try {
@@ -11,10 +43,21 @@ export const getServices = async () => {
   }
 };
 
+// Get all services for admin (including inactive ones)
+export const getAdminServices = async () => {
+  try {
+    const response = await apiClient.get('/admin/services');
+    return response.data || response;
+  } catch (error) {
+    console.error('Error fetching admin services:', error);
+    throw error;
+  }
+};
+
 // Get service by slug
 export const fetchServiceBySlug = async (slug) => {
   try {
-    const response = await apiClient.get(`/services/${slug}`);
+    const response = await apiClient.get(`/services/slug/${slug}`);
     return response.data || response;
   } catch (error) {
     console.error('Error fetching service by slug:', error);
@@ -25,7 +68,9 @@ export const fetchServiceBySlug = async (slug) => {
 // Create service (admin only)
 export const createService = async (serviceData) => {
   try {
-    const response = await apiClient.post('/admin/services', serviceData);
+    const formData = formatFormData(serviceData);
+    
+    const response = await apiClient.post('/admin/services', formData);
     return response;
   } catch (error) {
     console.error('Error creating service:', error);
@@ -36,8 +81,37 @@ export const createService = async (serviceData) => {
 // Update service (admin only)
 export const updateService = async (id, serviceData) => {
   try {
-    const response = await apiClient.put(`/admin/services/${id}`, serviceData);
-    return response;
+    console.log('updateService called with:', { id, serviceData });
+    
+    // Check if there's a file to upload
+    const hasFile = serviceData.image instanceof File;
+    console.log('Has file:', hasFile);
+    console.log('Image type:', typeof serviceData.image);
+    console.log('Image instanceof File:', serviceData.image instanceof File);
+    
+    if (hasFile) {
+      // Use FormData for file uploads with POST and _method field
+      const formData = formatFormData(serviceData);
+      formData.append('_method', 'PUT');
+      console.log('Using FormData for file upload with POST');
+      console.log('FormData entries:');
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      const response = await apiClient.post(`/admin/services/${id}`, formData);
+      return response;
+    } else {
+      // Use JSON for updates without file uploads
+      const jsonData = { ...serviceData };
+      
+      // Remove image field if it's not a file to avoid sending the URL as JSON
+      if (jsonData.image && !(jsonData.image instanceof File)) {
+        delete jsonData.image;
+      }
+      
+      const response = await apiClient.put(`/admin/services/${id}`, jsonData);
+      return response;
+    }
   } catch (error) {
     console.error('Error updating service:', error);
     throw error;
@@ -51,6 +125,17 @@ export const deleteService = async (id) => {
     return response;
   } catch (error) {
     console.error('Error deleting service:', error);
+    throw error;
+  }
+};
+
+// Toggle service status (admin only)
+export const toggleServiceStatus = async (id) => {
+  try {
+    const response = await apiClient.put(`/admin/services/${id}/toggle-status`);
+    return response;
+  } catch (error) {
+    console.error('Error toggling service status:', error);
     throw error;
   }
 };
@@ -89,7 +174,6 @@ export const getMockServices = () => {
       title: "Installation",
       description: "Installation complète de toitures neuves",
       long_description: "Installation complète de toitures pour constructions neuves. Nous prenons en charge l'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.",
-      icon: "🔨",
       slug: "installation",
       category: "Construction",
       duration: "3-12 semaines",
@@ -134,7 +218,6 @@ export const getMockServices = () => {
       title: "Réparation",
       description: "Réparation et dépannage de toitures",
       long_description: "Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d'étanchéité.",
-      icon: "🔧",
       slug: "reparation",
       category: "Maintenance",
       duration: "1 jour - 1 semaine",
@@ -179,7 +262,6 @@ export const getMockServices = () => {
       title: "Entretien",
       description: "Entretien et maintenance préventive",
       long_description: "Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.",
-      icon: "🛠️",
       slug: "entretien",
       category: "Entretien",
       duration: "1-3 jours",

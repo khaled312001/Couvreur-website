@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { chatApi } from "../../api/chat";
 
 const Couverture = () => {
+  const [contactFormData, setContactFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: 'Couverture traditionnelle',
+    message: ''
+  });
+  const [contactFormLoading, setContactFormLoading] = useState(false);
+  const [contactFormSuccess, setContactFormSuccess] = useState(false);
+  const [contactFormError, setContactFormError] = useState('');
+
   const heroData = {
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     title: "Couverture",
@@ -50,6 +62,37 @@ const Couverture = () => {
     "Intervention rapide",
     "Prix compétitifs"
   ];
+
+  // Contact form handlers
+  const handleContactFormChange = (e) => {
+    setContactFormData({
+      ...contactFormData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleContactFormSubmit = async (e) => {
+    e.preventDefault();
+    setContactFormLoading(true);
+    setContactFormError('');
+
+    try {
+      await chatApi.createSession(contactFormData);
+      setContactFormSuccess(true);
+      setContactFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: 'Couverture traditionnelle',
+        message: ''
+      });
+    } catch (err) {
+      console.error('Error submitting contact form:', err);
+      setContactFormError('Une erreur s\'est produite. Veuillez réessayer.');
+    } finally {
+      setContactFormLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -208,6 +251,127 @@ const Couverture = () => {
                   <p>Crochets, clous, liteaux</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="section">
+        <div className="container">
+          <div className="contact-grid">
+            <div className="contact-form-container fade-in-on-scroll">
+              <h2 className="section-title">Demander un devis pour couverture</h2>
+              {contactFormSuccess ? (
+                <div className="success-message">
+                  <span>✅</span>
+                  <div>
+                    <h4>Message envoyé avec succès!</h4>
+                    <p>Nous vous répondrons dans les plus brefs délais.</p>
+                  </div>
+                </div>
+              ) : (
+                <form className="contact-form" onSubmit={handleContactFormSubmit}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Nom complet</label>
+                      <input 
+                        type="text" 
+                        name="name"
+                        value={contactFormData.name}
+                        onChange={handleContactFormChange}
+                        className="form-input" 
+                        placeholder="Votre nom" 
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Email</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        value={contactFormData.email}
+                        onChange={handleContactFormChange}
+                        className="form-input" 
+                        placeholder="votre@email.com" 
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Téléphone</label>
+                    <input 
+                      type="tel" 
+                      name="phone"
+                      value={contactFormData.phone}
+                      onChange={handleContactFormChange}
+                      className="form-input" 
+                      placeholder="07 80 32 64 27" 
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Service souhaité</label>
+                    <select 
+                      name="service"
+                      value={contactFormData.service}
+                      onChange={handleContactFormChange}
+                      className="form-select"
+                    >
+                      <option value="Couverture traditionnelle">Couverture traditionnelle</option>
+                      <option value="Installation de toiture">Installation de toiture</option>
+                      <option value="Réparation de toiture">Réparation de toiture</option>
+                      <option value="Entretien de toiture">Entretien de toiture</option>
+                      <option value="Autre">Autre</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Message</label>
+                    <textarea 
+                      name="message"
+                      value={contactFormData.message}
+                      onChange={handleContactFormChange}
+                      className="form-textarea" 
+                      placeholder="Décrivez votre projet de couverture..." 
+                      required
+                    ></textarea>
+                  </div>
+                  {contactFormError && (
+                    <div style={{
+                      color: '#dc2626',
+                      backgroundColor: '#fef2f2',
+                      border: '1px solid #fecaca',
+                      padding: '12px',
+                      borderRadius: '8px',
+                      marginBottom: '20px'
+                    }}>
+                      {contactFormError}
+                    </div>
+                  )}
+                  <button 
+                    type="submit" 
+                    className="form-button"
+                    disabled={contactFormLoading}
+                  >
+                    {contactFormLoading ? 'ENVOI EN COURS...' : 'DEMANDER UN DEVIS'}
+                  </button>
+                </form>
+              )}
+            </div>
+            <div className="contact-image fade-in-on-scroll">
+              <img 
+                src="https://th.bing.com/th/id/R.591d0109c6706ff76e40d17adec6d22a?rik=A1h35rJ6%2fVHVRw&pid=ImgRaw&r=0" 
+                alt="Contact" 
+                className="contact-visual-small"
+                style={{
+                  maxWidth: '300px',
+                  height: 'auto',
+                  borderRadius: '15px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                  transform: 'rotate(-5deg)',
+                  margin: '20px auto',
+                  display: 'block'
+                }}
+              />
             </div>
           </div>
         </div>

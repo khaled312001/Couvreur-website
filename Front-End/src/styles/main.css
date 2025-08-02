@@ -731,6 +731,7 @@
 .mobile-nav-text {
   font-weight: 600;
   font-size: 0.9rem; /* Further reduced font size */
+  color: #000000;
 }
 
 .mobile-submenu {

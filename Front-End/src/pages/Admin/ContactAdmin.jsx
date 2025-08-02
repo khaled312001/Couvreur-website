@@ -4,7 +4,8 @@ import {
   Mail, Search, Filter, Plus, Eye, Edit, Trash2, Reply, 
   CheckCircle, Clock, AlertCircle, Archive, RefreshCw,
   ChevronUp, ChevronDown, Calendar, User, Phone, MessageSquare,
-  ExternalLink, Download, MoreVertical, Star, Flag
+  ExternalLink, Download, MoreVertical, Star, Flag, MailOpen,
+  Send, ReplyAll, Archive as ArchiveIcon, Trash, EyeOff, X
 } from 'lucide-react';
 import { contactApi } from '../../api/contact';
 
@@ -28,6 +29,8 @@ const ContactAdmin = () => {
     read: 0,
     replied: 0
   });
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [isBulkActionsOpen, setIsBulkActionsOpen] = useState(false);
 
   // Load messages
   useEffect(() => {
@@ -38,6 +41,8 @@ const ContactAdmin = () => {
     try {
       setIsLoading(true);
       setError(null);
+      
+      console.log('Loading messages with params:', { currentPage, statusFilter, sortBy, sortOrder });
       
       let endpoint = '/admin/contact';
       const params = {
@@ -50,7 +55,10 @@ const ContactAdmin = () => {
         endpoint = `/admin/contact/status/${statusFilter}`;
       }
 
+      console.log('Making API call to:', endpoint, 'with params:', params);
       const response = await contactApi.getMessages(params);
+      console.log('API response:', response);
+      
       setMessages(response.data || response);
       setFilteredMessages(response.data || response);
       
@@ -66,7 +74,7 @@ const ContactAdmin = () => {
       setStats({ total, unread, read, replied });
     } catch (err) {
       console.error('Error loading messages:', err);
-      setError('Erreur lors du chargement des messages');
+      setError('Erreur lors du chargement des messages: ' + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -100,82 +108,121 @@ const ContactAdmin = () => {
 
   const handleUpdateStatus = async (messageId, newStatus) => {
     try {
-      await contactApi.updateMessage(messageId, { status: newStatus });
-      loadMessages();
-    } catch (error) {
-      console.error('Error updating message status:', error);
+      console.log('Updating status for message:', messageId, 'to:', newStatus);
+      const response = await contactApi.updateMessage(messageId, { status: newStatus });
+      console.log('Update response:', response);
+      await loadMessages();
+    } catch (err) {
+      console.error('Error updating status:', err);
+      alert('Erreur lors de la mise à jour du statut: ' + err.message);
     }
   };
 
   const handleDeleteMessage = async (messageId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
       try {
-        await contactApi.deleteMessage(messageId);
-        loadMessages();
-      } catch (error) {
-        console.error('Error deleting message:', error);
+        console.log('Deleting message:', messageId);
+        const response = await contactApi.deleteMessage(messageId);
+        console.log('Delete response:', response);
+        await loadMessages();
+      } catch (err) {
+        console.error('Error deleting message:', err);
+        alert('Erreur lors de la suppression: ' + err.message);
       }
     }
   };
 
   const handleReply = async (messageId, response) => {
     try {
-      await contactApi.updateMessage(messageId, {
-        status: 'replied',
-        admin_response: response
-      });
+      console.log('Replying to message:', messageId, 'with:', response);
+      const result = await contactApi.replyToMessage(messageId, response);
+      console.log('Reply response:', result);
+      await loadMessages();
       setIsReplyModalOpen(false);
-      setSelectedMessage(null);
-      loadMessages();
-    } catch (error) {
-      console.error('Error replying to message:', error);
+    } catch (err) {
+      console.error('Error replying to message:', err);
+      alert('Erreur lors de la réponse: ' + err.message);
     }
   };
 
   const getStatusColor = (status) => {
-    const colors = {
-      unread: '#EF4444',
-      read: '#3B82F6',
-      replied: '#10B981',
-      archived: '#6B7280'
-    };
-    return colors[status] || '#6B7280';
+    switch (status) {
+      case 'unread': return '#EF4444';
+      case 'read': return '#3B82F6';
+      case 'replied': return '#10B981';
+      case 'archived': return '#6B7280';
+      default: return '#6B7280';
+    }
   };
 
   const getStatusIcon = (status) => {
-    const icons = {
-      unread: AlertCircle,
-      read: CheckCircle,
-      replied: Reply,
-      archived: Archive
-    };
-    return icons[status] || Clock;
+    switch (status) {
+      case 'unread': return AlertCircle;
+      case 'read': return MailOpen;
+      case 'replied': return Reply;
+      case 'archived': return ArchiveIcon;
+      default: return Mail;
+    }
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    const date = new Date(dateString);
+    return date.toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
       year: 'numeric',
-      month: 'short',
-      day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
   };
 
+  const handleSelectMessage = (messageId) => {
+    setSelectedMessages(prev => 
+      prev.includes(messageId) 
+        ? prev.filter(id => id !== messageId)
+        : [...prev, messageId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedMessages.length === filteredMessages.length) {
+      setSelectedMessages([]);
+    } else {
+      setSelectedMessages(filteredMessages.map(m => m.id));
+    }
+  };
+
+  const handleBulkAction = async (action) => {
+    try {
+      for (const messageId of selectedMessages) {
+        switch (action) {
+          case 'mark-read':
+            await contactApi.updateMessage(messageId, { status: 'read' });
+            break;
+          case 'mark-replied':
+            await contactApi.updateMessage(messageId, { status: 'replied' });
+            break;
+          case 'archive':
+            await contactApi.updateMessage(messageId, { status: 'archived' });
+            break;
+          case 'delete':
+            await contactApi.deleteMessage(messageId);
+            break;
+        }
+      }
+      setSelectedMessages([]);
+      await loadMessages();
+    } catch (err) {
+      console.error('Error performing bulk action:', err);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="admin-container">
-        <div className="admin-main">
-          <div className="admin-content">
-            <motion.div 
-              className="loading-container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <div className="loading-spinner"></div>
-              <p>Chargement des messages...</p>
-            </motion.div>
-          </div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Chargement des messages...</p>
         </div>
       </div>
     );
@@ -184,24 +231,17 @@ const ContactAdmin = () => {
   if (error) {
     return (
       <div className="admin-container">
-        <div className="admin-main">
-          <div className="admin-content">
-            <motion.div 
-              className="error-container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <div className="error-icon">⚠️</div>
-              <h3>Erreur de chargement</h3>
-              <p>{error}</p>
-              <button 
-                onClick={loadMessages}
-                className="retry-button"
-              >
-                Réessayer
-              </button>
-            </motion.div>
-          </div>
+        <div className="error-container">
+          <AlertCircle size={48} color="#EF4444" />
+          <h3>Erreur de chargement</h3>
+          <p>{error}</p>
+          <button 
+            className="btn-primary"
+            onClick={loadMessages}
+          >
+            <RefreshCw size={16} />
+            Réessayer
+          </button>
         </div>
       </div>
     );
@@ -211,17 +251,22 @@ const ContactAdmin = () => {
     <div className="admin-container">
       <div className="admin-main">
         <div className="admin-content">
-          {/* Header */}
+          {/* Enhanced Header */}
           <motion.div 
-            className="page-header"
+            className="page-header enhanced"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <div className="header-content">
-              <div>
-                <h1>Gestion des Messages</h1>
-                <p>Gérez les messages de contact de vos clients</p>
+              <div className="header-left">
+                <div className="header-icon">
+                  <Mail size={32} />
+                </div>
+                <div>
+                  <h1>Messages de Contact</h1>
+                  <p>Gérez et répondez aux messages de vos clients</p>
+                </div>
               </div>
               <div className="header-actions">
                 <button 
@@ -231,67 +276,147 @@ const ContactAdmin = () => {
                   <RefreshCw size={16} />
                   Actualiser
                 </button>
+                <button 
+                  className="btn-primary"
+                  onClick={() => setIsBulkActionsOpen(!isBulkActionsOpen)}
+                >
+                  <MoreVertical size={16} />
+                  Actions
+                </button>
               </div>
             </div>
           </motion.div>
 
-          {/* Stats Cards */}
+          {/* Enhanced Stats Cards */}
           <motion.div 
-            className="stats-grid"
+            className="stats-grid enhanced"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="stat-card">
+            <motion.div 
+              className="stat-card enhanced"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="stat-icon" style={{ backgroundColor: '#3B82F6' + '20', color: '#3B82F6' }}>
                 <Mail size={24} />
               </div>
               <div className="stat-content">
                 <h3>Total Messages</h3>
                 <div className="stat-value">{stats.total}</div>
+                <div className="stat-change">+12% ce mois</div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="stat-card">
+            <motion.div 
+              className="stat-card enhanced"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="stat-icon" style={{ backgroundColor: '#EF4444' + '20', color: '#EF4444' }}>
                 <AlertCircle size={24} />
               </div>
               <div className="stat-content">
                 <h3>Non lus</h3>
                 <div className="stat-value">{stats.unread}</div>
+                <div className="stat-change urgent">Nécessite attention</div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="stat-card">
+            <motion.div 
+              className="stat-card enhanced"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="stat-icon" style={{ backgroundColor: '#3B82F6' + '20', color: '#3B82F6' }}>
-                <CheckCircle size={24} />
+                <MailOpen size={24} />
               </div>
               <div className="stat-content">
                 <h3>Lus</h3>
                 <div className="stat-value">{stats.read}</div>
+                <div className="stat-change">En attente</div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="stat-card">
+            <motion.div 
+              className="stat-card enhanced"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="stat-icon" style={{ backgroundColor: '#10B981' + '20', color: '#10B981' }}>
                 <Reply size={24} />
               </div>
               <div className="stat-content">
                 <h3>Répondu</h3>
                 <div className="stat-value">{stats.replied}</div>
+                <div className="stat-change success">Terminé</div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Filters and Search */}
+          {/* Bulk Actions */}
+          <AnimatePresence>
+            {isBulkActionsOpen && (
+              <motion.div 
+                className="bulk-actions"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="bulk-actions-content">
+                  <div className="bulk-info">
+                    <span>{selectedMessages.length} message(s) sélectionné(s)</span>
+                  </div>
+                  <div className="bulk-buttons">
+                    <button 
+                      className="btn-secondary"
+                      onClick={() => handleBulkAction('mark-read')}
+                      disabled={selectedMessages.length === 0}
+                    >
+                      <MailOpen size={16} />
+                      Marquer comme lu
+                    </button>
+                    <button 
+                      className="btn-secondary"
+                      onClick={() => handleBulkAction('mark-replied')}
+                      disabled={selectedMessages.length === 0}
+                    >
+                      <Reply size={16} />
+                      Marquer comme répondu
+                    </button>
+                    <button 
+                      className="btn-secondary"
+                      onClick={() => handleBulkAction('archive')}
+                      disabled={selectedMessages.length === 0}
+                    >
+                      <ArchiveIcon size={16} />
+                      Archiver
+                    </button>
+                    <button 
+                      className="btn-danger"
+                      onClick={() => handleBulkAction('delete')}
+                      disabled={selectedMessages.length === 0}
+                    >
+                      <Trash size={16} />
+                      Supprimer
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Enhanced Filters and Search */}
           <motion.div 
-            className="filters-section"
+            className="filters-section enhanced"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="filters-content">
-              <div className="search-box">
+              <div className="search-box enhanced">
                 <Search size={16} />
                 <input 
                   type="text" 
@@ -299,34 +424,49 @@ const ContactAdmin = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                {searchTerm && (
+                  <button 
+                    className="clear-search"
+                    onClick={() => setSearchTerm('')}
+                  >
+                    ×
+                  </button>
+                )}
               </div>
               
-              <div className="filter-controls">
-                <select 
-                  value={statusFilter} 
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="all">Tous les statuts</option>
-                  <option value="unread">Non lus</option>
-                  <option value="read">Lus</option>
-                  <option value="replied">Répondu</option>
-                </select>
+              <div className="filter-controls enhanced">
+                <div className="filter-group">
+                  <label>Statut</label>
+                  <select 
+                    value={statusFilter} 
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="filter-select enhanced"
+                  >
+                    <option value="all">Tous les statuts</option>
+                    <option value="unread">Non lus</option>
+                    <option value="read">Lus</option>
+                    <option value="replied">Répondu</option>
+                    <option value="archived">Archivé</option>
+                  </select>
+                </div>
                 
-                <select 
-                  value={sortBy} 
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="created_at">Date</option>
-                  <option value="name">Nom</option>
-                  <option value="email">Email</option>
-                  <option value="status">Statut</option>
-                </select>
+                <div className="filter-group">
+                  <label>Trier par</label>
+                  <select 
+                    value={sortBy} 
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="filter-select enhanced"
+                  >
+                    <option value="created_at">Date</option>
+                    <option value="name">Nom</option>
+                    <option value="email">Email</option>
+                    <option value="status">Statut</option>
+                  </select>
+                </div>
                 
                 <button 
                   onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                  className="sort-btn"
+                  className="sort-btn enhanced"
                 >
                   {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
@@ -334,14 +474,21 @@ const ContactAdmin = () => {
             </div>
           </motion.div>
 
-          {/* Messages Table */}
+          {/* Enhanced Messages Table */}
           <motion.div 
-            className="messages-table-container"
+            className="messages-table-container enhanced"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <div className="table-header">
+            <div className="table-header enhanced">
+              <div className="table-cell checkbox-cell">
+                <input 
+                  type="checkbox"
+                  checked={selectedMessages.length === filteredMessages.length && filteredMessages.length > 0}
+                  onChange={handleSelectAll}
+                />
+              </div>
               <div className="table-cell">Client</div>
               <div className="table-cell">Sujet</div>
               <div className="table-cell">Message</div>
@@ -350,48 +497,77 @@ const ContactAdmin = () => {
               <div className="table-cell">Actions</div>
             </div>
             
-            <div className="table-body">
+            <div className="table-body enhanced">
               {filteredMessages.length === 0 ? (
-                <div className="empty-state">
-                  <Mail size={48} />
+                <motion.div 
+                  className="empty-state enhanced"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Mail size={64} />
                   <h3>Aucun message trouvé</h3>
                   <p>Aucun message ne correspond à vos critères de recherche.</p>
-                </div>
+                  <button 
+                    className="btn-primary"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setStatusFilter('all');
+                    }}
+                  >
+                    Réinitialiser les filtres
+                  </button>
+                </motion.div>
               ) : (
                 filteredMessages.map((message, index) => {
                   const StatusIcon = getStatusIcon(message.status);
+                  const isSelected = selectedMessages.includes(message.id);
                   return (
                     <motion.div
                       key={message.id}
-                      className="table-row"
+                      className={`table-row enhanced ${isSelected ? 'selected' : ''} ${message.status === 'unread' ? 'unread' : ''}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 * index }}
-                      whileHover={{ backgroundColor: '#F9FAFB' }}
+                      whileHover={{ backgroundColor: '#F9FAFB', transform: 'translateY(-2px)' }}
                     >
+                      <div className="table-cell checkbox-cell">
+                        <input 
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleSelectMessage(message.id)}
+                        />
+                      </div>
+                      
                       <div className="table-cell">
-                        <div className="client-info">
-                          <div className="client-avatar">
+                        <div className="client-info enhanced">
+                          <div className="client-avatar enhanced">
                             {message.name?.charAt(0) || 'C'}
                           </div>
                           <div className="client-details">
                             <span className="client-name">{message.name}</span>
                             <span className="client-email">{message.email}</span>
                             {message.phone && (
-                              <span className="client-phone">{message.phone}</span>
+                              <span className="client-phone">
+                                <Phone size={12} />
+                                {message.phone}
+                              </span>
                             )}
                           </div>
                         </div>
                       </div>
                       
                       <div className="table-cell">
-                        <div className="subject-content">
+                        <div className="subject-content enhanced">
                           <span className="subject-text">{message.subject}</span>
+                          {message.status === 'unread' && (
+                            <span className="unread-indicator"></span>
+                          )}
                         </div>
                       </div>
                       
                       <div className="table-cell">
-                        <div className="message-preview">
+                        <div className="message-preview enhanced">
                           {message.message?.length > 100 
                             ? `${message.message.substring(0, 100)}...` 
                             : message.message}
@@ -399,48 +575,56 @@ const ContactAdmin = () => {
                       </div>
                       
                       <div className="table-cell">
-                        <span 
-                          className="status-badge"
-                          style={{ 
-                            backgroundColor: getStatusColor(message.status) + '20', 
-                            color: getStatusColor(message.status) 
-                          }}
+                        <div 
+                          className="status-badge enhanced"
+                          style={{ backgroundColor: getStatusColor(message.status) + '20', color: getStatusColor(message.status) }}
                         >
                           <StatusIcon size={14} />
-                          {message.status === 'unread' ? 'Non lu' :
-                           message.status === 'read' ? 'Lu' :
-                           message.status === 'replied' ? 'Répondu' : message.status}
-                        </span>
+                          <span>{message.statusText || message.status}</span>
+                        </div>
                       </div>
                       
                       <div className="table-cell">
-                        <span className="date-text">
-                          {formatDate(message.created_at)}
-                        </span>
+                        <div className="date-content">
+                          <Calendar size={14} />
+                          <span>{formatDate(message.created_at)}</span>
+                        </div>
                       </div>
                       
                       <div className="table-cell">
-                        <div className="action-buttons">
+                        <div className="actions-cell">
                           <button 
-                            className="action-btn" 
-                            title="Voir"
+                            className="action-btn view"
                             onClick={() => handleViewMessage(message)}
+                            title="Voir le message"
                           >
-                            <Eye size={14} />
+                            <Eye size={16} />
                           </button>
+                          
                           <button 
-                            className="action-btn" 
-                            title="Répondre"
+                            className="action-btn reply"
                             onClick={() => handleReplyMessage(message)}
+                            title="Répondre"
                           >
-                            <Reply size={14} />
+                            <Reply size={16} />
                           </button>
+                          
+                          {message.status === 'unread' && (
+                            <button 
+                              className="action-btn mark-read"
+                              onClick={() => handleUpdateStatus(message.id, 'read')}
+                              title="Marquer comme lu"
+                            >
+                              <MailOpen size={16} />
+                            </button>
+                          )}
+                          
                           <button 
-                            className="action-btn danger" 
-                            title="Supprimer"
+                            className="action-btn delete"
                             onClick={() => handleDeleteMessage(message.id)}
+                            title="Supprimer"
                           >
-                            <Trash2 size={14} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </div>
@@ -450,199 +634,946 @@ const ContactAdmin = () => {
               )}
             </div>
           </motion.div>
-
-          {/* Message Detail Modal */}
-          <AnimatePresence>
-            {isModalOpen && selectedMessage && (
-              <motion.div 
-                className="modal-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsModalOpen(false)}
-              >
-                <motion.div 
-                  className="modal-content"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="modal-header">
-                    <h3>Détails du Message</h3>
-                    <button 
-                      onClick={() => setIsModalOpen(false)}
-                      className="close-btn"
-                    >
-                      ×
-                    </button>
-                  </div>
-                  
-                  <div className="modal-body">
-                    <div className="message-details">
-                      <div className="detail-row">
-                        <span className="detail-label">Nom:</span>
-                        <span className="detail-value">{selectedMessage.name}</span>
-                      </div>
-                      <div className="detail-row">
-                        <span className="detail-label">Email:</span>
-                        <span className="detail-value">{selectedMessage.email}</span>
-                      </div>
-                      {selectedMessage.phone && (
-                        <div className="detail-row">
-                          <span className="detail-label">Téléphone:</span>
-                          <span className="detail-value">{selectedMessage.phone}</span>
-                        </div>
-                      )}
-                      <div className="detail-row">
-                        <span className="detail-label">Sujet:</span>
-                        <span className="detail-value">{selectedMessage.subject}</span>
-                      </div>
-                      <div className="detail-row">
-                        <span className="detail-label">Date:</span>
-                        <span className="detail-value">{formatDate(selectedMessage.created_at)}</span>
-                      </div>
-                      <div className="detail-row">
-                        <span className="detail-label">Statut:</span>
-                        <span className="detail-value">
-                          <span 
-                            className="status-badge"
-                            style={{ 
-                              backgroundColor: getStatusColor(selectedMessage.status) + '20', 
-                              color: getStatusColor(selectedMessage.status) 
-                            }}
-                          >
-                            {selectedMessage.status === 'unread' ? 'Non lu' :
-                             selectedMessage.status === 'read' ? 'Lu' :
-                             selectedMessage.status === 'replied' ? 'Répondu' : selectedMessage.status}
-                          </span>
-                        </span>
-                      </div>
-                      <div className="detail-row full-width">
-                        <span className="detail-label">Message:</span>
-                        <div className="message-content">
-                          {selectedMessage.message}
-                        </div>
-                      </div>
-                      {selectedMessage.admin_response && (
-                        <div className="detail-row full-width">
-                          <span className="detail-label">Réponse:</span>
-                          <div className="admin-response">
-                            {selectedMessage.admin_response}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="modal-footer">
-                    <button 
-                      className="btn-secondary"
-                      onClick={() => setIsModalOpen(false)}
-                    >
-                      Fermer
-                    </button>
-                    <button 
-                      className="btn-primary"
-                      onClick={() => {
-                        setIsModalOpen(false);
-                        handleReplyMessage(selectedMessage);
-                      }}
-                    >
-                      <Reply size={16} />
-                      Répondre
-                    </button>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Reply Modal */}
-          <AnimatePresence>
-            {isReplyModalOpen && selectedMessage && (
-              <motion.div 
-                className="modal-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsReplyModalOpen(false)}
-              >
-                <motion.div 
-                  className="modal-content"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="modal-header">
-                    <h3>Répondre au Message</h3>
-                    <button 
-                      onClick={() => setIsReplyModalOpen(false)}
-                      className="close-btn"
-                    >
-                      ×
-                    </button>
-                  </div>
-                  
-                  <div className="modal-body">
-                    <div className="reply-form">
-                      <div className="form-group">
-                        <label>De:</label>
-                        <input 
-                          type="text" 
-                          value="admin@bnbatiment.fr" 
-                          disabled 
-                          className="form-input"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>À:</label>
-                        <input 
-                          type="email" 
-                          value={selectedMessage.email} 
-                          disabled 
-                          className="form-input"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Réponse:</label>
-                        <textarea 
-                          placeholder="Tapez votre réponse..."
-                          className="form-textarea"
-                          rows={6}
-                          id="reply-text"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="modal-footer">
-                    <button 
-                      className="btn-secondary"
-                      onClick={() => setIsReplyModalOpen(false)}
-                    >
-                      Annuler
-                    </button>
-                    <button 
-                      className="btn-primary"
-                      onClick={() => {
-                        const response = document.getElementById('reply-text').value;
-                        if (response.trim()) {
-                          handleReply(selectedMessage.id, response);
-                        }
-                      }}
-                    >
-                      <Reply size={16} />
-                      Envoyer la réponse
-                    </button>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
+
+      {/* View Message Modal */}
+      <AnimatePresence>
+        {isModalOpen && selectedMessage && (
+          <motion.div 
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div 
+              className="modal-content"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="modal-header">
+                <h2>Détails du message</h2>
+                <button 
+                  className="modal-close-btn"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="modal-body">
+                <div className="message-details">
+                  <div className="detail-row">
+                    <strong>De:</strong>
+                    <span>{selectedMessage.name} ({selectedMessage.email})</span>
+                  </div>
+                  {selectedMessage.phone && (
+                    <div className="detail-row">
+                      <strong>Téléphone:</strong>
+                      <span>{selectedMessage.phone}</span>
+                    </div>
+                  )}
+                  <div className="detail-row">
+                    <strong>Sujet:</strong>
+                    <span>{selectedMessage.subject}</span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Date:</strong>
+                    <span>{formatDate(selectedMessage.created_at)}</span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Statut:</strong>
+                    <span className={`status-badge ${selectedMessage.status}`}>
+                      {selectedMessage.status}
+                    </span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Message:</strong>
+                    <div className="message-content">
+                      {selectedMessage.message}
+                    </div>
+                  </div>
+                  {selectedMessage.admin_response && (
+                    <div className="detail-row">
+                      <strong>Réponse admin:</strong>
+                      <div className="admin-response">
+                        {selectedMessage.admin_response}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="modal-footer">
+                <button 
+                  className="btn-secondary"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Fermer
+                </button>
+                <button 
+                  className="btn-primary"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    handleReplyMessage(selectedMessage);
+                  }}
+                >
+                  <Reply size={16} />
+                  Répondre
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Reply Modal */}
+      <AnimatePresence>
+        {isReplyModalOpen && selectedMessage && (
+          <motion.div 
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsReplyModalOpen(false)}
+          >
+            <motion.div 
+              className="modal-content"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="modal-header">
+                <h2>Répondre au message</h2>
+                <button 
+                  className="modal-close-btn"
+                  onClick={() => setIsReplyModalOpen(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="modal-body">
+                <div className="original-message">
+                  <h4>Message original:</h4>
+                  <div className="message-preview">
+                    <p><strong>De:</strong> {selectedMessage.name} ({selectedMessage.email})</p>
+                    <p><strong>Sujet:</strong> {selectedMessage.subject}</p>
+                    <p><strong>Message:</strong></p>
+                    <div className="message-text">
+                      {selectedMessage.message}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="reply-form">
+                  <h4>Votre réponse:</h4>
+                  <textarea
+                    className="reply-textarea"
+                    placeholder="Tapez votre réponse ici..."
+                    rows="6"
+                    id="replyText"
+                  />
+                </div>
+              </div>
+              
+              <div className="modal-footer">
+                <button 
+                  className="btn-secondary"
+                  onClick={() => setIsReplyModalOpen(false)}
+                >
+                  Annuler
+                </button>
+                <button 
+                  className="btn-primary"
+                  onClick={() => {
+                    const replyText = document.getElementById('replyText').value;
+                    if (replyText.trim()) {
+                      handleReply(selectedMessage.id, replyText);
+                    } else {
+                      alert('Veuillez saisir une réponse.');
+                    }
+                  }}
+                >
+                  <Send size={16} />
+                  Envoyer la réponse
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        .admin-container {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          padding: 20px;
+        }
+
+        .admin-main {
+          max-width: 1400px;
+          margin: 0 auto;
+        }
+
+        .admin-content {
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+        }
+
+        .page-header.enhanced {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 30px;
+          margin: 0;
+        }
+
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .header-left {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .header-icon {
+          width: 60px;
+          height: 60px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .header-actions {
+          display: flex;
+          gap: 15px;
+        }
+
+        .stats-grid.enhanced {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 20px;
+          padding: 30px;
+          background: #f8fafc;
+        }
+
+        .stat-card.enhanced {
+          background: white;
+          border-radius: 15px;
+          padding: 25px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+          border: 1px solid #e2e8f0;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .stat-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .stat-content h3 {
+          margin: 0 0 8px 0;
+          font-size: 14px;
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        .stat-value {
+          font-size: 28px;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 4px;
+        }
+
+        .stat-change {
+          font-size: 12px;
+          color: #64748b;
+        }
+
+        .stat-change.urgent {
+          color: #ef4444;
+        }
+
+        .stat-change.success {
+          color: #10b981;
+        }
+
+        .bulk-actions {
+          background: #f1f5f9;
+          border-bottom: 1px solid #e2e8f0;
+          overflow: hidden;
+        }
+
+        .bulk-actions-content {
+          padding: 20px 30px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .bulk-info {
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .bulk-buttons {
+          display: flex;
+          gap: 10px;
+        }
+
+        .filters-section.enhanced {
+          padding: 20px 30px;
+          background: white;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .filters-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .search-box.enhanced {
+          position: relative;
+          flex: 1;
+          max-width: 400px;
+        }
+
+        .search-box.enhanced input {
+          width: 100%;
+          padding: 12px 16px 12px 44px;
+          border: 2px solid #e2e8f0;
+          border-radius: 10px;
+          font-size: 14px;
+          transition: all 0.3s;
+        }
+
+        .search-box.enhanced input:focus {
+          border-color: #667eea;
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-box.enhanced svg {
+          position: absolute;
+          left: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #9ca3af;
+        }
+
+        .clear-search {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          font-size: 18px;
+          color: #9ca3af;
+          cursor: pointer;
+          padding: 0;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .filter-controls.enhanced {
+          display: flex;
+          gap: 15px;
+          align-items: center;
+        }
+
+        .filter-group {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .filter-group label {
+          font-size: 12px;
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .filter-select.enhanced {
+          padding: 8px 12px;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          font-size: 14px;
+          background: white;
+          transition: all 0.3s;
+        }
+
+        .filter-select.enhanced:focus {
+          border-color: #667eea;
+          outline: none;
+        }
+
+        .sort-btn.enhanced {
+          padding: 8px;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          background: white;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+
+        .sort-btn.enhanced:hover {
+          border-color: #667eea;
+          color: #667eea;
+        }
+
+        .messages-table-container.enhanced {
+          overflow: hidden;
+        }
+
+        .table-header.enhanced {
+          display: grid;
+          grid-template-columns: 50px 2fr 2fr 3fr 1fr 1fr 1fr;
+          gap: 20px;
+          padding: 20px 30px;
+          background: #f8fafc;
+          border-bottom: 2px solid #e2e8f0;
+          font-weight: 600;
+          color: #374151;
+          font-size: 14px;
+        }
+
+        .table-body.enhanced {
+          max-height: 600px;
+          overflow-y: auto;
+        }
+
+        .table-row.enhanced {
+          display: grid;
+          grid-template-columns: 50px 2fr 2fr 3fr 1fr 1fr 1fr;
+          gap: 20px;
+          padding: 20px 30px;
+          border-bottom: 1px solid #f1f5f9;
+          transition: all 0.3s;
+          align-items: center;
+        }
+
+        .table-row.enhanced:hover {
+          background: #f8fafc;
+        }
+
+        .table-row.enhanced.selected {
+          background: #dbeafe;
+          border-left: 4px solid #3b82f6;
+        }
+
+        .table-row.enhanced.unread {
+          background: #fef2f2;
+          border-left: 4px solid #ef4444;
+        }
+
+        .checkbox-cell {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .checkbox-cell input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          accent-color: #667eea;
+        }
+
+        .client-info.enhanced {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .client-avatar.enhanced {
+          width: 45px;
+          height: 45px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          font-size: 16px;
+        }
+
+        .client-details {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
+        .client-name {
+          font-weight: 600;
+          color: #1e293b;
+          font-size: 14px;
+        }
+
+        .client-email {
+          color: #64748b;
+          font-size: 12px;
+        }
+
+        .client-phone {
+          color: #64748b;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .subject-content.enhanced {
+          position: relative;
+        }
+
+        .subject-text {
+          font-weight: 500;
+          color: #1e293b;
+          font-size: 14px;
+        }
+
+        .unread-indicator {
+          position: absolute;
+          top: -2px;
+          right: -8px;
+          width: 8px;
+          height: 8px;
+          background: #ef4444;
+          border-radius: 50%;
+        }
+
+        .message-preview.enhanced {
+          color: #64748b;
+          font-size: 13px;
+          line-height: 1.4;
+        }
+
+        .status-badge.enhanced {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 500;
+          text-transform: capitalize;
+        }
+
+        .date-content {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #64748b;
+          font-size: 12px;
+        }
+
+        .actions-cell {
+          display: flex;
+          gap: 8px;
+        }
+
+        .action-btn {
+          width: 32px;
+          height: 32px;
+          border: none;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          color: #64748b;
+        }
+
+        .action-btn:hover {
+          transform: scale(1.1);
+        }
+
+        .action-btn.view:hover {
+          background: #dbeafe;
+          color: #3b82f6;
+        }
+
+        .action-btn.reply:hover {
+          background: #dcfce7;
+          color: #10b981;
+        }
+
+        .action-btn.mark-read:hover {
+          background: #fef3c7;
+          color: #f59e0b;
+        }
+
+        .action-btn.delete:hover {
+          background: #fee2e2;
+          color: #ef4444;
+        }
+
+        .empty-state.enhanced {
+          padding: 60px 30px;
+          text-align: center;
+          color: #64748b;
+        }
+
+        .empty-state.enhanced h3 {
+          margin: 20px 0 10px 0;
+          color: #374151;
+        }
+
+        .empty-state.enhanced p {
+          margin: 0 0 20px 0;
+          color: #64748b;
+        }
+
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 400px;
+          color: #64748b;
+        }
+
+        .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #e2e8f0;
+          border-top: 4px solid #667eea;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .error-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 400px;
+          color: #64748b;
+          text-align: center;
+        }
+
+        .error-container h3 {
+          margin: 20px 0 10px 0;
+          color: #374151;
+        }
+
+        .error-container p {
+          margin: 0 0 20px 0;
+          color: #64748b;
+        }
+
+        .btn-primary {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 10px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+          background: white;
+          color: #374151;
+          border: 2px solid #e2e8f0;
+          padding: 10px 20px;
+          border-radius: 10px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-secondary:hover {
+          border-color: #667eea;
+          color: #667eea;
+        }
+
+        .btn-danger {
+          background: #ef4444;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 10px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-danger:hover {
+          background: #dc2626;
+          transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 20px;
+        }
+
+        .modal-content {
+          background: white;
+          border-radius: 15px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+          max-width: 600px;
+          width: 100%;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 25px;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-header h2 {
+          margin: 0;
+          color: #1e293b;
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .modal-close-btn {
+          background: none;
+          border: none;
+          color: #64748b;
+          cursor: pointer;
+          padding: 5px;
+          border-radius: 5px;
+          transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+          background: #f1f5f9;
+          color: #374151;
+        }
+
+        .modal-body {
+          padding: 25px;
+        }
+
+        .modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          gap: 15px;
+          padding: 20px 25px;
+          border-top: 1px solid #e2e8f0;
+        }
+
+        .message-details {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .detail-row {
+          display: flex;
+          gap: 10px;
+          align-items: flex-start;
+        }
+
+        .detail-row strong {
+          min-width: 80px;
+          color: #374151;
+          font-weight: 600;
+        }
+
+        .detail-row span {
+          color: #1e293b;
+          flex: 1;
+        }
+
+        .message-content {
+          background: #f8fafc;
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 4px solid #667eea;
+          margin-top: 5px;
+          white-space: pre-wrap;
+        }
+
+        .admin-response {
+          background: #f0f9ff;
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 4px solid #0ea5e9;
+          margin-top: 5px;
+          white-space: pre-wrap;
+        }
+
+        .status-badge {
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+
+        .status-badge.unread {
+          background: #fef2f2;
+          color: #dc2626;
+        }
+
+        .status-badge.read {
+          background: #eff6ff;
+          color: #2563eb;
+        }
+
+        .status-badge.replied {
+          background: #f0fdf4;
+          color: #16a34a;
+        }
+
+        .status-badge.archived {
+          background: #f1f5f9;
+          color: #64748b;
+        }
+
+        .original-message {
+          margin-bottom: 25px;
+        }
+
+        .original-message h4 {
+          margin: 0 0 15px 0;
+          color: #374151;
+          font-size: 16px;
+        }
+
+        .message-preview {
+          background: #f8fafc;
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid #e2e8f0;
+        }
+
+        .message-preview p {
+          margin: 0 0 8px 0;
+          color: #374151;
+        }
+
+        .message-text {
+          background: white;
+          padding: 10px;
+          border-radius: 5px;
+          margin-top: 8px;
+          white-space: pre-wrap;
+          border: 1px solid #e2e8f0;
+        }
+
+        .reply-form h4 {
+          margin: 0 0 15px 0;
+          color: #374151;
+          font-size: 16px;
+        }
+
+        .reply-textarea {
+          width: 100%;
+          padding: 15px;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          font-family: inherit;
+          font-size: 14px;
+          resize: vertical;
+          transition: border-color 0.2s;
+        }
+
+        .reply-textarea:focus {
+          outline: none;
+          border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+          .admin-container {
+            padding: 10px;
+          }
+
+          .header-content {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+          }
+
+          .stats-grid.enhanced {
+            grid-template-columns: 1fr;
+            padding: 20px;
+          }
+
+          .filters-content {
+            flex-direction: column;
+            gap: 15px;
+          }
+
+          .table-header.enhanced,
+          .table-row.enhanced {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+
+          .checkbox-cell {
+            order: -1;
+          }
+
+          .actions-cell {
+            justify-content: center;
+          }
+        }
+      `}</style>
     </div>
   );
 };

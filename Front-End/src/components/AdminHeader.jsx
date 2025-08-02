@@ -22,7 +22,7 @@ const AdminHeader = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.admin-header-user')) {
+      if (!event.target.closest('.admin-header-user-menu')) {
         setUserMenuOpen(false);
       }
     };
@@ -67,7 +67,7 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="admin-header">
+    <header className="admin-header-bar">
       <div className="admin-header-content">
         {/* Mobile Menu Button */}
         <button 
@@ -77,9 +77,9 @@ const AdminHeader = () => {
           {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        {/* Search Bar */}
-        <div className="">
-         
+        {/* Header Title */}
+        <div className="admin-header-title">
+          <span className="admin-header-page">Administration</span>
         </div>
 
         {/* Header Actions */}
@@ -95,52 +95,54 @@ const AdminHeader = () => {
             <ArrowUpRight size={14} />
           </button>
 
-          {/* Notifications - Using the new component */}
+          {/* Notifications */}
           <NotificationsDropdown />
 
           {/* User Menu */}
-          <div className="admin-header-user">
+          <div className="admin-header-user-menu">
             <button 
-              className="user-menu-btn"
+              className="admin-header-user-btn"
               onClick={() => setUserMenuOpen(!userMenuOpen)}
             >
-              <div className="user-avatar">
-                <User size={16} />
+              <div className="admin-header-avatar">
+                {user?.name?.charAt(0) || 'A'}
               </div>
-              <span className="user-name">{user?.name || 'Admin'}</span>
+              <span className="admin-header-username">{user?.name || 'Admin'}</span>
               <ChevronDown size={16} />
             </button>
 
             {userMenuOpen && (
-              <div className="user-dropdown">
-                <div className="user-info">
-                  <div className="user-avatar-large">
-                    <User size={24} />
-                  </div>
-                  <div className="user-details">
-                    <h4>{user?.name || 'Admin'}</h4>
-                    <p>Administrateur Principal</p>
+              <div className="admin-header-dropdown">
+                <div className="admin-dropdown-header">
+                  <div className="dropdown-user-info">
+                    <div className="dropdown-avatar">
+                      {user?.name?.charAt(0) || 'A'}
+                    </div>
+                    <div>
+                      <div className="dropdown-name">{user?.name || 'Admin'}</div>
+                      <div className="dropdown-email">admin@example.com</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="user-menu-items">
+                <div className="admin-dropdown-content">
                   <button 
-                    className="user-menu-item"
+                    className="admin-dropdown-item"
                     onClick={handleNavigateToProfile}
                   >
                     <User size={16} />
                     Mon compte
                   </button>
                   <button 
-                    className="user-menu-item"
+                    className="admin-dropdown-item"
                     onClick={handleNavigateToSettings}
                   >
                     <Settings size={16} />
                     Paramètres
                   </button>
-                  <div className="user-menu-divider"></div>
+                  <div className="admin-header-dropdown-divider"></div>
                   <button 
-                    className="user-menu-item danger"
+                    className="admin-dropdown-item logout"
                     onClick={handleLogout}
                   >
                     <LogOut size={16} />

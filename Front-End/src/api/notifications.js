@@ -3,7 +3,7 @@ import { apiClient } from './apiClient';
 export const notificationsApi = {
     // Get all notifications
     getNotifications: (params = {}) => {
-        return apiClient.get('/admin/notifications', { params });
+        return apiClient.get('/admin/notifications', params);
     },
 
     // Mark notification as read
@@ -24,7 +24,7 @@ export const notificationsApi = {
     // Get unread count
     getUnreadCount: () => {
         return apiClient.get('/admin/notifications', { 
-            params: { unread_only: true, limit: 1 } 
+            unread_only: true, limit: 1 
         });
     }
 }; 

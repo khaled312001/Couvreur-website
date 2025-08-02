@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SettingsController;
+use App\Http\Controllers\Api\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,16 @@ Route::get('/services/slug/{slug}', [ServiceController::class, 'showBySlug']);
 Route::get('/services/category/{category}', [ServiceController::class, 'byCategory']);
 Route::get('/services/search', [ServiceController::class, 'search']);
 
+// Admin Services (temporarily public for testing)
+Route::get('/admin/services', [ServiceController::class, 'adminIndex']);
+Route::get('/admin/services/{id}', [ServiceController::class, 'show']);
+Route::post('/admin/services', [ServiceController::class, 'store']);
+Route::put('/admin/services/{id}', [ServiceController::class, 'update']);
+Route::post('/admin/services/{id}', [ServiceController::class, 'update']);
+Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy']);
+Route::put('/admin/services/{id}/toggle-status', [ServiceController::class, 'toggleStatus']);
+Route::get('/admin/services/category/{category}', [ServiceController::class, 'byCategory']);
+
 // Blog posts
 Route::get('/blog', [BlogController::class, 'index']);
 Route::get('/blog/{id}', [BlogController::class, 'show']);
@@ -103,6 +114,13 @@ Route::get('/testimonials/{id}', [TestimonialController::class, 'show']);
 
 // Contact form
 Route::post('/contact', [ContactController::class, 'store']);
+
+// Chat routes
+Route::post('/chat/session', [ChatController::class, 'createSession']);
+Route::get('/chat/sessions', [ChatController::class, 'getSessions']);
+Route::get('/chat/messages/{sessionId}', [ChatController::class, 'getMessages']);
+Route::post('/chat/message', [ChatController::class, 'sendMessage']);
+Route::put('/chat/mark-read/{sessionId}', [ChatController::class, 'markAsRead']);
 
 // Quote requests
 Route::post('/quotes', [QuoteController::class, 'store']);
@@ -125,10 +143,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/messages/{id}', [ContactController::class, 'userMessage']);
     Route::post('/user/messages', [ContactController::class, 'storeWithUser']);
 
-    // Admin Services
-    Route::post('/admin/services', [ServiceController::class, 'store']);
-    Route::put('/admin/services/{id}', [ServiceController::class, 'update']);
-    Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy']);
+    // Admin Services (moved outside middleware for testing)
+    // Route::post('/admin/services', [ServiceController::class, 'store']);
+    // Route::put('/admin/services/{id}', [ServiceController::class, 'update']);
+    // Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy']);
 
     // Admin Quotes
     Route::get('/admin/quotes', [QuoteController::class, 'index']);

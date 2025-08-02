@@ -13,7 +13,6 @@ class Service extends Model
         'title',
         'description',
         'long_description',
-        'icon',
         'slug',
         'category',
         'duration',

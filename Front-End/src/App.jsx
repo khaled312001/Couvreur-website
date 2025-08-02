@@ -55,6 +55,7 @@ import SettingsAdmin from "./pages/Admin/SettingsAdmin";
 import OrdersAdmin from "./pages/Admin/OrdersAdmin";
 import ProfileAdmin from "./pages/Admin/ProfileAdmin";
 import PaymentsAdmin from "./pages/Admin/PaymentsAdmin";
+import ChatAdmin from "./pages/Admin/ChatAdmin";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -99,6 +100,7 @@ function App() {
               <Route path="settings" element={<SettingsAdmin />} />
               <Route path="profile" element={<ProfileAdmin />} />
               <Route path="payments" element={<PaymentsAdmin />} />
+              <Route path="chat" element={<ChatAdmin />} />
             </Route>
 
             {/* Main App Routes */}
@@ -115,6 +117,7 @@ function App() {
                     <Route path="/blog/:slug" element={<BlogDetail />} />
                     <Route path="/realisations" element={<Gallery />} />
                     <Route path="/avis" element={<Testimonials />} />
+                    <Route path="/testimonials" element={<Testimonials />} />
                     <Route path="/zones" element={<Areas />} />
                     <Route path="/tarifs" element={<Pricing />} />
 
@@ -137,6 +140,7 @@ function App() {
                     <Route path="/services/:slug" element={<ServiceDetail />} />
                     <Route path="/services/charpente" element={<Charpente />} />
                     <Route path="/services/couverture" element={<Couverture />} />
+                    <Route path="/services/couverture-traditionnelle" element={<Couverture />} />
                     <Route path="/services/zinguerie" element={<Zinguerie />} />
                     <Route path="/services/installation" element={<Installation />} />
                     <Route path="/services/repair" element={<Repair />} />

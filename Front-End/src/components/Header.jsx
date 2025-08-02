@@ -234,94 +234,133 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - Enhanced with animations */}
+      {/* Enhanced Mobile Menu with better UX */}
       {isMobileMenuOpen && (
-        <div className="mobile-menu">
-          <div className="mobile-menu-content">
+        <div className="mobile-menu-overlay" onClick={closeMobileMenu}>
+          <div className="mobile-menu-container" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-header">
-              <h3>Menu</h3>
+              <div className="mobile-menu-title">
+                <div className="mobile-logo">
+                  <img src="/logo.png" alt="BN Bâtiment" />
+                </div>
+                <h3>Menu Principal</h3>
+              </div>
               <button 
                 onClick={closeMobileMenu}
                 className="mobile-close-btn"
-                aria-label="Close mobile menu"
+                aria-label="Fermer le menu"
               >
-                <X size={20} />
+                <X size={24} />
               </button>
             </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <Home size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">ACCUEIL</span>
-              </NavLink>
-            </div>
-            
-            <div className="mobile-nav-item">
-              <NavLink to="/a-propos" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <Info size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">À PROPOS</span>
-              </NavLink>
-            </div>
+            <div className="mobile-menu-body">
+              <nav className="mobile-nav">
+                <div className="mobile-nav-item">
+                  <NavLink to="/" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <Home size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Accueil</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
+                
+                <div className="mobile-nav-item">
+                  <NavLink to="/a-propos" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <Info size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">À Propos</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/services" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <Wrench size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">NOS SERVICES</span>
-              </NavLink>
-            </div>
+                <div className="mobile-nav-item">
+                  <NavLink to="/services" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <Wrench size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Nos Services</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/zones" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <MapPin size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">ZONES D'INTERVENTION</span>
-              </NavLink>
-            </div>
+                <div className="mobile-nav-item">
+                  <NavLink to="/zones" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <MapPin size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Zones d'Intervention</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/avis" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <Star size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">AVIS CLIENTS</span>
-              </NavLink>
-            </div>
+                <div className="mobile-nav-item">
+                  <NavLink to="/avis" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <Star size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Avis Clients</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/blog" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <FileText size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">BLOG</span>
-              </NavLink>
-            </div>
+                <div className="mobile-nav-item">
+                  <NavLink to="/blog" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <FileText size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Blog</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
 
-            <div className="mobile-nav-item">
-              <NavLink to="/realisations" className="mobile-nav-link" onClick={handleNavigationClick}>
-                <Building size={20} className="mobile-nav-icon" />
-                <span className="mobile-nav-text">RÉALISATIONS</span>
-              </NavLink>
-            </div>
+                <div className="mobile-nav-item">
+                  <NavLink to="/realisations" className="mobile-nav-link" onClick={handleNavigationClick}>
+                    <div className="mobile-nav-icon-wrapper">
+                      <Building size={22} className="mobile-nav-icon" />
+                    </div>
+                    <span className="mobile-nav-text">Réalisations</span>
+                    <div className="mobile-nav-arrow">→</div>
+                  </NavLink>
+                </div>
+              </nav>
 
-            <div className="mobile-cta">
-              <NavLink to="/contact" className="mobile-cta-button" onClick={handleNavigationClick}>
-                <MessageSquare size={20} className="cta-icon" />
-                <span className="cta-text">DEVIS GRATUIT</span>
-              </NavLink>
-            </div>
-
-            {/* Mobile Contact Info */}
-            <div className="mobile-contact-info">
-              <div className="mobile-contact-item">
-                <Phone size={18} className="contact-icon" />
-                <a href="tel:33780326427" className="contact-link">
-                  07 80 32 64 27
-                </a>
+              <div className="mobile-cta-section">
+                <NavLink to="/contact" className="mobile-cta-button" onClick={handleNavigationClick}>
+                  <MessageSquare size={20} className="mobile-cta-icon" />
+                  <span className="mobile-cta-text">Devis Gratuit</span>
+                  <div className="mobile-cta-glow"></div>
+                </NavLink>
               </div>
-              <div className="mobile-contact-item">
-                <Mail size={18} className="contact-icon" />
-                <a href="mailto:bnbatimententreprise@gmail.com" className="contact-link">
-                  bnbatimententreprise@gmail.com
-                </a>
-              </div>
-              <div className="mobile-contact-item">
-                <Clock size={18} className="contact-icon" />
-                <span className="contact-text">Lun-Ven: 8h-18h | Sam: 8h-12h</span>
+
+              <div className="mobile-contact-section">
+                <h4 className="mobile-contact-title">Contact Rapide</h4>
+                <div className="mobile-contact-grid">
+                  <div className="mobile-contact-item">
+                    <div className="mobile-contact-icon-wrapper">
+                      <Phone size={18} className="mobile-contact-icon" />
+                    </div>
+                    <a href="tel:33780326427" className="mobile-contact-link">
+                      07 80 32 64 27
+                    </a>
+                  </div>
+                  <div className="mobile-contact-item">
+                    <div className="mobile-contact-icon-wrapper">
+                      <Mail size={18} className="mobile-contact-icon" />
+                    </div>
+                    <a href="mailto:bnbatimententreprise@gmail.com" className="mobile-contact-link">
+                      bnbatimententreprise@gmail.com
+                    </a>
+                  </div>
+                  <div className="mobile-contact-item">
+                    <div className="mobile-contact-icon-wrapper">
+                      <Clock size={18} className="mobile-contact-icon" />
+                    </div>
+                    <span className="mobile-contact-text">Lun-Ven: 8h-18h | Sam: 8h-12h</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

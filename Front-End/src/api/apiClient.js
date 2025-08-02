@@ -59,17 +59,29 @@ class ApiClient {
 
   // POST request
   async post(endpoint, data = {}) {
+    const isFormData = data instanceof FormData;
+    const headers = isFormData ? {} : this.getAuthHeaders();
+    
     return this.request(endpoint, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      headers,
     });
   }
 
   // PUT request
   async put(endpoint, data = {}) {
+    const isFormData = data instanceof FormData;
+    const headers = isFormData ? {} : this.getAuthHeaders();
+    
+    console.log('PUT request - isFormData:', isFormData);
+    console.log('PUT request - data type:', typeof data);
+    console.log('PUT request - headers:', headers);
+    
     return this.request(endpoint, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      headers,
     });
   }
 

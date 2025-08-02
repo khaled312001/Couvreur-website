@@ -3,6 +3,7 @@ import { getServices } from '../api/services';
 import { getGallery } from '../api/gallery';
 import { getTestimonials } from '../api/testimonials';
 import { fetchBlogPosts } from '../api/blog';
+import { chatApi } from '../api/chat';
 import ServiceCard from '../components/ServiceCard';
 import GalleryItem from '../components/GalleryItem';
 import Testimonial from '../components/Testimonial';
@@ -15,6 +16,16 @@ const Home = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [contactFormData, setContactFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: ''
+  });
+  const [contactFormLoading, setContactFormLoading] = useState(false);
+  const [contactFormSuccess, setContactFormSuccess] = useState(false);
+  const [contactFormError, setContactFormError] = useState('');
 
   // Load data on component mount
   useEffect(() => {
@@ -164,6 +175,37 @@ const Home = () => {
       elements.forEach(el => observer.unobserve(el));
     };
   }, []);
+
+  // Contact form handlers
+  const handleContactFormChange = (e) => {
+    setContactFormData({
+      ...contactFormData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleContactFormSubmit = async (e) => {
+    e.preventDefault();
+    setContactFormLoading(true);
+    setContactFormError('');
+
+    try {
+      await chatApi.createSession(contactFormData);
+      setContactFormSuccess(true);
+      setContactFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: ''
+      });
+    } catch (err) {
+      console.error('Error submitting contact form:', err);
+      setContactFormError('Une erreur s\'est produite. Veuillez réessayer.');
+    } finally {
+      setContactFormLoading(false);
+    }
+  };
 
   return (
     <div className="home-page">
@@ -796,41 +838,101 @@ const Home = () => {
           <div className="contact-grid">
             <div className="contact-form-container fade-in-on-scroll">
               <h2 className="section-title">Contactez-nous</h2>
-              <form className="contact-form">
-                <div className="form-row">
-
-              
-                  <div className="form-group">
-                    <label className="form-label">Nom complet</label>
-                    <input type="text" className="form-input" placeholder="Votre nom" />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Email</label>
-                    <input type="email" className="form-input" placeholder="votre@email.com" />
+              {contactFormSuccess ? (
+                <div className="success-message">
+                  <span>✅</span>
+                  <div>
+                    <h4>Message envoyé avec succès!</h4>
+                    <p>Nous vous répondrons dans les plus brefs délais.</p>
                   </div>
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Téléphone</label>
-                  <input type="tel" className="form-input" placeholder="07 80 32 64 27" />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Sujet</label>
-                  <select className="form-select">
-                    <option>Devis gratuit</option>
-                    <option>Réparation</option>
-                    <option>Installation</option>
-                    <option>Entretien</option>
-                    <option>Autre</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Message</label>
-                  <textarea className="form-textarea" placeholder="Décrivez votre message..."></textarea>
-                </div>
-                <button type="submit" className="form-button">
-                  ENVOYER
-                </button>
-              </form>
+              ) : (
+                <form className="contact-form" onSubmit={handleContactFormSubmit}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Nom complet</label>
+                      <input 
+                        type="text" 
+                        name="name"
+                        value={contactFormData.name}
+                        onChange={handleContactFormChange}
+                        className="form-input" 
+                        placeholder="Votre nom" 
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Email</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        value={contactFormData.email}
+                        onChange={handleContactFormChange}
+                        className="form-input" 
+                        placeholder="votre@email.com" 
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Téléphone</label>
+                    <input 
+                      type="tel" 
+                      name="phone"
+                      value={contactFormData.phone}
+                      onChange={handleContactFormChange}
+                      className="form-input" 
+                      placeholder="07 80 32 64 27" 
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Service souhaité</label>
+                    <select 
+                      name="service"
+                      value={contactFormData.service}
+                      onChange={handleContactFormChange}
+                      className="form-select"
+                    >
+                      <option value="">Sélectionner un service</option>
+                      <option value="Devis gratuit">Devis gratuit</option>
+                      <option value="Réparation">Réparation</option>
+                      <option value="Installation">Installation</option>
+                      <option value="Entretien">Entretien</option>
+                      <option value="Autre">Autre</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Message</label>
+                    <textarea 
+                      name="message"
+                      value={contactFormData.message}
+                      onChange={handleContactFormChange}
+                      className="form-textarea" 
+                      placeholder="Décrivez votre message..." 
+                      required
+                    ></textarea>
+                  </div>
+                  {contactFormError && (
+                    <div style={{
+                      color: '#dc2626',
+                      backgroundColor: '#fef2f2',
+                      border: '1px solid #fecaca',
+                      padding: '12px',
+                      borderRadius: '8px',
+                      marginBottom: '20px'
+                    }}>
+                      {contactFormError}
+                    </div>
+                  )}
+                  <button 
+                    type="submit" 
+                    className="form-button"
+                    disabled={contactFormLoading}
+                  >
+                    {contactFormLoading ? 'ENVOI EN COURS...' : 'ENVOYER'}
+                  </button>
+                </form>
+              )}
             </div>
             <div className="contact-image fade-in-on-scroll">
               <img 

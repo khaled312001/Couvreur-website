@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { getServices } from '../../api/services';
+import { getImageUrl } from '../../utils/imageUtils';
 import '../../styles/services.css';
 
 const Services = () => {
@@ -76,8 +78,14 @@ const Services = () => {
           <div className="services-grid">
             {services.map((service) => (
               <div key={service.id} className="service-card">
-                <div className="service-icon">
-                  <span>{service.icon}</span>
+                <div className="service-image">
+                  {service.image ? (
+                    <img src={getImageUrl(service.image)} alt={service.title} />
+                  ) : (
+                    <div className="service-placeholder">
+                      <span>📷</span>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="service-content">

@@ -9,7 +9,11 @@ const AdminLayout = () => (
     <SidebarAdmin />
     <div className="admin-main-content">
       <AdminHeader />
-      <Outlet />
+      <main className="admin-main">
+        <div className="admin-content">
+          <Outlet />
+        </div>
+      </main>
     </div>
   </div>
 );

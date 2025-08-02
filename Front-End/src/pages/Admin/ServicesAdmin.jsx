@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, Search, Filter, Edit, Trash2, Eye, 
   Target, Settings, CheckCircle, AlertCircle, Clock,
-  X, Save, Calendar, DollarSign, Tag, FileText
+  X, Save, Calendar, DollarSign, Tag, FileText, Upload
 } from 'lucide-react';
-import { createService, updateService, deleteService } from '../../api/services';
+import { createService, updateService, deleteService, getAdminServices, toggleServiceStatus } from '../../api/services';
+import { getImageUrl } from '../../utils/imageUtils';
 
 const ServicesAdmin = () => {
   const [services, setServices] = useState([]);
@@ -25,7 +26,6 @@ const ServicesAdmin = () => {
     title: '',
     description: '',
     long_description: '',
-    icon: '🏗️',
     category: '',
     duration: '',
     price_range: '',
@@ -49,24 +49,11 @@ const ServicesAdmin = () => {
   const loadServices = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('http://localhost:8000/api/admin/services', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Accept': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setServices(data.data || data);
-      } else {
-        console.error('Failed to load services');
-        // Fallback to mock data if API fails
-        setServices(getMockServices());
-      }
+      const data = await getAdminServices();
+      setServices(data);
     } catch (error) {
       console.error('Error loading services:', error);
-      // Fallback to mock data
+      // Fallback to mock data if API fails
       setServices(getMockServices());
     } finally {
       setIsLoading(false);
@@ -79,7 +66,6 @@ const ServicesAdmin = () => {
       id: 1,
       title: "Charpente",
       description: "Construction et rénovation de charpentes traditionnelles et modernes",
-      icon: "🏗️",
       status: "active",
       category: "Charpente",
       price_range: "Sur devis",
@@ -90,7 +76,6 @@ const ServicesAdmin = () => {
       id: 2,
       title: "Couverture",
       description: "Installation et réparation de tous types de couvertures",
-      icon: "🏠",
       status: "active",
       category: "Couverture",
       price_range: "Sur devis",
@@ -101,7 +86,6 @@ const ServicesAdmin = () => {
       id: 3,
       title: "Zinguerie",
       description: "Travaux de zinguerie et d'étanchéité pour votre toiture",
-      icon: "⚡",
       status: "active",
       category: "Zinguerie",
       price_range: "Sur devis",
@@ -112,7 +96,6 @@ const ServicesAdmin = () => {
       id: 4,
       title: "Démoussage",
       description: "Nettoyage professionnel de votre toiture",
-      icon: "🧹",
       status: "draft",
       category: "Entretien",
       price_range: "À partir de 500€",
@@ -123,7 +106,6 @@ const ServicesAdmin = () => {
       id: 5,
       title: "Isolation",
       description: "Isolation thermique et phonique de vos combles",
-      icon: "🏠",
       status: "active",
       category: "Isolation",
       price_range: "Sur devis",
@@ -204,30 +186,72 @@ const ServicesAdmin = () => {
   // Add new service
   const handleAddService = async () => {
     try {
-      const response = await createService(formData);
-      if (response.ok) {
-        const newService = await response.json();
-        setServices(prev => [newService.data, ...prev]);
-        setShowAddModal(false);
-        setFormData({
-          title: '',
-          description: '',
-          long_description: '',
-          icon: '🏗️',
-          category: '',
-          duration: '',
-          price_range: '',
-          features: [],
-          sub_services: [],
-          materials: [],
-          advantages: [],
-          image: '',
-          is_active: true,
-          sort_order: 0
-        });
+      const serviceData = {
+        ...formData
+      };
+      
+      // Only include image if it's a file or has a valid value
+      if (selectedImage) {
+        serviceData.image = selectedImage;
+      } else if (formData.image && formData.image !== '' && formData.image !== null) {
+        serviceData.image = formData.image;
       } else {
-        console.error('Failed to add service');
+        // Remove image field if it's empty
+        delete serviceData.image;
       }
+      
+      // Ensure array fields are properly formatted
+      if (serviceData.features && Array.isArray(serviceData.features)) {
+        serviceData.features = serviceData.features.filter(f => f && f.trim() !== '');
+      }
+      if (serviceData.sub_services && Array.isArray(serviceData.sub_services)) {
+        serviceData.sub_services = serviceData.sub_services.filter(s => {
+          if (typeof s === 'string') {
+            return s && s.trim() !== '';
+          } else if (typeof s === 'object' && s !== null) {
+            return s.name && s.name.trim() !== '';
+          }
+          return false;
+        });
+      }
+      if (serviceData.materials && Array.isArray(serviceData.materials)) {
+        serviceData.materials = serviceData.materials.filter(m => m && m.trim() !== '');
+      }
+      if (serviceData.advantages && Array.isArray(serviceData.advantages)) {
+        serviceData.advantages = serviceData.advantages.filter(a => a && a.trim() !== '');
+      }
+      
+      console.log('Sending service data for creation:', serviceData);
+      console.log('Features:', serviceData.features);
+      console.log('Sub services:', serviceData.sub_services);
+      console.log('Materials:', serviceData.materials);
+      console.log('Advantages:', serviceData.advantages);
+      console.log('Image being sent:', serviceData.image);
+      console.log('Image type:', typeof serviceData.image);
+      
+      const newService = await createService(serviceData);
+      
+      // Force reload of services to ensure all data is fresh
+      await loadServices();
+      
+      setShowAddModal(false);
+      setSelectedImage(null);
+      setImagePreview(null);
+      setFormData({
+        title: '',
+        description: '',
+        long_description: '',
+        category: '',
+        duration: '',
+        price_range: '',
+        features: [],
+        sub_services: [],
+        materials: [],
+        advantages: [],
+        image: '',
+        is_active: true,
+        sort_order: 0
+      });
     } catch (error) {
       console.error('Error adding service:', error);
     }
@@ -236,37 +260,74 @@ const ServicesAdmin = () => {
   // Edit service
   const handleEditService = async () => {
     try {
-      const response = await updateService(selectedService.id, formData);
-      if (response.ok) {
-        const updatedService = await response.json();
-        setServices(prev => 
-          prev.map(service => 
-            service.id === selectedService.id 
-              ? updatedService.data
-              : service
-          )
-        );
-        setShowEditModal(false);
-        setSelectedService(null);
-        setFormData({
-          title: '',
-          description: '',
-          long_description: '',
-          icon: '🏗️',
-          category: '',
-          duration: '',
-          price_range: '',
-          features: [],
-          sub_services: [],
-          materials: [],
-          advantages: [],
-          image: '',
-          is_active: true,
-          sort_order: 0
-        });
+      const serviceData = {
+        ...formData
+      };
+      
+      // Only include image if it's a file or has a valid value
+      if (selectedImage) {
+        serviceData.image = selectedImage;
+      } else if (formData.image && formData.image !== '' && formData.image !== null) {
+        serviceData.image = formData.image;
       } else {
-        console.error('Failed to update service');
+        // Remove image field if it's empty
+        delete serviceData.image;
       }
+      
+      // Ensure array fields are properly formatted
+      if (serviceData.features && Array.isArray(serviceData.features)) {
+        serviceData.features = serviceData.features.filter(f => f && f.trim() !== '');
+      }
+      if (serviceData.sub_services && Array.isArray(serviceData.sub_services)) {
+        serviceData.sub_services = serviceData.sub_services.filter(s => {
+          if (typeof s === 'string') {
+            return s && s.trim() !== '';
+          } else if (typeof s === 'object' && s !== null) {
+            return s.name && s.name.trim() !== '';
+          }
+          return false;
+        });
+      }
+      if (serviceData.materials && Array.isArray(serviceData.materials)) {
+        serviceData.materials = serviceData.materials.filter(m => m && m.trim() !== '');
+      }
+      if (serviceData.advantages && Array.isArray(serviceData.advantages)) {
+        serviceData.advantages = serviceData.advantages.filter(a => a && a.trim() !== '');
+      }
+      
+      console.log('Sending service data:', serviceData);
+      console.log('Selected service ID:', selectedService.id);
+      console.log('Features:', serviceData.features);
+      console.log('Sub services:', serviceData.sub_services);
+      console.log('Materials:', serviceData.materials);
+      console.log('Advantages:', serviceData.advantages);
+      console.log('Image being sent:', serviceData.image);
+      console.log('Image type:', typeof serviceData.image);
+      
+      const updatedService = await updateService(selectedService.id, serviceData);
+      
+      // Force reload of services to ensure all data is fresh
+      await loadServices();
+      
+      setShowEditModal(false);
+      setSelectedService(null);
+      setSelectedImage(null);
+      setImagePreview(null);
+      setFormData({
+        title: '',
+        description: '',
+        long_description: '',
+        category: '',
+        duration: '',
+        price_range: '',
+        features: [],
+        sub_services: [],
+        materials: [],
+        advantages: [],
+        image: '',
+        is_active: true,
+        sort_order: 0
+      });
     } catch (error) {
       console.error('Error updating service:', error);
     }
@@ -275,14 +336,13 @@ const ServicesAdmin = () => {
   // Delete service
   const handleDeleteService = async () => {
     try {
-      const response = await deleteService(selectedService.id);
-      if (response.ok) {
-        setServices(prev => prev.filter(service => service.id !== selectedService.id));
-        setShowDeleteConfirm(false);
-        setSelectedService(null);
-      } else {
-        console.error('Failed to delete service');
-      }
+      await deleteService(selectedService.id);
+      
+      // Force reload of services to ensure all data is fresh
+      await loadServices();
+      
+      setShowDeleteConfirm(false);
+      setSelectedService(null);
     } catch (error) {
       console.error('Error deleting service:', error);
     }
@@ -293,19 +353,10 @@ const ServicesAdmin = () => {
     const currentService = services.find(s => s.id === serviceId);
     if (currentService) {
       try {
-        const response = await updateService(serviceId, { is_active: !currentService.is_active });
-        if (response.ok) {
-          const updatedService = await response.json();
-          setServices(prev => 
-            prev.map(service => 
-              service.id === serviceId 
-                ? updatedService.data
-                : service
-            )
-          );
-        } else {
-          console.error('Failed to toggle status');
-        }
+        const result = await toggleServiceStatus(serviceId);
+        
+        // Force reload of services to ensure all data is fresh
+        await loadServices();
       } catch (error) {
         console.error('Error toggling status:', error);
       }
@@ -314,12 +365,19 @@ const ServicesAdmin = () => {
 
   // Open edit modal
   const openEditModal = (service) => {
+    console.log('Opening edit modal for service:', service);
+    console.log('Service features:', service.features);
+    console.log('Service sub_services:', service.sub_services);
+    console.log('Service materials:', service.materials);
+    console.log('Service advantages:', service.advantages);
+    console.log('Service image:', service.image);
+    console.log('Service image type:', typeof service.image);
+    
     setSelectedService(service);
-    setFormData({
+    const formDataToSet = {
       title: service.title,
       description: service.description,
       long_description: service.long_description,
-      icon: service.icon,
       category: service.category,
       duration: service.duration,
       price_range: service.price_range,
@@ -330,7 +388,9 @@ const ServicesAdmin = () => {
       image: service.image,
       is_active: service.is_active,
       sort_order: service.sort_order
-    });
+    };
+    console.log('Setting form data:', formDataToSet);
+    setFormData(formDataToSet);
     setShowEditModal(true);
   };
 
@@ -507,16 +567,22 @@ const ServicesAdmin = () => {
           >
             {filteredServices.map((service, index) => (
               <motion.div
-                key={service.id}
+                key={`${service.id}-${service.updated_at || service.created_at}`}
                 className="service-card"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, y: -5 }}
               >
                 <div className="service-header">
-                  <div className="service-icon">
-                    {service.icon}
+                  <div className="service-image">
+                    {service.image ? (
+                      <img src={getImageUrl(service.image)} alt={service.title} />
+                    ) : (
+                      <div className="service-placeholder">
+                        <span>📷</span>
+                      </div>
+                    )}
                   </div>
                   <div className="service-info">
                     <h3>{service.title}</h3>
@@ -673,17 +739,6 @@ const ServicesAdmin = () => {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Icône</label>
-                        <input
-                          type="text"
-                          name="icon"
-                          value={formData.icon}
-                          onChange={handleInputChange}
-                          placeholder="🏗️"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
                         <label>Catégorie</label>
                         <input
                           type="text"
@@ -717,6 +772,91 @@ const ServicesAdmin = () => {
                           placeholder="Ex: Sur devis"
                         />
                       </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Image du service</label>
+                      <div className="image-upload-container">
+                        {imagePreview ? (
+                          <div className="image-preview">
+                            <img src={imagePreview} alt="Preview" />
+                            <button 
+                              type="button" 
+                              className="remove-image-btn"
+                              onClick={clearImage}
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <label className="image-upload-btn">
+                            <Upload size={20} />
+                            <span>Choisir une image</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              style={{ display: 'none' }}
+                            />
+                          </label>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Fonctionnalités (une par ligne)</label>
+                      <textarea
+                        name="features"
+                        value={Array.isArray(formData.features) ? formData.features.join('\n') : ''}
+                        onChange={(e) => {
+                          const features = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, features }));
+                        }}
+                        placeholder="Fonctionnalité 1&#10;Fonctionnalité 2&#10;Fonctionnalité 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Sous-services (un par ligne)</label>
+                      <textarea
+                        name="sub_services"
+                        value={Array.isArray(formData.sub_services) ? formData.sub_services.join('\n') : ''}
+                        onChange={(e) => {
+                          const sub_services = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, sub_services }));
+                        }}
+                        placeholder="Sous-service 1&#10;Sous-service 2&#10;Sous-service 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Matériaux (un par ligne)</label>
+                      <textarea
+                        name="materials"
+                        value={Array.isArray(formData.materials) ? formData.materials.join('\n') : ''}
+                        onChange={(e) => {
+                          const materials = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, materials }));
+                        }}
+                        placeholder="Matériau 1&#10;Matériau 2&#10;Matériau 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Avantages (un par ligne)</label>
+                      <textarea
+                        name="advantages"
+                        value={Array.isArray(formData.advantages) ? formData.advantages.join('\n') : ''}
+                        onChange={(e) => {
+                          const advantages = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, advantages }));
+                        }}
+                        placeholder="Avantage 1&#10;Avantage 2&#10;Avantage 3"
+                        rows="4"
+                      />
                     </div>
                     
                     <div className="form-group">
@@ -816,17 +956,6 @@ const ServicesAdmin = () => {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Icône</label>
-                        <input
-                          type="text"
-                          name="icon"
-                          value={formData.icon}
-                          onChange={handleInputChange}
-                          placeholder="🏗️"
-                        />
-                      </div>
-                      
-                      <div className="form-group">
                         <label>Catégorie</label>
                         <input
                           type="text"
@@ -860,6 +989,102 @@ const ServicesAdmin = () => {
                           placeholder="Ex: Sur devis"
                         />
                       </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Image du service</label>
+                      <div className="image-upload-container">
+                        {imagePreview ? (
+                          <div className="image-preview">
+                            <img src={imagePreview} alt="Preview" />
+                            <button 
+                              type="button" 
+                              className="remove-image-btn"
+                              onClick={clearImage}
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : formData.image ? (
+                          <div className="image-preview">
+                            <img src={formData.image} alt="Current" />
+                            <button 
+                              type="button" 
+                              className="remove-image-btn"
+                              onClick={clearImage}
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <label className="image-upload-btn">
+                            <Upload size={20} />
+                            <span>Choisir une image</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              style={{ display: 'none' }}
+                            />
+                          </label>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Fonctionnalités (une par ligne)</label>
+                      <textarea
+                        name="features"
+                        value={Array.isArray(formData.features) ? formData.features.join('\n') : ''}
+                        onChange={(e) => {
+                          const features = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, features }));
+                        }}
+                        placeholder="Fonctionnalité 1&#10;Fonctionnalité 2&#10;Fonctionnalité 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Sous-services (un par ligne)</label>
+                      <textarea
+                        name="sub_services"
+                        value={Array.isArray(formData.sub_services) ? formData.sub_services.join('\n') : ''}
+                        onChange={(e) => {
+                          const sub_services = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, sub_services }));
+                        }}
+                        placeholder="Sous-service 1&#10;Sous-service 2&#10;Sous-service 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Matériaux (un par ligne)</label>
+                      <textarea
+                        name="materials"
+                        value={Array.isArray(formData.materials) ? formData.materials.join('\n') : ''}
+                        onChange={(e) => {
+                          const materials = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, materials }));
+                        }}
+                        placeholder="Matériau 1&#10;Matériau 2&#10;Matériau 3"
+                        rows="4"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Avantages (un par ligne)</label>
+                      <textarea
+                        name="advantages"
+                        value={Array.isArray(formData.advantages) ? formData.advantages.join('\n') : ''}
+                        onChange={(e) => {
+                          const advantages = e.target.value.split('\n').filter(item => item.trim() !== '');
+                          setFormData(prev => ({ ...prev, advantages }));
+                        }}
+                        placeholder="Avantage 1&#10;Avantage 2&#10;Avantage 3"
+                        rows="4"
+                      />
                     </div>
                     
                     <div className="form-group">
@@ -926,8 +1151,14 @@ const ServicesAdmin = () => {
                   <div className="modal-body">
                     <div className="service-detail-view">
                       <div className="service-detail-header">
-                        <div className="service-detail-icon">
-                          {selectedService.icon}
+                                        <div className="service-detail-image">
+                          {selectedService.image ? (
+                            <img src={getImageUrl(selectedService.image)} alt={selectedService.title} />
+                          ) : (
+                            <div className="service-placeholder">
+                              <span>📷</span>
+                            </div>
+                          )}
                         </div>
                         <div className="service-detail-info">
                           <h3>{selectedService.title}</h3>

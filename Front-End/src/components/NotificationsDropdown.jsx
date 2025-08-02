@@ -99,36 +99,23 @@ const NotificationsDropdown = () => {
         }
     };
 
-    const getNotificationColor = (type) => {
-        switch (type) {
-            case 'success':
-                return 'border-green-200 bg-green-50';
-            case 'warning':
-                return 'border-yellow-200 bg-yellow-50';
-            case 'error':
-                return 'border-red-200 bg-red-50';
-            default:
-                return 'border-blue-200 bg-blue-50';
-        }
-    };
-
     if (!user || user.role !== 'admin') {
         return null;
     }
 
     return (
-        <div className="notification-dropdown" ref={dropdownRef}>
+        <div className="admin-header-notifications" ref={dropdownRef}>
             {/* Notification Bell */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="notification-bell"
+                className="admin-header-icon-btn"
                 title="Notifications"
             >
-                <Bell className="w-6 h-6" />
+                <Bell size={20} />
                 
                 {/* Unread Badge */}
                 {unreadCount > 0 && (
-                    <span className="notification-badge">
+                    <span className="admin-header-notif-badge">
                         {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                 )}
@@ -136,26 +123,22 @@ const NotificationsDropdown = () => {
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="notification-dropdown-menu">
+                <div className="admin-header-notifications-dropdown">
                     {/* Header */}
-                    <div className="notification-header">
-                        <div className="notification-header-title">
-                            <Bell className="w-5 h-5" />
-                            <span>Notifications</span>
-                        </div>
+                    <div className="notifications-header">
+                        <h4>Notifications</h4>
                         {unreadCount > 0 && (
                             <button
                                 onClick={handleMarkAllAsRead}
-                                className="mark-all-read-btn"
+                                className="mark-all-read"
                             >
-                                <Check className="w-4 h-4" />
                                 Tout marquer comme lu
                             </button>
                         )}
                     </div>
 
                     {/* Notifications List */}
-                    <div className="notification-list">
+                    <div className="notifications-list">
                         {loading ? (
                             <div className="notification-loading">
                                 <div className="notification-loading-spinner"></div>
@@ -163,7 +146,7 @@ const NotificationsDropdown = () => {
                             </div>
                         ) : notifications.length === 0 ? (
                             <div className="notification-empty">
-                                <Bell className="w-12 h-12" />
+                                <Bell size={48} />
                                 <p className="notification-empty-title">Aucune notification</p>
                                 <p className="notification-empty-subtitle">Vous serez notifié ici des nouvelles activités</p>
                             </div>
@@ -197,7 +180,7 @@ const NotificationsDropdown = () => {
                                                 className="notification-action-btn read"
                                                 title="Marquer comme lu"
                                             >
-                                                <Check className="w-3 h-3" />
+                                                <Check size={12} />
                                                 Lu
                                             </button>
                                         )}
@@ -206,7 +189,7 @@ const NotificationsDropdown = () => {
                                             className="notification-action-btn delete"
                                             title="Supprimer"
                                         >
-                                            <Trash2 className="w-3 h-3" />
+                                            <Trash2 size={12} />
                                             Supprimer
                                         </button>
                                     </div>
@@ -217,10 +200,10 @@ const NotificationsDropdown = () => {
 
                     {/* Footer */}
                     {notifications.length > 0 && (
-                        <div className="notification-footer">
+                        <div className="notifications-footer">
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="notification-close-btn"
+                                className="view-all-notifications"
                             >
                                 Fermer
                             </button>
