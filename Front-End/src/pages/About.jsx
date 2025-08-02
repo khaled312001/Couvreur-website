@@ -4,9 +4,9 @@ import "../styles/about.css";
 
 const About = () => {
   const heroData = {
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+    image: "https://media.istockphoto.com/id/2221899261/fr/photo/ext%C3%A9rieur-de-maison-de-banlieue-en-%C3%A9t%C3%A9.webp?a=1&b=1&s=612x612&w=0&k=20&c=ENqOLJ61a-sGCI0_NZh9DUVeohL_3__6hZZ0OTEtjdc=",
     title: "BN BÂTIMENT : Charpente • Couverture • Zinguerie",
-    subtitle: "Drôme (26) et Ardèche (07)",
+    subtitle: "Lyon - Saint-Étienne - Valence - Clermont-Ferrand - Francheville - Givors - Vienne et Annonay",
     description: "Plus de 10 ans d'expérience dans la construction, la rénovation et l'entretien de toitures.",
     cta: "DEMANDER UN DEVIS"
   };
@@ -16,19 +16,19 @@ const About = () => {
       icon: "🏗️", 
       title: "Charpente", 
       description: "Construction et rénovation de charpentes traditionnelles et modernes",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      image: "https://images.pexels.com/photos/31763541/pexels-photo-31763541.jpeg"
     },
     { 
       icon: "🏠", 
       title: "Couverture", 
       description: "Installation et réparation de tous types de couvertures",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      image: "https://media.istockphoto.com/id/1491980224/fr/photo/un-beau-b%C3%A2timent-patrimonial-%C3%A0-motifs.webp?a=1&s=612x612&w=0&k=20&c=zjh_uND1ufJSsqZInO0sV0Vxaw0LCWIes42w9KI6q8Q="
     },
     { 
       icon: "⚡", 
       title: "Zinguerie", 
       description: "Travaux de zinguerie et d'étanchéité pour votre toiture",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      image: "https://media.istockphoto.com/id/838261782/photo/metal-roof.jpg?s=612x612&w=0&k=20&c=cNo3rPek8HiRcLV1v5ih_KkiuHKn00fX-t2BAT_YCZo="
     }
   ];
 
@@ -37,7 +37,7 @@ const About = () => {
       role: "Charpentier", 
       description: "Expert en construction de charpentes traditionnelles et modernes",
       avatar: "👷‍♂️",
-      experience: "15+ ans d'expérience"
+      experience: "10+ ans d'expérience"
     },
     { 
       role: "Couvreur", 
@@ -55,7 +55,7 @@ const About = () => {
 
   const stats = [
     { number: "500+", label: "Projets réalisés" },
-    { number: "15+", label: "Années d'expérience" },
+    { number: "10+", label: "Années d'expérience" },
     { number: "100%", label: "Clients satisfaits" },
     { number: "24/7", label: "Support disponible" }
   ];
@@ -90,7 +90,7 @@ const About = () => {
                 BN BÂTIMENT est une entreprise spécialisée dans les travaux de
                 charpente, couverture et zinguerie. Depuis notre création, nous
                 nous engageons à fournir des services de qualité pour tous types
-                de projets : construction neuve, rénovation et entretien.
+                de projets : construction neuve, réparation des fuites et entretien.
               </p>
               <p>
                 Notre équipe d'artisans qualifiés intervient dans toute la région

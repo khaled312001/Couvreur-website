@@ -46,7 +46,7 @@ const Services = () => {
         <div className="container">
           <div className="hero-content">
             <h1 style={{
-              color: "white",
+              color: "#ffffff",
               fontSize: "3rem",
               fontWeight: "700",
               textShadow: "2px 2px 4px rgba(0,0,0,0.7)",

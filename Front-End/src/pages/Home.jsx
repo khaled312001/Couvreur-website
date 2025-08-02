@@ -722,7 +722,7 @@ const Home = () => {
                 <div className="stat-label">Note Moyenne</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">15+</div>
+                <div className="stat-number">10+</div>
                 <div className="stat-label">Années d'Expérience</div>
               </div>
               <div className="stat-item">
