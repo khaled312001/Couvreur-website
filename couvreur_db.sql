@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2025 at 09:46 PM
+-- Generation Time: Aug 02, 2025 at 02:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,7 +52,6 @@ INSERT INTO `blog_posts` (`id`, `title`, `content`, `excerpt`, `author`, `catego
 (2, 'L\'importance de l\'isolation thermique', 'L\'isolation thermique de votre toiture peut réduire significativement vos factures d\'énergie. Découvrez pourquoi c\'est essentiel pour votre confort et vos économies.', 'Pourquoi l\'isolation thermique est essentielle pour votre confort et vos économies.', 'BN BUILDING', 'Isolation', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'importance-isolation-thermique', 1, '2025-07-22 12:40:19', NULL, '2025-08-01 12:40:19', '2025-08-01 12:40:19'),
 (3, 'Entretien préventif de votre toiture', 'Un entretien régulier de votre toiture prolonge sa durée de vie et évite les réparations coûteuses. Les bonnes pratiques pour maintenir votre toiture en excellent état.', 'Les bonnes pratiques pour maintenir votre toiture en excellent état.', 'BN BUILDING', 'Entretien', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'entretien-preventif-toiture', 1, '2025-07-17 12:40:19', NULL, '2025-08-01 12:40:19', '2025-08-01 12:40:19'),
 (4, 'L\'importance de l\'entretien préventif', 'L\'entretien préventif de votre toiture est crucial pour éviter les problèmes coûteux. Découvrez pourquoi un entretien régulier peut vous faire économiser des milliers d\'euros à long terme.\\n\\nUn entretien préventif bien planifié permet de détecter les problèmes avant qu\'ils ne deviennent graves. Les inspections régulières, le nettoyage des gouttières et la vérification de l\'étanchéité sont des gestes simples qui préservent votre investissement.\\n\\nLes signes à surveiller incluent les tuiles cassées, les fuites d\'eau, la mousse sur le toit et les joints dégradés. Une intervention rapide peut éviter des dégâts plus importants.', 'Découvrez pourquoi l\'entretien préventif est essentiel pour préserver votre toiture et éviter les réparations coûteuses.', 'BN BUILDING', 'Entretien', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'importance-entretien-preventif', 1, '2025-07-12 12:40:19', '5 min', '2025-08-01 12:40:19', '2025-08-01 12:40:19'),
-(5, 'Test', 'Test content', 'Test excerpt', 'BN BUILDING', 'Test', 'data:image/jpeg;base64,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', 'test', 1, '2025-08-01 14:00:46', '5 min', '2025-08-01 13:32:48', '2025-08-01 14:00:46'),
 (6, 'L\'importance de l\'isolation thermique', 'L\'isolation thermique de votre toiture peut réduire significativement vos factures d\'énergie. Découvrez pourquoi c\'est essentiel pour votre confort et vos économies.', 'Pourquoi l\'isolation thermique est essentielle pour votre confort et vos économies.', 'BN BUILDING', 'Isolation', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'importance-isolation-thermique-1', 1, '2025-07-22 13:32:48', NULL, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
 (7, 'Entretien préventif de votre toiture', 'Un entretien régulier de votre toiture prolonge sa durée de vie et évite les réparations coûteuses. Les bonnes pratiques pour maintenir votre toiture en excellent état.', 'Les bonnes pratiques pour maintenir votre toiture en excellent état.', 'BN BUILDING', 'Entretien', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'entretien-preventif-toiture-1', 1, '2025-07-17 13:32:48', NULL, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
 (8, 'L\'importance de l\'entretien préventif', 'L\'entretien préventif de votre toiture est crucial pour éviter les problèmes coûteux. Découvrez pourquoi un entretien régulier peut vous faire économiser des milliers d\'euros à long terme.\\n\\nUn entretien préventif bien planifié permet de détecter les problèmes avant qu\'ils ne deviennent graves. Les inspections régulières, le nettoyage des gouttières et la vérification de l\'étanchéité sont des gestes simples qui préservent votre investissement.\\n\\nLes signes à surveiller incluent les tuiles cassées, les fuites d\'eau, la mousse sur le toit et les joints dégradés. Une intervention rapide peut éviter des dégâts plus importants.', 'Découvrez pourquoi l\'entretien préventif est essentiel pour préserver votre toiture et éviter les réparations coûteuses.', 'BN BUILDING', 'Entretien', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'importance-entretien-preventif-1', 1, '2025-07-12 13:32:48', '5 min', '2025-08-01 13:32:48', '2025-08-01 13:32:48');
@@ -74,6 +73,13 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('couvreur-project-cache-settings_appearance', 'a:7:{s:5:\"theme\";s:5:\"light\";s:13:\"primary_color\";s:7:\"#3B82F6\";s:15:\"secondary_color\";s:7:\"#10B981\";s:8:\"language\";s:2:\"fr\";s:8:\"timezone\";s:12:\"Europe/Paris\";s:11:\"date_format\";s:5:\"d/m/Y\";s:11:\"time_format\";s:3:\"H:i\";}', 1754083619),
+('couvreur-project-cache-settings_company', 'a:8:{s:12:\"company_name\";s:12:\"BN BÂTIMENT\";s:19:\"company_description\";s:67:\"Entreprise spécialisée dans la charpente, couverture et zinguerie\";s:5:\"siret\";s:14:\"12345678901234\";s:10:\"vat_number\";s:13:\"FR12345678901\";s:12:\"founded_year\";s:4:\"2010\";s:15:\"employees_count\";s:2:\"25\";s:8:\"services\";a:4:{i:0;s:9:\"Charpente\";i:1;s:10:\"Couverture\";i:2;s:9:\"Zinguerie\";i:3;s:11:\"Rénovation\";}s:14:\"certifications\";a:3:{i:0;s:8:\"Qualibat\";i:1;s:3:\"RGE\";i:2;s:8:\"ISO 9001\";}}', 1754083619),
+('couvreur-project-cache-settings_email', 'a:8:{s:9:\"smtp_host\";s:14:\"smtp.gmail.com\";s:9:\"smtp_port\";i:587;s:13:\"smtp_username\";s:21:\"contact@bnbuilding.fr\";s:13:\"smtp_password\";s:0:\"\";s:15:\"smtp_encryption\";s:3:\"tls\";s:9:\"from_name\";s:12:\"BN BÂTIMENT\";s:10:\"from_email\";s:21:\"contact@bnbuilding.fr\";s:8:\"reply_to\";s:21:\"contact@bnbuilding.fr\";}', 1754083619),
+('couvreur-project-cache-settings_general', 'a:8:{s:9:\"site_name\";s:16:\"Couvreur Project\";s:16:\"site_description\";s:48:\"Entreprise de charpente, couverture et zinguerie\";s:13:\"contact_email\";s:21:\"contact@bnbuilding.fr\";s:13:\"contact_phone\";s:16:\"+33 1 23 45 67 8\";s:7:\"address\";s:39:\"123 Rue de la Construction, 75001 Paris\";s:13:\"working_hours\";s:28:\"Lun-Ven: 8h-18h, Sam: 9h-17h\";s:8:\"timezone\";s:12:\"Europe/Paris\";s:8:\"language\";s:2:\"fr\";}', 1754083660),
+('couvreur-project-cache-settings_notifications', 'a:7:{s:19:\"email_notifications\";b:1;s:17:\"sms_notifications\";b:0;s:12:\"quote_alerts\";b:1;s:18:\"testimonial_alerts\";b:1;s:11:\"blog_alerts\";b:0;s:14:\"contact_alerts\";b:1;s:24:\"user_registration_alerts\";b:1;}', 1754083619),
+('couvreur-project-cache-settings_security', 'a:6:{s:15:\"two_factor_auth\";b:0;s:15:\"session_timeout\";i:30;s:15:\"password_expiry\";i:90;s:14:\"login_attempts\";i:5;s:19:\"password_min_length\";i:8;s:23:\"require_strong_password\";b:1;}', 1754083619),
+('couvreur-project-cache-settings_social', 'a:5:{s:8:\"facebook\";s:31:\"https://facebook.com/bnbatiment\";s:7:\"twitter\";s:30:\"https://twitter.com/bnbatiment\";s:8:\"linkedin\";s:39:\"https://linkedin.com/company/bnbatiment\";s:9:\"instagram\";s:32:\"https://instagram.com/bnbatiment\";s:7:\"youtube\";s:30:\"https://youtube.com/bnbatiment\";}', 1754083619),
 ('laravel-cache-settings_appearance', 'a:7:{s:5:\"theme\";s:5:\"light\";s:13:\"primary_color\";s:7:\"#e01074\";s:15:\"secondary_color\";s:7:\"#10B981\";s:8:\"language\";s:2:\"fr\";s:8:\"timezone\";s:12:\"Europe/Paris\";s:11:\"date_format\";s:5:\"d/m/Y\";s:11:\"time_format\";s:3:\"H:i\";}', 1754070992),
 ('laravel-cache-settings_company', 'a:8:{s:12:\"company_name\";s:12:\"BN BÂTIMENT\";s:19:\"company_description\";s:67:\"Entreprise spécialisée dans la charpente, couverture et zinguerie\";s:5:\"siret\";s:14:\"12345678901234\";s:10:\"vat_number\";s:13:\"FR12345678901\";s:12:\"founded_year\";s:4:\"2010\";s:15:\"employees_count\";s:2:\"25\";s:8:\"services\";a:4:{i:0;s:9:\"Charpente\";i:1;s:10:\"Couverture\";i:2;s:9:\"Zinguerie\";i:3;s:11:\"Rénovation\";}s:14:\"certifications\";a:3:{i:0;s:8:\"Qualibat\";i:1;s:3:\"RGE\";i:2;s:8:\"ISO 9001\";}}', 1754070796),
 ('laravel-cache-settings_email', 'a:8:{s:9:\"smtp_host\";s:14:\"smtp.gmail.com\";s:9:\"smtp_port\";i:587;s:13:\"smtp_username\";s:21:\"contact@bnbuilding.fr\";s:13:\"smtp_password\";s:0:\"\";s:15:\"smtp_encryption\";s:3:\"tls\";s:9:\"from_name\";s:12:\"BN BÂTIMENT\";s:10:\"from_email\";s:21:\"contact@bnbuilding.fr\";s:8:\"reply_to\";s:21:\"contact@bnbuilding.fr\";}', 1754070796),
@@ -81,6 +87,44 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('laravel-cache-settings_notifications', 'a:12:{s:19:\"email_notifications\";b:1;s:17:\"sms_notifications\";b:1;s:12:\"quote_alerts\";b:1;s:18:\"testimonial_alerts\";b:1;s:11:\"blog_alerts\";b:0;s:14:\"contact_alerts\";b:1;s:24:\"user_registration_alerts\";b:1;s:11:\"quoteAlerts\";b:1;s:17:\"testimonialAlerts\";b:1;s:10:\"blogAlerts\";b:1;s:16:\"smsNotifications\";b:1;s:18:\"emailNotifications\";b:1;}', 1754070918),
 ('laravel-cache-settings_security', 'a:6:{s:15:\"two_factor_auth\";b:0;s:15:\"session_timeout\";i:30;s:15:\"password_expiry\";i:90;s:14:\"login_attempts\";i:5;s:19:\"password_min_length\";i:8;s:23:\"require_strong_password\";b:1;}', 1754070796),
 ('laravel-cache-settings_social', 'a:5:{s:8:\"facebook\";s:31:\"https://facebook.com/bnbatiment\";s:7:\"twitter\";s:30:\"https://twitter.com/bnbatiment\";s:8:\"linkedin\";s:39:\"https://linkedin.com/company/bnbatiment\";s:9:\"instagram\";s:32:\"https://instagram.com/bnbatiment\";s:7:\"youtube\";s:30:\"https://youtube.com/bnbatiment\";}', 1754070796);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat_messages`
+--
+
+CREATE TABLE `chat_messages` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  `sender_type` varchar(255) NOT NULL,
+  `sender_name` varchar(255) NOT NULL,
+  `sender_email` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'sent',
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chat_messages`
+--
+
+INSERT INTO `chat_messages` (`id`, `session_id`, `sender_type`, `sender_name`, `sender_email`, `message`, `status`, `read_at`, `created_at`, `updated_at`) VALUES
+(1, 'b0690625-40bb-4003-8f45-22fa389ff2b6', 'user', 'Test User', 'test@example.com', 'Bonjour, j\'aimerais un devis pour ma toiture.', 'read', '2025-08-01 18:44:58', '2025-08-01 18:44:21', '2025-08-01 18:44:58'),
+(2, 'b0690625-40bb-4003-8f45-22fa389ff2b6', 'admin', 'Admin', 'admin@bnbatiment.com', 'Bonjour ! Merci pour votre demande. Nous vous répondrons dans les plus brefs délais.', 'sent', NULL, '2025-08-01 18:44:21', '2025-08-01 18:44:21'),
+(3, '3748bde7-219b-4209-a1ff-8f3f4621cb98', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'aa', 'read', '2025-08-01 18:52:04', '2025-08-01 18:46:36', '2025-08-01 18:52:04'),
+(4, 'f73ab0ea-fb29-4b28-895d-a701db859975', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'ddd', 'read', '2025-08-01 18:52:27', '2025-08-01 18:52:17', '2025-08-01 18:52:27'),
+(5, 'b48fb677-462f-4817-ad90-8f741d4a6178', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:53:37', '2025-08-01 18:53:37'),
+(6, '1760e648-6cd9-4fa2-82be-08ef3ece700e', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:53:58', '2025-08-01 18:53:58'),
+(7, 'cc8ec00c-9913-4623-baa6-a48898dcec95', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:54:53', '2025-08-01 18:54:53'),
+(8, '53b3b55a-ad0c-4bd4-a0a2-438d522b0373', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:55:17', '2025-08-01 18:55:17'),
+(9, '5ed6356f-b521-48ed-9b96-f670de183d5b', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:56:02', '2025-08-01 18:56:02'),
+(10, 'c7cd8bc4-7426-4cc8-95b5-aad9dd22af7d', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:56:50', '2025-08-01 18:56:50'),
+(11, '3ed7211d-1fd9-49d8-94df-2383580c2904', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'sss', 'read', '2025-08-01 18:57:50', '2025-08-01 18:57:38', '2025-08-01 18:57:50'),
+(12, '3ed7211d-1fd9-49d8-94df-2383580c2904', 'admin', 'Admin', 'admin@bnbatiment.com', 'ok', 'sent', NULL, '2025-08-01 18:57:55', '2025-08-01 18:57:55'),
+(13, '01644f74-25eb-4000-9d67-8493bdeb814a', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'dddddddd', 'sent', NULL, '2025-08-01 21:26:17', '2025-08-01 21:26:17');
 
 -- --------------------------------------------------------
 
@@ -97,6 +141,7 @@ CREATE TABLE `contact_messages` (
   `message` text NOT NULL,
   `status` enum('unread','read','replied') DEFAULT 'unread',
   `admin_response` text DEFAULT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -105,10 +150,33 @@ CREATE TABLE `contact_messages` (
 -- Dumping data for table `contact_messages`
 --
 
-INSERT INTO `contact_messages` (`id`, `name`, `email`, `phone`, `subject`, `message`, `status`, `admin_response`, `created_at`, `updated_at`) VALUES
-(1, 'Laurence Martin', 'laurence.martin@email.fr', '0123456789', 'Demande de renseignements', 'Bonjour, je souhaite des informations sur vos services de couverture. Pouvez-vous me rappeler ?', 'unread', NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(2, 'Thomas Bernard', 'thomas.bernard@email.fr', '0987654321', 'Devis gratuit', 'Bonjour, j\'aimerais un devis gratuit pour la réparation de ma toiture. Merci de me contacter.', 'unread', NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(3, 'Nathalie Durand', 'nathalie.durand@email.fr', '0555666777', 'Question technique', 'J\'ai une question technique concernant l\'isolation de ma toiture. Pouvez-vous me conseiller ?', 'unread', NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04');
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `phone`, `subject`, `message`, `status`, `admin_response`, `session_id`, `created_at`, `updated_at`) VALUES
+(1, 'Laurence Martin', 'laurence.martin@email.fr', '0123456789', 'Demande de renseignements', 'Bonjour, je souhaite des informations sur vos services de couverture. Pouvez-vous me rappeler ?', 'unread', NULL, NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(2, 'Thomas Bernard', 'thomas.bernard@email.fr', '0987654321', 'Devis gratuit', 'Bonjour, j\'aimerais un devis gratuit pour la réparation de ma toiture. Merci de me contacter.', 'unread', NULL, NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(3, 'Nathalie Durand', 'nathalie.durand@email.fr', '0555666777', 'Question technique', 'J\'ai une question technique concernant l\'isolation de ma toiture. Pouvez-vous me conseiller ?', 'unread', NULL, NULL, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(4, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Demande de devis - installation', 'hi', 'unread', NULL, NULL, '2025-08-01 18:02:00', '2025-08-01 18:02:00'),
+(5, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Demande de devis - installation', 'hi', 'unread', NULL, NULL, '2025-08-01 18:04:32', '2025-08-01 18:04:32'),
+(6, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Demande de devis - installation', 'hi', 'unread', NULL, NULL, '2025-08-01 18:06:56', '2025-08-01 18:06:56'),
+(7, 'Test User', 'test@example.com', '07 80 32 64 27', 'Test - Demande de devis', 'Bonjour, j\'aimerais un devis pour ma toiture.', 'unread', NULL, 'b0690625-40bb-4003-8f45-22fa389ff2b6', '2025-08-01 18:44:21', '2025-08-01 18:44:21'),
+(8, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'aa', 'unread', NULL, '3748bde7-219b-4209-a1ff-8f3f4621cb98', '2025-08-01 18:46:36', '2025-08-01 18:46:36'),
+(9, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'ddd', 'unread', NULL, 'f73ab0ea-fb29-4b28-895d-a701db859975', '2025-08-01 18:52:17', '2025-08-01 18:52:17'),
+(10, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, 'b48fb677-462f-4817-ad90-8f741d4a6178', '2025-08-01 18:53:37', '2025-08-01 18:53:37'),
+(11, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, '1760e648-6cd9-4fa2-82be-08ef3ece700e', '2025-08-01 18:53:58', '2025-08-01 18:53:58'),
+(12, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, 'cc8ec00c-9913-4623-baa6-a48898dcec95', '2025-08-01 18:54:53', '2025-08-01 18:54:53'),
+(13, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, '53b3b55a-ad0c-4bd4-a0a2-438d522b0373', '2025-08-01 18:55:17', '2025-08-01 18:55:17'),
+(14, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, '5ed6356f-b521-48ed-9b96-f670de183d5b', '2025-08-01 18:56:02', '2025-08-01 18:56:02'),
+(15, 'Test User', 'test@example.com', '07 80 32 64 27', 'Demande de devis - Test Service', 'This is a test message', 'unread', NULL, 'c7cd8bc4-7426-4cc8-95b5-aad9dd22af7d', '2025-08-01 18:56:50', '2025-08-01 18:56:50'),
+(16, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'sss', 'unread', NULL, '3ed7211d-1fd9-49d8-94df-2383580c2904', '2025-08-01 18:57:38', '2025-08-01 18:57:38'),
+(17, 'Test User', 'test@example.com', '0123456789', 'Test Message', 'This is a test message for the admin panel.', 'unread', NULL, NULL, '2025-08-01 19:09:12', '2025-08-01 19:09:12'),
+(18, 'Jean Dupont', 'jean.dupont@example.com', '01 23 45 67 89', 'Demande de devis pour charpente', 'Bonjour, je souhaite obtenir un devis pour la construction d\'une charpente traditionnelle pour ma maison. Pouvez-vous me contacter ?', 'unread', NULL, NULL, '2025-08-01 19:10:06', '2025-08-01 19:10:06'),
+(19, 'Marie Martin', 'marie.martin@example.com', '06 12 34 56 78', 'Réparation de toiture', 'J\'ai besoin d\'une réparation urgente de ma toiture suite aux dernières intempéries. Merci de me rappeler rapidement.', 'read', NULL, NULL, '2025-08-01 19:10:06', '2025-08-01 19:10:06'),
+(20, 'Pierre Durand', 'pierre.durand@example.com', '04 56 78 90 12', 'Installation de zinguerie', 'Je recherche un professionnel pour l\'installation de zinguerie sur ma maison. Pouvez-vous me faire un devis ?', 'replied', NULL, NULL, '2025-08-01 19:10:06', '2025-08-01 19:10:06'),
+(21, 'Sophie Bernard', 'sophie.bernard@example.com', '02 34 56 78 90', 'Maintenance préventive', 'Je souhaite mettre en place un contrat de maintenance préventive pour ma toiture. Quelles sont vos prestations ?', 'unread', NULL, NULL, '2025-08-01 19:10:06', '2025-08-01 19:10:06'),
+(22, 'Jean Dupont', 'jean.dupont@example.com', '01 23 45 67 89', 'Demande de devis pour charpente', 'Bonjour, je souhaite obtenir un devis pour la construction d\'une charpente traditionnelle pour ma maison. Pouvez-vous me contacter ?', 'read', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:12:31'),
+(24, 'Pierre Durand', 'pierre.durand@example.com', '04 56 78 90 12', 'Installation de zinguerie', 'Je recherche un professionnel pour l\'installation de zinguerie sur ma maison. Pouvez-vous me faire un devis ?', 'replied', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
+(25, 'Sophie Bernard', 'sophie.bernard@example.com', '02 34 56 78 90', 'Maintenance préventive', 'Je souhaite mettre en place un contrat de maintenance préventive pour ma toiture. Quelles sont vos prestations ?', 'unread', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
+(26, 'Lucas Petit', 'lucas.petit@example.com', '03 45 67 89 01', 'Rénovation complète', 'Bonjour, j\'envisage une rénovation complète de ma toiture. Pouvez-vous me proposer un rendez-vous pour une visite ?', 'read', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
+(27, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'dddddddd', 'replied', 'aaa', '01644f74-25eb-4000-9d67-8493bdeb814a', '2025-08-01 21:26:17', '2025-08-01 21:26:42');
 
 -- --------------------------------------------------------
 
@@ -120,7 +188,7 @@ CREATE TABLE `gallery_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
-  `image` longtext DEFAULT NULL,
+  `image` longtext NOT NULL,
   `category` varchar(255) NOT NULL,
   `sort_order` int(11) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
@@ -139,7 +207,7 @@ INSERT INTO `gallery_items` (`id`, `title`, `description`, `image`, `category`, 
 (4, 'Toiture moderne', 'Toiture moderne avec matériaux innovants', 'gallery/modern-roof-1.jpg', 'Couverture', 4, 1, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
 (5, 'Rénovation complète', 'Rénovation complète d\'une toiture ancienne', 'gallery/renovation-1.jpg', 'Rénovation', 5, 1, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
 (6, 'Entretien préventif', 'Service d\'entretien préventif sur toiture', 'gallery/maintenance-1.jpg', 'Maintenance', 6, 1, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(7, 'Rénovation Toiture Tuiles', 'Rénovation complète d\'une toiture en tuiles avec isolation thermique', 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop', 'Charpente', 1, 1, '2025-08-01 12:27:57', '2025-08-01 12:27:57'),
+(7, 'Rénovation Toiture Tuiles', 'Rénovation complète d\'une toiture en tuiles avec isolation thermique', 'data:image/jpeg;base64,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', 'Charpente', 1, 1, '2025-08-01 12:27:57', '2025-08-01 17:23:04'),
 (8, 'Installation Zinc', 'Installation de zinguerie en zinc avec système d\'évacuation', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop', 'Zinguerie', 2, 1, '2025-08-01 12:27:57', '2025-08-01 12:27:57'),
 (9, 'Réparation Gouttières', 'Réparation et remplacement de gouttières endommagées', 'https://images.unsplash.com/photo-1581578731548-7f23fd1e3c6d?w=800&h=600&fit=crop', 'Couverture', 3, 1, '2025-08-01 12:27:57', '2025-08-01 12:27:57'),
 (10, 'Isolation Thermique', 'Isolation thermique de toiture avec matériaux performants', 'https://images.unsplash.com/photo-1581578731548-8f23fd1e3c6d?w=800&h=600&fit=crop', 'Charpente', 4, 1, '2025-08-01 12:27:57', '2025-08-01 12:27:57'),
@@ -196,7 +264,55 @@ CREATE TABLE `migrations` (
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2025_08_01_151240_add_read_time_to_blog_posts_table', 1),
-(2, '2025_08_01_151819_update_blog_posts_image_column', 2);
+(2, '2025_08_01_151819_update_blog_posts_image_column', 2),
+(5, '2025_08_01_160000_create_chat_messages_table', 3),
+(6, '2025_08_01_153319_update_gallery_items_image_column', 4),
+(10, '2025_08_01_114003_create_notifications_table', 5),
+(11, '2025_08_01_224128_remove_icon_from_services_table', 6),
+(12, '2025_08_01_133034_create_personal_access_tokens_table', 7),
+(13, '2025_08_01_151358_create_personal_access_tokens_table', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `type` varchar(255) NOT NULL DEFAULT 'info',
+  `category` varchar(255) DEFAULT NULL,
+  `related_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `related_type` varchar(255) DEFAULT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `title`, `message`, `type`, `category`, `related_id`, `related_type`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
+(1, 'Nouvelle demande de devis', 'Une nouvelle demande de devis a été reçue de Jean Dupont pour des travaux de couverture.', 'info', 'quotes', NULL, NULL, 0, NULL, '2025-08-01 19:21:11', '2025-08-01 19:26:11'),
+(2, 'Nouveau message de contact', 'Un nouveau message a été reçu de Marie Martin concernant vos services.', 'info', 'contact', NULL, NULL, 0, NULL, '2025-08-01 19:11:11', '2025-08-01 19:26:11'),
+(3, 'Service mis à jour', 'Le service \"Installation de couverture\" a été mis à jour avec de nouvelles informations.', 'success', 'services', NULL, NULL, 1, NULL, '2025-08-01 17:26:11', '2025-08-01 19:26:11'),
+(4, 'Nouvel article publié', 'Un nouvel article \"Les tendances de la couverture en 2024\" a été publié sur le blog.', 'success', 'blog', NULL, NULL, 0, NULL, '2025-08-01 15:26:11', '2025-08-01 19:26:11'),
+(5, 'Nouveau témoignage reçu', 'Un nouveau témoignage a été reçu de Pierre Durand pour vos services de zinguerie.', 'success', 'testimonials', NULL, NULL, 1, NULL, '2025-08-01 13:26:11', '2025-08-01 19:26:11'),
+(6, 'Image ajoutée à la galerie', 'Une nouvelle image \"Travaux de charpente\" a été ajoutée à la galerie.', 'info', 'gallery', NULL, NULL, 0, NULL, '2025-08-01 11:26:11', '2025-08-01 19:26:11'),
+(7, 'Maintenance du système', 'Le système sera en maintenance demain de 2h à 4h du matin.', 'warning', 'system', NULL, NULL, 0, NULL, '2025-08-01 07:26:11', '2025-08-01 19:26:11'),
+(8, 'Erreur de sauvegarde', 'Une erreur est survenue lors de la sauvegarde automatique des données.', 'error', 'system', NULL, NULL, 0, NULL, '2025-07-31 19:26:11', '2025-08-01 19:26:11'),
+(9, 'Service mis à jour', 'Service mis à jour: Test Service Updated', 'success', 'services', 1, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:35:38', '2025-08-01 19:35:38'),
+(10, 'Service mis à jour', 'Service mis à jour: Teest Service Updated', 'success', 'services', 1, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:38:59', '2025-08-01 19:38:59'),
+(11, 'Service mis à jour', 'Service mis à jour: Test Service Updated', 'success', 'services', 1, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:39:24', '2025-08-01 19:39:24'),
+(12, 'Service supprimé', 'Service supprimé: Test Service Updated', 'warning', 'services', 1, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:43:24', '2025-08-01 19:43:24'),
+(13, 'Service supprimé', 'Service supprimé: Charpente Bois', 'warning', 'services', 2, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:45:59', '2025-08-01 19:45:59'),
+(14, 'Service supprimé', 'Service supprimé: Installation Électrique', 'warning', 'services', 4, 'App\\Models\\Service', 0, NULL, '2025-08-01 20:37:07', '2025-08-01 20:37:07'),
+(15, 'Nouveau service créé', 'Nouveau service créé: 1', 'success', 'services', 12, 'App\\Models\\Service', 0, NULL, '2025-08-01 21:23:37', '2025-08-01 21:23:37'),
+(16, 'Service supprimé', 'Service supprimé: 1', 'warning', 'services', 12, 'App\\Models\\Service', 0, NULL, '2025-08-01 21:25:06', '2025-08-01 21:25:06');
 
 -- --------------------------------------------------------
 
@@ -241,7 +357,22 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (5, 'App\\Models\\User', 2, 'auth-token', 'd80ef40ec31340ca179678a513141166def8cc4b870d596aac0198f4668ef94a', '[\"*\"]', '2025-08-01 13:42:41', NULL, '2025-08-01 13:34:57', '2025-08-01 13:42:41'),
 (6, 'App\\Models\\User', 2, 'auth-token', '3d813e10b645c3cf02a0a3b86c52555689afad31862dfa9b8f9ac0ebd102fe11', '[\"*\"]', '2025-08-01 13:56:39', NULL, '2025-08-01 13:43:04', '2025-08-01 13:56:39'),
 (7, 'App\\Models\\User', 2, 'auth-token', 'c599921834a93cf33809f4c59c4039ee30f02c4888c3ecef488b793510448f6f', '[\"*\"]', '2025-08-01 14:07:17', NULL, '2025-08-01 13:56:41', '2025-08-01 14:07:17'),
-(9, 'App\\Models\\User', 2, 'auth-token', '603e7347a2931fbc16fb21734ef58057850a933d03b0a1e3ce5189da9dfb3a7e', '[\"*\"]', '2025-08-01 16:41:55', NULL, '2025-08-01 14:23:05', '2025-08-01 16:41:55');
+(9, 'App\\Models\\User', 2, 'auth-token', '603e7347a2931fbc16fb21734ef58057850a933d03b0a1e3ce5189da9dfb3a7e', '[\"*\"]', '2025-08-01 17:49:49', NULL, '2025-08-01 14:23:05', '2025-08-01 17:49:49'),
+(10, 'App\\Models\\User', 2, 'auth-token', 'a844ba07e50568da6d31a9b76a02825da3ea28893b5c70184f7a1654229bb3db', '[\"*\"]', NULL, NULL, '2025-08-01 18:07:05', '2025-08-01 18:07:05'),
+(11, 'App\\Models\\User', 2, 'auth-token', 'd59df6142fc01b91b2a6b57bbdf1230edb66ae7a58ed80334eb9c045e5d4af59', '[\"*\"]', '2025-08-01 18:09:04', NULL, '2025-08-01 18:07:24', '2025-08-01 18:09:04'),
+(12, 'App\\Models\\User', 2, 'auth-token', '5974408c133af0f7ae59c10837a032d4a340c5b0b6d73f2ef0f8296c6846ce1b', '[\"*\"]', NULL, NULL, '2025-08-01 18:15:44', '2025-08-01 18:15:44'),
+(13, 'App\\Models\\User', 2, 'auth-token', 'b25e70af6d9b29bdb5b8983630f75fec893cc0f9d301f77c79abdd6e70f4f52d', '[\"*\"]', NULL, NULL, '2025-08-01 18:22:51', '2025-08-01 18:22:51'),
+(14, 'App\\Models\\User', 2, 'auth-token', '0aae84c8dd4e773ccb9c8f77f4190c1c284bdf2b8c7564edb043e7d97f364a4b', '[\"*\"]', '2025-08-01 18:23:00', NULL, '2025-08-01 18:22:57', '2025-08-01 18:23:00'),
+(15, 'App\\Models\\User', 2, 'auth-token', '3fa73cee0037d74cf504938c14c97ce165eb56cabdbc3f5f5d4f150373ad0e2e', '[\"*\"]', NULL, NULL, '2025-08-01 18:27:33', '2025-08-01 18:27:33'),
+(16, 'App\\Models\\User', 2, 'auth-token', '11806524d0af26a3c09c8a43e9dbfc6b0560464ec9b5d374c0f382684b29750e', '[\"*\"]', '2025-08-01 19:00:10', NULL, '2025-08-01 18:30:13', '2025-08-01 19:00:10'),
+(17, 'App\\Models\\User', 2, 'auth-token', 'a9f45d3d3e2eb1b64a7887978d9ef5366e207f8aca0ca64ee141fb0840777675', '[\"*\"]', NULL, NULL, '2025-08-01 18:31:15', '2025-08-01 18:31:15'),
+(18, 'App\\Models\\User', 2, 'auth-token', '3e78e54d457c4860540972a03e46e3a4f05a769899b67e250681d2b2c9c340b2', '[\"*\"]', '2025-08-01 19:12:57', NULL, '2025-08-01 19:01:09', '2025-08-01 19:12:57'),
+(19, 'App\\Models\\User', 2, 'auth-token', 'f267d766dd5a5ff6c98caf3dba5c17eb15a6ce044276867485476d49233d2d0e', '[\"*\"]', '2025-08-01 19:56:52', NULL, '2025-08-01 19:14:36', '2025-08-01 19:56:52'),
+(20, 'App\\Models\\User', 2, 'auth-token', 'f5dc3818ea2f69520cd15f5a473360a5c2bf31926d37a444a14799561481c6f2', '[\"*\"]', '2025-08-01 19:58:38', NULL, '2025-08-01 19:56:56', '2025-08-01 19:58:38'),
+(21, 'App\\Models\\User', 2, 'auth-token', '0e31e65459946958426bb39c85cbb760e52eb7eb2d802c6de9a4fdb1f57c390f', '[\"*\"]', '2025-08-01 20:02:23', NULL, '2025-08-01 20:01:22', '2025-08-01 20:02:23'),
+(22, 'App\\Models\\User', 2, 'auth-token', '5d93313919f332d91b39ee043160bfe36ab814c22f1f3dc48fc9971c575dfe5c', '[\"*\"]', '2025-08-01 20:06:20', NULL, '2025-08-01 20:02:53', '2025-08-01 20:06:20'),
+(23, 'App\\Models\\User', 2, 'auth-token', '7c266de8e01da4496c7f5c33e7b0b51ae1695eb9d215ac3ad556f72a46186947', '[\"*\"]', '2025-08-01 20:09:13', NULL, '2025-08-01 20:07:26', '2025-08-01 20:09:13'),
+(26, 'App\\Models\\User', 2, 'auth-token', '9c56dbd5ea4bd73590934706e1148c113afa639f7e61d1dd8ed5e57a2a484064', '[\"*\"]', '2025-08-01 21:30:44', NULL, '2025-08-01 20:51:34', '2025-08-01 21:30:44');
 
 -- --------------------------------------------------------
 
@@ -294,7 +425,6 @@ CREATE TABLE `services` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `long_description` text NOT NULL,
-  `icon` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `category` varchar(255) NOT NULL,
   `duration` varchar(255) NOT NULL,
@@ -314,17 +444,14 @@ CREATE TABLE `services` (
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `title`, `description`, `long_description`, `icon`, `slug`, `category`, `duration`, `price_range`, `features`, `sub_services`, `materials`, `advantages`, `image`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Couverture Traditionnelle', 'Installation et réparation de toitures traditionnelles', 'Service complet de couverture traditionnelle incluant l\'installation, la réparation et l\'entretien des toitures en tuiles, ardoises et autres matériaux traditionnels.', 'roof-icon', 'couverture-traditionnelle', 'Couverture', '2-4 semaines', '5000-15000€', '[\"Installation complète\", \"Réparation\", \"Entretien\", \"Garantie 10 ans\"]', '[\"Pose de tuiles\", \"Pose d\'ardoises\", \"Réparation de fuites\", \"Remplacement de tuiles\"]', '[\"Tuiles terre cuite\", \"Ardoises naturelles\", \"Lattes bois\", \"Clous cuivre\"]', '[\"Durabilité\", \"Esthétique traditionnelle\", \"Isolation thermique\", \"Résistance aux intempéries\"]', NULL, 1, 1, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(2, 'Charpente Bois', 'Construction et réparation de charpentes en bois', 'Fabrication et installation de charpentes en bois massif, réparation et renforcement des structures existantes.', 'wood-icon', 'charpente-bois', 'Charpente', '3-6 semaines', '8000-25000€', '[\"Conception sur mesure\", \"Fabrication\", \"Installation\", \"Garantie 15 ans\"]', '[\"Charpente traditionnelle\", \"Charpente moderne\", \"Renforcement\", \"Restauration\"]', '[\"Bois massif\", \"Fermettes\", \"Poutres\", \"Connecteurs\"]', '[\"Solidité\", \"Esthétique\", \"Durabilité\", \"Écologique\"]', NULL, 1, 2, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(3, 'Zinguerie', 'Installation et réparation de zinguerie', 'Pose et réparation de tous types de zinguerie pour assurer l\'étanchéité et l\'évacuation des eaux pluviales.', 'zinc-icon', 'zinguerie', 'Zinguerie', '1-2 semaines', '2000-8000€', '[\"Pose complète\", \"Réparation\", \"Entretien\", \"Garantie 5 ans\"]', '[\"Gouttières\", \"Descentes\", \"Chéneaux\", \"Solin\"]', '[\"Zinc\", \"Aluminium\", \"PVC\", \"Cuivre\"]', '[\"Étanchéité\", \"Durabilité\", \"Esthétique\", \"Facilité d\'entretien\"]', NULL, 1, 3, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(4, 'Installation Électrique', 'Installation électrique pour toitures', 'Installation de systèmes électriques pour toitures incluant l\'éclairage, les prises et les systèmes de sécurité.', 'electric-icon', 'installation-electrique', 'Électricité', '1-3 semaines', '3000-12000€', '[\"Installation complète\", \"Mise aux normes\", \"Maintenance\", \"Garantie 5 ans\"]', '[\"Éclairage\", \"Prises\", \"Systèmes de sécurité\", \"Mise aux normes\"]', '[\"Câbles\", \"Interrupteurs\", \"Prises\", \"Tableaux électriques\"]', '[\"Sécurité\", \"Conformité\", \"Fiabilité\", \"Maintenance facile\"]', NULL, 1, 4, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(5, 'Maintenance Préventive', 'Entretien préventif des toitures', 'Service d\'entretien préventif pour maintenir l\'état optimal de votre toiture et éviter les réparations coûteuses.', 'maintenance-icon', 'maintenance-preventive', 'Maintenance', '1 jour - 1 semaine', '500-3000€', '[\"Inspection complète\", \"Nettoyage\", \"Petites réparations\", \"Rapport détaillé\"]', '[\"Inspection\", \"Nettoyage\", \"Petites réparations\", \"Conseils\"]', '[\"Outils d\'inspection\", \"Produits de nettoyage\", \"Matériaux de réparation\"]', '[\"Prévention\", \"Économies\", \"Durabilité\", \"Tranquillité\"]', NULL, 1, 5, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(6, 'Réparation d\'Urgence', 'Réparation rapide des dommages', 'Service d\'urgence pour réparer rapidement les dommages causés par les intempéries ou autres événements.', 'emergency-icon', 'reparation-urgence', 'Réparation', '1-3 jours', '1000-8000€', '[\"Intervention rapide\", \"Diagnostic\", \"Réparation\", \"Garantie\"]', '[\"Réparation de fuites\", \"Remplacement de tuiles\", \"Réparation de gouttières\", \"Sécurisation\"]', '[\"Matériaux de réparation\", \"Outils\", \"Équipements de sécurité\"]', '[\"Rapidité\", \"Efficacité\", \"Sécurité\", \"Fiabilité\"]', NULL, 1, 6, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(7, 'Extras et Finitions', 'Services complémentaires', 'Services additionnels pour compléter vos travaux de toiture avec des finitions de qualité.', 'finishing-icon', 'extras-finitions', 'Finitions', 'Variable', '500-5000€', '[\"Finitions\", \"Détails\", \"Personnalisation\", \"Qualité\"]', '[\"Finitions\", \"Détails architecturaux\", \"Personnalisation\", \"Décoration\"]', '[\"Matériaux de finition\", \"Outils\", \"Accessoires\"]', '[\"Esthétique\", \"Personnalisation\", \"Qualité\", \"Valeur ajoutée\"]', NULL, 1, 7, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
-(8, 'Installation', 'Installation complète de toitures neuves', 'Installation complète de toitures pour constructions neuves. Nous prenons en charge l\'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.', '🔨', 'installation', 'Construction', '3-12 semaines', 'À partir de 25 000€', '[\"Installation compl\\u00e8te de charpente\",\"Pose de couverture\",\"Installation de zinguerie\",\"Isolation thermique\",\"Fen\\u00eatres de toit\",\"Finitions int\\u00e9rieures\"]', '[{\"name\":\"Installation Compl\\u00e8te\",\"description\":\"Charpente + Couverture + Zinguerie\",\"price\":\"\\u00c0 partir de 25 000\\u20ac\",\"duration\":\"6-12 semaines\"},{\"name\":\"Installation Partielle\",\"description\":\"Couverture + Zinguerie\",\"price\":\"\\u00c0 partir de 15 000\\u20ac\",\"duration\":\"3-6 semaines\"}]', '[\"Bois\",\"Tuiles\",\"Zinc\",\"Isolants\",\"Accessoires\"]', '[\"Installation compl\\u00e8te\",\"Coordination des corps d\'\\u00e9tat\",\"Respect des d\\u00e9lais\",\"Garantie d\\u00e9cennale\",\"Suivi de chantier\",\"R\\u00e9ception des travaux\"]', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 1, 1, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
-(9, 'Réparation', 'Réparation et dépannage de toitures', 'Service de réparation et dépannage pour tous types de problèmes de toiture. Intervention rapide pour résoudre les fuites, les dégâts et les problèmes d\'étanchéité.', '🔧', 'reparation', 'Maintenance', '1 jour - 1 semaine', 'À partir de 500€', '[\"R\\u00e9paration de fuites\",\"Remplacement de tuiles\",\"R\\u00e9paration de goutti\\u00e8res\",\"Raccordements d\'urgence\",\"Diagnostic de probl\\u00e8mes\",\"Intervention rapide\"]', '[{\"name\":\"R\\u00e9paration d\'Urgence\",\"description\":\"Intervention rapide pour fuites\",\"price\":\"\\u00c0 partir de 500\\u20ac\",\"duration\":\"1 jour\"},{\"name\":\"R\\u00e9paration Standard\",\"description\":\"R\\u00e9parations programm\\u00e9es\",\"price\":\"\\u00c0 partir de 1 000\\u20ac\",\"duration\":\"2-5 jours\"}]', '[\"Tuiles de remplacement\",\"Zinc\",\"Mastics\",\"Accessoires\"]', '[\"Intervention d\'urgence\",\"Diagnostic gratuit\",\"R\\u00e9paration garantie\",\"Prix transparents\",\"\\u00c9quipe disponible\",\"Service 7j\\/7\"]', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 1, 2, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
-(10, 'Entretien', 'Entretien et maintenance préventive', 'Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.', '🛠️', 'entretien', 'Entretien', '1-3 jours', 'À partir de 300€', '[\"Inspection annuelle\",\"Nettoyage des goutti\\u00e8res\",\"V\\u00e9rification de l\'\\u00e9tanch\\u00e9it\\u00e9\",\"Entretien des accessoires\",\"Rapport d\\u00e9taill\\u00e9\",\"Conseils personnalis\\u00e9s\"]', '[{\"name\":\"Entretien Annuel\",\"description\":\"Inspection compl\\u00e8te et nettoyage\",\"price\":\"\\u00c0 partir de 300\\u20ac\",\"duration\":\"1 jour\"},{\"name\":\"Entretien Bisannuel\",\"description\":\"Entretien deux fois par an\",\"price\":\"\\u00c0 partir de 500\\u20ac\",\"duration\":\"2 jours\"}]', '[\"Produits de nettoyage\",\"Accessoires de remplacement\"]', '[\"Pr\\u00e9vention des probl\\u00e8mes\",\"Prolongation de la dur\\u00e9e de vie\",\"\\u00c9conomies \\u00e0 long terme\",\"Tranquillit\\u00e9 d\'esprit\",\"Service personnalis\\u00e9\",\"Garantie de satisfaction\"]', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 1, 3, '2025-08-01 13:32:48', '2025-08-01 13:32:48');
+INSERT INTO `services` (`id`, `title`, `description`, `long_description`, `slug`, `category`, `duration`, `price_range`, `features`, `sub_services`, `materials`, `advantages`, `image`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES
+(3, 'Zinguerie', 'Installation et réparation de zinguerie', 'Pose et réparation de tous types de zinguerie pour assurer l\'étanchéité et l\'évacuation des eaux pluviales.', 'zinguerie', 'Zinguerie', '1-2 semaines', '2000-8000€', '[\"Pose complète\", \"Réparation\", \"Entretien\", \"Garantie 5 ans\"]', '[\"Gouttières\", \"Descentes\", \"Chéneaux\", \"Solin\"]', '[\"Zinc\", \"Aluminium\", \"PVC\", \"Cuivre\"]', '[\"Étanchéité\", \"Durabilité\", \"Esthétique\", \"Facilité d\'entretien\"]', NULL, 1, 3, '2025-08-01 11:57:04', '2025-08-01 20:56:47'),
+(5, 'Maintenance Préventive', 'Entretien préventif des toitures', 'Service d\'entretien préventif pour maintenir l\'état optimal de votre toiture et éviter les réparations coûteuses.', 'maintenance-preventive', 'Maintenance', '1 jour - 1 semaine', '500-3000€', '[\"Inspection complète\", \"Nettoyage\", \"Petites réparations\", \"Rapport détaillé\"]', '[\"Inspection\", \"Nettoyage\", \"Petites réparations\", \"Conseils\"]', '[\"Outils d\'inspection\", \"Produits de nettoyage\", \"Matériaux de réparation\"]', '[\"Prévention\", \"Économies\", \"Durabilité\", \"Tranquillité\"]', NULL, 1, 5, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(6, 'Réparation d\'Urgence', 'Réparation rapide des dommages', 'Service d\'urgence pour réparer rapidement les dommages causés par les intempéries ou autres événements.', 'reparation-urgence', 'Réparation', '1-3 jours', '1000-8000€', '[\"Intervention rapide\", \"Diagnostic\", \"Réparation\", \"Garantie\"]', '[\"Réparation de fuites\", \"Remplacement de tuiles\", \"Réparation de gouttières\", \"Sécurisation\"]', '[\"Matériaux de réparation\", \"Outils\", \"Équipements de sécurité\"]', '[\"Rapidité\", \"Efficacité\", \"Sécurité\", \"Fiabilité\"]', NULL, 1, 6, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(7, 'Extras et Finitions', 'Services complémentaires', 'Services additionnels pour compléter vos travaux de toiture avec des finitions de qualité.', 'extras-finitions', 'Finitions', 'Variable', '500-5000€', '[\"Finitions\", \"Détails\", \"Personnalisation\", \"Qualité\"]', '[\"Finitions\", \"Détails architecturaux\", \"Personnalisation\", \"Décoration\"]', '[\"Matériaux de finition\", \"Outils\", \"Accessoires\"]', '[\"Esthétique\", \"Personnalisation\", \"Qualité\", \"Valeur ajoutée\"]', NULL, 1, 7, '2025-08-01 11:57:04', '2025-08-01 11:57:04'),
+(8, 'Test Updated Service', 'Installation complète de toitures neuves', 'Installation complète de toitures pour constructions neuves. Nous prenons en charge l\'ensemble du projet, de la charpente à la couverture, en passant par la zinguerie.', 'test-updated-service', 'Construction', '3-12 semaines', 'À partir de 25 000€', '[]', '[]', '[]', '[]', '/uploads/services/1754093808_images.jpg', 1, 1, '2025-08-01 13:32:48', '2025-08-01 21:16:48'),
+(9, 'Test Updated Service', 'Test description', 'Test long description', 'test-service', 'Test', '1 day', '100-200', '[]', '[]', '[]', '[]', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 1, 2, '2025-08-01 13:32:48', '2025-08-01 20:46:21'),
+(10, 'Entretien', 'Entretien et maintenance préventive', 'Service de maintenance préventive pour prolonger la durée de vie de votre toiture. Inspections régulières, nettoyage et entretien pour éviter les problèmes futurs.', 'entretien', 'Entretien', '1-3 jours', 'À partir de 300€', '[\"Inspection annuelle\",\"Nettoyage des goutti\\u00e8res\",\"V\\u00e9rification de l\'\\u00e9tanch\\u00e9it\\u00e9\",\"Entretien des accessoires\",\"Rapport d\\u00e9taill\\u00e9\",\"Conseils personnalis\\u00e9s\"]', '[{\"name\":\"Entretien Annuel\",\"description\":\"Inspection compl\\u00e8te et nettoyage\",\"price\":\"\\u00c0 partir de 300\\u20ac\",\"duration\":\"1 jour\"},{\"name\":\"Entretien Bisannuel\",\"description\":\"Entretien deux fois par an\",\"price\":\"\\u00c0 partir de 500\\u20ac\",\"duration\":\"2 jours\"}]', '[\"Produits de nettoyage\",\"Accessoires de remplacement\"]', '[\"Pr\\u00e9vention des probl\\u00e8mes\",\"Prolongation de la dur\\u00e9e de vie\",\"\\u00c9conomies \\u00e0 long terme\",\"Tranquillit\\u00e9 d\'esprit\",\"Service personnalis\\u00e9\",\"Garantie de satisfaction\"]', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 1, 3, '2025-08-01 13:32:48', '2025-08-01 13:32:48');
 
 -- --------------------------------------------------------
 
@@ -375,7 +502,11 @@ INSERT INTO `testimonials` (`id`, `name`, `location`, `content`, `rating`, `imag
 (9, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 11:46:15', '2025-08-01 11:46:15'),
 (10, 'Marie Dubois', 'Lyon', 'Excellent service ! L\'équipe a été professionnelle du début à la fin. Notre nouvelle toiture est magnifique et l\'installation s\'est déroulée parfaitement.', 5, NULL, 1, 1, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
 (11, 'Pierre Martin', 'Marseille', 'Intervention rapide et efficace pour réparer une fuite urgente. Prix honnêtes et travail de qualité. Je recommande vivement !', 5, NULL, 1, 2, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
-(12, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 13:32:48', '2025-08-01 13:32:48');
+(12, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
+(13, 'a', 'a', 'a', 5, NULL, 1, 0, '2025-08-01 17:25:26', '2025-08-01 17:25:26'),
+(14, 'Marie Dubois', 'Lyon', 'Excellent service ! L\'équipe a été professionnelle du début à la fin. Notre nouvelle toiture est magnifique et l\'installation s\'est déroulée parfaitement.', 5, NULL, 1, 1, '2025-08-01 17:57:32', '2025-08-01 17:57:32'),
+(15, 'Pierre Martin', 'Marseille', 'Intervention rapide et efficace pour réparer une fuite urgente. Prix honnêtes et travail de qualité. Je recommande vivement !', 5, NULL, 1, 2, '2025-08-01 17:57:32', '2025-08-01 17:57:32'),
+(16, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 17:57:32', '2025-08-01 17:57:32');
 
 -- --------------------------------------------------------
 
@@ -425,12 +556,21 @@ ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`);
 
 --
+-- Indexes for table `chat_messages`
+--
+ALTER TABLE `chat_messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `chat_messages_session_id_created_at_index` (`session_id`,`created_at`),
+  ADD KEY `chat_messages_session_id_index` (`session_id`);
+
+--
 -- Indexes for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_contact_messages_status` (`status`),
-  ADD KEY `idx_contact_messages_email` (`email`);
+  ADD KEY `idx_contact_messages_email` (`email`),
+  ADD KEY `contact_messages_session_id_index` (`session_id`);
 
 --
 -- Indexes for table `gallery_items`
@@ -452,6 +592,14 @@ ALTER TABLE `jobs`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_type_is_read_index` (`type`,`is_read`),
+  ADD KEY `notifications_category_is_read_index` (`category`,`is_read`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -520,10 +668,16 @@ ALTER TABLE `blog_posts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `chat_messages`
+--
+ALTER TABLE `chat_messages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `gallery_items`
@@ -541,13 +695,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `quotes`
@@ -559,19 +719,19 @@ ALTER TABLE `quotes`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `testimonials`
 --
 ALTER TABLE `testimonials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
