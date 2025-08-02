@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2025 at 02:31 AM
+-- Generation Time: Aug 02, 2025 at 08:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -124,7 +124,11 @@ INSERT INTO `chat_messages` (`id`, `session_id`, `sender_type`, `sender_name`, `
 (10, 'c7cd8bc4-7426-4cc8-95b5-aad9dd22af7d', 'user', 'Test User', 'test@example.com', 'This is a test message', 'sent', NULL, '2025-08-01 18:56:50', '2025-08-01 18:56:50'),
 (11, '3ed7211d-1fd9-49d8-94df-2383580c2904', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'sss', 'read', '2025-08-01 18:57:50', '2025-08-01 18:57:38', '2025-08-01 18:57:50'),
 (12, '3ed7211d-1fd9-49d8-94df-2383580c2904', 'admin', 'Admin', 'admin@bnbatiment.com', 'ok', 'sent', NULL, '2025-08-01 18:57:55', '2025-08-01 18:57:55'),
-(13, '01644f74-25eb-4000-9d67-8493bdeb814a', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'dddddddd', 'sent', NULL, '2025-08-01 21:26:17', '2025-08-01 21:26:17');
+(13, '01644f74-25eb-4000-9d67-8493bdeb814a', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'dddddddd', 'sent', NULL, '2025-08-01 21:26:17', '2025-08-01 21:26:17'),
+(14, 'c761c2c2-2e0f-44a9-a5be-1c3d1e2c5560', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'hi', 'sent', NULL, '2025-08-02 14:59:46', '2025-08-02 14:59:46'),
+(15, 'bfe1d955-a146-4e63-8467-70b7759f0efd', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'hi', 'sent', NULL, '2025-08-02 15:03:56', '2025-08-02 15:03:56'),
+(16, '55774c8a-df1d-4da0-8337-fd93a0c622de', 'user', 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', 'hiii', 'sent', NULL, '2025-08-02 15:13:43', '2025-08-02 15:13:43'),
+(17, 'a673c260-ccf0-4d3c-85ec-2ff89391b62b', 'user', 'khaled ahmed', 'khaledahmed.201188@gmail.com', 'ششش', 'sent', NULL, '2025-08-02 15:52:24', '2025-08-02 15:52:24');
 
 -- --------------------------------------------------------
 
@@ -176,7 +180,12 @@ INSERT INTO `contact_messages` (`id`, `name`, `email`, `phone`, `subject`, `mess
 (24, 'Pierre Durand', 'pierre.durand@example.com', '04 56 78 90 12', 'Installation de zinguerie', 'Je recherche un professionnel pour l\'installation de zinguerie sur ma maison. Pouvez-vous me faire un devis ?', 'replied', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
 (25, 'Sophie Bernard', 'sophie.bernard@example.com', '02 34 56 78 90', 'Maintenance préventive', 'Je souhaite mettre en place un contrat de maintenance préventive pour ma toiture. Quelles sont vos prestations ?', 'unread', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
 (26, 'Lucas Petit', 'lucas.petit@example.com', '03 45 67 89 01', 'Rénovation complète', 'Bonjour, j\'envisage une rénovation complète de ma toiture. Pouvez-vous me proposer un rendez-vous pour une visite ?', 'read', NULL, NULL, '2025-08-01 19:11:58', '2025-08-01 19:11:58'),
-(27, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'dddddddd', 'replied', 'aaa', '01644f74-25eb-4000-9d67-8493bdeb814a', '2025-08-01 21:26:17', '2025-08-01 21:26:42');
+(27, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Nouvelle demande de contact', 'dddddddd', 'replied', 'aaa', '01644f74-25eb-4000-9d67-8493bdeb814a', '2025-08-01 21:26:17', '2025-08-01 21:26:42'),
+(28, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01010254819', 'Demande de devis - zinguerie', 'hi', 'unread', NULL, 'c761c2c2-2e0f-44a9-a5be-1c3d1e2c5560', '2025-08-02 14:59:46', '2025-08-02 14:59:46'),
+(29, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01204593124', 'Demande de devis - test-updated-service', 'hi', 'unread', NULL, 'bfe1d955-a146-4e63-8467-70b7759f0efd', '2025-08-02 15:03:56', '2025-08-02 15:03:56'),
+(30, 'Test User', 'test@example.com', '123456789', 'Test Message', 'This is a test message to check if notifications are created.', 'unread', NULL, NULL, '2025-08-02 15:11:51', '2025-08-02 15:11:51'),
+(31, 'khaled ahmed', 'khaledahmedhaggagy@gmail.com', '01010254819', 'Demande de devis - test-service', 'hiii', 'unread', NULL, '55774c8a-df1d-4da0-8337-fd93a0c622de', '2025-08-02 15:13:43', '2025-08-02 15:13:43'),
+(32, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '01204593124', 'Demande de devis - maintenance-preventive', 'ششش', 'unread', NULL, 'a673c260-ccf0-4d3c-85ec-2ff89391b62b', '2025-08-02 15:52:24', '2025-08-02 15:52:24');
 
 -- --------------------------------------------------------
 
@@ -270,7 +279,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2025_08_01_114003_create_notifications_table', 5),
 (11, '2025_08_01_224128_remove_icon_from_services_table', 6),
 (12, '2025_08_01_133034_create_personal_access_tokens_table', 7),
-(13, '2025_08_01_151358_create_personal_access_tokens_table', 8);
+(13, '2025_08_01_151358_create_personal_access_tokens_table', 8),
+(14, '2025_08_02_151224_create_orders_table', 9);
 
 -- --------------------------------------------------------
 
@@ -297,7 +307,7 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `title`, `message`, `type`, `category`, `related_id`, `related_type`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
-(1, 'Nouvelle demande de devis', 'Une nouvelle demande de devis a été reçue de Jean Dupont pour des travaux de couverture.', 'info', 'quotes', NULL, NULL, 0, NULL, '2025-08-01 19:21:11', '2025-08-01 19:26:11'),
+(1, 'Nouvelle demande de devis', 'Une nouvelle demande de devis a été reçue de Jean Dupont pour des travaux de couverture.', 'info', 'quotes', NULL, NULL, 1, '2025-08-02 15:10:25', '2025-08-01 19:21:11', '2025-08-02 15:10:25'),
 (2, 'Nouveau message de contact', 'Un nouveau message a été reçu de Marie Martin concernant vos services.', 'info', 'contact', NULL, NULL, 0, NULL, '2025-08-01 19:11:11', '2025-08-01 19:26:11'),
 (3, 'Service mis à jour', 'Le service \"Installation de couverture\" a été mis à jour avec de nouvelles informations.', 'success', 'services', NULL, NULL, 1, NULL, '2025-08-01 17:26:11', '2025-08-01 19:26:11'),
 (4, 'Nouvel article publié', 'Un nouvel article \"Les tendances de la couverture en 2024\" a été publié sur le blog.', 'success', 'blog', NULL, NULL, 0, NULL, '2025-08-01 15:26:11', '2025-08-01 19:26:11'),
@@ -312,7 +322,62 @@ INSERT INTO `notifications` (`id`, `title`, `message`, `type`, `category`, `rela
 (13, 'Service supprimé', 'Service supprimé: Charpente Bois', 'warning', 'services', 2, 'App\\Models\\Service', 0, NULL, '2025-08-01 19:45:59', '2025-08-01 19:45:59'),
 (14, 'Service supprimé', 'Service supprimé: Installation Électrique', 'warning', 'services', 4, 'App\\Models\\Service', 0, NULL, '2025-08-01 20:37:07', '2025-08-01 20:37:07'),
 (15, 'Nouveau service créé', 'Nouveau service créé: 1', 'success', 'services', 12, 'App\\Models\\Service', 0, NULL, '2025-08-01 21:23:37', '2025-08-01 21:23:37'),
-(16, 'Service supprimé', 'Service supprimé: 1', 'warning', 'services', 12, 'App\\Models\\Service', 0, NULL, '2025-08-01 21:25:06', '2025-08-01 21:25:06');
+(16, 'Service supprimé', 'Service supprimé: 1', 'warning', 'services', 12, 'App\\Models\\Service', 0, NULL, '2025-08-01 21:25:06', '2025-08-01 21:25:06'),
+(18, 'Nouveau message de contact', 'Un nouveau message a été reçu de Test User - Test Message', 'info', 'contact', 30, 'App\\Models\\ContactMessage', 0, NULL, '2025-08-02 15:11:51', '2025-08-02 15:11:51'),
+(19, 'Test Notification', 'This is a test notification created at 2025-08-02 18:17:54', 'info', 'test', NULL, NULL, 0, NULL, '2025-08-02 15:17:54', '2025-08-02 15:17:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `client_name` varchar(255) NOT NULL,
+  `client_email` varchar(255) NOT NULL,
+  `client_phone` varchar(255) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `priority` enum('faible','normal','urgent') NOT NULL DEFAULT 'normal',
+  `status` enum('en_attente','en_cours','planifié','terminé','annulé') NOT NULL DEFAULT 'en_attente',
+  `budget` decimal(10,2) NOT NULL,
+  `deadline` date NOT NULL,
+  `address` text NOT NULL,
+  `estimated_duration` varchar(255) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `client_name`, `client_email`, `client_phone`, `service`, `description`, `priority`, `status`, `budget`, `deadline`, `address`, `estimated_duration`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 'Jean Dupont', 'jean.dupont@email.com', '+33 1 23 45 67 89', 'Installation de Toiture', 'Installation complète d\'une toiture en tuiles pour maison de 120m²', 'urgent', 'en_cours', 8500.00, '2025-02-15', '123 Rue de la Paix, 75001 Paris', '2-3 semaines', 'Client très exigeant sur la qualité des matériaux', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(2, 'Marie Martin', 'marie.martin@email.com', '+33 1 23 45 67 90', 'Réparation de Charpente', 'Réparation urgente de la charpente après tempête', 'urgent', 'en_attente', 3200.00, '2025-01-25', '456 Avenue des Champs, 75008 Paris', '1 semaine', 'Dégâts importants suite à la tempête de la semaine dernière', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(3, 'Pierre Durand', 'pierre.durand@email.com', '+33 1 23 45 67 91', 'Maintenance Annuelle', 'Maintenance préventive de la toiture et nettoyage des gouttières', 'normal', 'planifié', 1200.00, '2025-02-01', '789 Boulevard Saint-Germain, 75006 Paris', '3-4 jours', 'Maintenance annuelle programmée', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(4, 'Sophie Bernard', 'sophie.bernard@email.com', '+33 1 23 45 67 92', 'Installation Étanchéité', 'Installation d\'une membrane d\'étanchéité pour terrasse', 'normal', 'terminé', 4500.00, '2025-01-20', '321 Rue de Rivoli, 75001 Paris', '1-2 semaines', 'Travaux terminés avec satisfaction du client', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(5, 'Lucas Moreau', 'lucas.moreau@email.com', '+33 1 23 45 67 93', 'Zinguerie', 'Remplacement complet de la zinguerie et descentes d\'eau', 'normal', 'en_attente', 2800.00, '2025-02-10', '654 Rue du Commerce, 75015 Paris', '1 semaine', 'Zinguerie en mauvais état, remplacement urgent', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(6, 'Emma Petit', 'emma.petit@email.com', '+33 1 23 45 67 94', 'Démoussage', 'Nettoyage professionnel de la toiture et traitement anti-mousse', 'faible', 'planifié', 800.00, '2025-02-05', '987 Avenue de la République, 75011 Paris', '1 jour', 'Traitement anti-mousse recommandé', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(7, 'Antoine Rousseau', 'antoine.rousseau@email.com', '+33 1 23 45 67 95', 'Installation Velux', 'Installation de 3 fenêtres de toit Velux', 'normal', 'en_cours', 3600.00, '2025-01-30', '147 Rue de la Pompe, 75016 Paris', '1 semaine', 'Fenêtres commandées, installation en cours', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(8, 'Camille Dubois', 'camille.dubois@email.com', '+33 1 23 45 67 96', 'Isolation Thermique', 'Isolation thermique de la toiture avec laine minérale', 'normal', 'en_attente', 5200.00, '2025-02-20', '258 Rue du Faubourg Saint-Honoré, 75008 Paris', '1-2 semaines', 'Isolation pour améliorer l\'efficacité énergétique', '2025-08-02 12:16:47', '2025-08-02 12:16:47'),
+(9, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'normal', 'en_attente', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:21:50', '2025-08-02 15:21:50'),
+(10, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'normal', 'en_attente', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:02', '2025-08-02 15:22:02'),
+(11, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:11', '2025-08-02 15:22:11'),
+(12, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:20', '2025-08-02 15:22:20'),
+(13, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:21', '2025-08-02 15:22:21'),
+(14, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:22', '2025-08-02 15:22:22'),
+(15, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:22:24', '2025-08-02 15:22:24'),
+(16, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:25:20', '2025-08-02 15:25:20'),
+(17, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:25:27', '2025-08-02 15:25:27'),
+(18, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aa', 'urgent', 'en_cours', 100.00, '2025-08-03', 'Qena', NULL, NULL, '2025-08-02 15:25:34', '2025-08-02 15:25:34'),
+(19, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'normal', 'en_attente', 100.00, '2025-08-03', 'aaaaaaaaa', NULL, NULL, '2025-08-02 15:30:18', '2025-08-02 15:30:18'),
+(20, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'normal', 'en_attente', 100.00, '2025-08-03', 'aaaaaaaaa', NULL, NULL, '2025-08-02 15:30:32', '2025-08-02 15:30:32'),
+(21, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'normal', 'en_attente', 100.00, '2025-08-03', 'aaaaaaaaa', NULL, NULL, '2025-08-02 15:30:45', '2025-08-02 15:30:45'),
+(22, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'normal', 'en_attente', 100.00, '2025-08-03', 'aaaaaaaaa', NULL, NULL, '2025-08-02 15:30:49', '2025-08-02 15:30:49'),
+(23, 'khaled ahmed', 'khaledahmed.201188@gmail.com', '+201204593124', 'Installation de Toiture', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'normal', 'en_attente', 100.00, '2025-08-03', 'aaaaaaaaa', NULL, NULL, '2025-08-02 15:30:53', '2025-08-02 15:30:53');
 
 -- --------------------------------------------------------
 
@@ -372,7 +437,14 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (21, 'App\\Models\\User', 2, 'auth-token', '0e31e65459946958426bb39c85cbb760e52eb7eb2d802c6de9a4fdb1f57c390f', '[\"*\"]', '2025-08-01 20:02:23', NULL, '2025-08-01 20:01:22', '2025-08-01 20:02:23'),
 (22, 'App\\Models\\User', 2, 'auth-token', '5d93313919f332d91b39ee043160bfe36ab814c22f1f3dc48fc9971c575dfe5c', '[\"*\"]', '2025-08-01 20:06:20', NULL, '2025-08-01 20:02:53', '2025-08-01 20:06:20'),
 (23, 'App\\Models\\User', 2, 'auth-token', '7c266de8e01da4496c7f5c33e7b0b51ae1695eb9d215ac3ad556f72a46186947', '[\"*\"]', '2025-08-01 20:09:13', NULL, '2025-08-01 20:07:26', '2025-08-01 20:09:13'),
-(26, 'App\\Models\\User', 2, 'auth-token', '9c56dbd5ea4bd73590934706e1148c113afa639f7e61d1dd8ed5e57a2a484064', '[\"*\"]', '2025-08-01 21:30:44', NULL, '2025-08-01 20:51:34', '2025-08-01 21:30:44');
+(26, 'App\\Models\\User', 2, 'auth-token', '9c56dbd5ea4bd73590934706e1148c113afa639f7e61d1dd8ed5e57a2a484064', '[\"*\"]', '2025-08-02 12:35:27', NULL, '2025-08-01 20:51:34', '2025-08-02 12:35:27'),
+(27, 'App\\Models\\User', 2, 'auth-token', '81b645e6f0e0a120868344b7e4695bddbeaf86ef7b649c838d0c6b6a7eba5f73', '[\"*\"]', '2025-08-02 14:03:30', NULL, '2025-08-02 12:35:59', '2025-08-02 14:03:30'),
+(28, 'App\\Models\\User', 2, 'auth-token', 'bb1a1f982d3c4e3a426f8d45b51989ddfbd2096140fdf9831c84b576213b1c2c', '[\"*\"]', '2025-08-02 15:05:03', NULL, '2025-08-02 14:33:20', '2025-08-02 15:05:03'),
+(29, 'App\\Models\\User', 2, 'auth-token', 'e5f4f7cb67dcb92d24ac25ad332d1040bc522f0a735483970bafa24b1c5d98c6', '[\"*\"]', NULL, NULL, '2025-08-02 15:06:52', '2025-08-02 15:06:52'),
+(30, 'App\\Models\\User', 7, 'auth-token', '3f553cf55b5ce164c2574a44772ae02e8127c0853d94e037c992c668d23ac033', '[\"*\"]', NULL, NULL, '2025-08-02 15:08:36', '2025-08-02 15:08:36'),
+(31, 'App\\Models\\User', 7, 'auth-token', '62dc897eadee060fca5d31840894a9b3c89e27f15991e1b8b3bb67044e3cb7ac', '[\"*\"]', '2025-08-02 15:09:07', NULL, '2025-08-02 15:09:07', '2025-08-02 15:09:07'),
+(32, 'App\\Models\\User', 2, 'auth-token', '93e230b2c17833dead42b51f646772ac4cd427031dcaf572fcabb8522ff3ad71', '[\"*\"]', '2025-08-02 15:53:19', NULL, '2025-08-02 15:09:49', '2025-08-02 15:53:19'),
+(33, 'App\\Models\\User', 7, 'auth-token', 'dfb021f800fa3d0d81915f79ea961760f48117e3ed6f73fda93b902d0c6e9723', '[\"*\"]', '2025-08-02 15:10:25', NULL, '2025-08-02 15:10:24', '2025-08-02 15:10:25');
 
 -- --------------------------------------------------------
 
@@ -503,7 +575,6 @@ INSERT INTO `testimonials` (`id`, `name`, `location`, `content`, `rating`, `imag
 (10, 'Marie Dubois', 'Lyon', 'Excellent service ! L\'équipe a été professionnelle du début à la fin. Notre nouvelle toiture est magnifique et l\'installation s\'est déroulée parfaitement.', 5, NULL, 1, 1, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
 (11, 'Pierre Martin', 'Marseille', 'Intervention rapide et efficace pour réparer une fuite urgente. Prix honnêtes et travail de qualité. Je recommande vivement !', 5, NULL, 1, 2, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
 (12, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
-(13, 'a', 'a', 'a', 5, NULL, 1, 0, '2025-08-01 17:25:26', '2025-08-01 17:25:26'),
 (14, 'Marie Dubois', 'Lyon', 'Excellent service ! L\'équipe a été professionnelle du début à la fin. Notre nouvelle toiture est magnifique et l\'installation s\'est déroulée parfaitement.', 5, NULL, 1, 1, '2025-08-01 17:57:32', '2025-08-01 17:57:32'),
 (15, 'Pierre Martin', 'Marseille', 'Intervention rapide et efficace pour réparer une fuite urgente. Prix honnêtes et travail de qualité. Je recommande vivement !', 5, NULL, 1, 2, '2025-08-01 17:57:32', '2025-08-01 17:57:32'),
 (16, 'Sophie Bernard', 'Toulouse', 'Service d\'entretien annuel impeccable. L\'équipe est ponctuelle, professionnelle et donne de bons conseils pour maintenir notre toiture.', 5, NULL, 1, 3, '2025-08-01 17:57:32', '2025-08-01 17:57:32');
@@ -534,7 +605,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `address`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (2, 'Admin', 'admin@bnbuilding.fr', '+33 1 23 45 67 89', '123 Rue de la Construction, 75001 Paris, France', 'admin', NULL, '$2y$12$Y3vpUQo1nNhZbiBOaDTJ/.OHe9H6nDWzwI4dzdDMKMGEJdS82.xxe', NULL, '2025-08-01 10:24:13', '2025-08-01 10:24:13'),
-(3, 'Admin', 'admin@bnbuilding.com', NULL, NULL, 'user', NULL, '$2y$12$phJD5CX6uJ9rjPyrW7CTIe4I3xQ/rSzjVVOx33IRY4TqTuSDA8Azy', NULL, '2025-08-01 13:32:48', '2025-08-01 13:32:48');
+(3, 'Admin', 'admin@bnbuilding.com', NULL, NULL, 'user', NULL, '$2y$12$phJD5CX6uJ9rjPyrW7CTIe4I3xQ/rSzjVVOx33IRY4TqTuSDA8Azy', NULL, '2025-08-01 13:32:48', '2025-08-01 13:32:48'),
+(7, 'Admin', 'admin@example.com', NULL, NULL, 'admin', NULL, '$2y$12$N8osCYisPJPSA9EhQ5Of0.Dr1r8nV7kTiXTR3L91IOUPk0cxgjmGu', NULL, '2025-08-02 15:08:01', '2025-08-02 15:08:01');
 
 --
 -- Indexes for dumped tables
@@ -600,6 +672,12 @@ ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
   ADD KEY `notifications_type_is_read_index` (`type`,`is_read`),
   ADD KEY `notifications_category_is_read_index` (`category`,`is_read`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -671,13 +749,13 @@ ALTER TABLE `blog_posts`
 -- AUTO_INCREMENT for table `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `contact_messages`
 --
 ALTER TABLE `contact_messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `gallery_items`
@@ -695,19 +773,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `quotes`
@@ -731,7 +815,7 @@ ALTER TABLE `testimonials`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
