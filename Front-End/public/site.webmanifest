@@ -1,0 +1,62 @@
+{
+  "name": "BN BÂTIMENT - Expert Couvreur Lyon",
+  "short_name": "BN BÂTIMENT",
+  "description": "Expert en installation, réparation et entretien de toiture à Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Intervention 24h/24, devis gratuit.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3b82f6",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "fr",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "construction", "home-improvement"],
+  "screenshots": [
+    {
+      "src": "/1.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Services",
+      "short_name": "Services",
+      "description": "Voir nos services de toiture",
+      "url": "/services",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Nous contacter",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+} 

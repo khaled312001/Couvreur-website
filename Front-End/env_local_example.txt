@@ -1,0 +1,9 @@
+# ملف .env.local للتطوير المحلي
+# انسخ هذا الملف إلى .env.local في مجلد Front-End
+
+# API URL للباك إند
+REACT_APP_API_URL=https://api.bnbatiment.com/api
+
+# متغيرات أخرى (اختيارية)
+REACT_APP_ENV=development
+REACT_APP_DEBUG=true 

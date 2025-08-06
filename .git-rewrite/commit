@@ -1,0 +1,6 @@
+tree 1e71de1d15f3c35d1dfa340ff2bc2abdb75bf4fc
+parent a3a2344bef69158694e2fcf5dff08694846f15c4
+author Khaled <khaled@example.com> 1753991809 +0300
+committer Khaled <khaled@example.com> 1753991809 +0300
+
+Refactor README and backend API integration for user authentication and services management. Updated User model to include additional fields and relationships. Enhanced frontend with dynamic data loading for services, testimonials, and gallery. Improved CSS for responsive design and user experience across various components.

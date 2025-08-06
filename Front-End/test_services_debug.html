@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Services Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .debug-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            margin: 10px;
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .info {
+            color: blue;
+            background: #e6f3ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Services Images</h1>
+    
+    <div class="debug-section">
+        <h2>Test 1: Direct Image URLs</h2>
+        <div id="direct-test"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>Test 2: getImageUrl Function</h2>
+        <div id="getImageUrl-test"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>Test 3: getServiceImage Function</h2>
+        <div id="getServiceImage-test"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>Test 4: Console Debug</h2>
+        <div id="console-debug"></div>
+    </div>
+
+    <script>
+        const productionBaseUrl = 'https://api.bnbatiment.com';
+
+        // Test getImageUrl function
+        function getImageUrl(imagePath, fallbackUrl = null) {
+            console.log('getImageUrl called with:', imagePath);
+            
+            if (!imagePath || imagePath === '' || imagePath === null) {
+                console.log('getImageUrl: returning fallback:', fallbackUrl);
+                return fallbackUrl;
+            }
+            
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                const secureUrl = imagePath.replace('http://', 'https://');
+                const cacheBuster = Math.floor(Math.random() * 1000000);
+                const separator = secureUrl.includes('?') ? '&' : '?';
+                const result = `${secureUrl}${separator}cb=${cacheBuster}`;
+                console.log('getImageUrl: full URL result:', result);
+                return result;
+            }
+            
+            const fullImagePath = `${productionBaseUrl}${imagePath}`;
+            const cacheBuster = Math.floor(Math.random() * 1000000);
+            const separator = fullImagePath.includes('?') ? '&' : '?';
+            const result = `${fullImagePath}${separator}cb=${cacheBuster}`;
+            console.log('getImageUrl: relative path result:', result);
+            return result;
+        }
+
+        // Test getServiceImage function
+        function getServiceImage(serviceTitle) {
+            console.log('getServiceImage called with:', serviceTitle);
+            const title = serviceTitle.toLowerCase();
+            
+            let result;
+            if (title.includes('installation') || title.includes('pose')) {
+                result = `${productionBaseUrl}/uploads/services/1754239886_installation%20toiture.jpg`;
+            } else if (title.includes('réparation') || title.includes('reparation') || title.includes('fuite')) {
+                result = `${productionBaseUrl}/uploads/services/1754154513_r%C3%A9paration%20de%20fuite.jpg`;
+            } else if (title.includes('entretien') || title.includes('nettoyage')) {
+                result = `${productionBaseUrl}/uploads/services/1754154489_entretien.webp`;
+            } else if (title.includes('démoussage') || title.includes('demoussage')) {
+                result = `${productionBaseUrl}/uploads/services/1754154466_d%C3%A9mousage.jpg`;
+            } else if (title.includes('charpente') || title.includes('structure')) {
+                result = `${productionBaseUrl}/uploads/services/1754237485_images.jpg`;
+            } else if (title.includes('zinguerie') || title.includes('zinc')) {
+                result = `${productionBaseUrl}/uploads/services/1754237525_images.jpg`;
+            } else {
+                result = `${productionBaseUrl}/uploads/services/1754094217_images.jpg`;
+            }
+            
+            console.log('getServiceImage result:', result);
+            return result;
+        }
+
+        // Test services
+        const testServices = [
+            { title: "Installation de toiture", image: "/uploads/services/1754239886_installation%20toiture.jpg" },
+            { title: "Réparation de fuites", image: "/uploads/services/1754154513_r%C3%A9paration%20de%20fuite.jpg" },
+            { title: "Entretien de toiture", image: "/uploads/services/1754154489_entretien.webp" },
+            { title: "Démoussage", image: "/uploads/services/1754154466_d%C3%A9mousage.jpg" },
+            { title: "Charpente", image: "/uploads/services/1754237485_images.jpg" },
+            { title: "Zinguerie", image: "/uploads/services/1754237525_images.jpg" }
+        ];
+
+        function testDirectImages() {
+            const resultsDiv = document.getElementById('direct-test');
+            resultsDiv.innerHTML = '<h3>Testing Direct Images...</h3>';
+            
+            const directUrls = [
+                `${productionBaseUrl}/uploads/services/1754239886_installation%20toiture.jpg`,
+                `${productionBaseUrl}/uploads/services/1754154513_r%C3%A9paration%20de%20fuite.jpg`,
+                `${productionBaseUrl}/uploads/services/1754154489_entretien.webp`,
+                `${productionBaseUrl}/uploads/services/1754154466_d%C3%A9mousage.jpg`,
+                `${productionBaseUrl}/uploads/services/1754237485_images.jpg`,
+                `${productionBaseUrl}/uploads/services/1754237525_images.jpg`
+            ];
+            
+            directUrls.forEach((url, index) => {
+                const img = document.createElement('img');
+                img.className = 'test-image';
+                img.alt = `Direct ${index + 1}`;
+                img.src = url;
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.innerHTML = `<strong>Direct ${index + 1}:</strong> ${url}`;
+                
+                img.onload = function() {
+                    statusDiv.innerHTML += '<span class="success">✓ Loaded successfully</span>';
+                };
+                
+                img.onerror = function() {
+                    statusDiv.innerHTML += '<span class="error">✗ Failed to load</span>';
+                };
+                
+                resultsDiv.appendChild(statusDiv);
+                resultsDiv.appendChild(img);
+                resultsDiv.appendChild(document.createElement('hr'));
+            });
+        }
+
+        function testGetImageUrl() {
+            const resultsDiv = document.getElementById('getImageUrl-test');
+            resultsDiv.innerHTML = '<h3>Testing getImageUrl...</h3>';
+            
+            testServices.forEach((service, index) => {
+                const img = document.createElement('img');
+                const imageUrl = getImageUrl(service.image);
+                
+                img.className = 'test-image';
+                img.alt = `Service ${index + 1}`;
+                img.src = imageUrl;
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.innerHTML = `<strong>Service ${index + 1}:</strong> ${service.title}<br>Original: ${service.image}<br>Result: ${imageUrl}`;
+                
+                img.onload = function() {
+                    statusDiv.innerHTML += '<span class="success">✓ Loaded successfully</span>';
+                };
+                
+                img.onerror = function() {
+                    statusDiv.innerHTML += '<span class="error">✗ Failed to load</span>';
+                };
+                
+                resultsDiv.appendChild(statusDiv);
+                resultsDiv.appendChild(img);
+                resultsDiv.appendChild(document.createElement('hr'));
+            });
+        }
+
+        function testGetServiceImage() {
+            const resultsDiv = document.getElementById('getServiceImage-test');
+            resultsDiv.innerHTML = '<h3>Testing getServiceImage...</h3>';
+            
+            testServices.forEach((service, index) => {
+                const img = document.createElement('img');
+                const imageUrl = getServiceImage(service.title);
+                
+                img.className = 'test-image';
+                img.alt = `Service ${index + 1}`;
+                img.src = imageUrl;
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.innerHTML = `<strong>Service ${index + 1}:</strong> ${service.title}<br>Result: ${imageUrl}`;
+                
+                img.onload = function() {
+                    statusDiv.innerHTML += '<span class="success">✓ Loaded successfully</span>';
+                };
+                
+                img.onerror = function() {
+                    statusDiv.innerHTML += '<span class="error">✗ Failed to load</span>';
+                };
+                
+                resultsDiv.appendChild(statusDiv);
+                resultsDiv.appendChild(img);
+                resultsDiv.appendChild(document.createElement('hr'));
+            });
+        }
+
+        function testConsoleDebug() {
+            const resultsDiv = document.getElementById('console-debug');
+            resultsDiv.innerHTML = '<h3>Console Debug Info...</h3>';
+            
+            // Test different scenarios
+            const scenarios = [
+                { name: 'Empty image path', value: getImageUrl('') },
+                { name: 'Null image path', value: getImageUrl(null) },
+                { name: 'Undefined image path', value: getImageUrl(undefined) },
+                { name: 'Valid image path', value: getImageUrl('/uploads/services/1754239886_installation%20toiture.jpg') },
+                { name: 'Full URL', value: getImageUrl('https://api.bnbatiment.com/uploads/services/1754239886_installation%20toiture.jpg') }
+            ];
+            
+            scenarios.forEach(scenario => {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>${scenario.name}:</strong> ${scenario.value}`;
+                div.className = 'info';
+                resultsDiv.appendChild(div);
+            });
+        }
+
+        // Run all tests
+        window.onload = function() {
+            testDirectImages();
+            testGetImageUrl();
+            testGetServiceImage();
+            testConsoleDebug();
+        };
+    </script>
+</body>
+</html> 

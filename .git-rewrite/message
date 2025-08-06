@@ -1,0 +1,1 @@
+Refactor README and backend API integration for user authentication and services management. Updated User model to include additional fields and relationships. Enhanced frontend with dynamic data loading for services, testimonials, and gallery. Improved CSS for responsive design and user experience across various components.

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-image {
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Image Loading</h1>
+    <p>This page tests image loading from the production API.</p>
+    
+    <div id="results"></div>
+    
+    <h2>Test Images</h2>
+    <div id="images"></div>
+
+    <script>
+        // Test image URLs
+        const testImages = [
+            '/uploads/services/1754239886_installation%20toiture.jpg',
+            '/uploads/services/1754240415_r%C3%A9paration%20de%20fuite.jpg',
+            '/uploads/services/1754240526_entretien.webp',
+            '/uploads/services/1754240626_d%C3%A9mousage.jpg',
+            '/uploads/services/1754240785_nettoyage.webp'
+        ];
+
+        const productionBaseUrl = 'https://api.bnbatiment.com';
+
+        function getImageUrl(imagePath) {
+            if (!imagePath) return null;
+            
+            // If the image path is already a full URL, use it as is
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                // Force HTTPS for mixed content issues
+                const secureUrl = imagePath.replace('http://', 'https://');
+                const cacheBuster = Math.floor(Math.random() * 1000000);
+                const separator = secureUrl.includes('?') ? '&' : '?';
+                return `${secureUrl}${separator}cb=${cacheBuster}`;
+            }
+            
+            // If it's a relative path, prepend the production API URL
+            const fullImagePath = `${productionBaseUrl}${imagePath}`;
+            
+            // Add a cache-busting parameter to prevent browser caching
+            const cacheBuster = Math.floor(Math.random() * 1000000);
+            const separator = fullImagePath.includes('?') ? '&' : '?';
+            return `${fullImagePath}${separator}cb=${cacheBuster}`;
+        }
+
+        function testImageLoading() {
+            const resultsDiv = document.getElementById('results');
+            const imagesDiv = document.getElementById('images');
+            
+            resultsDiv.innerHTML = '<h3>Testing Image Loading...</h3>';
+            
+            testImages.forEach((imagePath, index) => {
+                const img = document.createElement('img');
+                const imageUrl = getImageUrl(imagePath);
+                
+                img.className = 'test-image';
+                img.alt = `Test Image ${index + 1}`;
+                img.src = imageUrl;
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.innerHTML = `<strong>Image ${index + 1}:</strong> ${imagePath}<br>URL: ${imageUrl}`;
+                
+                img.onload = function() {
+                    statusDiv.innerHTML += '<span class="success">✓ Loaded successfully</span>';
+                };
+                
+                img.onerror = function() {
+                    statusDiv.innerHTML += '<span class="error">✗ Failed to load</span>';
+                };
+                
+                imagesDiv.appendChild(statusDiv);
+                imagesDiv.appendChild(img);
+                imagesDiv.appendChild(document.createElement('hr'));
+            });
+        }
+
+        // Run the test when page loads
+        window.onload = testImageLoading;
+    </script>
+</body>
+</html> 
