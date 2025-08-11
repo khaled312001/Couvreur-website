@@ -1,15 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { 
-  preloadCriticalImages, 
-  initializeLazyLoading,
-  monitorWebVitals,
-  cachedFetch 
-} from '../utils/performanceOptimization';
-import { 
-  generateResponsiveImage, 
-  optimizeServiceImage,
-  preloadCriticalImages as preloadImages 
-} from '../utils/imageOptimization';
 
 const PerformanceOptimizer = ({ children }) => {
   const [isOptimized, setIsOptimized] = useState(false);
@@ -30,14 +19,27 @@ const PerformanceOptimizer = ({ children }) => {
   const initializePerformanceOptimizations = () => {
     try {
       // Monitor Core Web Vitals
-      monitorWebVitals();
+      if ('performance' in window) {
+        // Monitor Largest Contentful Paint (LCP)
+        if ('PerformanceObserver' in window) {
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            console.log('LCP:', lastEntry.startTime);
+          }).observe({ entryTypes: ['largest-contentful-paint'] });
+
+          // Monitor First Input Delay (FID)
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+              console.log('FID:', entry.processingStart - entry.startTime);
+            });
+          }).observe({ entryTypes: ['first-input'] });
+        }
+      }
       
       // Preload critical images
-      const criticalImages = [
-        '/logo.png',
-        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp'
-      ];
-      preloadImages(criticalImages);
+      preloadCriticalImages();
       
       // Initialize lazy loading
       initializeLazyLoading();
@@ -53,6 +55,46 @@ const PerformanceOptimizer = ({ children }) => {
       
     } catch (error) {
       console.warn('Performance optimization failed:', error);
+    }
+  };
+
+  const preloadCriticalImages = () => {
+    const criticalImages = [
+      '/logo.png',
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp'
+    ];
+    
+    criticalImages.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      link.fetchPriority = 'high';
+      document.head.appendChild(link);
+    });
+  };
+
+  const initializeLazyLoading = () => {
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            const src = img.dataset.src;
+            
+            if (src) {
+              img.src = src;
+              img.removeAttribute('data-src');
+              img.classList.remove('lazy');
+              observer.unobserve(img);
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
     }
   };
 

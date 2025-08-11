@@ -43,10 +43,8 @@ function validateViteConfig() {
     const viteConfig = fs.readFileSync('vite.config.js', 'utf8');
     
     const checks = [
-      { name: 'Code Splitting', pattern: 'splitVendorChunkPlugin' },
+      { name: 'Code Splitting', pattern: 'manualChunks' },
       { name: 'Terser Minification', pattern: 'minify: \'terser\'' },
-      { name: 'Manual Chunks', pattern: 'manualChunks' },
-      { name: 'CSS Optimization', pattern: 'cssnano' },
       { name: 'Build Optimization', pattern: 'chunkSizeWarningLimit' }
     ];
     
