@@ -30,9 +30,15 @@ return [
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => [
+        'Cache-Control',
+        'ETag',
+        'Last-Modified',
+        'Content-Length',
+        'Content-Type'
+    ],
 
-    'max_age' => 0,
+    'max_age' => 86400, // 24 hours for better caching
 
     'supports_credentials' => true,
 

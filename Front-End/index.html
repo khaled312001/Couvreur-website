@@ -45,9 +45,44 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://bnbatiment.com" />
     
-    <!-- Preconnect to external domains for performance -->
+    <!-- Performance Optimizations - Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.bnbatiment.com" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://www.satorytoiture.com" />
+    <link rel="preconnect" href="https://www.guide-travaux-toiture.be" />
+    <link rel="preconnect" href="https://www.objectif-emploi-orientation.fr" />
+    <link rel="preconnect" href="https://soumissionsquebec.ca" />
+    
+    <!-- DNS Prefetch for additional performance -->
+    <link rel="dns-prefetch" href="https://api.bnbatiment.com" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/logo.png" as="image" type="image/png" fetchpriority="high" />
+    <link rel="preload" href="/src/styles/main.css" as="style" />
+    <link rel="preload" href="/src/styles/tailwind.css" as="style" />
+    
+    <!-- Critical CSS Inline for above-the-fold content -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+      #root { min-height: 100vh; }
+      .loading { display: flex; justify-content: center; align-items: center; height: 100vh; }
+      .loading::after { content: ''; width: 50px; height: 50px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      
+      /* Optimize font loading */
+      @font-face { font-family: 'Inter'; font-display: swap; }
+      
+      /* Prevent layout shift */
+      img { max-width: 100%; height: auto; }
+      .hero-slider { contain: layout style paint; }
+      
+      /* Optimize animations */
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+    </style>
     
     <!-- Structured Data for Local Business -->
     <script type="application/ld+json">
@@ -56,7 +91,7 @@
         "@type": "LocalBusiness",
         "name": "BN BÂTIMENT",
         "description": "Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble",
-                  "url": "https://bnbatiment.com",
+        "url": "https://bnbatiment.com",
         "telephone": "+33420983917",
         "email": "support@bnbatiment.com",
         "address": {
@@ -83,9 +118,64 @@
         }
       }
     </script>
+    
+    <!-- Performance monitoring -->
+    <script>
+      // Performance monitoring and optimization
+      if ('performance' in window) {
+        // Monitor Core Web Vitals
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach(entry => {
+            if (entry.entryType === 'largest-contentful-paint') {
+              console.log('LCP:', entry.startTime);
+            }
+          });
+        }).observe({ entryTypes: ['largest-contentful-paint'] });
+        
+        // Monitor First Input Delay
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach(entry => {
+            console.log('FID:', entry.processingStart - entry.startTime);
+          });
+        }).observe({ entryTypes: ['first-input'] });
+      }
+      
+      // Preload critical images
+      const criticalImages = [
+        '/logo.png',
+        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp'
+      ];
+      
+      criticalImages.forEach(src => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        link.fetchPriority = 'high';
+        document.head.appendChild(link);
+      });
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loading"></div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Defer non-critical JavaScript -->
+    <script>
+      // Defer non-critical operations
+      window.addEventListener('load', () => {
+        // Initialize lazy loading after page load
+        if ('IntersectionObserver' in window) {
+          const script = document.createElement('script');
+          script.src = '/src/utils/performanceOptimization.js';
+          script.defer = true;
+          document.body.appendChild(script);
+        }
+      });
+    </script>
   </body>
 </html>

@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\NewsletterController;
+use App\Services\ImageOptimizationService;
 
 /*
 |--------------------------------------------------------------------------
@@ -261,4 +262,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::put('/admin/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 
-}); 
+});
+
+// Image optimization route
+Route::get('/optimize-image', function (Request $request) {
+    $imageService = new ImageOptimizationService();
+    return $imageService->optimizeImage($request->get('path'), $request);
+})->middleware('cache.headers:public;max_age=31536000;etag;last_modified'); 
