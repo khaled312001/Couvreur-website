@@ -37,6 +37,13 @@ import Pricing from "./pages/Pricing";
 import Services from "./pages/Services/Services";
 import ServiceDetail from "./pages/Services/ServiceDetail";
 
+// Import City-specific service pages
+import Lyon from "./pages/Services/Lyon";
+import SaintEtienne from "./pages/Services/SaintEtienne";
+import Valence from "./pages/Services/Valence";
+import ClermontFerrand from "./pages/Services/ClermontFerrand";
+import Grenoble from "./pages/Services/Grenoble";
+
 // Import Admin pages and components
 import Login from "./pages/Admin/Login";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -140,6 +147,13 @@ function App() {
                           {/* Services Pages */}
                           <Route path="/services" element={<Services />} />
                           <Route path="/services/:slug" element={<ServiceDetail />} />
+
+                          {/* City-specific Service Pages for Local SEO */}
+                          <Route path="/services/lyon" element={<Lyon />} />
+                          <Route path="/services/saint-etienne" element={<SaintEtienne />} />
+                          <Route path="/services/valence" element={<Valence />} />
+                          <Route path="/services/clermont-ferrand" element={<ClermontFerrand />} />
+                          <Route path="/services/grenoble" element={<Grenoble />} />
 
                           {/* 404 Page - Must be last */}
                           <Route path="*" element={<NotFound />} />

@@ -30,6 +30,11 @@ Disallow: /*.xlsx$
 # Allow important pages explicitly
 Allow: /
 Allow: /services/
+Allow: /services/lyon
+Allow: /services/saint-etienne
+Allow: /services/valence
+Allow: /services/clermont-ferrand
+Allow: /services/grenoble
 Allow: /contact/
 Allow: /about/
 Allow: /gallery/
@@ -41,9 +46,27 @@ Allow: /pricing/
 # Specific rules for different bots
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Slurp
-Allow: / 
+Allow: /
+Crawl-delay: 1
+
+# Additional SEO-friendly directives
+User-agent: *
+Allow: /services/lyon
+Allow: /services/saint-etienne
+Allow: /services/valence
+Allow: /services/clermont-ferrand
+Allow: /services/grenoble
+Allow: /contact
+Allow: /about
+Allow: /gallery
+Allow: /blog
+Allow: /testimonials
+Allow: /areas
+Allow: /pricing 

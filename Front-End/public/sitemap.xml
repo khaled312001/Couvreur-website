@@ -128,40 +128,40 @@
     <priority>0.6</priority>
   </url>
   
-  <!-- Pages de services spécifiques par ville -->
+  <!-- Pages de services spécifiques par ville - PRIORITÉ ÉLEVÉE pour SEO local -->
   <url>
     <loc>https://bnbatiment.com/services/lyon</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://bnbatiment.com/services/saint-etienne</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://bnbatiment.com/services/valence</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://bnbatiment.com/services/clermont-ferrand</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://bnbatiment.com/services/grenoble</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <!-- Pages de services d'urgence -->

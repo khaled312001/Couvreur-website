@@ -1,29 +1,52 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-const SEO = ({ title, description, keywords, url, image, type = 'website' }) => {
+const SEO = ({ title, description, keywords, url, image, type = 'website', city, service, isCityPage = false, isServicePage = false }) => {
   // Ensure image URL is absolute for social media sharing
   const absoluteImageUrl = image && !image.startsWith('http') ? `https://bnbatiment.com${image}` : image;
-  const absoluteUrl = url && !url.startsWith('http') ? `https://bnbatiment.com${url}` : url;
+  const absoluteUrl = url && !url.startsWith('http') ? `https://bnbatiment.com${url}` : image;
+
+  // Enhanced title and description for city-specific pages
+  const enhancedTitle = isCityPage && city ? 
+    `${title} - Couvreur Professionnel ${city} | BN BÂTIMENT` : 
+    title;
+  
+  const enhancedDescription = isCityPage && city ? 
+    `BN BÂTIMENT, couvreur professionnel à ${city}. Installation de toiture, réparation des fuites, entretien, démoussage et nettoyage. Devis gratuit et intervention rapide 24h/24. Plus de 200 clients satisfaits.` : 
+    description;
+
+  // Enhanced keywords for city-specific pages
+  const enhancedKeywords = isCityPage && city ? 
+    `${keywords}, couvreur ${city}, installation toiture ${city}, réparation fuites ${city}, entretien toiture ${city}, démoussage toiture ${city}, nettoyage toiture ${city}, couvreur professionnel ${city}, devis gratuit ${city}, intervention rapide ${city}` : 
+    keywords;
 
   return (
     <Helmet>
-      {/* Basic Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      {/* Basic Meta Tags - Enhanced for French SEO */}
+      <title>{enhancedTitle}</title>
+      <meta name="description" content={enhancedDescription} />
+      <meta name="keywords" content={enhancedKeywords} />
       <meta name="author" content="BN BÂTIMENT - Expert Couvreur Lyon" />
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
-      {/* Language and Region */}
-      <meta name="language" content="French" />
+      {/* Enhanced Language and Region for France */}
+      <meta name="language" content="fr" />
       <meta name="geo.region" content="FR" />
-      <meta name="geo.placename" content="Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble" />
+      <meta name="geo.placename" content={city || "Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble"} />
+      <meta name="geo.position" content="45.7578;4.8320" />
+      <meta name="ICBM" content="45.7578, 4.8320" />
       
-      {/* Open Graph Meta Tags - Enhanced for Social Media */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      {/* French-specific meta tags */}
+      <meta name="geo.country" content="France" />
+      <meta name="geo.region" content="FR-69" />
+      <meta name="distribution" content="France" />
+      <meta name="coverage" content="France" />
+      <meta name="target" content="France" />
+      
+      {/* Open Graph Meta Tags - Enhanced for French Social Media */}
+      <meta property="og:title" content={enhancedTitle} />
+      <meta property="og:description" content={enhancedDescription} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={absoluteUrl} />
       <meta property="og:image" content={absoluteImageUrl} />
@@ -32,6 +55,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
       <meta property="og:image:alt" content="BN BÂTIMENT - Expert Installation Réparation Entretien Toiture" />
       <meta property="og:site_name" content="BN BÂTIMENT" />
       <meta property="og:locale" content="fr_FR" />
+      <meta property="og:locale:alternate" content="en_US" />
       
       {/* Facebook Specific */}
       <meta property="fb:app_id" content="your-facebook-app-id" />
@@ -39,8 +63,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
       
       {/* Twitter Card Meta Tags - Enhanced */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:title" content={enhancedTitle} />
+      <meta name="twitter:description" content={enhancedDescription} />
       <meta name="twitter:image" content={absoluteImageUrl} />
       <meta name="twitter:image:alt" content="BN BÂTIMENT - Expert Installation Réparation Entretien Toiture" />
       <meta name="twitter:site" content="@bnbatiment" />
@@ -72,16 +96,16 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       
-      {/* Structured Data for Local Business - Enhanced */}
+      {/* Enhanced Structured Data for Local Business - French Specific */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "BN BÂTIMENT",
-          "alternateName": ["BN BÂTIMENT Couvreur", "Couvreur Lyon", "Couvreur Saint-Étienne", "Couvreur Valence"],
+          "alternateName": ["BN BÂTIMENT Couvreur", "Couvreur Lyon", "Couvreur Saint-Étienne", "Couvreur Valence", "Couvreur Clermont-Ferrand", "Couvreur Grenoble"],
           "description": "Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Expert couvreur avec plus de 10 ans d'expérience.",
           "url": "https://bnbatiment.com",
-          "telephone": ["+33420983917", "+33780326427"],
+          "telephone": ["+33780326427", "+33780326427"],
           "email": "contact@bnbatiment.com",
           "address": {
             "@type": "PostalAddress",
@@ -111,71 +135,88 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
           "areaServed": [
             {
               "@type": "City",
-              "name": "Lyon"
+              "name": "Lyon",
+              "sameAs": "https://fr.wikipedia.org/wiki/Lyon"
             },
             {
               "@type": "City", 
-              "name": "Saint-Étienne"
+              "name": "Saint-Étienne",
+              "sameAs": "https://fr.wikipedia.org/wiki/Saint-%C3%89tienne"
             },
             {
               "@type": "City",
-              "name": "Valence"
+              "name": "Valence",
+              "sameAs": "https://fr.wikipedia.org/wiki/Valence_(Dr%C3%B4me)"
             },
             {
               "@type": "City",
-              "name": "Clermont-Ferrand"
+              "name": "Clermont-Ferrand",
+              "sameAs": "https://fr.wikipedia.org/wiki/Clermont-Ferrand"
             },
             {
               "@type": "City",
-              "name": "Grenoble"
+              "name": "Grenoble",
+              "sameAs": "https://fr.wikipedia.org/wiki/Grenoble"
             },
             {
               "@type": "City",
-              "name": "Francheville"
+              "name": "Francheville",
+              "sameAs": "https://fr.wikipedia.org/wiki/Francheville_(Rh%C3%B4ne)"
             },
             {
               "@type": "City",
-              "name": "Givors"
+              "name": "Givors",
+              "sameAs": "https://fr.wikipedia.org/wiki/Givors"
             },
             {
               "@type": "City",
-              "name": "Vienne"
+              "name": "Vienne",
+              "sameAs": "https://fr.wikipedia.org/wiki/Vienne_(Is%C3%A8re)"
             },
             {
               "@type": "City",
-              "name": "Le Pouzin"
+              "name": "Le Pouzin",
+              "sameAs": "https://fr.wikipedia.org/wiki/Le_Pouzin"
             },
             {
               "@type": "City",
-              "name": "Privas"
+              "name": "Privas",
+              "sameAs": "https://fr.wikipedia.org/wiki/Privas"
             },
             {
               "@type": "City",
-              "name": "La Voulte-sur-Rhône"
+              "name": "La Voulte-sur-Rhône",
+              "sameAs": "https://fr.wikipedia.org/wiki/La_Voulte-sur-Rh%C3%B4ne"
             },
             {
               "@type": "City",
-              "name": "Crest"
+              "name": "Crest",
+              "sameAs": "https://fr.wikipedia.org/wiki/Crest_(Dr%C3%B4me)"
             },
             {
               "@type": "City",
-              "name": "Loriol-sur-Drôme"
+              "name": "Loriol-sur-Drôme",
+              "sameAs": "https://fr.wikipedia.org/wiki/Loriol-sur-Dr%C3%B4me"
             },
             {
               "@type": "City",
-              "name": "Livron"
+              "name": "Livron",
+              "sameAs": "https://fr.wikipedia.org/wiki/Livron-sur-Dr%C3%B4me"
             },
             {
               "@type": "City",
-              "name": "La Saulce"
+              "name": "La Saulce",
+              "sameAs": "https://fr.wikipedia.org/wiki/La_Saulce"
             },
             {
               "@type": "City",
-              "name": "Mirmande"
+              "name": "Mirmande",
+              "sameAs": "https://fr.wikipedia.org/wiki/Mirmande"
             },
             {
               "@type": "City",
-              "name": "Montélimar"
+              "name": "Montélimar",
+              "sameAs": "https://fr.wikipedia.org/wiki/Mont%C3%A9limar"
             }
           ],
           "hasOfferCatalog": {
@@ -187,7 +228,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Installation de toiture",
-                  "description": "Installation complète de toiture neuve en tuiles, zinc, ardoises et métal"
+                  "description": "Installation complète de toiture neuve en tuiles, zinc, ardoises et métal",
+                  "url": "https://bnbatiment.com/services/installation"
                 }
               },
               {
@@ -195,7 +237,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Réparation des fuites",
-                  "description": "Réparation rapide des fuites de toiture avec intervention d'urgence 24h/24"
+                  "description": "Réparation rapide des fuites de toiture avec intervention d'urgence 24h/24",
+                  "url": "https://bnbatiment.com/services/repair"
                 }
               },
               {
@@ -203,7 +246,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Entretien de toiture",
-                  "description": "Entretien préventif et maintenance régulière de toiture"
+                  "description": "Entretien préventif et maintenance régulière de toiture",
+                  "url": "https://bnbatiment.com/services/maintenance"
                 }
               },
               {
@@ -211,7 +255,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Démoussage et traitement hydrofuge",
-                  "description": "Démoussage professionnel et traitement hydrofuge pour protéger votre toiture"
+                  "description": "Démoussage professionnel et traitement hydrofuge pour protéger votre toiture",
+                  "url": "https://bnbatiment.com/services/cleaning"
                 }
               },
               {
@@ -219,7 +264,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Nettoyage de toiture",
-                  "description": "Nettoyage haute pression et entretien complet de votre toiture"
+                  "description": "Nettoyage haute pression et entretien complet de votre toiture",
+                  "url": "https://bnbatiment.com/services/cleaning"
                 }
               },
               {
@@ -227,7 +273,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Installation de gouttières",
-                  "description": "Pose et réparation de gouttières en zinc et PVC"
+                  "description": "Pose et réparation de gouttières en zinc et PVC",
+                  "url": "https://bnbatiment.com/services/zinguerie"
                 }
               },
               {
@@ -235,7 +282,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Charpente",
-                  "description": "Construction et réparation de charpente en bois et métal"
+                  "description": "Construction et réparation de charpente en bois et métal",
+                  "url": "https://bnbatiment.com/services/charpente"
                 }
               },
               {
@@ -243,7 +291,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "itemOffered": {
                   "@type": "Service",
                   "name": "Zinguerie",
-                  "description": "Installation et réparation de zinguerie, gouttières et descentes"
+                  "description": "Installation et réparation de zinguerie, gouttières et descentes",
+                  "url": "https://bnbatiment.com/services/zinguerie"
                 }
               }
             ]
@@ -293,7 +342,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
           "contactPoint": [
             {
               "@type": "ContactPoint",
-              "telephone": "+33420983917",
+              "telephone": "+33780326427",
               "contactType": "customer service",
               "availableLanguage": "French",
               "hoursAvailable": {
@@ -331,7 +380,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
         })}
       </script>
       
-      {/* FAQ Structured Data */}
+      {/* FAQ Structured Data - French Specific */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
@@ -368,10 +417,76 @@ const SEO = ({ title, description, keywords, url, image, type = 'website' }) => 
                 "@type": "Answer",
                 "text": "Oui, nous intervenons 24h/24 et 7j/7 pour les urgences de toiture, notamment les fuites."
               }
+            },
+            {
+              "@type": "Question",
+              "name": "Quels sont vos tarifs ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nos tarifs varient selon le type de service et la complexité du chantier. Contactez-nous pour un devis personnalisé et gratuit."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Êtes-vous assurés ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui, nous sommes entièrement assurés avec une assurance décennale et une certification Qualibat pour votre tranquillité d'esprit."
+              }
             }
           ]
         })}
       </script>
+
+      {/* Breadcrumb Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://bnbatiment.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Services",
+              "item": "https://bnbatiment.com/services"
+            },
+            ...(city ? [{
+              "@type": "ListItem",
+              "position": 3,
+              "name": city,
+              "item": `https://bnbatiment.com/services/${city.toLowerCase().replace(/\s+/g, '-')}`
+            }] : [])
+          ]
+        })}
+      </script>
+
+      {/* Service Specific Structured Data */}
+      {isServicePage && service && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": service.name || "Service de Toiture",
+            "description": service.description || "Service professionnel de toiture par BN BÂTIMENT",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "BN BÂTIMENT",
+              "url": "https://bnbatiment.com"
+            },
+            "areaServed": {
+              "@type": "City",
+              "name": city || "Lyon"
+            },
+            "url": absoluteUrl
+          })}
+        </script>
+      )}
     </Helmet>
   );
 };
