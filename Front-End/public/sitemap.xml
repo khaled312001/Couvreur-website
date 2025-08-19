@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Page d'accueil -->
+  <!-- Page d'accueil - PRIORITÉ MAXIMALE -->
   <url>
     <loc>https://bnbatiment.com/</loc>
     <lastmod>2024-12-19</lastmod>
@@ -8,7 +8,36 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Pages de services -->
+  <!-- Pages principales - PRIORITÉ ÉLEVÉE -->
+  <url>
+    <loc>https://bnbatiment.com/a-propos</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/contact</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/zones</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/tarifs</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Pages de services - PRIORITÉ ÉLEVÉE -->
   <url>
     <loc>https://bnbatiment.com/services</loc>
     <lastmod>2024-12-19</lastmod>
@@ -16,6 +45,7 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Services individuels - PRIORITÉ MOYENNE -->
   <url>
     <loc>https://bnbatiment.com/services/installation</loc>
     <lastmod>2024-12-19</lastmod>
@@ -72,63 +102,7 @@
     <priority>0.7</priority>
   </url>
   
-  <!-- Page de contact -->
-  <url>
-    <loc>https://bnbatiment.com/contact</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Page à propos -->
-  <url>
-    <loc>https://bnbatiment.com/about</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Galerie d'images -->
-  <url>
-    <loc>https://bnbatiment.com/gallery</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <!-- Blog -->
-  <url>
-    <loc>https://bnbatiment.com/blog</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Témoignages -->
-  <url>
-    <loc>https://bnbatiment.com/testimonials</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <!-- Zones d'intervention -->
-  <url>
-    <loc>https://bnbatiment.com/areas</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Page de tarifs -->
-  <url>
-    <loc>https://bnbatiment.com/pricing</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <!-- Pages de services spécifiques par ville - PRIORITÉ ÉLEVÉE pour SEO local -->
+  <!-- Pages de services spécifiques par ville - PRIORITÉ MAXIMALE pour SEO local -->
   <url>
     <loc>https://bnbatiment.com/services/lyon</loc>
     <lastmod>2024-12-19</lastmod>
@@ -164,40 +138,97 @@
     <priority>0.9</priority>
   </url>
   
-  <!-- Pages de services d'urgence -->
+  <!-- Pages de contenu - PRIORITÉ MOYENNE -->
   <url>
-    <loc>https://bnbatiment.com/urgence</loc>
+    <loc>https://bnbatiment.com/realisations</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/avis</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/testimonials</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/blog</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Pages d'authentification utilisateur - PRIORITÉ BASSE -->
+  <url>
+    <loc>https://bnbatiment.com/login</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.4</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/devis-gratuit</loc>
+    <loc>https://bnbatiment.com/register</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.4</priority>
   </url>
   
-  <!-- Pages légales -->
   <url>
-    <loc>https://bnbatiment.com/mentions-legales</loc>
+    <loc>https://bnbatiment.com/profile</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/politique-confidentialite</loc>
+    <loc>https://bnbatiment.com/quotes</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/conditions-utilisation</loc>
+    <loc>https://bnbatiment.com/messages</loc>
     <lastmod>2024-12-19</lastmod>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
+  
+  <!-- Pages de paiement - PRIORITÉ BASSE -->
+  <url>
+    <loc>https://bnbatiment.com/payment</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/payment-success</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/facture</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <!-- Pages d'administration - NON INDEXÉES (robots noindex) -->
+  <!-- Note: Ces pages ne sont pas incluses dans le sitemap car elles sont protégées -->
+  <!-- /admin/login, /admin/dashboard, etc. -->
+  
+  <!-- Pages d'erreur - NON INDEXÉES -->
+  <!-- Note: La page 404 n'est pas incluse dans le sitemap -->
 </urlset> 
