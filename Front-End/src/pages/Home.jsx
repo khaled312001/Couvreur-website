@@ -1806,6 +1806,30 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Google Maps Section */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header fade-in-on-scroll">
+            <h2 className="section-title">Planifiez votre trajet</h2>
+            <p className="section-subtitle">Utilisez notre carte interactive pour planifier votre trajet vers nos services</p>
+          </div>
+          <div className="google-maps-iframe-container">
+            <iframe 
+              src="https://storage.googleapis.com/maps-solutions-nm58esdixu/commutes/udid/commutes.html"
+              width="100%" 
+              height="500"
+              style={{
+                border: 0, 
+                borderRadius: '12px', 
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)'
+              }}
+              loading="lazy"
+              title="Planification de trajet - BN BÂTIMENT"
+            />
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };

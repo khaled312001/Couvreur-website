@@ -650,19 +650,39 @@ const Contact = () => {
           </p>
         
           <div className="map-container">
-            <div ref={mapRef} className="map" />
-            <div className="map-legend">
-              <h4>Légende</h4>
-              <div className="legend-items">
-                {areas.map((area, index) => (
-                  <div key={index} className="legend-item">
-                    <div 
-                      className="legend-color" 
-                      style={{ backgroundColor: area.color }}
-                    />
-                    <span>{area.name}</span>
-                  </div>
-                ))}
+            {/* Google Maps Commute Map */}
+            <div className="google-maps-section">
+              <h3>Planifiez votre trajet</h3>
+              <p>Utilisez notre carte interactive pour planifier votre trajet vers nos services</p>
+              <div className="google-maps-iframe-container">
+                <iframe 
+                  src="https://storage.googleapis.com/maps-solutions-nm58esdixu/commutes/udid/commutes.html"
+                  width="100%" 
+                  height="400"
+                  style={{border:0, borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}
+                  loading="lazy"
+                  title="Planification de trajet - BN BÂTIMENT"
+                />
+              </div>
+            </div>
+            
+            {/* Custom Map with Legend */}
+            <div className="custom-map-section">
+              <h3>Nos zones d'intervention</h3>
+              <div ref={mapRef} className="map" />
+              <div className="map-legend">
+                <h4>Légende</h4>
+                <div className="legend-items">
+                  {areas.map((area, index) => (
+                    <div key={index} className="legend-item">
+                      <div 
+                        className="legend-color" 
+                        style={{ backgroundColor: area.color }}
+                      />
+                      <span>{area.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
