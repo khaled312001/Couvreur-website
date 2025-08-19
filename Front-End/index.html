@@ -69,21 +69,29 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     
-    <!-- Enhanced Google Analytics and Conversion Tracking -->
+    <!-- Google tag (gtag.js) - Conversion Tracking -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17440024602"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
       gtag('config', 'AW-17440024602');
     </script>
     
+    <!-- Google tag (gtag.js) - Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJX0MWS7Q5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
       gtag('config', 'G-RJX0MWS7Q5');
+    </script>
+    
+    <!-- Event snippet for جهة اتصال (1) conversion page -->
+    <script>
+      gtag('event', 'conversion', {'send_to': 'AW-17440024602/_f3bCNiLrIgbEJrQhvxA'});
     </script>
     
     <!-- Enhanced Performance Optimizations - Preconnect to external domains -->
