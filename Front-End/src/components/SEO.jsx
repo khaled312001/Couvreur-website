@@ -4,7 +4,8 @@ import { Helmet } from 'react-helmet';
 const SEO = ({ title, description, keywords, url, image, type = 'website', city, service, isCityPage = false, isServicePage = false }) => {
   // Ensure image URL is absolute for social media sharing
   const absoluteImageUrl = image && !image.startsWith('http') ? `https://bnbatiment.com${image}` : image;
-  const absoluteUrl = url && !url.startsWith('http') ? `https://bnbatiment.com${url}` : image;
+  // Fix: Use url parameter instead of image for absoluteUrl fallback
+  const absoluteUrl = url && !url.startsWith('http') ? `https://bnbatiment.com${url}` : (url || 'https://bnbatiment.com/');
 
   // Enhanced title and description for city-specific pages
   const enhancedTitle = isCityPage && city ? 
@@ -77,10 +78,29 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content="BN BÂTIMENT" />
       
-      {/* Additional SEO Meta Tags */}
+      {/* Additional SEO Meta Tags for BN BÂTIMENT */}
       <meta name="theme-color" content="#3b82f6" />
       <meta name="msapplication-TileColor" content="#3b82f6" />
       <meta name="msapplication-config" content="/browserconfig.xml" />
+      
+      {/* BN BÂTIMENT Business Information */}
+      <meta name="company" content="BN BÂTIMENT - Couvreur Expert" />
+      <meta name="business.name" content="BN BÂTIMENT" />
+      <meta name="business.type" content="Couvreur Professionnel" />
+      <meta name="contact.phone" content="+33780326427" />
+      <meta name="contact.email" content="contact@bnbatiment.com" />
+      <meta name="website.url" content="https://bnbatiment.com" />
+      
+      {/* Enhanced French SEO Tags for BN BÂTIMENT */}
+      <meta name="revisit-after" content="7 days" />
+      <meta name="classification" content="Couvreur, Toiture, Charpente, Zinguerie, Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble" />
+      <meta name="category" content="Construction, Couverture, Toiture, Rénovation" />
+      <meta name="copyright" content="BN BÂTIMENT 2024" />
+      <meta name="reply-to" content="contact@bnbatiment.com" />
+      <meta name="owner" content="BN BÂTIMENT" />
+      <meta name="url" content={absoluteUrl} />
+      <meta name="identifier-URL" content={absoluteUrl} />
+      <link rel="publisher" href="https://bnbatiment.com" />
       
       {/* Canonical URL */}
       <link rel="canonical" href={absoluteUrl} />
@@ -96,289 +116,8 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       
-      {/* Enhanced Structured Data for Local Business - French Specific */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "BN BÂTIMENT",
-          "alternateName": ["BN BÂTIMENT Couvreur", "Couvreur Lyon", "Couvreur Saint-Étienne", "Couvreur Valence", "Couvreur Clermont-Ferrand", "Couvreur Grenoble"],
-          "description": "Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Expert couvreur avec plus de 10 ans d'expérience.",
-          "url": "https://bnbatiment.com",
-          "telephone": ["+33780326427", "+33780326427"],
-          "email": "contact@bnbatiment.com",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Lyon",
-            "addressRegion": "Rhône-Alpes",
-            "addressCountry": "FR",
-            "postalCode": "69000"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 45.7578,
-            "longitude": 4.8320
-          },
-          "openingHours": "Mo-Su 00:00-23:59",
-          "priceRange": "€€",
-          "currenciesAccepted": "EUR",
-          "paymentAccepted": "Cash, Credit Card, Bank Transfer, Check",
-          "serviceArea": {
-            "@type": "GeoCircle",
-            "geoMidpoint": {
-              "@type": "GeoCoordinates",
-              "latitude": 45.7578,
-              "longitude": 4.8320
-            },
-            "geoRadius": "100000"
-          },
-          "areaServed": [
-            {
-              "@type": "City",
-              "name": "Lyon",
-              "sameAs": "https://fr.wikipedia.org/wiki/Lyon"
-            },
-            {
-              "@type": "City", 
-              "name": "Saint-Étienne",
-              "sameAs": "https://fr.wikipedia.org/wiki/Saint-%C3%89tienne"
-            },
-            {
-              "@type": "City",
-              "name": "Valence",
-              "sameAs": "https://fr.wikipedia.org/wiki/Valence_(Dr%C3%B4me)"
-            },
-            {
-              "@type": "City",
-              "name": "Clermont-Ferrand",
-              "sameAs": "https://fr.wikipedia.org/wiki/Clermont-Ferrand"
-            },
-            {
-              "@type": "City",
-              "name": "Grenoble",
-              "sameAs": "https://fr.wikipedia.org/wiki/Grenoble"
-            },
-            {
-              "@type": "City",
-              "name": "Francheville",
-              "sameAs": "https://fr.wikipedia.org/wiki/Francheville_(Rh%C3%B4ne)"
-            },
-            {
-              "@type": "City",
-              "name": "Givors",
-              "sameAs": "https://fr.wikipedia.org/wiki/Givors"
-            },
-            {
-              "@type": "City",
-              "name": "Vienne",
-              "sameAs": "https://fr.wikipedia.org/wiki/Vienne_(Is%C3%A8re)"
-            },
-            {
-              "@type": "City",
-              "name": "Le Pouzin",
-              "sameAs": "https://fr.wikipedia.org/wiki/Le_Pouzin"
-            },
-            {
-              "@type": "City",
-              "name": "Privas",
-              "sameAs": "https://fr.wikipedia.org/wiki/Privas"
-            },
-            {
-              "@type": "City",
-              "name": "La Voulte-sur-Rhône",
-              "sameAs": "https://fr.wikipedia.org/wiki/La_Voulte-sur-Rh%C3%B4ne"
-            },
-            {
-              "@type": "City",
-              "name": "Crest",
-              "sameAs": "https://fr.wikipedia.org/wiki/Crest_(Dr%C3%B4me)"
-            },
-            {
-              "@type": "City",
-              "name": "Loriol-sur-Drôme",
-              "sameAs": "https://fr.wikipedia.org/wiki/Loriol-sur-Dr%C3%B4me"
-            },
-            {
-              "@type": "City",
-              "name": "Livron",
-              "sameAs": "https://fr.wikipedia.org/wiki/Livron-sur-Dr%C3%B4me"
-            },
-            {
-              "@type": "City",
-              "name": "La Saulce",
-              "sameAs": "https://fr.wikipedia.org/wiki/La_Saulce"
-            },
-            {
-              "@type": "City",
-              "name": "Mirmande",
-              "sameAs": "https://fr.wikipedia.org/wiki/Mirmande"
-            },
-            {
-              "@type": "City",
-              "name": "Montélimar",
-              "sameAs": "https://fr.wikipedia.org/wiki/Mont%C3%A9limar"
-            }
-          ],
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Services de Toiture",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Installation de toiture",
-                  "description": "Installation complète de toiture neuve en tuiles, zinc, ardoises et métal",
-                  "url": "https://bnbatiment.com/services/installation"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Réparation des fuites",
-                  "description": "Réparation rapide des fuites de toiture avec intervention d'urgence 24h/24",
-                  "url": "https://bnbatiment.com/services/repair"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Entretien de toiture",
-                  "description": "Entretien préventif et maintenance régulière de toiture",
-                  "url": "https://bnbatiment.com/services/maintenance"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Démoussage et traitement hydrofuge",
-                  "description": "Démoussage professionnel et traitement hydrofuge pour protéger votre toiture",
-                  "url": "https://bnbatiment.com/services/cleaning"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Nettoyage de toiture",
-                  "description": "Nettoyage haute pression et entretien complet de votre toiture",
-                  "url": "https://bnbatiment.com/services/cleaning"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Installation de gouttières",
-                  "description": "Pose et réparation de gouttières en zinc et PVC",
-                  "url": "https://bnbatiment.com/services/zinguerie"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Charpente",
-                  "description": "Construction et réparation de charpente en bois et métal",
-                  "url": "https://bnbatiment.com/services/charpente"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Zinguerie",
-                  "description": "Installation et réparation de zinguerie, gouttières et descentes",
-                  "url": "https://bnbatiment.com/services/zinguerie"
-                }
-              }
-            ]
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "200",
-            "bestRating": "5",
-            "worstRating": "1"
-          },
-          "review": [
-            {
-              "@type": "Review",
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5"
-              },
-              "author": {
-                "@type": "Person",
-                "name": "Client satisfait"
-              },
-              "reviewBody": "Excellent service, intervention rapide et professionnelle. Je recommande vivement !"
-            }
-          ],
-          "sameAs": [
-            "https://www.facebook.com/bnbatiment",
-            "https://www.instagram.com/bnbatiment",
-            "https://www.linkedin.com/company/bnbatiment"
-          ],
-          "image": absoluteImageUrl,
-          "logo": "https://bnbatiment.com/logo.png"
-        })}
-      </script>
-      
-      {/* Additional Structured Data for Organization */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "BN BÂTIMENT",
-          "url": "https://bnbatiment.com",
-          "logo": "https://bnbatiment.com/logo.png",
-          "image": absoluteImageUrl,
-          "description": "Expert en installation, réparation et entretien de toiture dans la région Rhône-Alpes",
-          "contactPoint": [
-            {
-              "@type": "ContactPoint",
-              "telephone": "+33780326427",
-              "contactType": "customer service",
-              "availableLanguage": "French",
-              "hoursAvailable": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                "opens": "00:00",
-                "closes": "23:59"
-              }
-            },
-            {
-              "@type": "ContactPoint",
-              "telephone": "+33780326427",
-              "contactType": "emergency",
-              "availableLanguage": "French",
-              "hoursAvailable": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                "opens": "00:00",
-                "closes": "23:59"
-              }
-            }
-          ],
-          "sameAs": [
-            "https://www.facebook.com/bnbatiment",
-            "https://www.instagram.com/bnbatiment",
-            "https://www.linkedin.com/company/bnbatiment"
-          ],
-          "foundingDate": "2014",
-          "numberOfEmployees": "10-50",
-          "award": [
-            "Certification Qualibat",
-            "Assurance décennale",
-            "Plus de 200 clients satisfaits"
-          ]
-        })}
-      </script>
+      {/* Note: LocalBusiness and Organization schemas are defined in index.html to avoid duplication */}
+      {/* Only FAQ and Breadcrumb schemas are added per page here */}
       
       {/* FAQ Structured Data - French Specific */}
       <script type="application/ld+json">
@@ -491,4 +230,4 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
   );
 };
 
-export default SEO; 
+export default SEO;

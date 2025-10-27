@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\NewsletterController;
+use App\Http\Controllers\SitemapController;
 use App\Services\ImageOptimizationService;
 
 /*
@@ -268,4 +269,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/optimize-image', function (Request $request) {
     $imageService = new ImageOptimizationService();
     return $imageService->optimizeImage($request->get('path'), $request);
-})->middleware('cache.headers:public;max_age=31536000;etag;last_modified'); 
+})->middleware('cache.headers:public;max_age=31536000;etag;last_modified');
+
+// Sitemap route
+Route::get('/sitemap', [SitemapController::class, 'index']); 
