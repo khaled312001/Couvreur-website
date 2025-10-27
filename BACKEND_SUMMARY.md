@@ -86,5 +86,5 @@ Sitemap: `https://www.bnbatiment.com/api/sitemap`
 
 **BN BÂTIMENT** - Votre Couvreur Expert  
 **www.bnbatiment.com**  
-Tél: 07 80 32 64 27
+Tél: +33 780326427
 

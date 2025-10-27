@@ -561,7 +561,7 @@ const Contact = () => {
                       <h4>Téléphone</h4>
                       <p>
                         <a href="tel:0780326427" style={{ color: '#3b82f6', textDecoration: 'none' }}>
-                          07 80 32 64 27
+                          +33 780326427
                         </a>
                       </p>
                     </div>

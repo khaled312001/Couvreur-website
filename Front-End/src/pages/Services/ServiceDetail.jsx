@@ -1401,7 +1401,7 @@ const ServiceDetail = () => {
                 </div>
                 <div className="contact-details">
                   <span className="contact-label">Téléphone</span>
-                  <span className="contact-value">07 80 32 64 27</span>
+                  <span className="contact-value">+33 780326427</span>
                 </div>
               </div>
               

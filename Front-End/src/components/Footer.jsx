@@ -186,7 +186,7 @@ const Footer = () => {
                     <div className="icon-glow"></div>
                   </div>
                   <div className="footer-contact-text">
-                    <a href="tel:0780326427">07 80 32 64 27</a>
+                    <a href="tel:0780326427">+33 780326427</a>
                   </div>
                 </div>
                 <div className="footer-contact-item hover-lift">

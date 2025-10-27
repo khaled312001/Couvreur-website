@@ -43,7 +43,7 @@ Le climat lyonnais se caractérise par ses hivers rigoureux et ses étés chauds
 **BN BÂTIMENT** intervient dans toute la région Rhône-Alpes pour l\'installation de toitures. Retrouvez toutes nos zones d\'intervention sur **www.bnbatiment.com** :
 
 ### Installation Toiture Lyon par BN BÂTIMENT
-**BN BÂTIMENT** est spécialisé dans l\'installation de toiture à Lyon et sa périphérie. Notre équipe **BN BÂTIMENT** intervient rapidement pour tous vos besoins en couverture lyonnaise. Contactez **BN BÂTIMENT** via **www.bnbatiment.com** ou au 07 80 32 64 27.
+**BN BÂTIMENT** est spécialisé dans l\'installation de toiture à Lyon et sa périphérie. Notre équipe **BN BÂTIMENT** intervient rapidement pour tous vos besoins en couverture lyonnaise. Contactez **BN BÂTIMENT** via **www.bnbatiment.com** ou au +33 780326427.
 
 ### Installation Toiture Saint-Étienne par BN BÂTIMENT
 **BN BÂTIMENT** intervient régulièrement à Saint-Étienne (42) pour l\'installation de toitures. Les services **BN BÂTIMENT** sont appréciés par les habitants de la Loire. Rendez-vous sur **www.bnbatiment.com** pour plus d\'informations.
@@ -86,7 +86,7 @@ L\'équipe **BN BÂTIMENT** est composée de couvreurs certifiés avec plus de 1
 
 **BN BÂTIMENT** a acquis une réputation d\'excellence grâce à son savoir-faire exceptionnel et son engagement client. Notre entreprise **BN BÂTIMENT** est certifiée Qualibat et assurée en responsabilité civile décennale. Tous nos clients **BN BÂTIMENT** bénéficient d\'un suivi personnalisé du devis à la réception des travaux.
 
-Contactez **BN BÂTIMENT** pour un devis d\'installation de toiture à Lyon et dans toute la région Rhône-Alpes. Rendez-vous sur **www.bnbatiment.com** ou appelez **BN BÂTIMENT** au 07 80 32 64 27 pour parler directement à notre équipe.
+Contactez **BN BÂTIMENT** pour un devis d\'installation de toiture à Lyon et dans toute la région Rhône-Alpes. Rendez-vous sur **www.bnbatiment.com** ou appelez **BN BÂTIMENT** au +33 780326427 pour parler directement à notre équipe.
 
 ## Références et Témoignages Clients BN BÂTIMENT
 
@@ -115,7 +115,7 @@ L\'équipe **BN BÂTIMENT** procède à l\'installation selon les normes les plu
 
 **BN BÂTIMENT** est votre expert en installation de toiture à Lyon et dans toute la région Rhône-Alpes. Notre entreprise **BN BÂTIMENT** met à votre disposition son expertise, son savoir-faire et son engagement pour tous vos projets de couverture. Visitez **www.bnbatiment.com** pour découvrir l\'ensemble de nos services **BN BÂTIMENT** et contactez-nous pour un devis gratuit personnalisé.
 
-**Pour en savoir plus sur les services BN BÂTIMENT, consultez www.bnbatiment.com. BN BÂTIMENT vous accompagne dans tous vos projets de couverture professionnelle en Rhône-Alpes. Contactez BN BÂTIMENT au 07 80 32 64 27 ou visitez www.bnbatiment.com pour obtenir un devis gratuit et personnalisé.**',
+**Pour en savoir plus sur les services BN BÂTIMENT, consultez www.bnbatiment.com. BN BÂTIMENT vous accompagne dans tous vos projets de couverture professionnelle en Rhône-Alpes. Contactez BN BÂTIMENT au +33 780326427 ou visitez www.bnbatiment.com pour obtenir un devis gratuit et personnalisé.**',
                 'excerpt' => 'Installation de toiture professionnelle à Lyon et Rhône-Alpes avec BN BÂTIMENT expert couvreur. Tous types de toitures : tuiles, ardoises, zinc. Devis gratuit sur www.bnbatiment.com',
                 'author' => 'BN BÂTIMENT',
                 'category' => 'Installation',
@@ -133,7 +133,7 @@ L\'équipe **BN BÂTIMENT** procède à l\'installation selon les normes les plu
 
 Une fuite de toiture peut causer des dégâts considérables à votre habitation et nécessite une intervention rapide. **BN BÂTIMENT**, votre expert en réparation de fuites de toiture, intervient 24h/24 et 7j/7 dans toute la région Rhône-Alpes. L\'équipe de couvreurs **BN BÂTIMENT** spécialisée en réparation de fuites intervient en urgence dans toute la Loire, le Rhône, l\'Isère, la Drôme, l\'Ardèche et le Puy-de-Dôme. Découvrez nos services d\'urgence sur **www.bnbatiment.com**.
 
-**BN BÂTIMENT** comprend que les fuites de toiture ne préviennent pas. C\'est pourquoi **BN BÂTIMENT** a mis en place un service d\'urgence disponible 24h/24 pour répondre rapidement à tous vos besoins de réparation. Contactez **BN BÂTIMENT** au 07 80 32 64 27 pour une intervention immédiate. Plus d\'informations sur **www.bnbatiment.com**.
+**BN BÂTIMENT** comprend que les fuites de toiture ne préviennent pas. C\'est pourquoi **BN BÂTIMENT** a mis en place un service d\'urgence disponible 24h/24 pour répondre rapidement à tous vos besoins de réparation. Contactez **BN BÂTIMENT** au +33 780326427 pour une intervention immédiate. Plus d\'informations sur **www.bnbatiment.com**.
 
 ## Pourquoi Choisir BN BÂTIMENT pour la Réparation de Fuite ?
 
@@ -173,7 +173,7 @@ Tous les diagnostics **BN BÂTIMENT** sont gratuits et sans engagement. Ce diagn
 Toutes les réparations **BN BÂTIMENT** bénéficient d\'une garantie travaux. Cette garantie **BN BÂTIMENT** couvre le travail réalisé. Plus d\'infos sur **www.bnbatiment.com**.
 
 ### Équipe Disponible 7j/7 par BN BÂTIMENT
-L\'équipe **BN BÂTIMENT** est disponible 7j/7 pour vos urgences. Cette disponibilité **BN BÂTIMENT** vous assure une réponse rapide. Contactez **BN BÂTIMENT** 24h/24 au 07 80 32 64 27.
+L\'équipe **BN BÂTIMENT** est disponible 7j/7 pour vos urgences. Cette disponibilité **BN BÂTIMENT** vous assure une réponse rapide. Contactez **BN BÂTIMENT** 24h/24 au +33 780326427.
 
 ## Zones d\'Intervention Réparation Fuite BN BÂTIMENT
 
@@ -187,7 +187,7 @@ Consultez **www.bnbatiment.com** pour toutes nos zones d\'intervention réparati
 
 Tous les travaux **BN BÂTIMENT** sont réalisés avec des matériaux de qualité et selon les normes en vigueur. L\'expertise **BN BÂTIMENT** vous assure des réparations durables. Plus d\'informations sur **www.bnbatiment.com**.
 
-Contactez **BN BÂTIMENT** immédiatement pour toute fuite de toiture. Rendez-vous sur **www.bnbatiment.com** ou appelez **BN BÂTIMENT** au 07 80 32 64 27 pour une intervention urgente **BN BÂTIMENT**.',
+Contactez **BN BÂTIMENT** immédiatement pour toute fuite de toiture. Rendez-vous sur **www.bnbatiment.com** ou appelez **BN BÂTIMENT** au +33 780326427 pour une intervention urgente **BN BÂTIMENT**.',
                 'excerpt' => 'Réparation fuite toiture 24h/24 avec BN BÂTIMENT - Intervention urgente Lyon, Saint-Étienne, Valence. Diagnostic gratuit, réparation durable www.bnbatiment.com',
                 'author' => 'BN BÂTIMENT',
                 'category' => 'Réparation',
@@ -256,7 +256,7 @@ Les avantages de l\'entretien régulier **BN BÂTIMENT** sont nombreux : préven
 
 L\'entretien régulier **BN BÂTIMENT** prévient les problèmes avant qu\'ils ne deviennent coûteux. **BN BÂTIMENT** vous fait économiser de l\'argent à long terme. Consultez **www.bnbatiment.com** pour programmer votre entretien.
 
-Contactez **BN BÂTIMENT** pour un devis d\'entretien de toiture. Visitez **www.bnbatiment.com** pour découvrir tous nos services d\'entretien **BN BÂTIMENT** ou appelez **BN BÂTIMENT** au 07 80 32 64 27.',
+Contactez **BN BÂTIMENT** pour un devis d\'entretien de toiture. Visitez **www.bnbatiment.com** pour découvrir tous nos services d\'entretien **BN BÂTIMENT** ou appelez **BN BÂTIMENT** au +33 780326427.',
                 'excerpt' => 'Entretien toiture avec BN BÂTIMENT - Démoussage et traitement hydrofuge professionnel Lyon, Saint-Étienne, Valence, Clermont-Ferrand. Devis gratuit www.bnbatiment.com',
                 'author' => 'BN BÂTIMENT',
                 'category' => 'Entretien',

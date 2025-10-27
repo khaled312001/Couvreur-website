@@ -303,7 +303,7 @@ const Header = () => {
             <div className="mobile-sidebar-contact-grid">
               <div className="mobile-sidebar-contact-item">
                 <Phone size={16} />
-                <a href="tel:33780326427">07 80 32 64 27</a>
+                <a href="tel:33780326427">+33 780326427</a>
               </div>
               <div className="mobile-sidebar-contact-item">
                 <Mail size={16} />

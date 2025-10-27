@@ -356,7 +356,7 @@ const SaintEtienne = () => {
                     <span className="text-2xl mr-4">📞</span>
                     <div>
                       <p className="font-semibold">Téléphone</p>
-                      <p>07 80 32 64 27</p>
+                      <p>+33 780326427</p>
                     </div>
                   </div>
                   <div className="flex items-center">

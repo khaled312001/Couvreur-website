@@ -653,7 +653,7 @@ const Home = () => {
               </div>
               <div className="card-content">
                 <h3>Contact direct</h3>
-                <p>07 80 32 64 27</p>
+                <p>+33 780326427</p>
                 <div className="availability-badge">
                   <span className="badge-dot"></span>
                   <span>Appel gratuit</span>
@@ -1668,7 +1668,7 @@ const Home = () => {
                     </div>
                     <div className="contact-details">
                       <h4>Téléphone</h4>
-                      <p>07 80 32 64 27</p>
+                      <p>+33 780326427</p>
                     </div>
                   </div>
                   <div className="contact-info-item">
@@ -1768,7 +1768,7 @@ const Home = () => {
                         value={contactFormData.phone}
                         onChange={handleContactFormChange}
                         className="form-input" 
-                        placeholder="07 80 32 64 27" 
+                        placeholder="+33 780326427" 
                       />
                     </div>
                     <div className="form-group">

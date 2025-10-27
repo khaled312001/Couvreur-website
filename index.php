@@ -296,7 +296,7 @@
 
         <div class="contact-info">
             <div class="contact-item">
-                📞 <a href="tel:0780326427">07 80 32 64 27</a>
+                📞 <a href="tel:0780326427">+33 780326427</a>
             </div>
             <div class="contact-item">
                 📧 <a href="mailto:support@bnbatiment.com">support@bnbatiment.com</a>

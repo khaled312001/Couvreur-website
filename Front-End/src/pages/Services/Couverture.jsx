@@ -484,7 +484,7 @@ const Couverture = () => {
                       value={contactFormData.phone}
                       onChange={handleContactFormChange}
                       className="form-input" 
-                      placeholder="07 80 32 64 27" 
+                      placeholder="+33 780326427" 
                     />
                   </div>
                   <div className="form-group">
