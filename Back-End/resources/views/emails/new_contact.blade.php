@@ -69,7 +69,15 @@
             <h3>Informations du contact :</h3>
             <p><strong>Nom :</strong> {{ $name }}</p>
             <p><strong>Email :</strong> {{ $email }}</p>
-            <p><strong>Session ID :</strong> {{ $session_id }}</p>
+            @if(isset($phone) && $phone)
+                <p><strong>Téléphone :</strong> {{ $phone }}</p>
+            @endif
+            @if(isset($subject) && $subject)
+                <p><strong>Sujet :</strong> {{ $subject }}</p>
+            @endif
+            @if(isset($session_id) && $session_id)
+                <p><strong>Session ID :</strong> {{ $session_id }}</p>
+            @endif
         </div>
         
         <div class="message-box">

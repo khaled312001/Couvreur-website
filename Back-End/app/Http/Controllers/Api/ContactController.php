@@ -124,13 +124,22 @@ class ContactController extends Controller
             'message' => $request->message,
             'status' => 'unread'
         ]);
+        
+        // Create notification for new contact message
+        $notification = Notification::createContactNotification($message);
+        
+        // Send email notification
+        $this->sendEmailNotification($message);
 
-        return response()->json($message, 201);
+        return response()->json([
+            'message' => $message,
+            'notification' => $notification
+        ], 201);
     }
 
     private function sendEmailNotification($contactMessage)
     {
-        $adminEmail = 'khaledahmedhaggay@gmail.com';
+        $adminEmail = 'support@bnbatiment.com';
         
         $emailData = [
             'name' => $contactMessage->name,
@@ -146,7 +155,7 @@ class ContactController extends Controller
             Mail::send('emails.new_contact', $emailData, function ($mailMessage) use ($adminEmail, $contactMessage) {
                 $mailMessage->to($adminEmail)
                         ->subject("Nouveau message de contact de {$contactMessage->name}")
-                        ->from('noreply@bnbatiment.com', 'BN Bâtiment');
+                        ->from('support@bnbatiment.com', 'BN Bâtiment');
             });
             
             // Log success

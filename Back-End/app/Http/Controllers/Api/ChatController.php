@@ -38,7 +38,7 @@ class ChatController extends Controller
             $existingContact = ContactMessage::where('session_id', $request->session_id)->first();
             
             if (!$existingContact) {
-                ContactMessage::create([
+                $contactMessage = ContactMessage::create([
                     'name' => $request->sender_name,
                     'email' => $request->sender_email,
                     'subject' => 'Chat Session - ' . $request->session_id,
@@ -48,7 +48,7 @@ class ChatController extends Controller
                 ]);
 
                 // Send email notification to admin
-                $this->sendEmailNotification($request->sender_name, $request->sender_email, $request->message, $request->session_id);
+                $this->sendEmailNotification($request->sender_name, $request->sender_email, $request->message, $request->session_id, $contactMessage->phone, $contactMessage->subject);
             }
         }
 
@@ -131,7 +131,7 @@ class ChatController extends Controller
         ]);
 
         // Send email notification
-        $this->sendEmailNotification($request->name, $request->email, $request->message, $sessionId);
+        $this->sendEmailNotification($request->name, $request->email, $request->message, $sessionId, $request->phone, $request->service ? "Demande de devis - $request->service" : 'Nouvelle demande de contact');
 
         return response()->json([
             'session_id' => $sessionId,
@@ -139,15 +139,17 @@ class ChatController extends Controller
         ], 201);
     }
 
-    private function sendEmailNotification($name, $email, $message, $sessionId)
+    private function sendEmailNotification($name, $email, $message, $sessionId, $phone = null, $subject = null)
     {
-        $adminEmail = 'khaledahmedhaggay@gmail.com';
+        $adminEmail = 'support@bnbatiment.com';
         
         $emailData = [
             'name' => $name,
             'email' => $email,
             'userMessage' => $message,
             'session_id' => $sessionId,
+            'phone' => $phone,
+            'subject' => $subject,
             'admin_url' => url('/admin/chat/' . $sessionId)
         ];
 
@@ -156,7 +158,7 @@ class ChatController extends Controller
             Mail::send('emails.new_contact', $emailData, function ($mailMessage) use ($adminEmail, $name) {
                 $mailMessage->to($adminEmail)
                         ->subject("Nouveau message de contact de $name")
-                        ->from('noreply@bnbatiment.com', 'BN Bâtiment');
+                        ->from('support@bnbatiment.com', 'BN Bâtiment');
             });
             
             // Log success
