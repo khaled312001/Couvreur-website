@@ -108,10 +108,7 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     
     <!-- Enhanced Preload critical resources -->
-    <link rel="preload" href="/logo.png" as="image" type="image/png" fetchpriority="high" />
-    <link rel="preload" href="/src/styles/main.css" as="style" />
-    <link rel="preload" href="/src/styles/tailwind.css" as="style" />
-    <link rel="preload" href="/src/main.jsx" as="script" type="module" />
+    <link rel="preload" href="/logo.png" as="image" type="image/png" />
     
     <!-- Enhanced Critical CSS Inline for above-the-fold content -->
     <style>
@@ -398,56 +395,58 @@
     <!-- Enhanced Performance monitoring and optimization -->
     <script>
       // Enhanced Performance monitoring and optimization
-      const isProduction = window.location.hostname !== 'localhost';
-      if ('performance' in window) {
-        // Monitor Core Web Vitals
-        new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach(entry => {
-            if (entry.entryType === 'largest-contentful-paint') {
-              // Only log in development mode to reduce console noise
-              if (!isProduction) {
-                console.log('LCP:', entry.startTime);
-              }
-              // Send to analytics if LCP is poor
-              if (entry.startTime > 2500) {
-                gtag('event', 'poor_lcp', { value: entry.startTime });
-              }
-            }
-          });
-        }).observe({ entryTypes: ['largest-contentful-paint'] });
-        
-        // Monitor First Input Delay
-        new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach(entry => {
-            const fid = entry.processingStart - entry.startTime;
-            // Only log in development mode to reduce console noise
-            if (!isProduction) {
-              console.log('FID:', fid);
-            }
-            // Send to analytics if FID is poor
-            if (fid > 100) {
-              gtag('event', 'poor_fid', { value: fid });
-            }
-          });
-        }).observe({ entryTypes: ['first-input'] });
-        
-        // Monitor Cumulative Layout Shift - disabled to reduce console noise
-        // Only monitor in development
-        if (!isProduction) {
+      (function() {
+        const isProduction = window.location.hostname !== 'localhost';
+        if ('performance' in window) {
+          // Monitor Core Web Vitals
           new PerformanceObserver((list) => {
             const entries = list.getEntries();
             entries.forEach(entry => {
-              console.log('CLS:', entry.value);
-              // Send to analytics if CLS is poor
-              if (entry.value > 0.1) {
-                gtag('event', 'poor_cls', { value: entry.value });
+              if (entry.entryType === 'largest-contentful-paint') {
+                // Only log in development mode to reduce console noise
+                if (!isProduction) {
+                  console.log('LCP:', entry.startTime);
+                }
+                // Send to analytics if LCP is poor
+                if (entry.startTime > 2500) {
+                  gtag('event', 'poor_lcp', { value: entry.startTime });
+                }
               }
             });
-          }).observe({ entryTypes: ['layout-shift'] });
+          }).observe({ entryTypes: ['largest-contentful-paint'] });
+          
+          // Monitor First Input Delay
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+              const fid = entry.processingStart - entry.startTime;
+              // Only log in development mode to reduce console noise
+              if (!isProduction) {
+                console.log('FID:', fid);
+              }
+              // Send to analytics if FID is poor
+              if (fid > 100) {
+                gtag('event', 'poor_fid', { value: fid });
+              }
+            });
+          }).observe({ entryTypes: ['first-input'] });
+          
+          // Monitor Cumulative Layout Shift - disabled to reduce console noise
+          // Only monitor in development
+          if (!isProduction) {
+            new PerformanceObserver((list) => {
+              const entries = list.getEntries();
+              entries.forEach(entry => {
+                console.log('CLS:', entry.value);
+                // Send to analytics if CLS is poor
+                if (entry.value > 0.1) {
+                  gtag('event', 'poor_cls', { value: entry.value });
+                }
+              });
+            }).observe({ entryTypes: ['layout-shift'] });
+          }
         }
-      }
+      })();
       
       // Enhanced critical images preloading
       const criticalImages = [
@@ -492,31 +491,32 @@
     <!-- Enhanced non-critical JavaScript with performance optimization -->
     <script>
       // Enhanced defer non-critical operations
-      const isProduction = window.location.hostname !== 'localhost';
-      
-      window.addEventListener('load', () => {
-        // Initialize lazy loading after page load
-        if ('IntersectionObserver' in window) {
-          const script = document.createElement('script');
-          script.src = '/src/utils/performanceOptimization.js';
-          script.defer = true;
-          document.body.appendChild(script);
-        }
+      (function() {
+        const isProduction = window.location.hostname !== 'localhost';
         
-        // Enhanced service worker registration for PWA
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              // Only log in development mode to reduce console noise
-              if (!isProduction) {
-                console.log('SW registered: ', registration);
-              }
-            })
-            .catch(registrationError => {
-              // Log errors even in production for debugging
-              console.error('SW registration failed: ', registrationError);
-            });
-        }
+        window.addEventListener('load', () => {
+          // Initialize lazy loading after page load
+          if ('IntersectionObserver' in window) {
+            const script = document.createElement('script');
+            script.src = '/src/utils/performanceOptimization.js';
+            script.defer = true;
+            document.body.appendChild(script);
+          }
+          
+          // Enhanced service worker registration for PWA
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+              .then(registration => {
+                // Only log in development mode to reduce console noise
+                if (!isProduction) {
+                  console.log('SW registered: ', registration);
+                }
+              })
+              .catch(registrationError => {
+                // Log errors even in production for debugging
+                console.error('SW registration failed: ', registrationError);
+              });
+          }
         
         // Enhanced offline detection
         window.addEventListener('online', () => {
@@ -526,7 +526,8 @@
         window.addEventListener('offline', () => {
           gtag('event', 'user_offline');
         });
-      });
+        });
+      })();
       
       // Enhanced scroll performance
       let ticking = false;
@@ -549,6 +550,7 @@
           ticking = true;
         }
       });
+      })();
     </script>
   </body>
 </html>
