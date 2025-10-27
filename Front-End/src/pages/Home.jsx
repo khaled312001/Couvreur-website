@@ -542,7 +542,7 @@ const Home = () => {
               </p>
               <div className="emergency-buttons">
                 <a 
-                  href="tel:+33612345678"
+                  href="tel:+33780326427"
                   className="emergency-btn phone-btn"
                   title="Appelez-nous maintenant"
                 >
