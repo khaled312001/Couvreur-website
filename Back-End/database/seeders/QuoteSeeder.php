@@ -16,7 +16,7 @@ class QuoteSeeder extends Seeder
             [
                 'name' => 'Jean Dupont',
                 'email' => 'jean.dupont@email.com',
-                'phone' => '06 12 34 56 78',
+                'phone' => '07 80 32 64 27',
                 'address' => '123 Rue de la Paix, 75001 Paris',
                 'service_type' => 'Charpente',
                 'description' => 'Rénovation complète de la charpente d\'une maison ancienne. Travaux de renforcement et remplacement des éléments dégradés.',

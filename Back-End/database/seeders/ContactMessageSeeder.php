@@ -21,7 +21,7 @@ class ContactMessageSeeder extends Seeder
             [
                 'name' => 'Marie Martin',
                 'email' => 'marie.martin@example.com',
-                'phone' => '06 12 34 56 78',
+                'phone' => '07 80 32 64 27',
                 'subject' => 'Réparation de toiture',
                 'message' => 'J\'ai besoin d\'une réparation urgente de ma toiture suite aux dernières intempéries. Merci de me rappeler rapidement.',
                 'status' => 'read'
