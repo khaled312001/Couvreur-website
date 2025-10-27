@@ -44,13 +44,8 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
-
-// Add CORS headers as a fallback
-$request = Request::capture();
-$origin = $request->header('Origin');
-
-// Allowed origins
+// Add CORS headers for preflight OPTIONS requests
+$origin = $_SERVER['HTTP_ORIGIN'] ?? null;
 $allowedOrigins = [
     'https://www.bnbatiment.com',
     'https://bnbatiment.com',
@@ -58,23 +53,18 @@ $allowedOrigins = [
     'http://localhost:5173'
 ];
 
-// Set CORS headers
-if (in_array($origin, $allowedOrigins)) {
+// Handle preflight OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS' && $origin && in_array($origin, $allowedOrigins)) {
     header('Access-Control-Allow-Origin: ' . $origin);
-} else {
-    header('Access-Control-Allow-Origin: https://www.bnbatiment.com');
-}
-
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Max-Age: 86400');
-
-// Handle preflight OPTIONS request
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');
     http_response_code(200);
-    exit();
+    exit(0);
 }
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
