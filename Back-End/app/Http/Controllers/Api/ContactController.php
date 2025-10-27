@@ -151,6 +151,9 @@ class ContactController extends Controller
         ];
 
         try {
+            // Log before sending
+            Log::info("Attempting to send email notification to $adminEmail for contact from {$contactMessage->name}");
+            
             // Send email using Laravel's Mail facade
             Mail::send('emails.new_contact', $emailData, function ($mailMessage) use ($adminEmail, $contactMessage) {
                 $mailMessage->to($adminEmail)
@@ -159,10 +162,15 @@ class ContactController extends Controller
             });
             
             // Log success
-            Log::info("Email notification sent to $adminEmail for contact from {$contactMessage->name}");
+            Log::info("✅ Email notification sent successfully to $adminEmail for contact from {$contactMessage->name}");
         } catch (\Exception $e) {
-            // Log error but don't fail the request
-            Log::error("Failed to send email notification: " . $e->getMessage());
+            // Log detailed error
+            Log::error("❌ Failed to send email notification to $adminEmail");
+            Log::error("Error Message: " . $e->getMessage());
+            Log::error("Error Code: " . $e->getCode());
+            Log::error("Error File: " . $e->getFile());
+            Log::error("Error Line: " . $e->getLine());
+            Log::error("Full Trace: " . $e->getTraceAsString());
         }
     }
 } 

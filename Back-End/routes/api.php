@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\BlogController;
@@ -194,6 +195,52 @@ Route::get('/testimonials/{id}', [TestimonialController::class, 'show']);
 
 // Contact form
 Route::post('/contact', [ContactController::class, 'store']);
+
+// Test email endpoint
+Route::get('/test-email', function() {
+    try {
+        $adminEmail = 'support@bnbatiment.com';
+        $emailData = [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'userMessage' => 'This is a test email to verify email configuration.',
+            'subject' => 'Test Email',
+            'phone' => '+33 7 80 32 64 27',
+            'admin_url' => url('/admin/contact')
+        ];
+
+        Mail::send('emails.new_contact', $emailData, function ($mailMessage) use ($adminEmail) {
+            $mailMessage->to($adminEmail)
+                    ->subject("Test Email - Configuration Check")
+                    ->from('support@bnbatiment.com', 'BN Bâtiment Test');
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Test email sent successfully to ' . $adminEmail,
+            'config' => [
+                'mail_driver' => config('mail.default'),
+                'mail_host' => config('mail.mailers.smtp.host'),
+                'mail_port' => config('mail.mailers.smtp.port'),
+                'mail_username' => config('mail.mailers.smtp.username'),
+                'mail_from' => config('mail.from.address'),
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to send test email',
+            'error' => $e->getMessage(),
+            'config' => [
+                'mail_driver' => config('mail.default'),
+                'mail_host' => config('mail.mailers.smtp.host'),
+                'mail_port' => config('mail.mailers.smtp.port'),
+                'mail_username' => config('mail.mailers.smtp.username'),
+                'mail_from' => config('mail.from.address'),
+            ]
+        ], 500);
+    }
+});
 
 // Chat routes
 Route::post('/chat/session', [ChatController::class, 'createSession']);

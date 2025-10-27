@@ -1,0 +1,24 @@
+# ============================================
+# EMAIL CONFIGURATION FOR CONTACT FORM
+# ============================================
+# Copy these settings to your .env file
+# ============================================
+
+MAIL_MAILER=smtp
+MAIL_HOST=mail.bnbatiment.com
+MAIL_PORT=587
+MAIL_USERNAME=support@bnbatiment.com
+MAIL_PASSWORD=support@Passord123
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="support@bnbatiment.com"
+MAIL_FROM_NAME="BN Bâtiment"
+
+# ============================================
+# IMPORTANT NOTES:
+# ============================================
+# 1. Make sure there are NO extra spaces
+# 2. Password contains @ symbol, so quotes are necessary
+# 3. After adding these, run: php artisan config:cache
+# 4. Test by visiting: https://bnbatiment.com/api/test-email
+# ============================================
+
