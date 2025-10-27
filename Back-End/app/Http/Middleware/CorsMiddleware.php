@@ -10,17 +10,45 @@ class CorsMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
+        // Handle preflight OPTIONS request
+        if ($request->isMethod('OPTIONS')) {
+            $response = response('', 200);
+            $origin = $request->header('Origin');
+            
+            // Allowed origins - add api.bnbatiment.com
+            $allowedOrigins = [
+                'https://www.bnbatiment.com',
+                'https://bnbatiment.com',
+                'http://localhost:3000',
+                'http://localhost:5173'
+            ];
+            
+            $allowedOrigin = in_array($origin, $allowedOrigins) ? $origin : $allowedOrigins[0];
+            
+            $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            $response->headers->set('Access-Control-Max-Age', '86400');
+            
+            return $response;
+        }
+        
         $response = $next($request);
 
         // Get allowed origins from environment or use default
-        $allowedOrigins = env('CORS_ALLOWED_ORIGINS', 'https://www.bnbatiment.com');
-        $origins = array_map('trim', explode(',', $allowedOrigins));
+        $allowedOrigins = [
+            'https://www.bnbatiment.com',
+            'https://bnbatiment.com',
+            'http://localhost:3000',
+            'http://localhost:5173'
+        ];
         
         // Check if the request origin is in the allowed list
         $origin = $request->header('Origin');
         
         // If origin is in allowed list, use it; otherwise use the first allowed origin
-        $allowedOrigin = in_array($origin, $origins) ? $origin : $origins[0];
+        $allowedOrigin = in_array($origin, $allowedOrigins) ? $origin : $allowedOrigins[0];
 
         // Remove any existing CORS headers to prevent duplicates
         $response->headers->remove('Access-Control-Allow-Origin');
@@ -35,12 +63,6 @@ class CorsMiddleware
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
         $response->headers->set('Access-Control-Max-Age', '86400');
-
-        // Handle preflight OPTIONS request
-        if ($request->isMethod('OPTIONS')) {
-            $response->setStatusCode(200);
-            $response->setContent('');
-        }
 
         return $response;
     }
