@@ -560,7 +560,7 @@ const Contact = () => {
                     <div className="contact-text">
                       <h4>Téléphone</h4>
                       <p>
-                        <a href="tel:0780326427" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+                        <a href="tel:+33780326427" style={{ color: '#3b82f6', textDecoration: 'none' }}>
                           +33 780326427
                         </a>
                       </p>

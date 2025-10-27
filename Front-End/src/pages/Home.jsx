@@ -1713,7 +1713,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="contact-cta">
-                  <a href="tel:0780326427" className="contact-cta-button">
+                  <a href="tel:+33780326427" className="contact-cta-button">
                     <span>📞</span>
                     Appeler maintenant
                   </a>
