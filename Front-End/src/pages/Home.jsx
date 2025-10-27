@@ -552,7 +552,7 @@ const Home = () => {
                   <span>Appelez Maintenant</span>
                 </a>
                 <a 
-                  href="https://wa.me/33612345678?text=URGENCE%20:%20J'ai%20besoin%20d'une%20intervention%20rapide%20pour%20dégâts%20des%20eaux%20sur%20ma%20toiture.%20Merci%20!"
+                  href="https://wa.me/33780326427?text=URGENCE%20:%20J'ai%20besoin%20d'une%20intervention%20rapide%20pour%20dégâts%20des%20eaux%20sur%20ma%20toiture.%20Merci%20!"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="emergency-btn whatsapp-btn"
