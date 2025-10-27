@@ -1,16 +1,5 @@
-# API Subdomain CORS Configuration
-
-# Handle Authorization Header
-RewriteEngine On
-RewriteCond %{HTTP:Authorization} .
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-# CORS is handled by index_for_subdomain.php
-# No additional CORS configuration needed here
-
-# Send requests to index_for_subdomain.php
-DirectoryIndex index_for_subdomain.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . index_for_subdomain.php [L]
+# Laravel Application Root
+# This file is in the root of the Laravel application
+# Most API subdomains should point to the 'public' directory
+# If your subdomain points here, you'll need to use index_for_subdomain.php
 

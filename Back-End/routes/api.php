@@ -33,6 +33,17 @@ use App\Services\ImageOptimizationService;
 |
 */
 
+// Handle preflight OPTIONS requests for CORS
+Route::options('{any}', function () {
+    return response()->json([], 200, [
+        'Access-Control-Allow-Origin' => request()->header('Origin') ?? '*',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN',
+        'Access-Control-Allow-Credentials' => 'true',
+        'Access-Control-Max-Age' => '86400',
+    ]);
+})->where('any', '.*');
+
 // CORS Test endpoint
 Route::get('/cors-test', function () {
     return response()->json([
