@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchBlogPostBySlug } from '../api/blog';
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
 import SEO from '../components/SEO';
+import Markdown from 'markdown-to-jsx';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -228,11 +229,23 @@ const BlogDetail = () => {
               lineHeight: '1.8',
               color: '#374151'
             }}>
-              {post.content.split('\n').map((paragraph, index) => (
-                <p key={index} style={{ marginBottom: '1.5rem' }}>
-                  {paragraph}
-                </p>
-              ))}
+              <Markdown
+                options={{
+                  overrides: {
+                    h1: { component: 'h1', props: { style: { fontSize: '2rem', fontWeight: '700', marginTop: '2rem', marginBottom: '1rem', color: '#1f2937' } } },
+                    h2: { component: 'h2', props: { style: { fontSize: '1.75rem', fontWeight: '700', marginTop: '2rem', marginBottom: '1rem', color: '#1f2937' } } },
+                    h3: { component: 'h3', props: { style: { fontSize: '1.5rem', fontWeight: '600', marginTop: '1.5rem', marginBottom: '0.75rem', color: '#1f2937' } } },
+                    p: { component: 'p', props: { style: { marginBottom: '1.5rem' } } },
+                    strong: { component: 'strong', props: { style: { fontWeight: '700', color: '#1e3a8a' } } },
+                    ul: { component: 'ul', props: { style: { marginBottom: '1.5rem', paddingLeft: '2rem' } } },
+                    ol: { component: 'ol', props: { style: { marginBottom: '1.5rem', paddingLeft: '2rem' } } },
+                    li: { component: 'li', props: { style: { marginBottom: '0.5rem' } } },
+                    a: { component: 'a', props: { style: { color: '#1e3a8a', textDecoration: 'underline' } } }
+                  }
+                }}
+              >
+                {post.content.replace(/\\n/g, '\n')}
+              </Markdown>
             </div>
 
             {/* Article Footer */}
