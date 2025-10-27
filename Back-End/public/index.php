@@ -54,8 +54,10 @@ $allowedOrigins = [
 ];
 
 // Handle preflight OPTIONS requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS' && $origin && in_array($origin, $allowedOrigins)) {
-    header('Access-Control-Allow-Origin: ' . $origin);
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    if ($origin && in_array($origin, $allowedOrigins)) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    }
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
     header('Access-Control-Allow-Credentials: true');
@@ -68,8 +70,18 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
-$response = $kernel->handle(
-    $request = Request::capture()
-)->send();
+$request = Request::capture();
+$response = $kernel->handle($request);
+
+// Add CORS headers to the response
+if ($origin && in_array($origin, $allowedOrigins)) {
+    $response->headers->set('Access-Control-Allow-Origin', $origin);
+    $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+    $response->headers->set('Access-Control-Allow-Credentials', 'true');
+    $response->headers->set('Access-Control-Max-Age', '86400');
+}
+
+$response->send();
 
 $kernel->terminate($request, $response);
