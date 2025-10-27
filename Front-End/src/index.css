@@ -17638,6 +17638,53 @@ body {
   background: rgba(255, 255, 255, 0.8);
 }
 
+/* WhatsApp Contact Button */
+.whatsapp-contact-btn {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+  z-index: 10;
+  animation: pulse-whatsapp 2s ease-in-out infinite;
+}
+
+.whatsapp-contact-btn:hover {
+  transform: translateX(-50%) translateY(-3px);
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6);
+  background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+}
+
+.whatsapp-icon {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.whatsapp-text {
+  white-space: nowrap;
+}
+
+@keyframes pulse-whatsapp {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
 /* Partners Section */
 .partners-section {
   padding: 60px 0;

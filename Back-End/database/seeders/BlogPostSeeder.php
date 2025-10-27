@@ -199,6 +199,17 @@ Contactez **BN BÂTIMENT** immédiatement pour toute fuite de toiture. Rendez-vo
             ],
             [
                 'title' => 'Entretien Toiture Excellence : Services BN BÂTIMENT pour Lyon, Saint-Étienne, Valence, Clermont-Ferrand | www.bnbatiment.com',
+                'content' => file_get_contents(__DIR__ . '/MASSIVE_SEO_CONTENT.txt'),
+                'excerpt' => 'Guide complet couvreur professionnel Lyon avec BN BÂTIMENT. Expert installation, réparation, entretien toiture à Lyon, Saint-Étienne, Valence, Clermont-Ferrand. Devis gratuit sur www.bnbatiment.com',
+                'category' => 'Installation',
+                'image' => 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                'slug' => 'guide-complet-couvreur-professionnel-lyon-bn-batiment-massive-seo',
+                'is_published' => true,
+                'published_at' => now()->subDays(1),
+                'readTime' => '35 min'
+            ],
+            [
+                'title' => 'Entretien de Toiture Excellence - Services Complets BN BÂTIMENT Démoussage Nettoyage Traitement | www.bnbatiment.com',
                 'content' => '# Entretien de Toiture : Services Complets BN BÂTIMENT pour Toute la Rhône-Alpes
 
 ## Introduction aux Services d\'Entretien BN BÂTIMENT
