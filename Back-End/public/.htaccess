@@ -17,15 +17,25 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Handle OPTIONS preflight requests for CORS
+    RewriteCond %{REQUEST_METHOD} ^OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+    
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# CORS Headers - Handled by public/index.php
-# The CORS headers are dynamically set in index.php based on the Origin header
-# This ensures proper CORS handling for cross-origin requests
+# CORS Headers - Set at Apache level for ALL responses
+<IfModule mod_headers.c>
+    # Set CORS headers for ALL requests
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN"
+    Header always set Access-Control-Max-Age "86400"
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Credentials "false"
+</IfModule>
 
 # Performance Optimizations
 
