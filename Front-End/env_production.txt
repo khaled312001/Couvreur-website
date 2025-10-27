@@ -1,8 +1,0 @@
-# Production Environment Configuration
-# Copy this to .env.production
-
-# Google Maps API Configuration
-VITE_GOOGLE_MAPS_API_KEY=AIzaSyDGmf5T6mFmqsuVbwax8pf0c8isgDiGr1U
-
-# API Configuration
-VITE_API_BASE_URL=https://bnbatiment.com/api 
