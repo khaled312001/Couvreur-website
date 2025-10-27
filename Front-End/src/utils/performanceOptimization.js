@@ -105,9 +105,14 @@ export const getCompressedAsset = (assetPath) => {
 };
 
 /**
- * Monitor Core Web Vitals
+ * Monitor Core Web Vitals (only in development)
  */
 export const monitorWebVitals = () => {
+  // Only monitor in development mode to reduce console noise
+  const isDevelopment = import.meta.env.DEV || import.meta.env.MODE === 'development';
+  
+  if (!isDevelopment) return;
+
   // Monitor Largest Contentful Paint (LCP)
   new PerformanceObserver((list) => {
     const entries = list.getEntries();
@@ -193,7 +198,10 @@ export const cachedFetch = async (url, options = {}) => {
     
     return data;
   } catch (error) {
-    console.error('Fetch error:', error);
+    // Only log in development to reduce console noise
+    if (import.meta.env.DEV || import.meta.env.MODE === 'development') {
+      console.error('Fetch error:', error);
+    }
     throw error;
   }
 };

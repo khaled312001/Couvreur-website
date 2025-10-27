@@ -46,7 +46,10 @@ class ApiClient {
         // Try to get detailed error information
         try {
           const errorData = await response.json();
-          console.error('apiClient: Error response:', errorData);
+          // Only log full error details in development
+          if (process.env.NODE_ENV === 'development') {
+            console.error('apiClient: Error response:', errorData);
+          }
           if (errorData.errors) {
             throw new Error(`Validation errors: ${JSON.stringify(errorData.errors)}`);
           } else if (errorData.message) {
@@ -54,7 +57,9 @@ class ApiClient {
           }
         } catch (parseError) {
           // If we can't parse the error response, fall back to status code
-          console.error('apiClient: Could not parse error response:', parseError);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('apiClient: Could not parse error response:', parseError);
+          }
         }
         
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -75,7 +80,10 @@ class ApiClient {
         return await response.text();
       }
     } catch (error) {
-      console.error('apiClient: API request failed:', error);
+      // Only log API errors in development to reduce console noise
+      if (process.env.NODE_ENV === 'development') {
+        console.error('apiClient: API request failed:', error);
+      }
       throw error;
     }
   }

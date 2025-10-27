@@ -398,13 +398,17 @@
     <!-- Enhanced Performance monitoring and optimization -->
     <script>
       // Enhanced Performance monitoring and optimization
+      const isProduction = window.location.hostname !== 'localhost';
       if ('performance' in window) {
         // Monitor Core Web Vitals
         new PerformanceObserver((list) => {
           const entries = list.getEntries();
           entries.forEach(entry => {
             if (entry.entryType === 'largest-contentful-paint') {
-              console.log('LCP:', entry.startTime);
+              // Only log in development mode to reduce console noise
+              if (!isProduction) {
+                console.log('LCP:', entry.startTime);
+              }
               // Send to analytics if LCP is poor
               if (entry.startTime > 2500) {
                 gtag('event', 'poor_lcp', { value: entry.startTime });
@@ -418,7 +422,10 @@
           const entries = list.getEntries();
           entries.forEach(entry => {
             const fid = entry.processingStart - entry.startTime;
-            console.log('FID:', fid);
+            // Only log in development mode to reduce console noise
+            if (!isProduction) {
+              console.log('FID:', fid);
+            }
             // Send to analytics if FID is poor
             if (fid > 100) {
               gtag('event', 'poor_fid', { value: fid });
@@ -426,17 +433,20 @@
           });
         }).observe({ entryTypes: ['first-input'] });
         
-        // Monitor Cumulative Layout Shift
-        new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          entries.forEach(entry => {
-            console.log('CLS:', entry.value);
-            // Send to analytics if CLS is poor
-            if (entry.value > 0.1) {
-              gtag('event', 'poor_cls', { value: entry.value });
-            }
-          });
-        }).observe({ entryTypes: ['layout-shift'] });
+        // Monitor Cumulative Layout Shift - disabled to reduce console noise
+        // Only monitor in development
+        if (!isProduction) {
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+              console.log('CLS:', entry.value);
+              // Send to analytics if CLS is poor
+              if (entry.value > 0.1) {
+                gtag('event', 'poor_cls', { value: entry.value });
+              }
+            });
+          }).observe({ entryTypes: ['layout-shift'] });
+        }
       }
       
       // Enhanced critical images preloading
@@ -482,6 +492,8 @@
     <!-- Enhanced non-critical JavaScript with performance optimization -->
     <script>
       // Enhanced defer non-critical operations
+      const isProduction = window.location.hostname !== 'localhost';
+      
       window.addEventListener('load', () => {
         // Initialize lazy loading after page load
         if ('IntersectionObserver' in window) {
@@ -495,10 +507,14 @@
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
             .then(registration => {
-              console.log('SW registered: ', registration);
+              // Only log in development mode to reduce console noise
+              if (!isProduction) {
+                console.log('SW registered: ', registration);
+              }
             })
             .catch(registrationError => {
-              console.log('SW registration failed: ', registrationError);
+              // Log errors even in production for debugging
+              console.error('SW registration failed: ', registrationError);
             });
         }
         

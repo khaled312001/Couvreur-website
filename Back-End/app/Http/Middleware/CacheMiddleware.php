@@ -29,12 +29,15 @@ class CacheMiddleware
         // Check if response is cached
         if (Cache::has($cacheKey)) {
             $cachedResponse = Cache::get($cacheKey);
-            return response($cachedResponse['content'])
+            $response = response($cachedResponse['content'])
                 ->header('Content-Type', $cachedResponse['content_type'])
                 ->header('X-Cache', 'HIT')
                 ->header('Cache-Control', 'public, max-age=3600, s-maxage=86400')
                 ->header('ETag', $cachedResponse['etag'])
                 ->header('Last-Modified', $cachedResponse['last_modified']);
+            
+            // Add CORS headers to cached response
+            return $this->addCorsHeaders($response, $request);
         }
 
         // Get the response
@@ -141,6 +144,33 @@ class CacheMiddleware
         
         // Add X-Cache header
         $response->headers->set('X-Cache', 'MISS');
+        
+        // Add CORS headers to all responses
+        $response = $this->addCorsHeaders($response, $request);
+        
+        return $response;
+    }
+
+    /**
+     * Add CORS headers to the response
+     */
+    private function addCorsHeaders(Response $response, Request $request): Response
+    {
+        $allowedOrigins = [
+            'https://www.bnbatiment.com',
+            'https://bnbatiment.com',
+            'http://localhost:3000',
+            'http://localhost:5173'
+        ];
+        
+        $origin = $request->header('Origin');
+        $allowedOrigin = in_array($origin, $allowedOrigins) ? $origin : $allowedOrigins[0];
+        
+        $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        $response->headers->set('Access-Control-Max-Age', '86400');
         
         return $response;
     }
