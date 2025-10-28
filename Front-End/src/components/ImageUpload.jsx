@@ -54,11 +54,23 @@ const ImageUpload = ({ onImageUploaded, currentImage, label = "Upload Image" }) 
       }
     } catch (err) {
       console.error('Upload error:', err);
-      setError(
-        err.response?.data?.message || 
-        err.message || 
-        'Failed to upload image. Please try again.'
-      );
+      
+      // More detailed error handling
+      let errorMessage = 'Failed to upload image. Please try again.';
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
+      
+      // Log additional details for debugging
+      if (err.response?.data) {
+        console.error('Upload error details:', err.response.data);
+      }
     } finally {
       setUploading(false);
     }

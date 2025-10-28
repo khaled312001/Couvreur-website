@@ -1,0 +1,60 @@
+=========================================
+CLOUDINARY UPLOAD FIX - DEPLOY NOW
+=========================================
+
+ISSUE: 500 error when uploading images to Cloudinary
+
+FIXED FILES:
+1. Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php ✓
+2. Front-End/src/components/ImageUpload.jsx ✓
+
+=========================================
+DEPLOYMENT (Choose One Method)
+=========================================
+
+METHOD 1: File Manager/FTP
+---------------------------
+1. Upload Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+   to your production server
+
+2. Then SSH and run:
+   cd Back-End
+   php artisan cache:clear
+   php artisan config:clear
+   php artisan route:clear
+
+3. (Optional) Rebuild frontend:
+   cd Front-End
+   npm run build
+   Upload dist folder contents
+
+METHOD 2: Git (if using version control)
+------------------------------------------
+1. Commit your changes
+2. Push to repository
+3. SSH into server:
+   cd /path/to/project
+   git pull
+   cd Back-End
+   php artisan cache:clear
+   php artisan config:clear
+   cd ../Front-End
+   npm run build
+
+METHOD 3: Direct Upload
+------------------------
+1. Copy CloudinaryUploadController.php content
+2. Edit file on server via cPanel/FTP
+3. Paste new content
+4. Run cache clear commands
+
+=========================================
+TEST AFTER DEPLOYMENT
+=========================================
+1. Go to: https://www.bnbatiment.com/admin/services
+2. Edit any service
+3. Upload an image
+4. Should work without 500 error!
+
+=========================================
+
