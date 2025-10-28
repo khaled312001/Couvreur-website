@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cloudinary Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #007bff;
+        }
+        #preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #preview img {
+            max-width: 500px;
+            max-height: 500px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        #progress {
+            width: 100%;
+            height: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Cloudinary Upload</h1>
+    <p>Upload an image to test if Cloudinary is working correctly.</p>
+    
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <p>Click to select an image file</p>
+        <p style="font-size: 14px; color: #666;">PNG, JPG, GIF, WEBP (max 10MB)</p>
+    </div>
+    
+    <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+    
+    <div id="preview"></div>
+    
+    <div id="message"></div>
+    
+    <div id="progressContainer" style="display: none;">
+        <div id="progress"></div>
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const message = document.getElementById('message');
+        const progressContainer = document.getElementById('progressContainer');
+        
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Clear previous messages
+            message.innerHTML = '';
+            preview.innerHTML = '';
+            
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                showMessage('Please select a valid image file (JPEG, PNG, GIF, or WebP)', 'error');
+                return;
+            }
+            
+            // Validate file size
+            if (file.size > 10 * 1024 * 1024) {
+                showMessage('Image size must be less than 10MB', 'error');
+                return;
+            }
+            
+            showMessage(`Uploading ${file.name}...`, 'info');
+            progressContainer.style.display = 'block';
+            
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        updateProgress(percentComplete);
+                    }
+                });
+                
+                xhr.onload = () => {
+                    progressContainer.style.display = 'none';
+                    
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            showMessage('Upload successful!', 'success');
+                            showPreview(response.url);
+                            console.log('Upload response:', response);
+                        } else {
+                            showMessage('Upload failed: ' + (response.message || 'Unknown error'), 'error');
+                        }
+                    } else {
+                        const response = JSON.parse(xhr.responseText);
+                        showMessage('Upload failed: ' + (response.message || response.error || 'Server error'), 'error');
+                        console.error('Error:', response);
+                    }
+                };
+                
+                xhr.onerror = () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('Network error occurred', 'error');
+                };
+                
+                xhr.open('POST', 'https://api.bnbatiment.com/api/cloudinary/upload');
+                xhr.send(formData);
+                
+            } catch (error) {
+                progressContainer.style.display = 'none';
+                showMessage('Error: ' + error.message, 'error');
+                console.error('Upload error:', error);
+            }
+        });
+        
+        function showMessage(text, type) {
+            message.innerHTML = `<div class="${type}">${text}</div>`;
+        }
+        
+        function updateProgress(percent) {
+            const progress = document.getElementById('progress');
+            progress.style.width = percent + '%';
+            progress.style.backgroundColor = '#007bff';
+            progress.style.height = '20px';
+            progress.textContent = Math.round(percent) + '%';
+        }
+        
+        function showPreview(url) {
+            preview.innerHTML = `
+                <h3>Uploaded Image:</h3>
+                <img src="${url}" alt="Uploaded image" />
+                <p><strong>URL:</strong> <a href="${url}" target="_blank">${url}</a></p>
+            `;
+        }
+    </script>
+</body>
+</html>
+

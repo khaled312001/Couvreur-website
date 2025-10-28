@@ -190,6 +190,49 @@ const ServicesAdmin = () => {
     setImagePreview(imageUrl);
   };
 
+  // Handle file upload from device
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a valid image file (JPEG, PNG, GIF, or WebP)');
+      return;
+    }
+
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image size must be less than 10MB');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch('https://api.bnbatiment.com/api/cloudinary/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFormData(prev => ({ ...prev, image: data.url }));
+        setImagePreview(data.url);
+        console.log('Upload successful:', data.url);
+      } else {
+        alert('Upload failed: ' + (data.message || data.error || 'Unknown error'));
+        console.error('Upload error:', data);
+      }
+    } catch (error) {
+      alert('Failed to upload image: ' + error.message);
+      console.error('Upload error:', error);
+    }
+  };
+
   // Add new service
   const handleAddService = async () => {
     try {
@@ -764,13 +807,26 @@ const ServicesAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>URL de l'image</label>
+                      <label>Image du service</label>
+                      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                        <label style={{ flex: 1, cursor: 'pointer', padding: '10px', border: '2px solid #ddd', borderRadius: '5px', textAlign: 'center' }}>
+                          <Upload size={16} style={{ display: 'inline-block', marginRight: '8px' }} />
+                          Upload from device
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                      </div>
                       <input
                         type="url"
                         name="image"
                         value={formData.image}
                         onChange={handleImageUrlChange}
-                        placeholder="https://exemple.com/image.jpg"
+                        placeholder="Or paste image URL here..."
+                        style={{ marginTop: '10px' }}
                       />
                       {formData.image && (
                         <div className="mt-3">
@@ -975,13 +1031,26 @@ const ServicesAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>URL de l'image</label>
+                      <label>Image du service</label>
+                      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                        <label style={{ flex: 1, cursor: 'pointer', padding: '10px', border: '2px solid #ddd', borderRadius: '5px', textAlign: 'center' }}>
+                          <Upload size={16} style={{ display: 'inline-block', marginRight: '8px' }} />
+                          Upload from device
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                      </div>
                       <input
                         type="url"
                         name="image"
                         value={formData.image}
                         onChange={handleImageUrlChange}
-                        placeholder="https://exemple.com/image.jpg"
+                        placeholder="Or paste image URL here..."
+                        style={{ marginTop: '10px' }}
                       />
                       {formData.image && (
                         <div className="mt-3">
