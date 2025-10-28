@@ -19,7 +19,6 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\NewsletterController;
-use App\Http\Controllers\Api\CloudinaryUploadController;
 use App\Http\Controllers\Api\LocalUploadController;
 use App\Http\Controllers\SitemapController;
 use App\Services\ImageOptimizationService;
@@ -120,8 +119,8 @@ Route::get('/debug-services', function () {
 // Serve uploaded images
 Route::get('/uploads/{folder}/{filename}', [ImageController::class, 'serve']);
 
-// Handle preflight OPTIONS for Cloudinary uploads
-Route::options('/cloudinary/upload', function () {
+// Handle preflight OPTIONS for image uploads
+Route::options('/upload', function () {
     return response('', 200, [
         'Access-Control-Allow-Origin' => request()->header('Origin') ?? '*',
         'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
@@ -131,47 +130,9 @@ Route::options('/cloudinary/upload', function () {
     ]);
 });
 
-// Cloudinary diagnostic endpoint
-Route::get('/cloudinary/test', function () {
-    try {
-        $config = [
-            'cloud_url_set' => !empty(config('cloudinary.cloud_url')),
-            'cloud_url_length' => strlen(config('cloudinary.cloud_url', '')),
-            'upload_preset' => config('cloudinary.upload_preset'),
-            'php_upload_max' => ini_get('upload_max_filesize'),
-            'php_post_max' => ini_get('post_max_size'),
-            'php_memory' => ini_get('memory_limit'),
-        ];
-        
-        // Test Cloudinary connection
-        $cloudinaryUrl = config('cloudinary.cloud_url');
-        if ($cloudinaryUrl) {
-            $config['cloudinary_configured'] = true;
-        } else {
-            $config['cloudinary_configured'] = false;
-            $config['error'] = 'CLOUDINARY_URL not set in .env';
-        }
-        
-        return response()->json([
-            'success' => true,
-            'config' => $config,
-            'message' => 'Check if Cloudinary URL is set and PHP upload settings are sufficient',
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'error' => $e->getMessage(),
-        ], 500);
-    }
-});
-
-// Local upload routes (without Cloudinary)
-Route::post('/cloudinary/upload', [LocalUploadController::class, 'upload']);
-Route::delete('/cloudinary/upload', [LocalUploadController::class, 'destroy']);
-
-// Cloudinary upload routes (backup - commented out)
-// Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
-// Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);
+// Local image upload routes
+Route::post('/upload', [LocalUploadController::class, 'upload']);
+Route::delete('/upload', [LocalUploadController::class, 'destroy']);
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
