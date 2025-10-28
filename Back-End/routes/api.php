@@ -119,6 +119,17 @@ Route::get('/debug-services', function () {
 // Serve uploaded images
 Route::get('/uploads/{folder}/{filename}', [ImageController::class, 'serve']);
 
+// Handle preflight OPTIONS for Cloudinary uploads
+Route::options('/cloudinary/upload', function () {
+    return response('', 200, [
+        'Access-Control-Allow-Origin' => request()->header('Origin') ?? '*',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN',
+        'Access-Control-Allow-Credentials' => 'true',
+        'Access-Control-Max-Age' => '86400',
+    ]);
+});
+
 // Cloudinary upload routes (temporarily public for testing)
 Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
 Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);

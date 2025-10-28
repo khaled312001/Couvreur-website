@@ -37,7 +37,9 @@ class CloudinaryUploadController extends Controller
                 'format' => $uploadResult->getExtension(),
                 'width' => $uploadResult->getWidth(),
                 'height' => $uploadResult->getHeight(),
-            ], 200);
+            ], 200)->header('Access-Control-Allow-Origin', '*')
+               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+               ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
         } catch (\Exception $e) {
             Log::error('Cloudinary upload error:', [
@@ -50,7 +52,9 @@ class CloudinaryUploadController extends Controller
                 'success' => false,
                 'error' => 'Failed to upload image',
                 'message' => $e->getMessage(),
-            ], 500);
+            ], 500)->header('Access-Control-Allow-Origin', '*')
+               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+               ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
         }
     }
 
