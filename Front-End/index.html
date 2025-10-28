@@ -133,9 +133,7 @@
     <link rel="dns-prefetch" href="https://www.guide-toiture.com" />
     
     <!-- Enhanced Preload critical resources -->
-    <link rel="preload" href="/logo.png" as="image" type="image/png" fetchpriority="high" />
-    <link rel="preload" href="/src/main.jsx" as="script" type="application/javascript" />
-    <link rel="modulepreload" href="/src/main.jsx" />
+    <link rel="preload" href="/logo.png" as="image" type="image/png" />
     
     <!-- Enhanced Critical CSS Inline for above-the-fold content -->
     <style>
@@ -235,13 +233,7 @@
       }
     </style>
     
-    <!-- Resource Hints for Performance -->
-    <link rel="preload" href="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" as="image" />
-    <!-- Preload LCP image (first hero slide background) -->
-    <link rel="preload" href="https://www.satorytoiture.com/public/img/big/AdobeStock125087270jpg_62ea778f3406f.jpg" as="image" fetchpriority="high" />
-    <!-- Preload additional hero images for faster loading -->
-    <link rel="preload" href="https://www.guide-travaux-toiture.be/wp-content/uploads/sites/2/2024/08/toit-couvreur-1-1024x536.jpg" as="image" />
-    <link rel="preload" href="https://les-couvreurs-du-var-83.fr/wp-content/uploads/2023/02/Construction-couvreur-ouvrier-charpentier-clouer-planche-de-bois-avec-un-marteau-sur-les-travaux-dinstallation-sur-le-toit.jpg" as="image" />
+    <!-- DNS prefetch for external image domains (no preload to avoid unused resource warnings) -->
     
     <!-- Enhanced Comprehensive Structured Data for Local Business -->
     <script type="application/ld+json">
@@ -477,23 +469,7 @@
         }
       })();
       
-      // Enhanced critical images preloading with WebP support
-      const criticalImages = [
-        '/logo.png',
-        // Convert Unsplash URLs to WebP for better performance
-        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp'
-      ];
-      
-      criticalImages.forEach(src => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = src;
-        link.fetchPriority = 'high';
-        document.head.appendChild(link);
-      });
-      
-      // Prefetch DNS for external resources
+      // Only prefetch DNS for external resources (no preload to avoid unused resource warnings)
       const dnsPrefetch = [
         'https://images.unsplash.com',
         'https://api.bnbatiment.com',

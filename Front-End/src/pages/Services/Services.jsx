@@ -245,6 +245,8 @@ const Services = () => {
                   <img 
                     src={getServiceImageUrl(service.image) || getServiceImage(service.title)} 
                     alt={service.title}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: "100%",
                       height: "100%",
