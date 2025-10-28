@@ -16,15 +16,11 @@ $allowedOrigins = [
 
 // Handle preflight OPTIONS requests immediately
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Check if origin is allowed
-    if ($origin && $origin !== '*' && in_array($origin, $allowedOrigins)) {
-        // Valid origin - allow credentials
+    // Always allow the origin that made the request
+    if ($origin && $origin !== '*') {
         header('Access-Control-Allow-Origin: ' . $origin);
-        header('Access-Control-Allow-Credentials: true');
     } else {
-        // No origin or not allowed - use wildcard but no credentials
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Credentials: false');
     }
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
@@ -65,15 +61,10 @@ $request = Request::capture();
 $response = $kernel->handle($request);
 
 // Add CORS headers to ALL responses
-// Always set headers, but only set credentials when we have a matching origin
-if ($origin && $origin !== '*' && in_array($origin, $allowedOrigins)) {
-    // Valid origin - allow credentials
+if ($origin && $origin !== '*') {
     $response->headers->set('Access-Control-Allow-Origin', $origin);
-    $response->headers->set('Access-Control-Allow-Credentials', 'true');
 } else {
-    // No origin or not allowed - use wildcard but no credentials
     $response->headers->set('Access-Control-Allow-Origin', '*');
-    $response->headers->set('Access-Control-Allow-Credentials', 'false');
 }
 
 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
