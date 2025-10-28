@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { createService, updateService, deleteService, getAdminServices, toggleServiceStatus } from '../../api/services';
 import { getServiceImage } from '../../utils/imageUtils';
+import ImageUpload from '../../components/ImageUpload';
 
 // Function to get the correct image URL for services
 const getServiceImageUrl = (imagePath) => {
@@ -183,9 +184,9 @@ const ServicesAdmin = () => {
     }));
   };
 
-  // Handle image URL input
-  const handleImageUrlChange = (e) => {
-    const imageUrl = e.target.value;
+  // Handle image upload from Cloudinary
+  const handleImageUpload = (imageUrl) => {
+    console.log('Image uploaded from Cloudinary:', imageUrl);
     setFormData(prev => ({ ...prev, image: imageUrl }));
     setImagePreview(imageUrl);
   };
@@ -380,7 +381,8 @@ const ServicesAdmin = () => {
       sort_order: service.sort_order
     };
     setFormData(formDataToSet);
-    setImagePreview(service.image || null);
+    // Set the full image URL for preview
+    setImagePreview(getServiceImageUrl(service.image) || null);
     setShowEditModal(true);
   };
 
@@ -765,26 +767,11 @@ const ServicesAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>URL de l'image</label>
-                      <input
-                        type="url"
-                        name="image"
-                        value={formData.image}
-                        onChange={handleImageUrlChange}
-                        placeholder="https://example.com/image.jpg"
+                      <ImageUpload
+                        onImageUploaded={handleImageUpload}
+                        currentImage={imagePreview}
+                        label="Image du service"
                       />
-                      {formData.image && (
-                        <div className="mt-3">
-                          <img
-                            src={formData.image}
-                            alt="Aperçu"
-                            className="w-full h-48 object-cover rounded-lg border"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                            }}
-                          />
-                        </div>
-                      )}
                     </div>
                     
                     <div className="form-group">
@@ -976,26 +963,11 @@ const ServicesAdmin = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>URL de l'image</label>
-                      <input
-                        type="url"
-                        name="image"
-                        value={formData.image}
-                        onChange={handleImageUrlChange}
-                        placeholder="https://example.com/image.jpg"
+                      <ImageUpload
+                        onImageUploaded={handleImageUpload}
+                        currentImage={imagePreview}
+                        label="Image du service"
                       />
-                      {formData.image && (
-                        <div className="mt-3">
-                          <img
-                            src={formData.image}
-                            alt="Aperçu"
-                            className="w-full h-48 object-cover rounded-lg border"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                            }}
-                          />
-                        </div>
-                      )}
                     </div>
                     
                     <div className="form-group">
