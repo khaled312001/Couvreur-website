@@ -28,7 +28,10 @@ const GalleryItem = ({ item }) => {
       }}>
         <img 
           src={item.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400'} 
-          alt={item.title}
+          alt={`${item.title ? item.title + ' - ' : ''}RÉALISATION ${item.category || 'TOITURE'} PAR BN BÂTIMENT - Expert couvreur Lyon Saint-Étienne Valence Clermont-Ferrand Grenoble`}
+          title={`${item.title || 'Réalisation'} - BN BÂTIMENT ${item.category || ''}`}
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',

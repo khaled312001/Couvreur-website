@@ -13,7 +13,9 @@ class BlogController extends Controller
     public function index()
     {
         $posts = BlogPost::published()->orderBy('published_at', 'desc')->get();
-        return response()->json($posts);
+        return response()->json($posts)
+            ->header('Cache-Control', 'public, max-age=3600')
+            ->header('Access-Control-Allow-Origin', '*');
     }
 
     public function show($id)

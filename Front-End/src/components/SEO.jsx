@@ -226,6 +226,68 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
           })}
         </script>
       )}
+
+      {/* Article Schema for Blog Posts */}
+      {type === 'article' && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": enhancedTitle,
+            "description": enhancedDescription,
+            "image": absoluteImageUrl,
+            "author": {
+              "@type": "Organization",
+              "name": "BN BÂTIMENT"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "BN BÂTIMENT",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://bnbatiment.com/logo.png"
+              }
+            },
+            "datePublished": new Date().toISOString(),
+            "dateModified": new Date().toISOString(),
+            "inLanguage": "fr-FR"
+          })}
+        </script>
+      )}
+
+      {/* WebPage Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": enhancedTitle,
+          "description": enhancedDescription,
+          "url": absoluteUrl,
+          "inLanguage": "fr-FR",
+          "isPartOf": {
+            "@type": "WebSite",
+            "name": "BN BÂTIMENT",
+            "url": "https://bnbatiment.com"
+          },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": absoluteImageUrl
+          }
+        })}
+      </script>
+
+      {/* Image Object Schema for SEO */}
+      {absoluteImageUrl && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ImageObject",
+            "url": absoluteImageUrl,
+            "caption": enhancedDescription,
+            "contentUrl": absoluteImageUrl
+          })}
+        </script>
+      )}
     </Helmet>
   );
 };

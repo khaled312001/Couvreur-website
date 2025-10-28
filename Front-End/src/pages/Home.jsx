@@ -477,6 +477,22 @@ const Home = () => {
               className={`slide ${index === currentSlide ? 'active' : ''}`}
               style={{ backgroundImage: `url(${slide.image})` }}
             >
+              {index === 0 && (
+                <img 
+                  src={slide.image}
+                  alt=""
+                  style={{ 
+                    position: 'absolute',
+                    width: '1px',
+                    height: '1px',
+                    opacity: 0,
+                    pointerEvents: 'none'
+                  }}
+                  fetchPriority="high"
+                  loading="eager"
+                  aria-hidden="true"
+                />
+              )}
               <div className="slide-overlay">
                 <div className="container">
                   <div className="slide-content">

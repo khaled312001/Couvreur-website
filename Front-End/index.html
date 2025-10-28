@@ -68,29 +68,46 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     
-    <!-- Google tag (gtag.js) - Conversion Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17440024602"></script>
+    <!-- Google tag (gtag.js) - Conversion Tracking - Deferred for performance -->
     <script>
+      // Defer Google Analytics initialization
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-17440024602');
+      
+      // Load analytics after page load
+      window.addEventListener('load', function() {
+        var script1 = document.createElement('script');
+        script1.async = true;
+        script1.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17440024602';
+        document.head.appendChild(script1);
+        
+        script1.onload = function() {
+          gtag('js', new Date());
+          gtag('config', 'AW-17440024602');
+        };
+      });
     </script>
     
-    <!-- Google tag (gtag.js) - Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJX0MWS7Q5"></script>
+    <!-- Google tag (gtag.js) - Analytics - Deferred -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-RJX0MWS7Q5');
+      window.addEventListener('load', function() {
+        var script2 = document.createElement('script');
+        script2.async = true;
+        script2.src = 'https://www.googletagmanager.com/gtag/js?id=G-RJX0MWS7Q5';
+        document.head.appendChild(script2);
+        
+        script2.onload = function() {
+          gtag('js', new Date());
+          gtag('config', 'G-RJX0MWS7Q5');
+        };
+      });
     </script>
     
     <!-- Event snippet for جهة اتصال (1) conversion page -->
     <script>
-      gtag('event', 'conversion', {'send_to': 'AW-17440024602/_f3bCNiLrIgbEJrQhvxA'});
+      window.addEventListener('load', function() {
+        gtag('event', 'conversion', {'send_to': 'AW-17440024602/_f3bCNiLrIgbEJrQhvxA'});
+      });
     </script>
     
     <!-- Enhanced Performance Optimizations - Preconnect to external domains -->
@@ -100,6 +117,10 @@
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://www.google-analytics.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.satorytoiture.com" />
+    <link rel="preconnect" href="https://les-couvreurs-du-var-83.fr" />
+    <link rel="preconnect" href="https://www.guide-travaux-toiture.be" />
+    <link rel="preconnect" href="https://media.zid.store" />
     
     <!-- Enhanced DNS Prefetch for additional performance -->
     <link rel="dns-prefetch" href="https://api.bnbatiment.com" />
@@ -108,7 +129,9 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     
     <!-- Enhanced Preload critical resources -->
-    <link rel="preload" href="/logo.png" as="image" type="image/png" />
+    <link rel="preload" href="/logo.png" as="image" type="image/png" fetchpriority="high" />
+    <link rel="preload" href="/src/main.jsx" as="script" type="application/javascript" />
+    <link rel="modulepreload" href="/src/main.jsx" />
     
     <!-- Enhanced Critical CSS Inline for above-the-fold content -->
     <style>
@@ -145,7 +168,7 @@
         100% { transform: rotate(360deg); } 
       }
       
-      /* Enhanced font loading optimization */
+      /* Enhanced font loading optimization with display: swap */
       @font-face { 
         font-family: 'Inter'; 
         font-display: swap; 
@@ -153,11 +176,26 @@
         src: local('Inter'), url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');
       }
       
+      /* Add font-display: swap to all fonts */
+      * {
+        font-display: swap;
+      }
+      
       /* Enhanced layout shift prevention */
       img { 
         max-width: 100%; 
         height: auto; 
         display: block;
+        loading: lazy;
+        decoding: async;
+        fetchpriority: auto;
+      }
+      
+      /* Above-the-fold images should load eagerly */
+      .hero-image,
+      .critical-image {
+        loading: eager;
+        fetchpriority: high;
       }
       .hero-slider { 
         contain: layout style paint; 
@@ -192,6 +230,11 @@
         outline-offset: 2px;
       }
     </style>
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" as="image" />
+    <!-- Preload LCP image (first hero slide background) -->
+    <link rel="preload" href="https://www.satorytoiture.com/public/img/big/AdobeStock125087270jpg_62ea778f3406f.jpg" as="image" fetchpriority="high" />
     
     <!-- Enhanced Comprehensive Structured Data for Local Business -->
     <script type="application/ld+json">
@@ -394,63 +437,43 @@
     
     <!-- Enhanced Performance monitoring and optimization -->
     <script>
-      // Enhanced Performance monitoring and optimization
+      // Core Web Vitals monitoring (minimal for performance)
       (function() {
         const isProduction = window.location.hostname !== 'localhost';
-        if ('performance' in window) {
-          // Monitor Core Web Vitals
-          new PerformanceObserver((list) => {
-            const entries = list.getEntries();
-            entries.forEach(entry => {
-              if (entry.entryType === 'largest-contentful-paint') {
-                // Only log in development mode to reduce console noise
-                if (!isProduction) {
-                  console.log('LCP:', entry.startTime);
+        
+        // Only monitor in production for analytics, skip all console.log
+        if ('performance' in window && 'PerformanceObserver' in window && isProduction) {
+          // Defer performance monitoring until after initial load
+          window.addEventListener('load', () => {
+            setTimeout(() => {
+              // Monitor LCP
+              new PerformanceObserver((list) => {
+                const entries = list.getEntries();
+                const lastEntry = entries[entries.length - 1];
+                if (lastEntry && lastEntry.startTime > 2500) {
+                  gtag('event', 'poor_lcp', { value: Math.round(lastEntry.startTime) });
                 }
-                // Send to analytics if LCP is poor
-                if (entry.startTime > 2500) {
-                  gtag('event', 'poor_lcp', { value: entry.startTime });
-                }
-              }
-            });
-          }).observe({ entryTypes: ['largest-contentful-paint'] });
-          
-          // Monitor First Input Delay
-          new PerformanceObserver((list) => {
-            const entries = list.getEntries();
-            entries.forEach(entry => {
-              const fid = entry.processingStart - entry.startTime;
-              // Only log in development mode to reduce console noise
-              if (!isProduction) {
-                console.log('FID:', fid);
-              }
-              // Send to analytics if FID is poor
-              if (fid > 100) {
-                gtag('event', 'poor_fid', { value: fid });
-              }
-            });
-          }).observe({ entryTypes: ['first-input'] });
-          
-          // Monitor Cumulative Layout Shift - disabled to reduce console noise
-          // Only monitor in development
-          if (!isProduction) {
-            new PerformanceObserver((list) => {
-              const entries = list.getEntries();
-              entries.forEach(entry => {
-                console.log('CLS:', entry.value);
-                // Send to analytics if CLS is poor
-                if (entry.value > 0.1) {
-                  gtag('event', 'poor_cls', { value: entry.value });
-                }
-              });
-            }).observe({ entryTypes: ['layout-shift'] });
-          }
+              }).observe({ entryTypes: ['largest-contentful-paint'] });
+              
+              // Monitor FID
+              new PerformanceObserver((list) => {
+                const entries = list.getEntries();
+                entries.forEach(entry => {
+                  const fid = entry.processingStart - entry.startTime;
+                  if (fid > 100) {
+                    gtag('event', 'poor_fid', { value: Math.round(fid) });
+                  }
+                });
+              }).observe({ entryTypes: ['first-input'] });
+            }, 3000);
+          });
         }
       })();
       
-      // Enhanced critical images preloading
+      // Enhanced critical images preloading with WebP support
       const criticalImages = [
         '/logo.png',
+        // Convert Unsplash URLs to WebP for better performance
         'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp'
       ];
       
@@ -460,6 +483,21 @@
         link.as = 'image';
         link.href = src;
         link.fetchPriority = 'high';
+        document.head.appendChild(link);
+      });
+      
+      // Prefetch DNS for external resources
+      const dnsPrefetch = [
+        'https://images.unsplash.com',
+        'https://api.bnbatiment.com',
+        'https://fonts.googleapis.com',
+        'https://fonts.gstatic.com'
+      ];
+      
+      dnsPrefetch.forEach(domain => {
+        const link = document.createElement('link');
+        link.rel = 'dns-prefetch';
+        link.href = domain;
         document.head.appendChild(link);
       });
       
@@ -490,66 +528,29 @@
     
     <!-- Enhanced non-critical JavaScript with performance optimization -->
     <script>
-      // Enhanced defer non-critical operations
+      // Defer non-critical operations
       (function() {
-        const isProduction = window.location.hostname !== 'localhost';
-        
         window.addEventListener('load', () => {
           // Initialize lazy loading after page load
-          if ('IntersectionObserver' in window) {
-            const script = document.createElement('script');
-            script.src = '/src/utils/performanceOptimization.js';
-            script.defer = true;
-            document.body.appendChild(script);
-          }
-          
-          // Enhanced service worker registration for PWA
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-              .then(registration => {
-                // Only log in development mode to reduce console noise
-                if (!isProduction) {
-                  console.log('SW registered: ', registration);
+          if ('IntersectionObserver' in window && document.querySelectorAll('img[data-src]').length > 0) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  const img = entry.target;
+                  const src = img.dataset.src;
+                  if (src) {
+                    img.src = src;
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                  }
                 }
-              })
-              .catch(registrationError => {
-                // Log errors even in production for debugging
-                console.error('SW registration failed: ', registrationError);
               });
+            }, { rootMargin: '50px' });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => imageObserver.observe(img));
           }
-        
-        // Enhanced offline detection
-        window.addEventListener('online', () => {
-          gtag('event', 'user_online');
-        });
-        
-        window.addEventListener('offline', () => {
-          gtag('event', 'user_offline');
-        });
         });
       })();
-      
-      // Enhanced scroll performance
-      let ticking = false;
-      function updateScroll() {
-        // Track scroll depth for analytics
-        const scrollDepth = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-        if (scrollDepth > 25 && scrollDepth <= 50) {
-          gtag('event', 'scroll_25_percent');
-        } else if (scrollDepth > 50 && scrollDepth <= 75) {
-          gtag('event', 'scroll_50_percent');
-        } else if (scrollDepth > 75) {
-          gtag('event', 'scroll_75_percent');
-        }
-        ticking = false;
-      }
-      
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(updateScroll);
-          ticking = true;
-        }
-      });
     </script>
   </body>
 </html>

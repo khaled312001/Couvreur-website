@@ -12,7 +12,9 @@ class GalleryController extends Controller
     public function index()
     {
         $items = GalleryItem::active()->orderBy('sort_order')->get();
-        return response()->json($items);
+        return response()->json($items)
+            ->header('Cache-Control', 'public, max-age=3600')
+            ->header('Access-Control-Allow-Origin', '*');
     }
 
     public function show($id)

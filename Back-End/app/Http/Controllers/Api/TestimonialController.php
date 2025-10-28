@@ -11,7 +11,9 @@ class TestimonialController extends Controller
     public function index()
     {
         $testimonials = Testimonial::active()->orderBy('sort_order')->get();
-        return response()->json($testimonials);
+        return response()->json($testimonials)
+            ->header('Cache-Control', 'public, max-age=3600')
+            ->header('Access-Control-Allow-Origin', '*');
     }
 
     public function show($id)

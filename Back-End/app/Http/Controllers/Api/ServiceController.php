@@ -14,7 +14,9 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::active()->orderBy('sort_order')->get();
-        return response()->json($services);
+        return response()->json($services)
+            ->header('Cache-Control', 'public, max-age=3600')
+            ->header('Access-Control-Allow-Origin', '*');
     }
 
     public function adminIndex()
