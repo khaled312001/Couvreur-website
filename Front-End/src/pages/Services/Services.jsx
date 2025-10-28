@@ -14,7 +14,7 @@ const getServiceImageUrl = (imagePath) => {
     return null;
   }
   
-  // If it's already a full URL, return as is
+  // If it's already a full URL, return as is (including Cloudinary URLs)
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }

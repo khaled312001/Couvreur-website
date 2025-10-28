@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\NewsletterController;
+use App\Http\Controllers\Api\CloudinaryUploadController;
 use App\Http\Controllers\SitemapController;
 use App\Services\ImageOptimizationService;
 
@@ -117,6 +118,10 @@ Route::get('/debug-services', function () {
 
 // Serve uploaded images
 Route::get('/uploads/{folder}/{filename}', [ImageController::class, 'serve']);
+
+// Cloudinary upload routes (temporarily public for testing)
+Route::post('/upload/cloudinary', [CloudinaryUploadController::class, 'upload']);
+Route::delete('/upload/cloudinary', [CloudinaryUploadController::class, 'destroy']);
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);

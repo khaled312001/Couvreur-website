@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { createService, updateService, deleteService, getAdminServices, toggleServiceStatus } from '../../api/services';
 import { getServiceImage } from '../../utils/imageUtils';
+import ImageUpload from '../../components/ImageUpload';
 
 // Function to get the correct image URL for services
 const getServiceImageUrl = (imagePath) => {
@@ -14,7 +15,7 @@ const getServiceImageUrl = (imagePath) => {
     return null;
   }
   
-  // If it's already a full URL, return as is
+  // If it's already a full URL, return as is (including Cloudinary URLs)
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
@@ -184,24 +185,15 @@ const ServicesAdmin = () => {
     }));
   };
 
-  // Handle image upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImage(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-      };
-      reader.readAsDataURL(file);
+  // Handle image upload from Cloudinary component
+  const handleImageUploaded = (imageUrl) => {
+    setFormData(prev => ({ ...prev, image: imageUrl }));
+    setSelectedImage(imageUrl);
+    if (imageUrl) {
+      setImagePreview(imageUrl);
+    } else {
+      setImagePreview(null);
     }
-  };
-
-  // Clear image
-  const clearImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
-    setFormData(prev => ({ ...prev, image: '' }));
   };
 
   // Add new service
@@ -786,34 +778,11 @@ const ServicesAdmin = () => {
                       </div>
                     </div>
                     
-                    <div className="form-group">
-                      <label>Image du service</label>
-                      <div className="image-upload-container">
-                        {imagePreview ? (
-                          <div className="image-preview">
-                            <img src={imagePreview} alt="Preview" />
-                            <button 
-                              type="button" 
-                              className="remove-image-btn"
-                              onClick={clearImage}
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ) : (
-                          <label className="image-upload-btn">
-                            <Upload size={20} />
-                            <span>Choisir une image</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleImageUpload}
-                              style={{ display: 'none' }}
-                            />
-                          </label>
-                        )}
-                      </div>
-                    </div>
+                    <ImageUpload
+                      onImageUploaded={handleImageUploaded}
+                      currentImage={formData.image}
+                      label="Image du service (via Cloudinary)"
+                    />
                     
                     <div className="form-group">
                       <label>Fonctionnalités (une par ligne)</label>
@@ -1003,45 +972,11 @@ const ServicesAdmin = () => {
                       </div>
                     </div>
                     
-                    <div className="form-group">
-                      <label>Image du service</label>
-                      <div className="image-upload-container">
-                        {imagePreview ? (
-                          <div className="image-preview">
-                            <img src={imagePreview} alt="Preview" />
-                            <button 
-                              type="button" 
-                              className="remove-image-btn"
-                              onClick={clearImage}
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ) : formData.image ? (
-                          <div className="image-preview">
-                            <img src={formData.image} alt="Current" />
-                            <button 
-                              type="button" 
-                              className="remove-image-btn"
-                              onClick={clearImage}
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ) : (
-                          <label className="image-upload-btn">
-                            <Upload size={20} />
-                            <span>Choisir une image</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleImageUpload}
-                              style={{ display: 'none' }}
-                            />
-                          </label>
-                        )}
-                      </div>
-                    </div>
+                    <ImageUpload
+                      onImageUploaded={handleImageUploaded}
+                      currentImage={formData.image}
+                      label="Image du service (via Cloudinary)"
+                    />
                     
                     <div className="form-group">
                       <label>Fonctionnalités (une par ligne)</label>
