@@ -48,27 +48,16 @@ class CloudinaryUploadController extends Controller
                 throw new \Exception('Cloudinary URL is not configured');
             }
 
-            // Upload to Cloudinary using the uploadFile method with file path
-            // First try with temp path, then try with real path
-            try {
-                $uploadResult = Cloudinary::uploadFile($path, [
-                    'folder' => 'bnbatiment/services',
-                    'resource_type' => 'image',
-                ]);
-            } catch (\Exception $e) {
-                // If temp path fails, try with real path
-                Log::info('Trying with real path...');
-                $realPath = $file->getRealPath();
-                $uploadResult = Cloudinary::uploadFile($realPath, [
-                    'folder' => 'bnbatiment/services',
-                    'resource_type' => 'image',
-                ]);
-            }
+            // Upload to Cloudinary using the upload method
+            $uploadResult = Cloudinary::uploadApi()->upload($path, [
+                'folder' => 'bnbatiment/services',
+                'resource_type' => 'image',
+            ]);
             
-            // Get the upload result details
-            $secureUrl = $uploadResult->getSecurePath();
-            $publicId = $uploadResult->getPublicId();
-            $format = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            // Get the upload result details - response is an array
+            $secureUrl = $uploadResult['secure_url'] ?? $uploadResult['url'] ?? null;
+            $publicId = $uploadResult['public_id'] ?? null;
+            $format = $uploadResult['format'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
             
             // Log the upload result for debugging
             Log::info('Cloudinary upload result:', [
@@ -82,8 +71,8 @@ class CloudinaryUploadController extends Controller
                 'url' => $secureUrl,
                 'public_id' => $publicId,
                 'format' => $format,
-                'width' => $uploadResult->getWidth() ?? null,
-                'height' => $uploadResult->getHeight() ?? null,
+                'width' => $uploadResult['width'] ?? null,
+                'height' => $uploadResult['height'] ?? null,
             ], 200)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
@@ -119,8 +108,10 @@ class CloudinaryUploadController extends Controller
 
             $publicId = $request->input('public_id');
             
-            // Delete from Cloudinary
-            Cloudinary::destroy($publicId);
+            // Delete from Cloudinary using the admin API
+            $result = Cloudinary::adminApi()->deleteAssets([$publicId], [
+                'resource_type' => 'image',
+            ]);
 
             Log::info('Cloudinary delete successful:', ['public_id' => $publicId]);
 
