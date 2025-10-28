@@ -30,14 +30,16 @@ class CloudinaryUploadController extends Controller
 
             $file = $request->file('image');
             
-            // Try to get the file path
-            $path = $file->getRealPath();
+            // Get file path (use temp path instead of real path)
+            $path = $file->getPathname();
             
             // Log file information
             Log::info('File information:', [
                 'path' => $path,
-                'size' => filesize($path),
+                'real_path' => $file->getRealPath(),
+                'size' => $file->getSize(),
                 'readable' => is_readable($path),
+                'readable_real' => is_readable($file->getRealPath()),
             ]);
 
             // Check if Cloudinary is configured
@@ -46,11 +48,22 @@ class CloudinaryUploadController extends Controller
                 throw new \Exception('Cloudinary URL is not configured');
             }
 
-            // Upload to Cloudinary using the uploadFile method
-            $uploadResult = Cloudinary::uploadFile($path, [
-                'folder' => 'bnbatiment/services',
-                'resource_type' => 'image',
-            ]);
+            // Upload to Cloudinary using the uploadFile method with file path
+            // First try with temp path, then try with real path
+            try {
+                $uploadResult = Cloudinary::uploadFile($path, [
+                    'folder' => 'bnbatiment/services',
+                    'resource_type' => 'image',
+                ]);
+            } catch (\Exception $e) {
+                // If temp path fails, try with real path
+                Log::info('Trying with real path...');
+                $realPath = $file->getRealPath();
+                $uploadResult = Cloudinary::uploadFile($realPath, [
+                    'folder' => 'bnbatiment/services',
+                    'resource_type' => 'image',
+                ]);
+            }
             
             // Get the upload result details
             $secureUrl = $uploadResult->getSecurePath();

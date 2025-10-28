@@ -1,0 +1,91 @@
+URGENT: Cloudinary Upload Fix - Deploy These Files NOW
+========================================================
+
+Your backend is at:
+https://srv448-files.hstgr.io/b70b37a1ae97c8bd/files/public_html/api/
+
+Step 1: Connect via SSH
+------------------------
+Use your SSH credentials to connect.
+
+Step 2: Navigate to Backend
+----------------------------
+cd b70b37a1ae97c8bd/files/public_html/api/
+
+Step 3: Backup Existing Files (IMPORTANT)
+------------------------------------------
+cp app/Http/Controllers/Api/CloudinaryUploadController.php app/Http/Controllers/Api/CloudinaryUploadController.php.backup
+cp routes/api.php routes/api.php.backup
+
+Step 4: Upload the Updated Files
+----------------------------------
+Upload these files from your local machine:
+- Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+  TO: app/Http/Controllers/Api/CloudinaryUploadController.php
+
+- Back-End/routes/api.php
+  TO: routes/api.php
+
+(Use SFTP, WinSCP, or File Manager to upload)
+
+Step 5: Set Permissions
+-----------------------
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+
+Step 6: Clear All Caches
+-------------------------
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+php artisan optimize:clear
+
+Step 7: Remove Bootstrap Cache
+-------------------------------
+rm -rf bootstrap/cache/*
+
+Step 8: Check CLOUDINARY_URL in .env
+-------------------------------------
+cat .env | grep CLOUDINARY
+
+If it shows "CLOUDINARY_URL=" empty, add it:
+echo "CLOUDINARY_URL=cloudinary://667964626244861:Q-W2KrzSH4wMSTxYlvgSmBAG77s@dxyczvtd1" >> .env
+
+Step 9: Rebuild Caches
+-----------------------
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+Step 10: Test
+-------------
+Visit: https://api.bnbatiment.com/api/cloudinary/test
+
+Should show: {"success":true,"config":{"cloud_url_set":true...
+
+Then try uploading an image in admin panel.
+
+Step 11: Check Logs (if still failing)
+---------------------------------------
+tail -f storage/logs/laravel.log
+
+Look for: "Cloudinary upload started" and error details.
+
+
+TROUBLESHOOTING
+===============
+
+If you get "Permission denied":
+chmod 755 artisan
+chmod -R 775 storage bootstrap/cache
+
+If .env doesn't exist:
+cp .env.example .env
+php artisan key:generate
+Add CLOUDINARY_URL to .env
+
+If composer error:
+composer install --no-dev --optimize-autoloader
+
