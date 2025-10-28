@@ -217,6 +217,15 @@ const ServicesAdmin = () => {
         body: formData,
       });
 
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Server returned non-JSON response:', text);
+        alert('Upload failed: Server returned invalid response. The Cloudinary package may not be installed on the server. Please contact the administrator or upload images via URL instead.');
+        return;
+      }
+
       const data = await response.json();
 
       if (data.success) {
@@ -228,7 +237,12 @@ const ServicesAdmin = () => {
         console.error('Upload error:', data);
       }
     } catch (error) {
-      alert('Failed to upload image: ' + error.message);
+      // Handle JSON parse errors
+      if (error.message.includes('Unexpected token')) {
+        alert('Upload failed: The server returned an error page. Please check that:\n1. Cloudinary package is installed on the server\n2. CLOUDINARY_URL is set in .env\n3. Or use URL input instead');
+      } else {
+        alert('Failed to upload image: ' + error.message);
+      }
       console.error('Upload error:', error);
     }
   };
