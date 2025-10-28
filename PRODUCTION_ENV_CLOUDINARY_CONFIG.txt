@@ -1,0 +1,88 @@
+===========================================================
+COPY THIS TO YOUR PRODUCTION .env FILE
+===========================================================
+
+Add these lines to your production .env file:
+(Located at: /public_html/Back-End/.env on Hostinger)
+
+===========================================================
+
+# Cloudinary Configuration
+CLOUDINARY_URL=cloudinary://667964626244861:Q-W2KrzSH4wMSTxYlvgSmBAG77s@dxyczvtd1
+CLOUDINARY_CLOUD_NAME=dxyczvtd1
+CLOUDINARY_API_KEY=667964626244861
+CLOUDINARY_API_SECRET=Q-W2KrzSH4wMSTxYlvgSmBAG77s
+
+===========================================================
+STEP-BY-STEP INSTRUCTIONS:
+===========================================================
+
+1. LOGIN TO HOSTINGER
+   - Go to: https://hpanel.hostinger.com
+   - Login with your credentials
+
+2. OPEN FILE MANAGER
+   - Click on "File Manager" in the control panel
+   - Navigate to: public_html/Back-End/
+
+3. EDIT .env FILE
+   - Find the ".env" file
+   - Click "Edit" or right-click → "Edit"
+   - Scroll to the bottom of the file
+
+4. ADD THE CONFIGURATION
+   - Copy the 4 lines from above (starting with # Cloudinary)
+   - Paste them at the end of your .env file
+   - Click "Save"
+
+5. CLEAR LARAVEL CACHE
+   Option A - Via Hostinger Terminal:
+   - Go to "Advanced" → "Terminal" in Hostinger control panel
+   - Run these commands:
+     cd public_html/Back-End
+     php artisan config:clear
+     php artisan cache:clear
+     php artisan route:clear
+     php artisan view:clear
+
+   Option B - Via SSH (if you have SSH access):
+   - SSH into your server
+   - Run the same commands above
+
+6. TEST THE CONFIGURATION
+   - Visit: https://api.bnbatiment.com/api/cloudinary/test
+   - You should see: {"success":true,"cloudinary_configured":true}
+
+7. TEST IMAGE UPLOAD
+   - Go to: https://www.bnbatiment.com/admin/services
+   - Click "Edit" on any service
+   - Click the image upload area
+   - Select an image
+   - It should upload successfully! ✅
+
+===========================================================
+EXPECTED RESULT:
+===========================================================
+
+✅ No more 500 errors
+✅ Images upload to Cloudinary
+✅ Images display in admin panel
+✅ Images show on frontend (Home & Services pages)
+✅ Fast CDN delivery
+
+===========================================================
+TROUBLESHOOTING:
+===========================================================
+
+If still not working:
+1. Check you saved the .env file
+2. Make sure you cleared the cache
+3. Check Laravel logs:
+   - File: Back-End/storage/logs/laravel.log
+   - Look for any Cloudinary errors
+
+4. Verify credentials are correct (no extra spaces)
+
+===========================================================
+
+
