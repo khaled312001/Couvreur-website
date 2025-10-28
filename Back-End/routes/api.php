@@ -120,8 +120,8 @@ Route::get('/debug-services', function () {
 Route::get('/uploads/{folder}/{filename}', [ImageController::class, 'serve']);
 
 // Cloudinary upload routes (temporarily public for testing)
-Route::post('/upload/cloudinary', [CloudinaryUploadController::class, 'upload']);
-Route::delete('/upload/cloudinary', [CloudinaryUploadController::class, 'destroy']);
+Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
+Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);

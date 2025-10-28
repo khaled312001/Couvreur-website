@@ -34,7 +34,7 @@ const ImageUpload = ({ onImageUploaded, currentImage, label = "Upload Image" }) 
 
       // Upload to Cloudinary
       const response = await axios.post(
-        'https://api.bnbatiment.com/api/upload/cloudinary',
+        'https://api.bnbatiment.com/api/cloudinary/upload',
         formData,
         {
           headers: {
