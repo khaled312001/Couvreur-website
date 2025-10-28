@@ -54,10 +54,13 @@ class CloudinaryUploadController extends Controller
                 'resource_type' => 'image',
             ]);
             
-            // Get the upload result details - response is an array
-            $secureUrl = $uploadResult['secure_url'] ?? $uploadResult['url'] ?? null;
-            $publicId = $uploadResult['public_id'] ?? null;
-            $format = $uploadResult['format'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            // Convert ApiResponse (ArrayObject) to array for safe access
+            $resultArray = (array) $uploadResult;
+            
+            // Get the upload result details
+            $secureUrl = $resultArray['secure_url'] ?? $resultArray['url'] ?? null;
+            $publicId = $resultArray['public_id'] ?? null;
+            $format = $resultArray['format'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
             
             // Log the upload result for debugging
             Log::info('Cloudinary upload result:', [
@@ -71,8 +74,8 @@ class CloudinaryUploadController extends Controller
                 'url' => $secureUrl,
                 'public_id' => $publicId,
                 'format' => $format,
-                'width' => $uploadResult['width'] ?? null,
-                'height' => $uploadResult['height'] ?? null,
+                'width' => $resultArray['width'] ?? null,
+                'height' => $resultArray['height'] ?? null,
             ], 200)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
