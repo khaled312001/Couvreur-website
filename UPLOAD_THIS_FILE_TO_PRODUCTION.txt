@@ -1,0 +1,72 @@
+===========================================================
+CRITICAL: Upload This Fixed File to Your Production Server
+===========================================================
+
+File to upload:
+Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+
+Target on your server:
+Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+
+===========================================================
+HOW TO UPLOAD (Choose one method):
+===========================================================
+
+METHOD 1: Via FTP/File Manager (Hostinger)
+------------------------------------------
+1. Login to your Hostinger control panel
+2. Go to File Manager
+3. Navigate to: Back-End/app/Http/Controllers/Api/
+4. Find: CloudinaryUploadController.php
+5. Click "Edit" and replace entire content with the fixed version
+6. Save
+
+METHOD 2: Via SSH
+-----------------
+1. SSH into your server
+2. Edit the file:
+   nano Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+3. Copy-paste the fixed content
+4. Save (Ctrl+X, then Y, then Enter)
+
+METHOD 3: Direct Upload via FTP client
+--------------------------------------
+1. Open FileZilla or your FTP client
+2. Connect to your server
+3. Upload: Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+   from your local to server
+4. Overwrite the existing file
+
+===========================================================
+AFTER UPLOADING THE FILE:
+===========================================================
+
+Run these commands via SSH or hosting terminal:
+
+cd Back-End
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+===========================================================
+THEN TEST:
+===========================================================
+
+1. Go to https://www.bnbatiment.com/admin/services
+2. Click "Edit" on any service
+3. Try uploading an image
+4. Should work without 500 error!
+
+===========================================================
+If you see 500 error still:
+===========================================================
+
+Check server logs:
+cd Back-End
+tail -f storage/logs/laravel.log
+
+Look for the exact error message and share it for help.
+
+===========================================================
+
