@@ -1041,6 +1041,9 @@ const Home = () => {
                     src="/1.jpg" 
                     alt="Qualité et fiabilité - BN BÂTIMENT" 
                     className="quality-image"
+                    width="665"
+                    height="443"
+                    loading="lazy"
                   />
                   <div className="image-overlay">
                     <div className="overlay-content">
@@ -1115,6 +1118,9 @@ const Home = () => {
                 src="https://soumissionsquebec.ca/wp-content/uploads/2021/06/services-couvreur-commercial-quebec-768x512.jpg" 
                 alt="Travailleur sur toiture" 
                 className="worker-image"
+                width="768"
+                height="512"
+                loading="lazy"
               />
              
             </AnimatedSection>
@@ -1389,6 +1395,9 @@ const Home = () => {
                 src="https://soumissionsquebec.ca/wp-content/uploads/2021/06/services-couvreur-commercial-quebec-768x512.jpg" 
                 alt="Travailleur professionnel" 
                 className="worker-image"
+                width="768"
+                height="512"
+                loading="lazy"
               />
             </div>
           </div>
@@ -1526,6 +1535,9 @@ const Home = () => {
                           <img 
                             src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
                             alt={post.title}
+                            width="400"
+                            height="300"
+                            loading="lazy"
                           />
                           <div className="blog-overlay">
                             <div className="blog-overlay-content">
@@ -1562,6 +1574,9 @@ const Home = () => {
                           <img 
                             src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
                             alt={post.title}
+                            width="400"
+                            height="300"
+                            loading="lazy"
                           />
                           <div className="blog-overlay">
                             <div className="blog-overlay-content">

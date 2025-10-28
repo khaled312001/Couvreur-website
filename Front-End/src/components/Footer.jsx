@@ -166,6 +166,8 @@ const Footer = () => {
                     src="/logo.png" 
                     alt="BN BÂTIMENT Logo" 
                     className="footer-logo-image"
+                    width="142"
+                    height="61"
                   />
                   <div className="logo-glow"></div>
                 </div>

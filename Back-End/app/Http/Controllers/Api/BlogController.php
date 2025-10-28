@@ -12,7 +12,11 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $posts = BlogPost::published()->orderBy('published_at', 'desc')->get();
+        $posts = BlogPost::published()
+            ->orderBy('published_at', 'desc')
+            ->select('id', 'title', 'slug', 'excerpt', 'image', 'category', 'created_at', 'published_at')
+            ->get();
+        
         return response()->json($posts)
             ->header('Cache-Control', 'public, max-age=3600')
             ->header('Access-Control-Allow-Origin', '*');

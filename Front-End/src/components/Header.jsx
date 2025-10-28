@@ -120,6 +120,8 @@ const Header = () => {
                     src="/logo.png" 
                     alt="BN BÂTIMENT Logo" 
                     className="logo-image"
+                    width="142"
+                    height="61"
                   />
                   <div className="logo-glow"></div>
                 </div>
@@ -214,7 +216,7 @@ const Header = () => {
         <div className="mobile-sidebar-content">
           <div className="mobile-sidebar-header">
             <div className="mobile-sidebar-logo">
-              <img src="/logo.png" alt="BN Bâtiment" />
+              <img src="/logo.png" alt="BN Bâtiment" width="142" height="61" />
               <span>BN BÂTIMENT</span>
             </div>
             <button 
