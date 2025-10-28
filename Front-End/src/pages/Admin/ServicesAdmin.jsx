@@ -55,7 +55,6 @@ const ServicesAdmin = () => {
     sort_order: 0
   });
 
-  const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
 
@@ -198,12 +197,8 @@ const ServicesAdmin = () => {
         ...formData
       };
       
-      // Only include image if it's a file or has a valid value
-      if (selectedImage) {
-        serviceData.image = selectedImage;
-      } else if (formData.image && formData.image !== '' && formData.image !== null) {
-        serviceData.image = formData.image;
-      } else {
+      // Only include image if it has a valid value
+      if (!formData.image || formData.image === '' || formData.image === null) {
         // Remove image field if it's empty
         delete serviceData.image;
       }
@@ -243,7 +238,6 @@ const ServicesAdmin = () => {
       await loadServices();
       
       setShowAddModal(false);
-      setSelectedImage(null);
       setImagePreview(null);
       setFormData({
         title: '',
@@ -272,12 +266,8 @@ const ServicesAdmin = () => {
         ...formData
       };
       
-      // Only include image if it's a file or has a valid value
-      if (selectedImage) {
-        serviceData.image = selectedImage;
-      } else if (formData.image && formData.image !== '' && formData.image !== null) {
-        serviceData.image = formData.image;
-      } else {
+      // Only include image if it has a valid value
+      if (!formData.image || formData.image === '' || formData.image === null) {
         // Remove image field if it's empty
         delete serviceData.image;
       }
@@ -319,7 +309,6 @@ const ServicesAdmin = () => {
       
       setShowEditModal(false);
       setSelectedService(null);
-      setSelectedImage(null);
       setImagePreview(null);
       setFormData({
         title: '',
@@ -390,9 +379,7 @@ const ServicesAdmin = () => {
       sort_order: service.sort_order
     };
     setFormData(formDataToSet);
-    // Set image preview and selected image for the ImageUpload component
     setImagePreview(service.image || null);
-    setSelectedImage(service.image || null);
     setShowEditModal(true);
   };
 
@@ -776,11 +763,28 @@ const ServicesAdmin = () => {
                       </div>
                     </div>
                     
-                    <ImageUpload
-                      onImageUploaded={handleImageUploaded}
-                      currentImage={formData.image}
-                      label="Image du service (via Cloudinary)"
-                    />
+                    <div className="form-group">
+                      <label>URL de l'image</label>
+                      <input
+                        type="url"
+                        name="image"
+                        value={formData.image}
+                        onChange={handleImageUrlChange}
+                        placeholder="https://exemple.com/image.jpg"
+                      />
+                      {formData.image && (
+                        <div className="mt-3">
+                          <img
+                            src={formData.image}
+                            alt="Aperçu"
+                            className="w-full h-48 object-cover rounded-lg border"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                     
                     <div className="form-group">
                       <label>Fonctionnalités (une par ligne)</label>
@@ -970,11 +974,28 @@ const ServicesAdmin = () => {
                       </div>
                     </div>
                     
-                    <ImageUpload
-                      onImageUploaded={handleImageUploaded}
-                      currentImage={formData.image}
-                      label="Image du service (via Cloudinary)"
-                    />
+                    <div className="form-group">
+                      <label>URL de l'image</label>
+                      <input
+                        type="url"
+                        name="image"
+                        value={formData.image}
+                        onChange={handleImageUrlChange}
+                        placeholder="https://exemple.com/image.jpg"
+                      />
+                      {formData.image && (
+                        <div className="mt-3">
+                          <img
+                            src={formData.image}
+                            alt="Aperçu"
+                            className="w-full h-48 object-cover rounded-lg border"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                     
                     <div className="form-group">
                       <label>Fonctionnalités (une par ligne)</label>
