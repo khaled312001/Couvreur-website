@@ -1,0 +1,86 @@
+═══════════════════════════════════════════════════════════
+MANUAL STORAGE LINK SETUP (exec() disabled)
+═══════════════════════════════════════════════════════════
+
+Since php artisan storage:link doesn't work (exec() disabled),
+we need to create the symbolic link manually.
+
+You're already on the production server, so follow these steps:
+
+═══════════════════════════════════════════════════════════
+OPTION 1: MANUAL SYMLINK (RECOMMENDED)
+═══════════════════════════════════════════════════════════
+
+Run these commands on your production server:
+
+# Make sure you're in the Back-End directory
+cd /home/u696043789/public_html/Back-End
+
+# Remove any existing storage link/folder in public
+rm -rf public/storage
+
+# Create symbolic link manually
+ln -s /home/u696043789/public_html/Back-End/storage/app/public /home/u696043789/public_html/Back-End/public/storage
+
+# Verify it was created
+ls -la public/storage
+
+You should see something like:
+lrwxrwxrwx 1 ... storage -> /home/u696043789/public_html/Back-End/storage/app/public
+
+═══════════════════════════════════════════════════════════
+OPTION 2: CREATE UPLOADS DIRECTORY IN PUBLIC (SIMPLER)
+═══════════════════════════════════════════════════════════
+
+If symlinks don't work, store files directly in public:
+
+# Create uploads directory in public
+mkdir -p public/uploads/services
+chmod -R 775 public/uploads
+
+Then we need to modify the controller to store files
+in public/uploads instead of storage/app/public/uploads
+
+═══════════════════════════════════════════════════════════
+CONTINUE WITH SETUP
+═══════════════════════════════════════════════════════════
+
+After creating the symlink (Option 1):
+
+# Create the uploads directory
+mkdir -p storage/app/public/uploads/services
+
+# Set permissions
+chmod -R 775 storage/app/public/uploads
+chmod -R 775 storage/logs
+chmod -R 775 bootstrap/cache
+
+# Verify directory exists
+ls -la storage/app/public/uploads/services
+
+═══════════════════════════════════════════════════════════
+TEST THE SETUP
+═══════════════════════════════════════════════════════════
+
+After completing the setup:
+
+1. Go to: https://www.bnbatiment.com/admin/services
+2. Edit a service
+3. Try uploading an image
+4. Check if it works!
+
+If successful, the image URL will be:
+https://api.bnbatiment.com/storage/uploads/services/your-image.jpg
+
+═══════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════
+
+If symlink doesn't work, check:
+ls -la public/
+
+If you see "storage" as a link, it worked!
+If not, you may need to use Option 2 (direct public uploads)
+
+═══════════════════════════════════════════════════════════
+

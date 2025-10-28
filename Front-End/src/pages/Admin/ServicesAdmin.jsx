@@ -184,9 +184,9 @@ const ServicesAdmin = () => {
     }));
   };
 
-  // Handle image upload from Cloudinary
+  // Handle image upload
   const handleImageUpload = (imageUrl) => {
-    console.log('Image uploaded from Cloudinary:', imageUrl);
+    console.log('Image uploaded successfully:', imageUrl);
     setFormData(prev => ({ ...prev, image: imageUrl }));
     setImagePreview(imageUrl);
   };

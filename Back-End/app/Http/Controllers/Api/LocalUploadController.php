@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 class LocalUploadController extends Controller
 {
@@ -61,18 +59,25 @@ class LocalUploadController extends Controller
             
             Log::info('Generated filename: ' . $filename);
 
-            // Define storage path
-            $folderPath = 'uploads/services';
+            // Define storage path - directly in public/uploads/services
+            $destinationPath = public_path('uploads/services');
             
-            // Store the file in storage/app/public/uploads/services
-            $path = $file->storeAs($folderPath, $filename, 'public');
+            // Ensure directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0775, true);
+                Log::info('Created directory: ' . $destinationPath);
+            }
             
-            Log::info('File stored at: ' . $path);
+            // Move the file to public/uploads/services
+            $file->move($destinationPath, $filename);
+            
+            $relativePath = 'uploads/services/' . $filename;
+            Log::info('File stored at: ' . $relativePath);
 
             // Generate the public URL
-            // For production: https://api.bnbatiment.com/storage/uploads/services/filename.jpg
-            // For local: http://localhost:8000/storage/uploads/services/filename.jpg
-            $publicUrl = url('storage/' . $folderPath . '/' . $filename);
+            // For production: https://api.bnbatiment.com/uploads/services/filename.jpg
+            // For local: http://localhost:8000/uploads/services/filename.jpg
+            $publicUrl = url($relativePath);
             
             Log::info('SUCCESS! File URL: ' . $publicUrl);
 
@@ -80,7 +85,7 @@ class LocalUploadController extends Controller
                 'success' => true,
                 'url' => $publicUrl,
                 'filename' => $filename,
-                'path' => $path,
+                'path' => $relativePath,
                 'message' => 'Image uploaded successfully',
             ], 200)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
@@ -127,19 +132,19 @@ class LocalUploadController extends Controller
             ]);
 
             $filename = $request->input('filename');
-            $path = 'uploads/services/' . $filename;
+            $filePath = public_path('uploads/services/' . $filename);
             
-            // Delete from storage
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-                Log::info('File deleted successfully:', ['path' => $path]);
+            // Delete from public directory
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                Log::info('File deleted successfully:', ['path' => $filePath]);
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Image deleted successfully',
                 ], 200);
             } else {
-                Log::warning('File not found:', ['path' => $path]);
+                Log::warning('File not found:', ['path' => $filePath]);
                 return response()->json([
                     'success' => false,
                     'error' => 'File not found',

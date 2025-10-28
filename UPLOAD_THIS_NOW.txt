@@ -1,0 +1,101 @@
+═══════════════════════════════════════════════════════════
+🚀 UPLOAD THIS FILE TO PRODUCTION NOW
+═══════════════════════════════════════════════════════════
+
+The controller has been updated to work WITHOUT symlinks!
+Files will be stored directly in public/uploads/services/
+
+═══════════════════════════════════════════════════════════
+📁 FILE TO UPLOAD
+═══════════════════════════════════════════════════════════
+
+FROM (Local):
+F:\Couvreur project\Back-End\app\Http\Controllers\Api\LocalUploadController.php
+
+TO (Production):
+public_html/Back-End/app/Http/Controllers/Api/LocalUploadController.php
+
+═══════════════════════════════════════════════════════════
+HOW TO UPLOAD
+═══════════════════════════════════════════════════════════
+
+OPTION 1 - Via SCP/SFTP (if available):
+scp "F:\Couvreur project\Back-End\app\Http\Controllers\Api\LocalUploadController.php" \
+    u696043789@us-imm-web448.main-hosting.eu:/home/u696043789/public_html/Back-End/app/Http/Controllers/Api/
+
+OPTION 2 - Via Hostinger File Manager:
+1. Login to Hostinger
+2. Open File Manager
+3. Navigate to: public_html/Back-End/app/Http/Controllers/Api/
+4. Delete the old LocalUploadController.php (if exists)
+5. Upload the new LocalUploadController.php from your local machine
+
+OPTION 3 - Via FTP Client (FileZilla, etc):
+1. Connect to your server
+2. Navigate to: public_html/Back-End/app/Http/Controllers/Api/
+3. Upload LocalUploadController.php (overwrite if exists)
+
+═══════════════════════════════════════════════════════════
+ YOU'VE ALREADY DONE THESE (NO NEED TO REPEAT)
+═══════════════════════════════════════════════════════════
+
+ mkdir -p public/uploads/services
+ chmod -R 775 public/uploads
+ mkdir -p storage/app/public/uploads/services
+ chmod -R 775 storage/app/public/uploads
+ chmod -R 775 storage/logs
+ chmod -R 775 bootstrap/cache
+
+═══════════════════════════════════════════════════════════
+🔄 AFTER UPLOADING THE FILE
+═══════════════════════════════════════════════════════════
+
+Run on production server:
+
+cd /home/u696043789/public_html/Back-End
+php artisan route:clear
+php artisan cache:clear
+
+═══════════════════════════════════════════════════════════
+🧪 TEST IT
+═══════════════════════════════════════════════════════════
+
+1. Go to: https://www.bnbatiment.com/admin/services
+2. Edit any service
+3. Upload an image
+4.  It should work now!
+
+Image URL will be:
+https://api.bnbatiment.com/uploads/services/your-image_123456.jpg
+
+Note: Now using /uploads/ instead of /storage/uploads/
+
+═══════════════════════════════════════════════════════════
+WHAT CHANGED?
+═══════════════════════════════════════════════════════════
+
+BEFORE:
+❌ Tried to use storage symlink (didn't work)
+❌ Files in: storage/app/public/uploads/services/
+❌ URL: /storage/uploads/services/image.jpg
+
+AFTER:
+ No symlink needed!
+ Files in: public/uploads/services/
+ URL: /uploads/services/image.jpg
+ Directly accessible!
+
+═══════════════════════════════════════════════════════════
+CHECK LOGS (IF NEEDED)
+═══════════════════════════════════════════════════════════
+
+If upload still fails, check:
+tail -f /home/u696043789/public_html/Back-End/storage/logs/laravel.log
+
+Look for:
+ "LOCAL UPLOAD ATTEMPT STARTED"
+ "File stored at: uploads/services/..."
+ "SUCCESS! File URL: ..."
+
+═══════════════════════════════════════════════════════════
+

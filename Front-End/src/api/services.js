@@ -104,7 +104,7 @@ export const updateService = async (id, serviceData) => {
       // Use JSON for updates without file uploads
       const jsonData = { ...serviceData };
       
-      // Keep the image field if it's a Cloudinary URL or other string URL
+      // Keep the image field if it's a URL string
       // Only remove if it's empty or undefined
       if (!jsonData.image || jsonData.image === '') {
         delete jsonData.image;
