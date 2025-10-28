@@ -20,23 +20,34 @@ class CloudinaryUploadController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             ]);
 
-            // Upload to Cloudinary
-            $uploadResult = $request->file('image')->storeOnCloudinary('bnbatiment/services');
-
+            $file = $request->file('image');
+            $path = $file->getRealPath();
+            
+            // Upload to Cloudinary using the uploadFile method
+            $uploadResult = Cloudinary::uploadFile($path, [
+                'folder' => 'bnbatiment/services',
+                'resource_type' => 'image',
+            ]);
+            
+            // Get the upload result details
+            $secureUrl = $uploadResult->getSecurePath();
+            $publicId = $uploadResult->getPublicId();
+            $format = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            
             // Log the upload result for debugging
             Log::info('Cloudinary upload result:', [
-                'public_id' => $uploadResult->getPublicId(),
-                'secure_url' => $uploadResult->getSecurePath(),
-                'url' => $uploadResult->getPath(),
+                'public_id' => $publicId,
+                'secure_url' => $secureUrl,
+                'format' => $format,
             ]);
 
             return response()->json([
                 'success' => true,
-                'url' => $uploadResult->getSecurePath(),
-                'public_id' => $uploadResult->getPublicId(),
-                'format' => $uploadResult->getExtension(),
-                'width' => $uploadResult->getWidth(),
-                'height' => $uploadResult->getHeight(),
+                'url' => $secureUrl,
+                'public_id' => $publicId,
+                'format' => $format,
+                'width' => $uploadResult->getWidth() ?? null,
+                'height' => $uploadResult->getHeight() ?? null,
             ], 200)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
@@ -46,12 +57,14 @@ class CloudinaryUploadController extends Controller
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to upload image',
                 'message' => $e->getMessage(),
+                'details' => 'Check server logs for more information',
             ], 500)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
