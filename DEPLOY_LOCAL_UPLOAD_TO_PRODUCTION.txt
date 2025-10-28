@@ -1,0 +1,252 @@
+===========================================================
+DEPLOY LOCAL FILE UPLOAD (WITHOUT CLOUDINARY)
+===========================================================
+
+This guide will help you switch from Cloudinary to local file
+uploads on your production server. Images will be stored on
+your server instead of in the cloud.
+
+===========================================================
+WHAT CHANGED
+===========================================================
+
+✅ Created: LocalUploadController.php - handles local uploads
+✅ Updated: routes/api.php - uses LocalUploadController
+✅ No Cloudinary needed - works immediately!
+✅ Same API endpoint - no frontend changes needed!
+
+Files are stored in: storage/app/public/uploads/services/
+Accessible via: https://api.bnbatiment.com/storage/uploads/services/
+
+===========================================================
+STEP-BY-STEP DEPLOYMENT
+===========================================================
+
+STEP 1: UPLOAD FILES TO PRODUCTION
+──────────────────────────────────────────────────────────
+
+Upload these 2 files via Hostinger File Manager or FTP:
+
+📁 FROM (Local):
+   F:\Couvreur project\Back-End\app\Http\Controllers\Api\LocalUploadController.php
+
+📁 TO (Production):
+   public_html/Back-End/app/Http/Controllers/Api/LocalUploadController.php
+
+📁 FROM (Local):
+   F:\Couvreur project\Back-End\routes\api.php
+
+📁 TO (Production):
+   public_html/Back-End/routes/api.php
+
+
+STEP 2: CREATE STORAGE SYMLINK (VERY IMPORTANT!)
+──────────────────────────────────────────────────────────
+
+Via Hostinger Terminal or SSH:
+
+cd public_html/Back-End
+php artisan storage:link
+
+You should see:
+✅ "The [public/storage] link has been connected to [storage/app/public]"
+
+This creates a symbolic link so uploaded files are accessible
+via: https://api.bnbatiment.com/storage/uploads/services/
+
+
+STEP 3: CREATE UPLOADS DIRECTORY
+──────────────────────────────────────────────────────────
+
+Via Hostinger Terminal or SSH:
+
+cd public_html/Back-End
+mkdir -p storage/app/public/uploads/services
+chmod -R 775 storage/app/public/uploads
+chown -R www-data:www-data storage/app/public/uploads
+
+This ensures the web server can write files to the directory.
+
+
+STEP 4: SET CORRECT PERMISSIONS
+──────────────────────────────────────────────────────────
+
+Via Hostinger Terminal or SSH:
+
+cd public_html/Back-End
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+
+Or if www-data doesn't exist (some servers use nobody or apache):
+
+chown -R nobody:nobody storage bootstrap/cache
+
+
+STEP 5: CLEAR LARAVEL CACHE
+──────────────────────────────────────────────────────────
+
+cd public_html/Back-End
+php artisan route:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+
+✅ All caches cleared!
+
+
+STEP 6: TEST THE UPLOAD
+──────────────────────────────────────────────────────────
+
+1. Go to: https://www.bnbatiment.com/admin/services
+2. Edit any service
+3. Click the upload area
+4. Select an image
+5. ✅ It should upload successfully!
+
+The image URL will be like:
+https://api.bnbatiment.com/storage/uploads/services/your-image_123456.jpg
+
+===========================================================
+HOSTINGER FILE MANAGER METHOD (NO TERMINAL ACCESS)
+===========================================================
+
+If you don't have Terminal/SSH access:
+
+STEP 1: Upload Files
+   - Login to Hostinger File Manager
+   - Upload LocalUploadController.php to:
+     public_html/Back-End/app/Http/Controllers/Api/
+   - Upload api.php to:
+     public_html/Back-End/routes/
+
+STEP 2: Create Directories
+   - Navigate to: public_html/Back-End/storage/app/
+   - Create folder: public
+   - Inside public, create: uploads
+   - Inside uploads, create: services
+
+STEP 3: Create Symlink
+   - Navigate to: public_html/Back-End/public/
+   - Right-click → "Create Symlink"
+   - Name: storage
+   - Target: ../storage/app/public
+   (This might not work in all hosting panels - use Terminal if available)
+
+STEP 4: Set Permissions
+   - Right-click on storage folder
+   - Set permissions: 775 (rwxrwxr-x)
+   - Apply to all subfolders
+
+===========================================================
+ADVANTAGES OF LOCAL UPLOAD
+===========================================================
+
+✅ No external service needed
+✅ No API keys to manage
+✅ Works immediately
+✅ Full control over files
+✅ No monthly costs
+✅ No rate limits
+✅ Simple and reliable
+
+===========================================================
+DISADVANTAGES (GOOD TO KNOW)
+===========================================================
+
+❌ Uses your server storage space
+❌ Server bandwidth for image delivery
+❌ No automatic CDN (images load from your server)
+❌ No automatic image optimization/transformations
+❌ Need to manage backups yourself
+
+===========================================================
+DISK SPACE MONITORING
+===========================================================
+
+Check your storage space regularly:
+
+cd public_html/Back-End
+du -sh storage/app/public/uploads/
+
+To see how much space images are using.
+
+Most hosting plans have 50-100GB of storage, which is
+plenty for thousands of images.
+
+===========================================================
+TROUBLESHOOTING
+===========================================================
+
+ISSUE: "Permission denied" error
+SOLUTION: Run chmod commands from STEP 4 above
+
+ISSUE: "Storage not found" error  
+SOLUTION: Run php artisan storage:link again
+
+ISSUE: 404 when accessing image URL
+SOLUTION: Check symlink exists in public/storage
+
+ISSUE: Upload works but image doesn't display
+SOLUTION: Check .htaccess allows access to storage folder
+
+ISSUE: File too large error
+SOLUTION: Increase PHP upload limits in php.ini:
+   upload_max_filesize = 10M
+   post_max_size = 10M
+
+===========================================================
+PRODUCTION URL FORMAT
+===========================================================
+
+When you upload an image, you'll get a URL like:
+
+https://api.bnbatiment.com/storage/uploads/services/my-image_1234567890.jpg
+
+This URL can be used directly in your frontend:
+- Service images
+- Gallery images  
+- Blog post images
+- Anywhere you need images!
+
+===========================================================
+BACKUP RECOMMENDATION
+===========================================================
+
+Since images are now on your server, make sure to:
+
+1. Include storage/app/public/uploads in your backups
+2. Or use Hostinger's automatic backup feature
+3. Consider downloading important images locally
+
+Hostinger typically backs up automatically, but always
+good to have your own backup strategy!
+
+===========================================================
+SWITCHING BACK TO CLOUDINARY (IF NEEDED)
+===========================================================
+
+If you want to switch back to Cloudinary later:
+
+1. Edit routes/api.php on production
+2. Uncomment the Cloudinary routes:
+   Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
+3. Comment out the Local routes
+4. Clear cache: php artisan route:clear
+5. Deploy the fixed cloudinary.php config file
+6. Add Cloudinary credentials to .env
+
+===========================================================
+READY TO DEPLOY?
+===========================================================
+
+Follow the steps above, and your image uploads will work
+without Cloudinary!
+
+If you encounter any issues, check:
+1. Laravel logs: storage/logs/laravel.log
+2. Web server logs (usually in /var/log/)
+3. PHP error logs
+
+===========================================================
+

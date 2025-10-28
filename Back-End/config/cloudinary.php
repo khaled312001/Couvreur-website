@@ -7,6 +7,18 @@
  * file that was distributed with this source code.
  */
 
+// Parse Cloudinary URL to extract credentials
+$cloudinaryUrl = env('CLOUDINARY_URL', 'cloudinary://667964626244861:Q-W2KrzSH4wMSTxYlvgSmBAG77s@dxyczvtd1');
+$parsedCloudName = 'dxyczvtd1';
+$parsedApiKey = '667964626244861';
+$parsedApiSecret = 'Q-W2KrzSH4wMSTxYlvgSmBAG77s';
+
+if (preg_match('/cloudinary:\/\/([^:]+):([^@]+)@([^\/]+)/', $cloudinaryUrl, $matches)) {
+    $parsedApiKey = $matches[1];
+    $parsedApiSecret = $matches[2];
+    $parsedCloudName = $matches[3];
+}
+
 return [
 
     /*
@@ -31,7 +43,17 @@ return [
     |
     |
     */
-    'cloud_url' => env('CLOUDINARY_URL', 'cloudinary://667964626244861:Q-W2KrzSH4wMSTxYlvgSmBAG77s@dxyczvtd1'),
+    'cloud_url' => $cloudinaryUrl,
+
+    /**
+     * Parsed Cloudinary credentials from CLOUDINARY_URL
+     * Format: cloudinary://api_key:api_secret@cloud_name
+     */
+    'cloud_name' => env('CLOUDINARY_CLOUD_NAME', $parsedCloudName),
+
+    'api_key' => env('CLOUDINARY_API_KEY', $parsedApiKey),
+
+    'api_secret' => env('CLOUDINARY_API_SECRET', $parsedApiSecret),
 
     /**
      * Upload Preset From Cloudinary Dashboard

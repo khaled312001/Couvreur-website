@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\NewsletterController;
 use App\Http\Controllers\Api\CloudinaryUploadController;
+use App\Http\Controllers\Api\LocalUploadController;
 use App\Http\Controllers\SitemapController;
 use App\Services\ImageOptimizationService;
 
@@ -164,9 +165,13 @@ Route::get('/cloudinary/test', function () {
     }
 });
 
-// Cloudinary upload routes (temporarily public for testing)
-Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
-Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);
+// Local upload routes (without Cloudinary)
+Route::post('/cloudinary/upload', [LocalUploadController::class, 'upload']);
+Route::delete('/cloudinary/upload', [LocalUploadController::class, 'destroy']);
+
+// Cloudinary upload routes (backup - commented out)
+// Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
+// Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);

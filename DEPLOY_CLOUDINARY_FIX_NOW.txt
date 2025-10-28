@@ -1,0 +1,115 @@
+===========================================================
+URGENT: DEPLOY CLOUDINARY CONFIG FIX TO PRODUCTION
+===========================================================
+
+ISSUE: The config/cloudinary.php file on production is missing
+the cloud_name, api_key, and api_secret configuration values
+that the CloudinaryUploadController needs.
+
+SOLUTION: Upload the updated cloudinary.php file and clear cache.
+
+===========================================================
+METHOD 1: HOSTINGER FILE MANAGER (EASIEST - 5 MINUTES)
+===========================================================
+
+STEP 1: LOGIN TO HOSTINGER
+   → Go to: https://hpanel.hostinger.com
+   → Login with your credentials
+
+STEP 2: OPEN FILE MANAGER
+   → Click "File Manager" in the control panel
+   → Navigate to: public_html/Back-End/config/
+
+STEP 3: BACKUP THE OLD FILE (OPTIONAL)
+   → Find "cloudinary.php"
+   → Right-click → Download (save as cloudinary.php.backup)
+
+STEP 4: UPLOAD NEW FILE
+   → Click "Upload" button
+   → Select the file from your local machine:
+     F:\Couvreur project\Back-End\config\cloudinary.php
+   → Confirm overwrite if asked
+   ✅ File uploaded!
+
+STEP 5: CLEAR LARAVEL CACHE
+   → Go to "Advanced" → "Terminal" in Hostinger
+   → Run these commands ONE BY ONE:
+
+   cd public_html/Back-End
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan optimize:clear
+
+   ✅ You should see success messages
+
+STEP 6: TEST IT!
+   → Go to: https://www.bnbatiment.com/admin/services
+   → Edit any service
+   → Try uploading an image
+   → ✅ It should work now!
+
+===========================================================
+METHOD 2: VIA SSH (IF YOU PREFER COMMAND LINE)
+===========================================================
+
+STEP 1: UPLOAD THE FILE
+   Use FTP, SFTP, or SCP to upload:
+   FROM: F:\Couvreur project\Back-End\config\cloudinary.php
+   TO:   public_html/Back-End/config/cloudinary.php
+
+STEP 2: SSH INTO SERVER
+   ssh your_username@your_server
+
+STEP 3: CLEAR CACHE
+   cd public_html/Back-End
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan optimize:clear
+
+STEP 4: RESTART PHP-FPM (if needed)
+   sudo systemctl restart php8.1-fpm
+   # OR
+   sudo systemctl restart php8.2-fpm
+
+===========================================================
+WHAT'S IN THE NEW CONFIG FILE?
+===========================================================
+
+The updated cloudinary.php now includes:
+
+1. Parses CLOUDINARY_URL to extract credentials
+2. Defines cloud_name config value
+3. Defines api_key config value  
+4. Defines api_secret config value
+
+These values can be read by the CloudinaryUploadController
+using config('cloudinary.cloud_name'), etc.
+
+===========================================================
+VERIFICATION
+===========================================================
+
+After deploying, check the logs on production:
+
+tail -f storage/logs/laravel.log
+
+You should see:
+✅ "CLOUDINARY UPLOAD ATTEMPT STARTED"
+✅ "Cloudinary upload completed"
+✅ "SUCCESS! Cloudinary URL: https://..."
+
+Instead of:
+❌ 500 Internal Server Error
+
+===========================================================
+NEED HELP?
+===========================================================
+
+If you're stuck:
+1. Make sure the file uploaded completely
+2. Check file permissions (should be 644)
+3. Verify cache was cleared successfully
+4. Check Laravel logs for specific errors
+
+===========================================================
+
