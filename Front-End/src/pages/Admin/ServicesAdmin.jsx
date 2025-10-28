@@ -395,6 +395,9 @@ const ServicesAdmin = () => {
       sort_order: service.sort_order
     };
     setFormData(formDataToSet);
+    // Set image preview and selected image for the ImageUpload component
+    setImagePreview(service.image || null);
+    setSelectedImage(service.image || null);
     setShowEditModal(true);
   };
 
