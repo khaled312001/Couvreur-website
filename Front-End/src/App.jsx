@@ -1,6 +1,7 @@
 // App Component - Updated
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Import styles
 import "./styles/main.css";
@@ -88,6 +89,7 @@ function App() {
     <AuthProvider>
         <Router>
           <LanguageProvider>
+            <SpeedInsights />
             <PerformanceOptimizer>
               <ScrollToTop />
               <SmoothScroll />
