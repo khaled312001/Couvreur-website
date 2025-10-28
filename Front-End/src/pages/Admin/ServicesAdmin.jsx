@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import { createService, updateService, deleteService, getAdminServices, toggleServiceStatus } from '../../api/services';
 import { getServiceImage } from '../../utils/imageUtils';
-import ImageUpload from '../../components/ImageUpload';
 
 // Function to get the correct image URL for services
 const getServiceImageUrl = (imagePath) => {
@@ -185,15 +184,11 @@ const ServicesAdmin = () => {
     }));
   };
 
-  // Handle image upload from Cloudinary component
-  const handleImageUploaded = (imageUrl) => {
+  // Handle image URL input
+  const handleImageUrlChange = (e) => {
+    const imageUrl = e.target.value;
     setFormData(prev => ({ ...prev, image: imageUrl }));
-    setSelectedImage(imageUrl);
-    if (imageUrl) {
-      setImagePreview(imageUrl);
-    } else {
-      setImagePreview(null);
-    }
+    setImagePreview(imageUrl);
   };
 
   // Add new service

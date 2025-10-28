@@ -18,65 +18,67 @@ class CloudinaryUploadController extends Controller
             // Log the incoming request for debugging
             Log::info('Cloudinary upload started', [
                 'has_file' => $request->hasFile('image'),
-                'file_size' => $request->file('image') ? $request->file('image')->getSize() : null,
-                'file_name' => $request->file('image') ? $request->file('image')->getClientOriginalName() : null,
-                'cloud_url' => config('cloudinary.cloud_url') ? 'SET' : 'NOT SET',
+                'cloud_url_set' => !empty(config('cloudinary.cloud_url')),
             ]);
 
             // Validate the uploaded file
             $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             ]);
 
             $file = $request->file('image');
+            $path = $file->getRealPath();
             
-            // Get file path (use temp path instead of real path)
-            $path = $file->getPathname();
-            
-            // Log file information
-            Log::info('File information:', [
-                'path' => $path,
-                'real_path' => $file->getRealPath(),
+            Log::info('File ready for upload:', [
                 'size' => $file->getSize(),
+                'path' => $path,
                 'readable' => is_readable($path),
-                'readable_real' => is_readable($file->getRealPath()),
             ]);
 
             // Check if Cloudinary is configured
             $cloudinaryUrl = config('cloudinary.cloud_url');
             if (empty($cloudinaryUrl)) {
-                throw new \Exception('Cloudinary URL is not configured');
+                Log::error('Cloudinary URL not configured');
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Cloudinary URL is not configured. Please check server configuration.',
+                ], 500)->header('Access-Control-Allow-Origin', '*')
+                   ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                   ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
             }
 
-            // Upload to Cloudinary using the upload method
+            // Upload to Cloudinary
+            Log::info('Starting Cloudinary upload...');
             $uploadResult = Cloudinary::uploadApi()->upload($path, [
                 'folder' => 'bnbatiment/services',
                 'resource_type' => 'image',
             ]);
             
-            // Convert ApiResponse (ArrayObject) to array for safe access
-            $resultArray = (array) $uploadResult;
+            // Get upload result
+            $secureUrl = $uploadResult->getArrayCopy()['secure_url'] ?? null;
+            $publicId = $uploadResult->getArrayCopy()['public_id'] ?? null;
             
-            // Get the upload result details
-            $secureUrl = $resultArray['secure_url'] ?? $resultArray['url'] ?? null;
-            $publicId = $resultArray['public_id'] ?? null;
-            $format = $resultArray['format'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-            
-            // Log the upload result for debugging
-            Log::info('Cloudinary upload result:', [
+            Log::info('Cloudinary upload successful:', [
                 'public_id' => $publicId,
-                'secure_url' => $secureUrl,
-                'format' => $format,
+                'url' => $secureUrl,
             ]);
 
             return response()->json([
                 'success' => true,
                 'url' => $secureUrl,
                 'public_id' => $publicId,
-                'format' => $format,
-                'width' => $resultArray['width'] ?? null,
-                'height' => $resultArray['height'] ?? null,
             ], 200)->header('Access-Control-Allow-Origin', '*')
+               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+               ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation error:', ['errors' => $e->errors()]);
+            return response()->json([
+                'success' => false,
+                'error' => 'Validation failed',
+                'message' => $e->getMessage(),
+                'details' => $e->errors(),
+            ], 422)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
@@ -85,14 +87,13 @@ class CloudinaryUploadController extends Controller
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
+                'trace' => substr($e->getTraceAsString(), 0, 500),
             ]);
 
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to upload image',
                 'message' => $e->getMessage(),
-                'details' => 'Check server logs for more information',
             ], 500)->header('Access-Control-Allow-Origin', '*')
                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
