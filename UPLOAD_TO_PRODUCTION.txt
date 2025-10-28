@@ -1,0 +1,34 @@
+URGENT: Upload These Files to Production Server
+===========================================================
+
+The server is returning 500 errors because the updated files aren't on production.
+
+STEP 1: Upload this file to production via SSH or FTP
+
+File to upload:
+Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+
+Destination on server:
+/home/u696043789/domains/bnbatiment.com/public_html/api/Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+
+STEP 2: Upload the frontend (rebuild first!)
+
+File to upload after building:
+Front-End/src/pages/Admin/ServicesAdmin.jsx
+
+Then rebuild:
+cd Front-End
+npm run build
+
+STEP 3: After uploading, SSH into server and run:
+
+cd /home/u696043789/domains/bnbatiment.com/public_html/api/Back-End
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+
+===========================================================
+
+OR USE THE URL INPUT INSTEAD (it already works!)
+The URL input option works perfectly and doesn't require the Cloudinary backend.
+
