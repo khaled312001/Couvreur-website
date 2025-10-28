@@ -1,0 +1,49 @@
+═══════════════════════════════════════════════════════
+  QUICK FIX: Upload These 3 Files to Production
+═══════════════════════════════════════════════════════
+
+STEP 1: Go to Hostinger File Manager
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Visit: https://hpanel.hostinger.com/
+2. Login
+3. Select "bnbatiment.com"
+4. Click "File Manager"
+
+STEP 2: Upload These 3 Files
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File 1: CloudinaryUploadController.php
+   FROM: Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+   TO: domains/bnbatiment.com/public_html/Back-End/app/Http/Controllers/Api/CloudinaryUploadController.php
+   ACTION: Upload and replace existing file
+
+File 2: filesystems.php
+   FROM: Back-End/config/filesystems.php
+   TO: domains/bnbatiment.com/public_html/Back-End/config/filesystems.php
+   ACTION: Upload and replace existing file
+
+File 3: api.php
+   FROM: Back-End/routes/api.php
+   TO: domains/bnbatiment.com/public_html/Back-End/routes/api.php
+   ACTION: Upload and replace existing file
+
+STEP 3: Go Back to SSH and Run Commands
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+cd domains/bnbatiment.com/public_html/Back-End
+
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+rm -rf bootstrap/cache/*
+
+php artisan config:cache
+php artisan route:cache
+
+STEP 4: Test
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Visit: https://www.bnbatiment.com/admin/services
+Try uploading an image - it should work!
+
+═══════════════════════════════════════════════════════
+

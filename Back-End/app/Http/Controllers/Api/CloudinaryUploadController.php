@@ -15,14 +15,37 @@ class CloudinaryUploadController extends Controller
     public function upload(Request $request)
     {
         try {
+            // Log the incoming request for debugging
+            Log::info('Cloudinary upload started', [
+                'has_file' => $request->hasFile('image'),
+                'file_size' => $request->file('image') ? $request->file('image')->getSize() : null,
+                'file_name' => $request->file('image') ? $request->file('image')->getClientOriginalName() : null,
+                'cloud_url' => config('cloudinary.cloud_url') ? 'SET' : 'NOT SET',
+            ]);
+
             // Validate the uploaded file
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             ]);
 
             $file = $request->file('image');
+            
+            // Try to get the file path
             $path = $file->getRealPath();
             
+            // Log file information
+            Log::info('File information:', [
+                'path' => $path,
+                'size' => filesize($path),
+                'readable' => is_readable($path),
+            ]);
+
+            // Check if Cloudinary is configured
+            $cloudinaryUrl = config('cloudinary.cloud_url');
+            if (empty($cloudinaryUrl)) {
+                throw new \Exception('Cloudinary URL is not configured');
+            }
+
             // Upload to Cloudinary using the uploadFile method
             $uploadResult = Cloudinary::uploadFile($path, [
                 'folder' => 'bnbatiment/services',

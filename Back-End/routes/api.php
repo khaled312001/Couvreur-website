@@ -130,6 +130,40 @@ Route::options('/cloudinary/upload', function () {
     ]);
 });
 
+// Cloudinary diagnostic endpoint
+Route::get('/cloudinary/test', function () {
+    try {
+        $config = [
+            'cloud_url_set' => !empty(config('cloudinary.cloud_url')),
+            'cloud_url_length' => strlen(config('cloudinary.cloud_url', '')),
+            'upload_preset' => config('cloudinary.upload_preset'),
+            'php_upload_max' => ini_get('upload_max_filesize'),
+            'php_post_max' => ini_get('post_max_size'),
+            'php_memory' => ini_get('memory_limit'),
+        ];
+        
+        // Test Cloudinary connection
+        $cloudinaryUrl = config('cloudinary.cloud_url');
+        if ($cloudinaryUrl) {
+            $config['cloudinary_configured'] = true;
+        } else {
+            $config['cloudinary_configured'] = false;
+            $config['error'] = 'CLOUDINARY_URL not set in .env';
+        }
+        
+        return response()->json([
+            'success' => true,
+            'config' => $config,
+            'message' => 'Check if Cloudinary URL is set and PHP upload settings are sufficient',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Cloudinary upload routes (temporarily public for testing)
 Route::post('/cloudinary/upload', [CloudinaryUploadController::class, 'upload']);
 Route::delete('/cloudinary/upload', [CloudinaryUploadController::class, 'destroy']);
