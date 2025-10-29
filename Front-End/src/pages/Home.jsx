@@ -237,7 +237,7 @@ const Home = () => {
       id: 1,
       title: 'Installation de toiture',
       description: 'Installation complète de toitures en tuiles, zinc, ardoises et métal. Service sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble',
-      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754239886_installation toiture.jpg',
+      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754239886_installation%20toiture.jpg',
       icon: '🏠',
       link: '/services/installation'
     },
@@ -245,7 +245,7 @@ const Home = () => {
       id: 2,
       title: 'Réparation des fuites',
       description: 'Réparation rapide des fuites de toiture. Intervention d\'urgence 24h/24 sur toute la région Rhône-Alpes',
-      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240415_réparation de fuite.jpg',
+      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240415_r%C3%A9paration%20de%20fuite.jpg',
       icon: '🔧',
       link: '/services/repair'
     },
@@ -261,7 +261,7 @@ const Home = () => {
       id: 4,
       title: 'Démoussage et traitement hydrofuge',
       description: 'Démoussage professionnel et traitement hydrofuge pour protéger votre toiture. Service sur Clermont-Ferrand, Grenoble',
-      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240626_démousage.jpg',
+      image: 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240626_d%C3%A9mousage.jpg',
       icon: '🧹',
       link: '/services/demoussage'
     },

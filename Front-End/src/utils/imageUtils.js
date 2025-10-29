@@ -81,13 +81,13 @@ export const getServiceImage = (serviceTitle) => {
   
   // Use local service images from API
   if (title.includes('installation') || title.includes('pose')) {
-    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754239886_installation toiture.jpg';
+    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754239886_installation%20toiture.jpg';
   } else if (title.includes('réparation') || title.includes('reparation') || title.includes('fuite')) {
-    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240415_réparation de fuite.jpg';
+    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240415_r%C3%A9paration%20de%20fuite.jpg';
   } else if (title.includes('entretien')) {
     return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240526_entretien.webp';
   } else if (title.includes('démoussage') || title.includes('demoussage')) {
-    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240626_démousage.jpg';
+    return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240626_d%C3%A9mousage.jpg';
   } else if (title.includes('nettoyage')) {
     return 'https://api.bnbatiment.com/Back-End/public/uploads/services/1754240785_nettoyage.webp';
   } else if (title.includes('charpente') || title.includes('structure')) {
