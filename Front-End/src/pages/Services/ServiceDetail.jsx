@@ -24,6 +24,7 @@ import { Phone, Clock, ArrowRight, MapPin, CheckCircle, Wrench, Shield, Target, 
 import { getIconComponent } from '../../utils/iconMapping';
 import SEO from '../../components/SEO';
 import '../../styles/service-details.css';
+import OptimizedImage from '../../components/OptimizedImage';
 
 const servicesData = {
   charpente: {
@@ -1003,9 +1004,9 @@ const ServiceDetail = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <img 
-                src={getServiceImageUrl(service.image) || getServiceImage(service.title)} 
-                alt={service.title}
+              <OptimizedImage
+                src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
+                alt={`${service.title} - BN BÂTIMENT`}
                 className="service-image service-image-large"
                 style={{ 
                   width: "100%", 
@@ -1015,9 +1016,6 @@ const ServiceDetail = () => {
                   objectFit: "cover",
                   borderRadius: "20px",
                   boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
-                }}
-                onError={(e) => {
-                  e.target.src = getServiceImage(service.title);
                 }}
               />
             </motion.div>

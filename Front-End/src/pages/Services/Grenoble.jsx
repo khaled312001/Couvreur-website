@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
+import OptimizedImage from '../../components/OptimizedImage';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ContactForm from '../../components/ContactForm';
@@ -251,9 +252,9 @@ const Grenoble = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <img
+                      <OptimizedImage
                         src={service.image}
-                        alt={service.title}
+                        alt={`${service.title} à Grenoble - BN BÂTIMENT`}
                         className="w-full max-w-md mx-auto rounded-lg shadow-lg"
                       />
                     </div>
