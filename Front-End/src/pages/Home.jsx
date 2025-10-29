@@ -237,7 +237,7 @@ const Home = () => {
       id: 1,
       title: 'Installation de toiture',
       description: 'Installation complète de toitures en tuiles, zinc, ardoises et métal. Service sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754239886_installation toiture.jpg',
       icon: '🏠',
       link: '/services/installation'
     },
@@ -245,7 +245,7 @@ const Home = () => {
       id: 2,
       title: 'Réparation des fuites',
       description: 'Réparation rapide des fuites de toiture. Intervention d\'urgence 24h/24 sur toute la région Rhône-Alpes',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754240415_réparation de fuite.jpg',
       icon: '🔧',
       link: '/services/repair'
     },
@@ -253,7 +253,7 @@ const Home = () => {
       id: 3,
       title: 'Entretien de toiture',
       description: 'Entretien régulier et maintenance préventive de votre toiture. Service complet sur Lyon, Saint-Étienne, Valence',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754240526_entretien.webp',
       icon: '🛠️',
       link: '/services/entretien'
     },
@@ -261,7 +261,7 @@ const Home = () => {
       id: 4,
       title: 'Démoussage et traitement hydrofuge',
       description: 'Démoussage professionnel et traitement hydrofuge pour protéger votre toiture. Service sur Clermont-Ferrand, Grenoble',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754240626_démousage.jpg',
       icon: '🧹',
       link: '/services/demoussage'
     },
@@ -269,7 +269,7 @@ const Home = () => {
       id: 5,
       title: 'Nettoyage de toiture',
       description: 'Nettoyage haute pression et entretien complet de votre toiture. Intervention sur toute la région',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754240785_nettoyage.webp',
       icon: '💧',
       link: '/services/nettoyage'
     },
@@ -277,7 +277,7 @@ const Home = () => {
       id: 6,
       title: 'Installation de gouttières',
       description: 'Pose et réparation de gouttières en zinc et PVC. Service sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand',
-      image: 'https://www.guide-toiture.com/wp-content/uploads/2023/04/voligeage.jpg',
+      image: 'https://api.bnbatiment.com/api/uploads/services/1754237525_images.jpg',
       icon: '🌧️',
       link: '/services/gouttieres'
     }
