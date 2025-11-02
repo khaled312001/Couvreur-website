@@ -1,5 +1,27 @@
 # Performance and Security Optimizations
 
+# Comprehensive Redirect Rules - Handle HTTP/HTTPS and www/non-www
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Step 1: Force HTTPS for all requests (both www and non-www)
+  # This handles: http://bnbatiment.com/* and http://www.bnbatiment.com/*
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  
+  # Step 2: Redirect www to non-www (canonical domain)
+  # This handles: https://www.bnbatiment.com/* -> https://bnbatiment.com/*
+  RewriteCond %{HTTP_HOST} ^www\.bnbatiment\.com$ [NC]
+  RewriteRule ^(.*)$ https://bnbatiment.com/$1 [R=301,L]
+  
+  # Step 3: Remove trailing slashes (except for root) to prevent duplicate URLs
+  # This handles: /page/ -> /page (but keeps / as /)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/$
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [R=301,L]
+</IfModule>
+
 # Enable Gzip compression
 <IfModule mod_deflate.c>
   # Compress HTML, CSS, JavaScript, Text, XML and fonts

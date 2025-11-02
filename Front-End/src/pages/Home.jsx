@@ -545,7 +545,7 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      <SEO {...seoData} />
+      <SEO {...seoData} includeFAQ={true} />
       {/* Animated Background */}
       <div className="animated-background">
         <div className="floating-shapes">

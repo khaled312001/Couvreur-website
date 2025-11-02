@@ -237,6 +237,21 @@
     <priority>0.2</priority>
   </url>
   
+  <!-- Pages spéciales - PRIORITÉ MOYENNE -->
+  <url>
+    <loc>https://bnbatiment.com/urgence</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://bnbatiment.com/mentions-legales</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
   <!-- Pages d'administration - NON INDEXÉES (robots noindex) -->
   <!-- Note: Ces pages ne sont pas incluses dans le sitemap car elles sont protégées -->
   <!-- /admin/login, /admin/dashboard, etc. -->

@@ -1,11 +1,57 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-const SEO = ({ title, description, keywords, url, image, type = 'website', city, service, isCityPage = false, isServicePage = false }) => {
-  // Ensure image URL is absolute for social media sharing
-  const absoluteImageUrl = image && !image.startsWith('http') ? `https://bnbatiment.com${image}` : image;
-  // Fix: Use url parameter instead of image for absoluteUrl fallback
-  const absoluteUrl = url && !url.startsWith('http') ? `https://bnbatiment.com${url}` : (url || 'https://bnbatiment.com/');
+const SEO = ({ title, description, keywords, url, image, type = 'website', city, service, isCityPage = false, isServicePage = false, includeFAQ = false }) => {
+  // Get the preferred canonical domain (non-www) - consistent across all pages
+  const getBaseUrl = () => {
+    // Always use the preferred domain (non-www) for consistency
+    // The .htaccess redirect will ensure www redirects to non-www
+    return 'https://bnbatiment.com';
+  };
+
+  // Get current page domain for images and other dynamic content
+  const getCurrentBaseUrl = () => {
+    if (typeof window !== 'undefined') {
+      const protocol = window.location.protocol;
+      const hostname = window.location.hostname;
+      return `${protocol}//${hostname}`;
+    }
+    return 'https://bnbatiment.com';
+  };
+
+  const baseUrl = getBaseUrl(); // Preferred canonical domain
+  const currentBaseUrl = getCurrentBaseUrl(); // Current page domain for images
+  
+  // Normalize URL - remove trailing slashes (except for root) and ensure consistent format
+  const normalizeUrl = (urlPath) => {
+    if (!urlPath || urlPath === '/' || urlPath === '') return '/';
+    // Remove trailing slash for all non-root paths
+    return urlPath.replace(/\/+$/, '') || '/';
+  };
+  
+  // Get the canonical URL - use provided url prop, or derive from current location
+  const getCanonicalUrl = () => {
+    if (url) {
+      // Use provided URL (normalized)
+      const normalizedPath = normalizeUrl(url);
+      return url.startsWith('http') ? url : `${baseUrl}${normalizedPath}`;
+    }
+    
+    // If no URL provided, use current location (fallback)
+    if (typeof window !== 'undefined') {
+      const path = normalizeUrl(window.location.pathname);
+      const search = window.location.search; // Keep query params for canonical if needed
+      return `${baseUrl}${path}${search}`;
+    }
+    
+    // Final fallback
+    return `${baseUrl}/`;
+  };
+  
+  // Ensure image URL is absolute for social media sharing (use current domain)
+  const absoluteImageUrl = image && !image.startsWith('http') ? `${currentBaseUrl}${image}` : image;
+  // Canonical URL always uses preferred domain (non-www) for consistency
+  const absoluteUrl = getCanonicalUrl();
 
   // Enhanced title and description for city-specific pages
   const enhancedTitle = isCityPage && city ? 
@@ -119,63 +165,65 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
       {/* Note: LocalBusiness and Organization schemas are defined in index.html to avoid duplication */}
       {/* Only FAQ and Breadcrumb schemas are added per page here */}
       
-      {/* FAQ Structured Data - French Specific */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Quels services propose BN BÂTIMENT ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "BN BÂTIMENT propose l'installation de toiture, la réparation des fuites, l'entretien de toiture, le démoussage et traitement hydrofuge, le nettoyage de toiture, l'installation de gouttières, la charpente et la zinguerie."
+      {/* FAQ Structured Data - French Specific - Only include when explicitly requested */}
+      {includeFAQ && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Quels services propose BN BÂTIMENT ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "BN BÂTIMENT propose l'installation de toiture, la réparation des fuites, l'entretien de toiture, le démoussage et traitement hydrofuge, le nettoyage de toiture, l'installation de gouttières, la charpente et la zinguerie."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Dans quelles villes intervenez-vous ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nous intervenons sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la région Rhône-Alpes dans un rayon de 100km."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Proposez-vous des devis gratuits ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Oui, nous proposons des devis gratuits et détaillés pour tous nos services de toiture."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Intervenez-vous en urgence ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Oui, nous intervenons 24h/24 et 7j/7 pour les urgences de toiture, notamment les fuites."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Quels sont vos tarifs ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nos tarifs varient selon le type de service et la complexité du chantier. Contactez-nous pour un devis personnalisé et gratuit."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Êtes-vous assurés ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Oui, nous sommes entièrement assurés avec une assurance décennale et une certification Qualibat pour votre tranquillité d'esprit."
+                }
               }
-            },
-            {
-              "@type": "Question",
-              "name": "Dans quelles villes intervenez-vous ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Nous intervenons sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la région Rhône-Alpes dans un rayon de 100km."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Proposez-vous des devis gratuits ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Oui, nous proposons des devis gratuits et détaillés pour tous nos services de toiture."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Intervenez-vous en urgence ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Oui, nous intervenons 24h/24 et 7j/7 pour les urgences de toiture, notamment les fuites."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Quels sont vos tarifs ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Nos tarifs varient selon le type de service et la complexité du chantier. Contactez-nous pour un devis personnalisé et gratuit."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Êtes-vous assurés ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Oui, nous sommes entièrement assurés avec une assurance décennale et une certification Qualibat pour votre tranquillité d'esprit."
-              }
-            }
-          ]
-        })}
-      </script>
+            ]
+          })}
+        </script>
+      )}
 
       {/* Breadcrumb Structured Data */}
       <script type="application/ld+json">

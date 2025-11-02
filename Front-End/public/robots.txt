@@ -43,6 +43,8 @@ Allow: /blog/
 Allow: /testimonials/
 Allow: /areas/
 Allow: /pricing/
+Allow: /urgence
+Allow: /mentions-legales
 
 # Specific rules for different bots
 User-agent: Googlebot
@@ -70,4 +72,6 @@ Allow: /gallery
 Allow: /blog
 Allow: /testimonials
 Allow: /areas
-Allow: /pricing 
+Allow: /pricing
+Allow: /urgence
+Allow: /mentions-legales
