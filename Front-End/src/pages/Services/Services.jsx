@@ -22,7 +22,7 @@ const getServiceImageUrl = (imagePath) => {
   
   // If it's a relative path, construct the full URL
   // Use the API route to serve images
-  const baseUrl = 'https://api.bnbatiment.com/api';
+  const baseUrl = 'https://api.bnbatiment.com';
   return `${baseUrl}${imagePath}`;
 };
 

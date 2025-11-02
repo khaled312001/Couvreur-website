@@ -10,14 +10,14 @@ const getServiceImageUrl = (imagePath) => {
     return null;
   }
   
-  // If it's already a full URL, return as is
+  // If it's already a full URL, return as is (including Cloudinary URLs)
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
   
   // If it's a relative path, construct the full URL
   // Use the API route to serve images
-  const baseUrl = 'https://api.bnbatiment.com/api';
+  const baseUrl = 'https://api.bnbatiment.com';
   return `${baseUrl}${imagePath}`;
 };
 import { Phone, Clock, ArrowRight, MapPin, CheckCircle, Wrench, Shield, Target, Building, Users, Zap } from 'lucide-react';
