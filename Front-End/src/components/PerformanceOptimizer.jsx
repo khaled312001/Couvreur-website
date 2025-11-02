@@ -1,12 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { isMobile, shouldReduceMotion } from '../utils/mobileOptimization';
 
 const PerformanceOptimizer = ({ children }) => {
   const [isOptimized, setIsOptimized] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
   const observerRef = useRef(null);
 
   useEffect(() => {
+    // Detect mobile device
+    setIsMobileDevice(isMobile());
+    
     // Initialize performance optimizations
     initializePerformanceOptimizations();
+    
+    // Mobile-specific optimizations
+    if (isMobileDevice) {
+      optimizeForMobile();
+    }
     
     // Cleanup on unmount
     return () => {
@@ -14,7 +24,24 @@ const PerformanceOptimizer = ({ children }) => {
         observerRef.current.disconnect();
       }
     };
-  }, []);
+  }, [isMobileDevice]);
+  
+  const optimizeForMobile = () => {
+    // Disable will-change on mobile for better performance
+    const style = document.createElement('style');
+    style.textContent = `
+      @media (max-width: 768px) {
+        * {
+          will-change: auto !important;
+        }
+        [data-animate] {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  };
 
   const initializePerformanceOptimizations = () => {
     try {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { isMobile } from '../../utils/mobileOptimization';
 import { getServices } from '../../api/services';
 import { getServiceImage } from '../../utils/imageUtils';
 import { getIconComponent } from '../../utils/iconMapping';
@@ -28,6 +29,14 @@ const getServiceImageUrl = (imagePath) => {
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  
+  useEffect(() => {
+    setIsMobileDevice(isMobile());
+    const handleResize = () => setIsMobileDevice(isMobile());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // SEO Data for Services Page
   const seoData = {
@@ -177,31 +186,31 @@ const Services = () => {
 
           {/* Services Grid */}
           <motion.div
-            layout
+            layout={false}
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(350px, 100%), 1fr))",
               gap: "2rem",
               padding: "1rem 0"
             }}
+            className="services-grid"
           >
             {services.map((service, index) => (
               <motion.div
                 key={service.id}
-                layout
-                initial={{ opacity: 0, y: 50 }}
+                layout={false}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.1,
-                  type: "spring",
-                  stiffness: 100
+                  duration: 0.4, 
+                  delay: Math.min(index * 0.05, 0.3),
+                  ease: "easeOut"
                 }}
-                whileHover={{ 
+                whileHover={!isMobileDevice ? { 
                   scale: 1.02,
                   boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
                   y: -5
-                }}
+                } : {}}
                 style={{
                   backgroundColor: "white",
                   borderRadius: "20px",

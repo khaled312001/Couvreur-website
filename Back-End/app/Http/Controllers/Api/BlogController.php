@@ -14,12 +14,31 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
+        // Add pagination to reduce payload size - default to 10 posts per page
+        $perPage = min((int) $request->get('per_page', 10), 50); // Max 50 posts per request
+        $page = max((int) $request->get('page', 1), 1);
+        
+        // Only fetch minimal fields needed for listing
         $posts = BlogPost::published()
             ->orderBy('published_at', 'desc')
             ->select('id', 'title', 'slug', 'excerpt', 'image', 'category', 'created_at', 'published_at')
-            ->get();
+            ->paginate($perPage, ['*'], 'page', $page);
         
-        $response = response()->json($posts)->header('Cache-Control', 'public, max-age=3600');
+        // Optimize image URLs if they exist
+        $posts->getCollection()->transform(function ($post) {
+            if ($post->image && !filter_var($post->image, FILTER_VALIDATE_URL)) {
+                // Convert relative URLs to absolute if needed
+                $post->image = url($post->image);
+            }
+            return $post;
+        });
+        
+        $response = response()->json($posts)
+            ->header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+            ->header('X-Total-Count', $posts->total())
+            ->header('X-Per-Page', $posts->perPage())
+            ->header('X-Current-Page', $posts->currentPage());
+        
         return $this->addCorsHeaders($response, $request);
     }
 

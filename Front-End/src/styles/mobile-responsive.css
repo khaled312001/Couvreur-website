@@ -1103,6 +1103,40 @@
   }
 }
 
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Disable expensive CSS properties on mobile */
+  * {
+    will-change: auto !important;
+    transform-style: flat !important;
+  }
+  
+  /* Reduce animation complexity */
+  [data-animate],
+  .fade-in-on-scroll,
+  .animated-section {
+    animation: none !important;
+  }
+  
+  /* Optimize images */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Prevent layout shifts */
+  .hero-slider,
+  .slider-container {
+    contain: strict;
+  }
+  
+  /* Optimize scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
 /* Dark mode support for mobile */
 @media (prefers-color-scheme: dark) {
   .mobile-menu-content {

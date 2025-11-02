@@ -158,6 +158,8 @@ const Blog = () => {
                         <img 
                           src={post.image} 
                           alt={post.title}
+                          loading="lazy"
+                          decoding="async"
                           style={{
                             width: '100%',
                             height: '100%',

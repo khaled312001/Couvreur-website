@@ -27,11 +27,14 @@ const GalleryItem = ({ item }) => {
         overflow: 'hidden'
       }}>
         <img 
-          src={item.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400'} 
+          src={item.image || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80&fm=webp'} 
+          srcSet={item.image ? `${item.image}?w=400&q=80&fm=webp 400w, ${item.image}?w=800&q=80&fm=webp 800w, ${item.image}?w=1200&q=80&fm=webp 1200w` : 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80&fm=webp 400w, https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80&fm=webp 800w'}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           alt={`${item.title ? item.title + ' - ' : ''}RÉALISATION ${item.category || 'TOITURE'} PAR BN BÂTIMENT - Expert couvreur Lyon Saint-Étienne Valence Clermont-Ferrand Grenoble`}
           title={`${item.title || 'Réalisation'} - BN BÂTIMENT ${item.category || ''}`}
           loading="lazy"
           decoding="async"
+          fetchpriority="auto"
           style={{
             width: '100%',
             height: '100%',

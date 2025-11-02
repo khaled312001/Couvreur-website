@@ -1,11 +1,14 @@
 import apiClient from './apiClient';
 
 export const blogApi = {
-  // Get all blog posts (public)
-  getBlogPosts: async () => {
+  // Get all blog posts (public) with pagination support
+  getBlogPosts: async (page = 1, perPage = 10) => {
     try {
-      const response = await apiClient.get('/blog');
-      return response;
+      const response = await apiClient.get('/blog', {
+        params: { page, per_page: perPage }
+      });
+      // Return the data array directly for backward compatibility, or full pagination object
+      return response.data?.data || response.data || response;
     } catch (error) {
       console.error('Error fetching blog posts:', error);
       throw error;
@@ -102,10 +105,11 @@ export const blogApi = {
 };
 
 // Legacy functions for backward compatibility
-export const fetchBlogPosts = async () => {
+export const fetchBlogPosts = async (page = 1, perPage = 10) => {
   try {
-    const response = await blogApi.getBlogPosts();
-    return response;
+    const response = await blogApi.getBlogPosts(page, perPage);
+    // Handle both paginated and non-paginated responses
+    return Array.isArray(response) ? response : (response.data || response);
   } catch (error) {
     console.log('Using mock blog posts data');
     return getMockBlogPosts();

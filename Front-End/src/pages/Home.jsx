@@ -570,6 +570,8 @@ const Home = () => {
                 <img 
                   src={slide.image}
                   alt=""
+                  srcSet={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w`}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 100vw"
                   style={{ 
                     position: 'absolute',
                     width: '1px',
@@ -579,6 +581,7 @@ const Home = () => {
                   }}
                   fetchPriority="high"
                   loading="eager"
+                  decoding="async"
                   aria-hidden="true"
                 />
               )}
@@ -846,6 +849,8 @@ const Home = () => {
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
                               alt={service.title}
+                              loading="lazy"
+                              decoding="async"
                               style={{
                                 width: "100%",
                                 height: "100%",
@@ -939,6 +944,8 @@ const Home = () => {
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
                               alt={service.title}
+                              loading="lazy"
+                              decoding="async"
                               style={{
                                 width: "100%",
                                 height: "100%",
@@ -1706,11 +1713,15 @@ const Home = () => {
                       <AnimatedSection animationType="scale-in" className="blog-card" delay={index * 0.1}>
                         <div className="blog-image">
                           <img 
-                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
+                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center&q=80&fm=webp`} 
+                            srcSet={post.image ? `${post.image}?w=400&q=80&fm=webp 400w, ${post.image}?w=800&q=80&fm=webp 800w` : `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center&q=80&fm=webp 400w, https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop&crop=center&q=80&fm=webp 800w`}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 350px"
                             alt={post.title}
                             width="400"
                             height="300"
                             loading="lazy"
+                            decoding="async"
+                            fetchpriority="auto"
                           />
                           <div className="blog-overlay">
                             <div className="blog-overlay-content">
@@ -1745,11 +1756,15 @@ const Home = () => {
                       <AnimatedSection animationType="scale-in" className="blog-card" delay={index * 0.1}>
                         <div className="blog-image">
                           <img 
-                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center`} 
+                            src={post.image || `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center&q=80&fm=webp`} 
+                            srcSet={post.image ? `${post.image}?w=400&q=80&fm=webp 400w, ${post.image}?w=800&q=80&fm=webp 800w` : `https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&crop=center&q=80&fm=webp 400w, https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop&crop=center&q=80&fm=webp 800w`}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 350px"
                             alt={post.title}
                             width="400"
                             height="300"
                             loading="lazy"
+                            decoding="async"
+                            fetchpriority="auto"
                           />
                           <div className="blog-overlay">
                             <div className="blog-overlay-content">

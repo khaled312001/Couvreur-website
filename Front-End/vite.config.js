@@ -14,14 +14,34 @@ export default defineConfig({
     minify: 'esbuild',
     cssMinify: true,
     cssCodeSplit: true,
+    // Defer CSS loading to avoid render-blocking
+    cssRollupOptions: {
+      output: {
+        assetFileNames: 'assets/css/[name]-[hash][extname]'
+      }
+    },
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          motion: ['framer-motion'],
-          charts: ['recharts'],
-          utils: ['axios', 'lucide-react']
+        manualChunks: (id) => {
+          // Lazy load large libraries
+          if (id.includes('node_modules')) {
+            if (id.includes('recharts')) {
+              return 'charts';
+            }
+            if (id.includes('framer-motion')) {
+              return 'motion';
+            }
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            if (id.includes('axios') || id.includes('lucide-react')) {
+              return 'utils';
+            }
+            return 'vendor';
+          }
         },
         // Optimize chunk sizes
         chunkFileNames: 'assets/js/[name]-[hash].js',

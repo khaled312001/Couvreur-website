@@ -74,9 +74,34 @@ const OptimizedImage = ({
   const altText = generateAltText(src, alt);
   const imageTitle = title || altText;
   
+  // Generate responsive srcset for mobile optimization
+  const generateSrcSet = (imgSrc) => {
+    if (!imgSrc) return undefined;
+    
+    // For API images, add responsive parameters
+    if (imgSrc.includes('api.bnbatiment.com')) {
+      return `${imgSrc}?w=400&q=80&fm=webp 400w, ${imgSrc}?w=800&q=80&fm=webp 800w, ${imgSrc}?w=1200&q=80&fm=webp 1200w`;
+    }
+    
+    // For Unsplash images, add responsive parameters
+    if (imgSrc.includes('unsplash.com')) {
+      const baseUrl = imgSrc.split('?')[0];
+      const existingParams = imgSrc.includes('?') ? imgSrc.split('?')[1] : '';
+      const params = existingParams ? `${existingParams}&` : '';
+      return `${baseUrl}?${params}w=400&q=80&fm=webp 400w, ${baseUrl}?${params}w=800&q=80&fm=webp 800w`;
+    }
+    
+    return undefined;
+  };
+  
+  const srcSet = generateSrcSet(src);
+  const responsiveSizes = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
+  
   return (
     <img
       src={src}
+      srcSet={srcSet}
+      sizes={responsiveSizes}
       alt={altText}
       title={imageTitle}
       className={className}
