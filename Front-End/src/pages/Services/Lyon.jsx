@@ -11,9 +11,9 @@ const Lyon = () => {
   const [activeTab, setActiveTab] = useState('installation');
 
   const seoData = {
-    title: "Couvreur Lyon - Installation Réparation Entretien Toiture | BN BÂTIMENT",
-    description: "BN BÂTIMENT, couvreur professionnel à Lyon. Installation de toiture, réparation des fuites, entretien, démoussage et nettoyage. Devis gratuit et intervention rapide 24h/24. Plus de 200 clients satisfaits à Lyon et région.",
-    keywords: "couvreur Lyon, installation toiture Lyon, réparation fuites Lyon, entretien toiture Lyon, démoussage toiture Lyon, nettoyage toiture Lyon, couvreur professionnel Lyon, devis gratuit Lyon, intervention rapide Lyon, toiture Lyon, couverture Lyon, charpente Lyon, zinguerie Lyon, gouttières Lyon, isolation toiture Lyon, étanchéité toiture Lyon, ventilation toiture Lyon, écran sous-toiture Lyon, pare-vapeur Lyon, liteaux Lyon, volige Lyon, chevrons Lyon, pannes Lyon, fermes Lyon, poutres Lyon, solives Lyon, plancher Lyon, escalier Lyon, terrasse Lyon, pergola Lyon, abri jardin Lyon, cabane Lyon, chalet Lyon, maison ossature bois Lyon, construction bois Lyon, rénovation bois Lyon, traitement bois Lyon, lasure Lyon, peinture bois Lyon, protection bois Lyon, anti-termites Lyon, anti-fongique Lyon, hydrofuge Lyon, oléofuge Lyon, saturateur Lyon, vernis Lyon, enduit Lyon, crépis Lyon, ravalement façade Lyon, rénovation façade Lyon, nettoyage façade Lyon, hydrogommage Lyon, sablage Lyon, gommage Lyon, ponçage Lyon",
+    title: "Couvreur Lyon | BN BÂTIMENT - Couvreur Professionnel Lyon | Installation Réparation Entretien Toiture 24h/24",
+    description: "Couvreur professionnel à Lyon. BN BÂTIMENT, votre couvreur expert à Lyon. Couvreur spécialisé en installation de toiture, réparation des fuites, entretien, démoussage et nettoyage. Devis gratuit et intervention rapide 24h/24. Plus de 200 clients satisfaits à Lyon et région. Votre couvreur de confiance.",
+    keywords: "couvreur, couvreur Lyon, couvreur professionnel, couvreur professionnel Lyon, installation toiture Lyon, réparation fuites Lyon, entretien toiture Lyon, démoussage toiture Lyon, nettoyage toiture Lyon, devis gratuit Lyon, intervention rapide Lyon, toiture Lyon, couverture Lyon, charpente Lyon, zinguerie Lyon, gouttières Lyon, isolation toiture Lyon, étanchéité toiture Lyon, ventilation toiture Lyon, écran sous-toiture Lyon, pare-vapeur Lyon, liteaux Lyon, volige Lyon, chevrons Lyon, pannes Lyon, fermes Lyon, poutres Lyon, solives Lyon, plancher Lyon, escalier Lyon, terrasse Lyon, pergola Lyon, abri jardin Lyon, cabane Lyon, chalet Lyon, maison ossature bois Lyon, construction bois Lyon, rénovation bois Lyon, traitement bois Lyon, lasure Lyon, peinture bois Lyon, protection bois Lyon, anti-termites Lyon, anti-fongique Lyon, hydrofuge Lyon, oléofuge Lyon, saturateur Lyon, vernis Lyon, enduit Lyon, crépis Lyon, ravalement façade Lyon, rénovation façade Lyon, nettoyage façade Lyon, hydrogommage Lyon, sablage Lyon, gommage Lyon, ponçage Lyon",
     url: "/services/lyon",
     image: "/1.jpg",
     city: "Lyon",
@@ -162,7 +162,7 @@ const Lyon = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Couvreur Professionnel à Lyon
+              Couvreur Lyon | Couvreur Professionnel à Lyon | BN BÂTIMENT
             </motion.h1>
             <motion.p 
               className="text-xl md:text-2xl text-white mb-8 max-w-4xl mx-auto"
@@ -170,8 +170,8 @@ const Lyon = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              BN BÂTIMENT, votre expert toiture à Lyon. Installation, réparation, entretien, démoussage et nettoyage de toiture. 
-              Devis gratuit et intervention rapide 24h/24.
+              Couvreur professionnel à Lyon. BN BÂTIMENT, votre couvreur expert et spécialiste toiture à Lyon. Couvreur spécialisé en installation, réparation, entretien, démoussage et nettoyage de toiture. 
+              Votre couvreur à Lyon - Devis gratuit et intervention rapide 24h/24.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center"

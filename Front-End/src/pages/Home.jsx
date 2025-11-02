@@ -110,11 +110,11 @@ const Home = () => {
     console.log('Home component loaded');
   }
 
-  // SEO Data for Home Page - Enhanced with 2000+ French keywords
+  // SEO Data for Home Page - Enhanced with 2000+ French keywords - COUVREUR FIRST
   const seoData = {
-    title: "BN BÂTIMENT - Expert Couvreur Lyon Saint-Étienne Valence | Installation Réparation Entretien Toiture 24h/24",
-    description: "BN BÂTIMENT, expert couvreur à Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Installation toiture, réparation fuites, entretien toiture, démoussage, nettoyage toiture. Intervention 24h/24, devis gratuit. Plus de 200 clients satisfaits. Certifié Qualibat, assurance décennale.",
-    keywords: `couvreur Lyon, couvreur Saint-Étienne, couvreur Valence, couvreur Clermont-Ferrand, couvreur Grenoble, 
+    title: "Couvreur - Qu'est-ce qu'un Couvreur ? | BN BÂTIMENT - Entreprise de Couverture Professionnelle | Installation Réparation Entretien Toiture 24h/24",
+    description: "Qu'est-ce qu'un couvreur ? Le couvreur est un professionnel du bâtiment spécialisé dans la couverture. BN BÂTIMENT, entreprise de couverture en France, couvreur professionnel à Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Le couvreur met en place les échafaudages, fixe les liteaux, pose tuiles ardoises zinc. Installation toiture, réparation fuites, entretien toiture. Intervention 24h/24, devis gratuit. Plus de 200 clients satisfaits. Certifié Qualibat, assurance décennale.",
+    keywords: `couvreur, qu'est-ce qu'un couvreur, couvreur professionnel, entreprise de couverture, couvreur France, couvreur Lyon, couvreur Saint-Étienne, couvreur Valence, couvreur Clermont-Ferrand, couvreur Grenoble, métier couvreur, diplôme couvreur, CAP couvreur, couvreur ouvrier professionnel bâtiment, couvreur étanchéité toits, couvreur échafaudages, couvreur liteaux, couvreur tuiles, couvreur ardoises, couvreur zinc, couvreur métal, couvreur gouttières, couvreur isolation thermique, 
     installation toiture Lyon, réparation fuites Lyon, entretien toiture Lyon, démoussage toiture Lyon, nettoyage toiture Lyon, 
     installation toiture Saint-Étienne, réparation fuites Saint-Étienne, entretien toiture Saint-Étienne, démoussage Saint-Étienne, nettoyage toiture Saint-Étienne,
     installation toiture Valence, réparation fuites Valence, entretien toiture Valence, démoussage Valence, nettoyage toiture Valence,
@@ -593,9 +593,11 @@ const Home = () => {
                       </div>
                     </AnimatedSection>
                     
-                    {/* Main Title */}
+                    {/* Main Title - Enhanced with Couvreur */}
                     <AnimatedSection animationType="fade-in-left" className="slide-title">
-                      {slide.title}
+                      <h1 style={{ margin: 0, fontSize: 'inherit', fontWeight: 'inherit' }}>
+                        {index === 0 ? 'Couvreur Professionnel en France | ' + slide.title : slide.title}
+                      </h1>
                     </AnimatedSection>
                     
                     {/* Promotional Subtitle */}
@@ -780,11 +782,11 @@ const Home = () => {
               <div className="badge-square"></div>
               <span>NOS SERVICES</span>
             </div>
-            <h2 className="section-title">{React.createElement(getIconComponent('🏠'))} Services de Toiture en France</h2>
+            <h2 className="section-title">{React.createElement(getIconComponent('🏠'))} Couvreur Professionnel - Services de Toiture en France</h2>
             <p className="section-subtitle">
-              <strong>Excellence française en couverture et toiture</strong><br/>
+              <strong>Couvreur expert - Excellence française en couverture et toiture</strong><br/>
               <br/>
-              Nous proposons de nombreux services répondant chacun aux besoins spécifiques de nos clients
+              Votre couvreur professionnel propose de nombreux services répondant chacun aux besoins spécifiques de nos clients en France
             </p>
           </AnimatedSection>
           
@@ -1048,18 +1050,18 @@ const Home = () => {
                   <span>A PROPOS</span>
                 </div>
                 <h2 className="about-title">
-                  Qualité et fiabilité : votre couvreur à Rhône-Alpes pour une satisfaction garantie !
+                  Couvreur Professionnel - Qualité et fiabilité : votre couvreur expert à Rhône-Alpes et toute la France pour une satisfaction garantie !
                 </h2>
               </div>
               
               <div className="about-description">
                 <p>
-                  BN BÂTIMENT vous accompagne dans tous vos projets de toiture dans la région Rhône-Alpes. 
-                  Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
+                  <strong>Couvreur professionnel en France</strong> - BN BÂTIMENT est votre couvreur expert qui vous accompagne dans tous vos projets de toiture dans la région Rhône-Alpes et toute la France. 
+                  En tant que couvreur spécialisé, nous proposons l'installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
                   nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la région. 
-                  Nous vous proposons un accompagnement personnalisé pour vos projets de couverture, avec des devis gratuits 
-                  et détaillés, des conseils d'experts, des facilités de paiement et une équipe réactive pour vos besoins 
-                  de rénovation, désamiantage, nettoyage et étanchéité dans un rayon de 100km autour de Lyon.
+                  Votre couvreur professionnel vous propose un accompagnement personnalisé pour vos projets de couverture, avec des devis gratuits 
+                  et détaillés, des conseils d'experts couvreur, des facilités de paiement et une équipe réactive de couvreurs qualifiés pour vos besoins 
+                  de rénovation, désamiantage, nettoyage et étanchéité dans un rayon de 100km autour de Lyon et dans toute la France.
                 </p>
               </div>
               
@@ -1164,11 +1166,11 @@ const Home = () => {
         <div className="container">
           <div className="quality-grid">
             <AnimatedSection animationType="fade-in-left" className="quality-content">
-              <h2 className="section-title">Installation Réparation Entretien Toiture - Qualité et Fiabilité</h2>
+              <h2 className="section-title">Couvreur Professionnel - Installation Réparation Entretien Toiture - Qualité et Fiabilité</h2>
               <p className="section-description">
-                Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
-                nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Notre engagement envers l'excellence 
-                se traduit par des prestations de qualité, le respect des délais et une fiabilité reconnue par nos clients.
+                <strong>Couvreur expert en France</strong> - Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
+                nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la France. Notre engagement envers l'excellence en tant que couvreur professionnel
+                se traduit par des prestations de qualité, le respect des délais et une fiabilité reconnue par nos clients. Votre couvreur de confiance.
               </p>
                               <div className="quality-features">
                 <div className="quality-feature">
@@ -1217,6 +1219,88 @@ const Home = () => {
         </div>
       </section>
 
+      {/* SEO Section - Couvreur Focus - Enhanced for Google Top Results */}
+      <section className="section" style={{
+        padding: "4rem 0",
+        backgroundColor: "#ffffff",
+        position: "relative",
+        overflow: "hidden"
+      }}>
+        <div className="container">
+          <AnimatedSection animationType="fade-in-up" className="section-header">
+            <h2 style={{
+              fontSize: "2.5rem",
+              fontWeight: "700",
+              color: "#1e293b",
+              marginBottom: "1.5rem",
+              textAlign: "center"
+            }}>
+              Qu'est-ce qu'un Couvreur ? Couvreur Professionnel en France
+            </h2>
+            <div style={{
+              fontSize: "1.2rem",
+              color: "#475569",
+              maxWidth: "1000px",
+              margin: "0 auto",
+              lineHeight: "1.8",
+              textAlign: "left"
+            }}>
+              <h3 style={{ fontSize: "1.8rem", fontWeight: "700", color: "#1e293b", marginBottom: "1rem", marginTop: "2rem" }}>
+                Qu'est-ce qu'un Couvreur ?
+              </h3>
+              <p style={{ marginBottom: "1.5rem" }}>
+                <strong>Un couvreur</strong> est un <strong>professionnel du bâtiment</strong> spécialisé dans la <strong>couverture</strong>, c'est-à-dire la pose, 
+                la réparation et l'entretien des toitures. Le <strong>couvreur professionnel</strong> travaille dans une <strong>entreprise de couverture</strong> 
+                qui assure l'<strong>étanchéité des toits</strong> et la protection des bâtiments contre les intempéries.
+              </p>
+              <p style={{ marginBottom: "1.5rem" }}>
+                Le <strong>couvreur met en place les échafaudages</strong> et les <strong>dispositifs de sécurité</strong>. Avant de s'attaquer à la toiture, 
+                le <strong>couvreur fixe les liteaux</strong> (lattes de bois supportant la couverture), pose les <strong>tuiles, ardoises, zinc ou métal</strong>, 
+                installe les <strong>gouttières</strong> et réalise l'<strong>isolation thermique</strong> de la toiture.
+              </p>
+              
+              <h3 style={{ fontSize: "1.8rem", fontWeight: "700", color: "#1e293b", marginBottom: "1rem", marginTop: "2rem" }}>
+                Couvreur Professionnel - BN BÂTIMENT, Votre Entreprise de Couverture
+              </h3>
+              <p style={{ marginBottom: "1.5rem" }}>
+                <strong>BN BÂTIMENT est une entreprise de couverture</strong> spécialisée, votre <strong>couvreur professionnel</strong> en France. 
+                En tant que <strong>couvreur spécialisé</strong>, nous intervenons sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et dans toute la France 
+                pour tous vos besoins de <strong>couverture et toiture</strong> : <strong>installation de toiture</strong>, <strong>réparation des fuites</strong>, 
+                <strong>entretien de toiture</strong>, <strong>démoussage</strong> et <strong>nettoyage de toiture</strong>.
+              </p>
+              
+              <h3 style={{ fontSize: "1.8rem", fontWeight: "700", color: "#1e293b", marginBottom: "1rem", marginTop: "2rem" }}>
+                Services du Couvreur Professionnel
+              </h3>
+              <p style={{ marginBottom: "1.5rem" }}>
+                Le <strong>couvreur professionnel</strong> de BN BÂTIMENT propose les services suivants :
+              </p>
+              <ul style={{ marginBottom: "1.5rem", paddingLeft: "2rem" }}>
+                <li style={{ marginBottom: "0.8rem" }}><strong>Installation de toiture</strong> : Pose de tuiles, ardoises, zinc, métal par notre <strong>couvreur qualifié</strong></li>
+                <li style={{ marginBottom: "0.8rem" }}><strong>Réparation des fuites</strong> : Détection et réparation rapide des fuites de toiture par votre <strong>couvreur expert</strong></li>
+                <li style={{ marginBottom: "0.8rem" }}><strong>Entretien de toiture</strong> : Maintenance régulière et préventive par notre <strong>équipe de couvreurs</strong></li>
+                <li style={{ marginBottom: "0.8rem" }}><strong>Démoussage et traitement</strong> : Nettoyage et protection de votre toiture par le <strong>couvreur professionnel</strong></li>
+                <li style={{ marginBottom: "0.8rem" }}><strong>Charpente et zinguerie</strong> : Travaux complémentaires de <strong>couverture</strong> par votre <strong>couvreur spécialisé</strong></li>
+              </ul>
+              
+              <h3 style={{ fontSize: "1.8rem", fontWeight: "700", color: "#1e293b", marginBottom: "1rem", marginTop: "2rem" }}>
+                Pourquoi Choisir Notre Couvreur ?
+              </h3>
+              <p style={{ marginBottom: "1.5rem" }}>
+                Votre <strong>couvreur professionnel</strong> BN BÂTIMENT vous garantit une expertise reconnue avec plus de 10 ans d'expérience dans le métier de <strong>couvreur</strong>, 
+                une intervention rapide 24h/24, des devis gratuits et un service de qualité. Notre <strong>entreprise de couverture</strong> dispose d'une équipe de 
+                <strong>couvreurs qualifiés</strong> certifiés Qualibat avec une assurance décennale pour votre tranquillité.
+              </p>
+              <p style={{ marginBottom: "1.5rem" }}>
+                Que vous cherchiez un <strong>couvreur à Lyon</strong>, un <strong>couvreur à Saint-Étienne</strong>, un <strong>couvreur à Valence</strong>, 
+                un <strong>couvreur à Clermont-Ferrand</strong> ou un <strong>couvreur à Grenoble</strong>, notre <strong>couvreur expert</strong> est à votre service 
+                pour tous vos projets de <strong>couverture et toiture</strong> en France. <strong>Contactez votre couvreur maintenant</strong> pour un devis gratuit !
+              </p>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Statistics Section */}
       <section style={{
         padding: "4rem 0",
@@ -1245,7 +1329,7 @@ const Home = () => {
               maxWidth: "600px",
               margin: "0 auto"
             }}>
-              Découvrez pourquoi nos clients nous font confiance pour leurs projets de toiture
+              Découvrez pourquoi nos clients choisissent notre couvreur professionnel pour leurs projets de toiture
             </p>
           </motion.div>
 
@@ -1417,11 +1501,11 @@ const Home = () => {
         <div className="container">
           <div className="professionalism-grid">
             <div className="professionalism-content fade-in-on-scroll">
-              <h2 className="section-title">Installation Réparation Entretien Toiture - Professionnalisme</h2>
+              <h2 className="section-title">Couvreur Professionnel - Installation Réparation Entretien Toiture - Professionnalisme</h2>
               <p className="section-description">
-                Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
-                nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble. Notre expertise et notre engagement 
-                envers la qualité font de nous votre partenaire de confiance pour tous vos projets de toiture.
+                <strong>Couvreur en France</strong> - Installation de toiture, réparation des fuites, entretien de toiture, démoussage et traitement hydrofuge, 
+                nettoyage de toiture sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la France. Notre expertise en tant que couvreur professionnel et notre engagement 
+                envers la qualité font de nous votre couvreur de confiance pour tous vos projets de toiture. Choisissez un couvreur expert.
               </p>
                               <div className="professionalism-features">
                 <div className="feature-item">

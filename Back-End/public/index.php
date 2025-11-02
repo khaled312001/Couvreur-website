@@ -45,16 +45,32 @@ require __DIR__.'/../vendor/autoload.php';
 */
 
 // Add CORS headers - ALWAYS set them
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
+// Try multiple ways to get the Origin header (different servers handle this differently)
+$origin = $_SERVER['HTTP_ORIGIN'] ?? null;
+if (!$origin && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    $origin = $headers['Origin'] ?? $headers['origin'] ?? null;
+}
+
+// Define allowed origins
+$allowedOrigins = [
+    'https://www.bnbatiment.com',
+    'https://bnbatiment.com',
+    'http://localhost:3000',
+    'http://localhost:5173'
+];
 
 // Handle preflight OPTIONS requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Always allow the origin that made the request
-    if ($origin && $origin !== '*') {
+    // Validate and set the origin
+    // Note: When using credentials, we must use specific origin, not '*'
+    if ($origin && in_array($origin, $allowedOrigins)) {
         header('Access-Control-Allow-Origin: ' . $origin);
+        header('Access-Control-Allow-Credentials: true');
     } else {
         header('Access-Control-Allow-Origin: *');
     }
+    
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
     header('Access-Control-Max-Age: 86400');
@@ -70,8 +86,10 @@ $request = Request::capture();
 $response = $kernel->handle($request);
 
 // Add CORS headers to ALL responses
-if ($origin && $origin !== '*') {
+// Note: When using credentials, we must use specific origin, not '*'
+if ($origin && in_array($origin, $allowedOrigins)) {
     $response->headers->set('Access-Control-Allow-Origin', $origin);
+    $response->headers->set('Access-Control-Allow-Credentials', 'true');
 } else {
     $response->headers->set('Access-Control-Allow-Origin', '*');
 }

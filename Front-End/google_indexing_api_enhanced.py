@@ -58,23 +58,32 @@ def validate_url(url: str) -> Dict[str, bool]:
             results['errors'].append("URL should use HTTPS for SEO")
         
         # Check if URL is from our domain
+        # Normalize domains (remove www) for comparison
         if site_url:
             site_domain = urlparse(site_url).netloc
-            if parsed.netloc != site_domain:
+            # Remove www from both domains for comparison
+            site_domain_normalized = site_domain.replace('www.', '')
+            url_domain_normalized = parsed.netloc.replace('www.', '')
+            
+            if url_domain_normalized != site_domain_normalized:
                 results['is_external'] = True
                 results['errors'].append(f"URL is from external domain. Expected: {site_domain}")
+            else:
+                # Domain matches (with or without www) - valid
+                results['is_valid'] = True
         
         # Check for trailing slash (SEO best practice: no trailing slash except root)
         if parsed.path and parsed.path != '/' and parsed.path.endswith('/'):
             results['has_trailing_slash'] = True
             results['errors'].append("URL has trailing slash. Remove for better SEO")
         
-        # Check for www subdomain (should be canonical)
+        # Check for www subdomain (should be canonical) - but don't fail validation
         if parsed.netloc.startswith('www.'):
-            results['errors'].append("Use non-www canonical URL for better SEO")
+            results['errors'].append("Use non-www canonical URL for better SEO (will be normalized)")
         
-        # URL is valid if no critical errors
-        results['is_valid'] = len([e for e in results['errors'] if 'external' in e.lower()]) == 0
+        # URL is valid if not external domain (www/non-www are both acceptable)
+        if not results.get('is_valid', False):
+            results['is_valid'] = len([e for e in results['errors'] if 'external' in e.lower()]) == 0
         
         return results
     
@@ -212,10 +221,12 @@ def send_indexing_request(url: str, request_type: str = 'URL_UPDATED',
         result['message'] = f"✅ Successfully indexed: {normalized_url}"
         
         # Add SEO recommendations
-        if validation['has_trailing_slash']:
+        if validation.get('has_trailing_slash'):
             result['message'] += "\n⚠️ Note: URL had trailing slash (normalized)"
-        if not validation['is_https']:
+        if not validation.get('is_https'):
             result['message'] += "\n⚠️ Note: URL was upgraded to HTTPS"
+        if normalized_url != url and 'www' in url:
+            result['message'] += "\n⚠️ Note: URL had www subdomain (normalized to non-www)"
         
         return result
     

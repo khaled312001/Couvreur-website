@@ -33,10 +33,14 @@ class CorsMiddleware
             
             if ($allowedOrigin) {
                 $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
-                $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
-                $response->headers->set('Access-Control-Max-Age', '86400');
+                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            } else {
+                $response->headers->set('Access-Control-Allow-Origin', '*');
             }
+            
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+            $response->headers->set('Access-Control-Max-Age', '86400');
             
             return $response;
         }
@@ -45,12 +49,17 @@ class CorsMiddleware
         $response = $next($request);
 
         // Add CORS headers to the response
+        // Note: When using credentials, we must use specific origin, not '*'
         if ($allowedOrigin) {
             $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
-            $response->headers->set('Access-Control-Max-Age', '86400');
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        } else {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
         }
+        
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+        $response->headers->set('Access-Control-Max-Age', '86400');
 
         return $response;
     }

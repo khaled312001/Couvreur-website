@@ -53,13 +53,13 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
   // Canonical URL always uses preferred domain (non-www) for consistency
   const absoluteUrl = getCanonicalUrl();
 
-  // Enhanced title and description for city-specific pages
+  // Enhanced title and description for city-specific pages - COUVREUR FIRST
   const enhancedTitle = isCityPage && city ? 
-    `${title} - Couvreur Professionnel ${city} | BN BÂTIMENT` : 
+    `Couvreur ${city} | ${title} | BN BÂTIMENT - Couvreur Professionnel ${city}` : 
     title;
   
   const enhancedDescription = isCityPage && city ? 
-    `BN BÂTIMENT, couvreur professionnel à ${city}. Installation de toiture, réparation des fuites, entretien, démoussage et nettoyage. Devis gratuit et intervention rapide 24h/24. Plus de 200 clients satisfaits.` : 
+    `Couvreur professionnel à ${city}. BN BÂTIMENT, votre couvreur expert à ${city}. Couvreur spécialisé en installation de toiture, réparation des fuites, entretien, démoussage et nettoyage. Devis gratuit et intervention rapide 24h/24. Plus de 200 clients satisfaits. Votre couvreur de confiance à ${city}.` : 
     description;
 
   // Enhanced keywords for city-specific pages
@@ -174,50 +174,74 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "Quels services propose BN BÂTIMENT ?",
+                "name": "Qu'est-ce qu'un couvreur ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "BN BÂTIMENT propose l'installation de toiture, la réparation des fuites, l'entretien de toiture, le démoussage et traitement hydrofuge, le nettoyage de toiture, l'installation de gouttières, la charpente et la zinguerie."
+                  "text": "Un couvreur est un professionnel du bâtiment spécialisé dans la couverture, c'est-à-dire la pose, la réparation et l'entretien des toitures. Le couvreur professionnel travaille dans une entreprise de couverture qui assure l'étanchéité des toits et la protection des bâtiments contre les intempéries. Le couvreur met en place les échafaudages et les dispositifs de sécurité, fixe les liteaux, pose les tuiles, ardoises, zinc ou métal, installe les gouttières et réalise l'isolation thermique de la toiture."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Dans quelles villes intervenez-vous ?",
+                "name": "Quels services propose le couvreur professionnel BN BÂTIMENT ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Nous intervenons sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la région Rhône-Alpes dans un rayon de 100km."
+                  "text": "BN BÂTIMENT, entreprise de couverture, propose l'installation de toiture (pose de tuiles, ardoises, zinc, métal), la réparation des fuites, l'entretien de toiture, le démoussage et traitement hydrofuge, le nettoyage de toiture, l'installation de gouttières, la charpente et la zinguerie."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Proposez-vous des devis gratuits ?",
+                "name": "Qu'est-ce qu'une entreprise de couverture ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Oui, nous proposons des devis gratuits et détaillés pour tous nos services de toiture."
+                  "text": "Une entreprise de couverture est une société spécialisée dans les travaux de couverture et de toiture. BN BÂTIMENT est une entreprise de couverture qui emploie des couvreurs professionnels qualifiés pour l'installation, la réparation et l'entretien de toitures."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Intervenez-vous en urgence ?",
+                "name": "Dans quelles villes intervient votre couvreur professionnel ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Oui, nous intervenons 24h/24 et 7j/7 pour les urgences de toiture, notamment les fuites."
+                  "text": "Notre entreprise de couverture intervient sur Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la région Rhône-Alpes et la France dans un rayon de 100km autour de Lyon."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Quels sont vos tarifs ?",
+                "name": "Le couvreur propose-t-il des devis gratuits ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Nos tarifs varient selon le type de service et la complexité du chantier. Contactez-nous pour un devis personnalisé et gratuit."
+                  "text": "Oui, notre couvreur professionnel propose des devis gratuits et détaillés pour tous les services de couverture et toiture."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Êtes-vous assurés ?",
+                "name": "Le couvreur intervient-il en urgence ?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Oui, nous sommes entièrement assurés avec une assurance décennale et une certification Qualibat pour votre tranquillité d'esprit."
+                  "text": "Oui, notre entreprise de couverture intervient 24h/24 et 7j/7 pour les urgences de toiture, notamment les fuites, avec un couvreur disponible immédiatement."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Quel est le diplôme d'un couvreur professionnel ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Les couvreurs professionnels de BN BÂTIMENT sont titulaires du CAP Couvreur (Certificat d'Aptitude Professionnelle) ou diplômes équivalents. Ils sont des ouvriers professionnels du bâtiment spécialisés dans l'étanchéité des toitures."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Quels sont les tarifs du couvreur ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Les tarifs de notre couvreur professionnel varient selon le type de service (installation, réparation, entretien) et la complexité du chantier. Contactez notre entreprise de couverture pour un devis personnalisé et gratuit."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "L'entreprise de couverture est-elle assurée ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Oui, notre entreprise de couverture BN BÂTIMENT est entièrement assurée avec une assurance décennale et une certification Qualibat. Tous nos couvreurs professionnels sont couverts par cette assurance pour votre tranquillité d'esprit."
                 }
               }
             ]
