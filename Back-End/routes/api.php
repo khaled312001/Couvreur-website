@@ -71,13 +71,47 @@ Route::options('{any}', function (Request $request) {
 })->where('any', '.*');
 
 // CORS Test endpoint
-Route::get('/cors-test', function () {
-    return response()->json([
+Route::get('/cors-test', function (Request $request) {
+    $origin = $request->header('Origin');
+    $allowedOrigins = [
+        'https://www.bnbatiment.com',
+        'https://bnbatiment.com',
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173'
+    ];
+    
+    $allowedOrigin = null;
+    if ($origin && in_array($origin, $allowedOrigins)) {
+        $allowedOrigin = $origin;
+    }
+    
+    $response = response()->json([
+        'status' => 'success',
         'message' => 'CORS is working!',
         'timestamp' => now(),
-        'origin' => request()->header('Origin'),
-        'method' => request()->method()
+        'origin' => $origin,
+        'allowed_origin' => $allowedOrigin ?? 'not in list',
+        'method' => $request->method(),
+        'headers' => [
+            'request_origin' => $origin,
+            'cors_configured' => true
+        ]
     ]);
+    
+    // Add CORS headers
+    if ($allowedOrigin) {
+        $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
+    } else {
+        $response->headers->set('Access-Control-Allow-Origin', $origin ?: '*');
+    }
+    
+    $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+    
+    return $response;
 });
 
 // Health check endpoint

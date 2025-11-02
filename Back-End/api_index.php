@@ -59,8 +59,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Redirect to the actual Laravel application
-// Note: Path should be relative to where this file is located
-// If api_index.php is in root, then Back-End/public/index.php
-// If api_index.php is in public_html/api/, then ../Back-End/public/index.php or just public/index.php
-require __DIR__.'/public/index.php';
+// This file should be in the Back-End root directory
+// The path below points to public/index.php in the same Back-End directory
+if (file_exists(__DIR__.'/public/index.php')) {
+    require __DIR__.'/public/index.php';
+} else {
+    // Fallback: try different possible paths
+    $possiblePaths = [
+        __DIR__.'/public/index.php',           // Standard Laravel structure
+        dirname(__DIR__).'/Back-End/public/index.php',  // If in subdirectory
+        dirname(dirname(__DIR__)).'/Back-End/public/index.php', // Nested
+    ];
+    
+    $found = false;
+    foreach ($possiblePaths as $path) {
+        if (file_exists($path)) {
+            require $path;
+            $found = true;
+            break;
+        }
+    }
+    
+    if (!$found) {
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' => 'Laravel entry point not found',
+            'searched_paths' => $possiblePaths,
+            'current_dir' => __DIR__
+        ]);
+        exit(1);
+    }
+}
 
