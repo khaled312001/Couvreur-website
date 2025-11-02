@@ -162,13 +162,20 @@ const Footer = () => {
             <div className="footer-section company-info animate-fadeInUp">
               <div className="footer-logo">
                 <div className="logo-container">
-                  <img 
-                    src="/logo.png" 
-                    alt="BN BÂTIMENT Logo" 
-                    className="footer-logo-image"
-                    width="142"
-                    height="61"
-                  />
+                  <picture>
+                    <source 
+                      type="image/webp" 
+                      srcSet="/logo.webp 1x, /logo@2x.webp 2x"
+                    />
+                    <img 
+                      src="/logo.png" 
+                      srcSet="/logo.png 1x, /logo@2x.png 2x"
+                      alt="BN BÂTIMENT Logo" 
+                      className="footer-logo-image"
+                      width="142"
+                      height="61"
+                    />
+                  </picture>
                   <div className="logo-glow"></div>
                 </div>
                 <div className="footer-logo-text">

@@ -110,11 +110,15 @@
       });
     </script>
     
-    <!-- Performance Optimizations - Only critical resources -->
+    <!-- Performance Optimizations - Critical resources with preconnect for LCP -->
+    <link rel="preconnect" href="https://www.satorytoiture.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.bnbatiment.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    
+    <!-- Preload LCP hero image for faster rendering -->
+    <link rel="preload" as="image" href="https://www.satorytoiture.com/public/img/big/AdobeStock125087270jpg_62ea778f3406f.jpg" fetchpriority="high" />
     
     <!-- Logo will be loaded normally by the app when needed -->
     

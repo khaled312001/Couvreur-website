@@ -567,25 +567,13 @@ const Home = () => {
               style={{ backgroundImage: `url(${slide.image})` }}
             >
               {index === 0 && (
-                <img 
-                  src={slide.image}
-                  alt={slide.title || "BN BÂTIMENT - Expert couvreur Lyon, installation, réparation et entretien de toiture"}
-                  srcSet={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w`}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 100vw"
-                  width="1920"
-                  height="1080"
-                  style={{ 
-                    position: 'absolute',
-                    width: '1px',
-                    height: '1px',
-                    opacity: 0,
-                    pointerEvents: 'none',
-                    aspectRatio: '16/9'
-                  }}
-                  fetchPriority="high"
-                  loading="eager"
-                  decoding="async"
-                  aria-hidden="true"
+                <link 
+                  rel="preload" 
+                  as="image" 
+                  href={slide.image}
+                  imagesrcset={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w, ${slide.image}?w=1920&q=80 1920w`}
+                  imagesizes="100vw"
+                  fetchpriority="high"
                 />
               )}
               <div className="slide-overlay">
@@ -854,12 +842,17 @@ const Home = () => {
                           }}>
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
+                              srcSet={service.image ? `${getServiceImageUrl(service.image)}?w=400 400w, ${getServiceImageUrl(service.image)}?w=600 600w, ${getServiceImageUrl(service.image)}?w=800 800w` : undefined}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               alt={service.title}
                               loading="lazy"
                               decoding="async"
+                              width="467"
+                              height="263"
                               style={{
                                 width: "100%",
                                 height: "100%",
+                                aspectRatio: "16/9",
                                 objectFit: "cover",
                                 transition: "transform 0.3s ease"
                               }}
@@ -949,12 +942,17 @@ const Home = () => {
                           }}>
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
+                              srcSet={service.image ? `${getServiceImageUrl(service.image)}?w=400 400w, ${getServiceImageUrl(service.image)}?w=600 600w, ${getServiceImageUrl(service.image)}?w=800 800w` : undefined}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               alt={service.title}
                               loading="lazy"
                               decoding="async"
+                              width="467"
+                              height="263"
                               style={{
                                 width: "100%",
                                 height: "100%",
+                                aspectRatio: "16/9",
                                 objectFit: "cover",
                                 transition: "transform 0.3s ease"
                               }}
