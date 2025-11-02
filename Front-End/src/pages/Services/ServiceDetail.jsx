@@ -1012,7 +1012,7 @@ lavage toiture, lavage couverture, lavage tuiles, lavage ardoises, lavage zinc, 
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <OptimizedImage
-                src={getServiceImageUrl(service.image) || getServiceImage(service.title)} 
+                src={getServiceImageUrl(service.heroImage || service.image) || getServiceImage(service.title)} 
                 alt={`${service.title} - BN BÂTIMENT`}
                 className="service-image service-image-large"
                 style={{ 
