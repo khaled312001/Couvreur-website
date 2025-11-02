@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
 // Import styles
 import "./styles/main.css";
@@ -90,6 +91,7 @@ function App() {
         <Router>
           <LanguageProvider>
             <SpeedInsights />
+            <Analytics />
             <PerformanceOptimizer>
               <ScrollToTop />
               <SmoothScroll />
