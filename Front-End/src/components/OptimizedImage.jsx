@@ -21,6 +21,9 @@ const OptimizedImage = ({
   loading = 'lazy',
   decoding = 'async',
   fetchPriority = 'auto',
+  width,
+  height,
+  aspectRatio,
   ...props 
 }) => {
   // Generate comprehensive alt text in French if not provided
@@ -97,6 +100,17 @@ const OptimizedImage = ({
   const srcSet = generateSrcSet(src);
   const responsiveSizes = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
   
+  // Calculate aspect ratio from width/height if provided
+  const calculatedAspectRatio = aspectRatio || (width && height ? `${width}/${height}` : '16/9');
+  
+  const imageStyle = {
+    ...style,
+    aspectRatio: calculatedAspectRatio,
+    objectFit: 'cover',
+    ...(width && { width: `${width}px` }),
+    ...(height && { height: `${height}px` })
+  };
+  
   return (
     <img
       src={src}
@@ -105,10 +119,12 @@ const OptimizedImage = ({
       alt={altText}
       title={imageTitle}
       className={className}
-      style={style}
+      style={imageStyle}
       loading={loading}
       decoding={decoding}
       fetchPriority={fetchPriority}
+      width={width}
+      height={height}
       {...props}
     />
   );

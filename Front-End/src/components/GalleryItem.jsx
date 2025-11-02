@@ -35,9 +35,12 @@ const GalleryItem = ({ item }) => {
           loading="lazy"
           decoding="async"
           fetchpriority="auto"
+          width="350"
+          height="250"
           style={{
             width: '100%',
             height: '100%',
+            aspectRatio: '7/5',
             objectFit: 'cover',
             transition: 'transform 0.3s ease'
           }}

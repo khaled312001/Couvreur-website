@@ -569,15 +569,18 @@ const Home = () => {
               {index === 0 && (
                 <img 
                   src={slide.image}
-                  alt=""
+                  alt={slide.title || "BN BÂTIMENT - Expert couvreur Lyon, installation, réparation et entretien de toiture"}
                   srcSet={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w`}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 100vw"
+                  width="1920"
+                  height="1080"
                   style={{ 
                     position: 'absolute',
                     width: '1px',
                     height: '1px',
                     opacity: 0,
-                    pointerEvents: 'none'
+                    pointerEvents: 'none',
+                    aspectRatio: '16/9'
                   }}
                   fetchPriority="high"
                   loading="eager"
@@ -633,11 +636,11 @@ const Home = () => {
           ))}
           
           {/* Slider Navigation */}
-          <button className="slider-nav prev" onClick={prevSlide}>
-            <span>‹</span>
+          <button className="slider-nav prev" onClick={prevSlide} aria-label="Diapositive précédente">
+            <span aria-hidden="true">‹</span>
           </button>
-          <button className="slider-nav next" onClick={nextSlide}>
-            <span>›</span>
+          <button className="slider-nav next" onClick={nextSlide} aria-label="Diapositive suivante">
+            <span aria-hidden="true">›</span>
           </button>
           
           {/* Contact Box - Call Now */}
@@ -678,12 +681,15 @@ const Home = () => {
           </div>
           
           {/* Slider Dots */}
-          <div className="slider-dots">
+          <div className="slider-dots" role="tablist" aria-label="Navigation des diapositives">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 className={`dot ${index === currentSlide ? 'active' : ''}`}
                 onClick={() => goToSlide(index)}
+                aria-label={`Aller à la diapositive ${index + 1}`}
+                aria-selected={index === currentSlide}
+                role="tab"
               />
             ))}
           </div>

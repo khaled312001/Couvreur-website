@@ -19,6 +19,14 @@ const BlogCard = ({ post }) => {
           title={post.title ? `${post.title} - BN BÂTIMENT` : 'Article BN BÂTIMENT'}
           loading="lazy"
           decoding="async"
+          width="400"
+          height="250"
+          style={{
+            width: '100%',
+            height: 'auto',
+            aspectRatio: '16/10',
+            objectFit: 'cover'
+          }}
         />
       </div>
       <div className="blog-content">
