@@ -1,8 +1,37 @@
 // App Component - Updated
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from "@vercel/analytics/react";
+
+// Conditionally import Vercel analytics only on Vercel deployments
+// This prevents MIME type errors on non-Vercel hosting (e.g., Hostinger)
+const VercelAnalytics = () => {
+  const [SpeedInsightsComp, setSpeedInsightsComp] = React.useState(null);
+  const [AnalyticsComp, setAnalyticsComp] = React.useState(null);
+  
+  React.useEffect(() => {
+    // Only load Vercel analytics on Vercel deployments
+    const isVercel = typeof window !== 'undefined' && 
+      (window.location.hostname.includes('vercel.app') || 
+       import.meta.env.VITE_VERCEL === '1');
+    
+    if (isVercel) {
+      import("@vercel/speed-insights/react").then(m => {
+        setSpeedInsightsComp(() => m.SpeedInsights);
+      }).catch(() => {});
+      
+      import("@vercel/analytics/react").then(m => {
+        setAnalyticsComp(() => m.Analytics);
+      }).catch(() => {});
+    }
+  }, []);
+  
+  return (
+    <>
+      {SpeedInsightsComp && <SpeedInsightsComp />}
+      {AnalyticsComp && <AnalyticsComp />}
+    </>
+  );
+};
 
 // Import styles
 import "./styles/main.css";
@@ -92,8 +121,7 @@ function App() {
     <AuthProvider>
         <Router>
           <LanguageProvider>
-            <SpeedInsights />
-            <Analytics />
+            <VercelAnalytics />
             <PerformanceOptimizer>
               <ScrollToTop />
               <SmoothScroll />
