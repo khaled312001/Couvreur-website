@@ -33,11 +33,19 @@ class CorsMiddleware
         if ($request->isMethod('OPTIONS')) {
             $response = response('', 200);
             
+            // CRITICAL: When using credentials, must use specific origin, not '*'
             if ($allowedOrigin) {
                 $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
                 $response->headers->set('Access-Control-Allow-Credentials', 'true');
             } else {
-                $response->headers->set('Access-Control-Allow-Origin', '*');
+                // For unknown origins, echo back the origin if provided, or use wildcard
+                $origin = $request->header('Origin');
+                if ($origin) {
+                    $response->headers->set('Access-Control-Allow-Origin', $origin);
+                } else {
+                    $response->headers->set('Access-Control-Allow-Origin', '*');
+                }
+                // Do NOT set credentials when using wildcard or unknown origin
             }
             
             $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
@@ -56,7 +64,14 @@ class CorsMiddleware
             $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
         } else {
-            $response->headers->set('Access-Control-Allow-Origin', '*');
+            // For non-allowed origins, echo back the origin if provided, or use wildcard
+            $origin = $request->header('Origin');
+            if ($origin) {
+                $response->headers->set('Access-Control-Allow-Origin', $origin);
+            } else {
+                $response->headers->set('Access-Control-Allow-Origin', '*');
+            }
+            // Do NOT set credentials when using wildcard or unknown origin
         }
         
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');

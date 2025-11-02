@@ -77,19 +77,31 @@ $allowedOrigins = [
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     // Always respond to OPTIONS with CORS headers
     // Validate and set the origin
-    $allowedOrigin = '*';
+    $allowedOrigin = null;
     if ($origin && in_array($origin, $allowedOrigins)) {
         $allowedOrigin = $origin;
+    }
+    
+    // CRITICAL: Must set headers in correct order and format
+    if ($allowedOrigin) {
         header('Access-Control-Allow-Origin: ' . $allowedOrigin);
         header('Access-Control-Allow-Credentials: true');
     } else {
-        // Fallback: allow all origins if specific origin not found (for development)
-        header('Access-Control-Allow-Origin: *');
+        // For OPTIONS, if origin not in allowed list, still respond with headers
+        // but don't allow credentials
+        if ($origin) {
+            header('Access-Control-Allow-Origin: ' . $origin);
+        } else {
+            header('Access-Control-Allow-Origin: *');
+        }
+        // Don't set credentials when using wildcard or unknown origin
     }
     
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
     header('Access-Control-Max-Age: 86400');
+    
+    // Ensure no output before headers
     http_response_code(200);
     exit(0);
 }
@@ -118,12 +130,17 @@ if (!$origin && isset($_SERVER['HTTP_REFERER'])) {
 }
 
 // Note: When using credentials, we must use specific origin, not '*'
+// Always check if origin is in allowed list
+$allowedOrigin = null;
 if ($origin && in_array($origin, $allowedOrigins)) {
-    $response->headers->set('Access-Control-Allow-Origin', $origin);
+    $allowedOrigin = $origin;
+    $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
     $response->headers->set('Access-Control-Allow-Credentials', 'true');
 } else {
-    // Fallback: allow all origins
-    $response->headers->set('Access-Control-Allow-Origin', '*');
+    // For non-allowed origins or missing origin, set wildcard but no credentials
+    // This allows API access from any origin (for public APIs)
+    $response->headers->set('Access-Control-Allow-Origin', $origin ?: '*');
+    // Do NOT set credentials when using wildcard
 }
 
 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');

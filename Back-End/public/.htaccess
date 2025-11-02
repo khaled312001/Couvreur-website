@@ -27,14 +27,15 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# CORS Headers - Set at Apache level for ALL responses
+# CORS Headers - Note: Allow-Origin and Allow-Credentials are handled by PHP
+# to support dynamic origin checking with credentials. Only static headers here.
 <IfModule mod_headers.c>
-    # Set CORS headers for ALL requests
+    # Set static CORS headers (dynamic ones handled in PHP)
     Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
     Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN"
     Header always set Access-Control-Max-Age "86400"
-    Header always set Access-Control-Allow-Origin "*"
-    Header always set Access-Control-Allow-Credentials "false"
+    # Do NOT set Access-Control-Allow-Origin or Access-Control-Allow-Credentials here
+    # They must be set dynamically by PHP to match the request origin
 </IfModule>
 
 # Performance Optimizations

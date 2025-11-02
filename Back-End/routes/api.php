@@ -46,18 +46,28 @@ Route::options('{any}', function (Request $request) {
         'http://127.0.0.1:5173'
     ];
     
-    $allowedOrigin = '*';
+    $allowedOrigin = null;
     if ($origin && in_array($origin, $allowedOrigins)) {
         $allowedOrigin = $origin;
     }
     
-    return response('', 200)->withHeaders([
-        'Access-Control-Allow-Origin' => $allowedOrigin,
+    $headers = [
         'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
         'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN',
-        'Access-Control-Allow-Credentials' => $allowedOrigin !== '*' ? 'true' : 'false',
         'Access-Control-Max-Age' => '86400',
-    ]);
+    ];
+    
+    // CRITICAL: When using credentials, must use specific origin, not '*'
+    if ($allowedOrigin) {
+        $headers['Access-Control-Allow-Origin'] = $allowedOrigin;
+        $headers['Access-Control-Allow-Credentials'] = 'true';
+    } else {
+        // For unknown origins, echo back the origin if provided, or use wildcard
+        $headers['Access-Control-Allow-Origin'] = $origin ?: '*';
+        // Do NOT set credentials when using wildcard or unknown origin
+    }
+    
+    return response('', 200)->withHeaders($headers);
 })->where('any', '.*');
 
 // CORS Test endpoint
@@ -135,14 +145,37 @@ Route::get('/debug-services', function () {
 Route::get('/uploads/{folder}/{filename}', [ImageController::class, 'serve']);
 
 // Handle preflight OPTIONS for image uploads
-Route::options('/upload', function () {
-    return response('', 200, [
-        'Access-Control-Allow-Origin' => request()->header('Origin') ?? '*',
+Route::options('/upload', function (Request $request) {
+    $origin = $request->header('Origin');
+    $allowedOrigins = [
+        'https://www.bnbatiment.com',
+        'https://bnbatiment.com',
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173'
+    ];
+    
+    $allowedOrigin = null;
+    if ($origin && in_array($origin, $allowedOrigins)) {
+        $allowedOrigin = $origin;
+    }
+    
+    $headers = [
         'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
         'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN',
-        'Access-Control-Allow-Credentials' => 'true',
         'Access-Control-Max-Age' => '86400',
-    ]);
+    ];
+    
+    if ($allowedOrigin) {
+        $headers['Access-Control-Allow-Origin'] = $allowedOrigin;
+        $headers['Access-Control-Allow-Credentials'] = 'true';
+    } else {
+        $headers['Access-Control-Allow-Origin'] = $origin ?: '*';
+        // Do NOT set credentials when using wildcard
+    }
+    
+    return response('', 200)->withHeaders($headers);
 });
 
 // Local image upload routes
