@@ -48,7 +48,9 @@ import Grenoble from "./pages/Services/Grenoble";
 
 // Import Admin pages and components
 import Login from "./pages/Admin/Login";
-import Dashboard from "./pages/Admin/Dashboard";
+import { lazy, Suspense } from "react";
+// Lazy load Dashboard to avoid recharts forwardRef error - load only when needed
+const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
 import QuotesAdmin from "./pages/Admin/QuotesAdmin";
 import TestimonialsAdmin from "./pages/Admin/TestimonialsAdmin";
 import BlogAdmin from "./pages/Admin/BlogAdmin";
@@ -101,7 +103,11 @@ function App() {
                   <Route path="/admin/login" element={<Login />} />
                   <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
                     <Route index element={<Navigate to="/admin/dashboard" replace />} />
-                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="dashboard" element={
+                      <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>Chargement du tableau de bord...</div>}>
+                        <Dashboard />
+                      </Suspense>
+                    } />
                     <Route path="quotes" element={<QuotesAdmin />} />
                     <Route path="testimonials" element={<TestimonialsAdmin />} />
                     <Route path="blog" element={<BlogAdmin />} />
