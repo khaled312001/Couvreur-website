@@ -11,16 +11,18 @@ use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $messages = ContactMessage::orderBy('created_at', 'desc')->get();
-        return response()->json($messages);
+        $response = response()->json($messages);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $message = ContactMessage::findOrFail($id);
-        return response()->json($message);
+        $response = response()->json($message);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function store(Request $request)
@@ -42,10 +44,11 @@ class ContactController extends Controller
         $this->sendEmailNotification($message);
         
         // Return both message and notification for immediate update
-        return response()->json([
+        $response = response()->json([
             'message' => $message,
             'notification' => $notification
         ], 201);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function update(Request $request, $id)
@@ -63,26 +66,30 @@ class ContactController extends Controller
         ]);
 
         $message->update($request->all());
-        return response()->json($message);
+        $response = response()->json($message);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $message = ContactMessage::findOrFail($id);
         $message->delete();
-        return response()->json(['success' => true]);
+        $response = response()->json(['success' => true]);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function byStatus($status)
+    public function byStatus(Request $request, $status)
     {
         $messages = ContactMessage::byStatus($status)->orderBy('created_at', 'desc')->get();
-        return response()->json($messages);
+        $response = response()->json($messages);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function unread()
+    public function unread(Request $request)
     {
         $messages = ContactMessage::unread()->orderBy('created_at', 'desc')->get();
-        return response()->json($messages);
+        $response = response()->json($messages);
+        return $this->addCorsHeaders($response, $request);
     }
 
     // User-specific methods
@@ -93,7 +100,8 @@ class ContactController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return response()->json($messages);
+        $response = response()->json($messages);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function userMessage(Request $request, $id)
@@ -103,7 +111,8 @@ class ContactController extends Controller
             ->where('email', $user->email)
             ->firstOrFail();
         
-        return response()->json($message);
+        $response = response()->json($message);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function storeWithUser(Request $request)
@@ -131,10 +140,11 @@ class ContactController extends Controller
         // Send email notification
         $this->sendEmailNotification($message);
 
-        return response()->json([
+        $response = response()->json([
             'message' => $message,
             'notification' => $notification
         ], 201);
+        return $this->addCorsHeaders($response, $request);
     }
 
     private function sendEmailNotification($contactMessage)

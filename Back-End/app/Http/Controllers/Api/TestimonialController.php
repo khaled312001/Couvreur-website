@@ -8,18 +8,18 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $testimonials = Testimonial::active()->orderBy('sort_order')->get();
-        return response()->json($testimonials)
-            ->header('Cache-Control', 'public, max-age=3600')
-            ->header('Access-Control-Allow-Origin', '*');
+        $response = response()->json($testimonials)->header('Cache-Control', 'public, max-age=3600');
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $testimonial = Testimonial::findOrFail($id);
-        return response()->json($testimonial);
+        $response = response()->json($testimonial);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function store(Request $request)
@@ -35,7 +35,8 @@ class TestimonialController extends Controller
         ]);
 
         $testimonial = Testimonial::create($request->all());
-        return response()->json($testimonial, 201);
+        $response = response()->json($testimonial, 201);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function update(Request $request, $id)
@@ -53,13 +54,15 @@ class TestimonialController extends Controller
         ]);
 
         $testimonial->update($request->all());
-        return response()->json($testimonial);
+        $response = response()->json($testimonial);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $testimonial = Testimonial::findOrFail($id);
         $testimonial->delete();
-        return response()->json(['success' => true]);
+        $response = response()->json(['success' => true]);
+        return $this->addCorsHeaders($response, $request);
     }
 } 

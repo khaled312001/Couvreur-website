@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\Log;
 
 class GalleryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $items = GalleryItem::active()->orderBy('sort_order')->get();
-        return response()->json($items)
-            ->header('Cache-Control', 'public, max-age=3600')
-            ->header('Access-Control-Allow-Origin', '*');
+        $response = response()->json($items)->header('Cache-Control', 'public, max-age=3600');
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $item = GalleryItem::findOrFail($id);
-        return response()->json($item);
+        $response = response()->json($item);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function store(Request $request)
@@ -36,10 +36,12 @@ class GalleryController extends Controller
             ]);
 
             $item = GalleryItem::create($request->all());
-            return response()->json($item, 201);
+            $response = response()->json($item, 201);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Gallery store error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to create gallery item'], 500);
+            $response = response()->json(['error' => 'Failed to create gallery item'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -58,28 +60,33 @@ class GalleryController extends Controller
             ]);
 
             $item->update($request->all());
-            return response()->json($item);
+            $response = response()->json($item);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Gallery update error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to update gallery item'], 500);
+            $response = response()->json(['error' => 'Failed to update gallery item'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $item = GalleryItem::findOrFail($id);
             $item->delete();
-            return response()->json(['success' => true]);
+            $response = response()->json(['success' => true]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Gallery destroy error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to delete gallery item'], 500);
+            $response = response()->json(['error' => 'Failed to delete gallery item'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function byCategory($category)
+    public function byCategory(Request $request, $category)
     {
         $items = GalleryItem::active()->byCategory($category)->orderBy('sort_order')->get();
-        return response()->json($items);
+        $response = response()->json($items);
+        return $this->addCorsHeaders($response, $request);
     }
 } 

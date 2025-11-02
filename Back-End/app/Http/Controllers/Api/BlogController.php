@@ -10,28 +10,29 @@ use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $posts = BlogPost::published()
             ->orderBy('published_at', 'desc')
             ->select('id', 'title', 'slug', 'excerpt', 'image', 'category', 'created_at', 'published_at')
             ->get();
         
-        return response()->json($posts)
-            ->header('Cache-Control', 'public, max-age=3600')
-            ->header('Access-Control-Allow-Origin', '*');
+        $response = response()->json($posts)->header('Cache-Control', 'public, max-age=3600');
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $post = BlogPost::findOrFail($id);
-        return response()->json($post);
+        $response = response()->json($post);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function showBySlug($slug)
+    public function showBySlug(Request $request, $slug)
     {
         $post = BlogPost::where('slug', $slug)->published()->firstOrFail();
-        return response()->json($post);
+        $response = response()->json($post);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function store(Request $request)
@@ -56,29 +57,8 @@ class BlogController extends Controller
         }
 
         $post = BlogPost::create($data);
-        
-        // Get origin from request
-        $origin = $request->header('Origin');
-        $allowedOrigins = [
-            'https://www.bnbatiment.com',
-            'https://bnbatiment.com',
-            'http://localhost:3000',
-            'http://localhost:5173'
-        ];
-        
         $response = response()->json($post, 201);
-        
-        if ($origin && in_array($origin, $allowedOrigins)) {
-            $response->headers->set('Access-Control-Allow-Origin', $origin);
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        } else {
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-        }
-        
-        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
-        
-        return $response;
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function update(Request $request, $id)
@@ -105,23 +85,27 @@ class BlogController extends Controller
             }
 
             $post->update($data);
-            return response()->json($post);
+            $response = response()->json($post);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Blog update error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            $response = response()->json(['error' => $e->getMessage()], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $post = BlogPost::findOrFail($id);
         $post->delete();
-        return response()->json(['success' => true]);
+        $response = response()->json(['success' => true]);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function byCategory($category)
+    public function byCategory(Request $request, $category)
     {
         $posts = BlogPost::published()->byCategory($category)->orderBy('published_at', 'desc')->get();
-        return response()->json($posts);
+        $response = response()->json($posts);
+        return $this->addCorsHeaders($response, $request);
     }
 } 

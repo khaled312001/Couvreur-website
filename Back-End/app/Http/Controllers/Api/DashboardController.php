@@ -17,7 +17,7 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             // Get current month and previous month
@@ -164,7 +164,7 @@ class DashboardController extends Controller
                 'average_rating' => $this->calculateAverageRating(),
             ];
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'data' => [
                     'quick_stats' => $quickStats,
@@ -178,12 +178,14 @@ class DashboardController extends Controller
                     'performance_metrics' => $performanceMetrics,
                 ]
             ]);
+            return $this->addCorsHeaders($response, $request);
 
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error fetching dashboard data: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 

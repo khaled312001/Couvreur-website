@@ -25,28 +25,32 @@ class NotificationController extends Controller
 
             $unreadCount = Notification::where('is_read', false)->count();
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'data' => [
                     'notifications' => $notifications,
                     'unread_count' => $unreadCount
                 ]
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification index error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch notifications'], 500);
+            $response = response()->json(['error' => 'Failed to fetch notifications'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $notification = Notification::findOrFail($id);
             $notification->time_ago = Carbon::parse($notification->created_at)->diffForHumans();
-            return response()->json($notification);
+            $response = response()->json($notification);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification show error: ' . $e->getMessage());
-            return response()->json(['error' => 'Notification not found'], 404);
+            $response = response()->json(['error' => 'Notification not found'], 404);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -62,10 +66,12 @@ class NotificationController extends Controller
 
             $notification = Notification::create($request->all());
             $notification->time_ago = Carbon::parse($notification->created_at)->diffForHumans();
-            return response()->json($notification, 201);
+            $response = response()->json($notification, 201);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification store error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to create notification'], 500);
+            $response = response()->json(['error' => 'Failed to create notification'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -83,26 +89,30 @@ class NotificationController extends Controller
 
             $notification->update($request->all());
             $notification->time_ago = Carbon::parse($notification->created_at)->diffForHumans();
-            return response()->json($notification);
+            $response = response()->json($notification);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification update error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to update notification'], 500);
+            $response = response()->json(['error' => 'Failed to update notification'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $notification = Notification::findOrFail($id);
             $notification->delete();
-            return response()->json(['success' => true]);
+            $response = response()->json(['success' => true]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification destroy error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to delete notification'], 500);
+            $response = response()->json(['error' => 'Failed to delete notification'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function markAsRead($id)
+    public function markAsRead(Request $request, $id)
     {
         try {
             $notification = Notification::findOrFail($id);
@@ -111,24 +121,28 @@ class NotificationController extends Controller
                 'read_at' => now()
             ]);
             $notification->time_ago = Carbon::parse($notification->created_at)->diffForHumans();
-            return response()->json($notification);
+            $response = response()->json($notification);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification mark as read error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to mark notification as read'], 500);
+            $response = response()->json(['error' => 'Failed to mark notification as read'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function markAllAsRead()
+    public function markAllAsRead(Request $request)
     {
         try {
             Notification::where('is_read', false)->update([
                 'is_read' => true,
                 'read_at' => now()
             ]);
-            return response()->json(['success' => true]);
+            $response = response()->json(['success' => true]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Notification mark all as read error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to mark all notifications as read'], 500);
+            $response = response()->json(['error' => 'Failed to mark all notifications as read'], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 }

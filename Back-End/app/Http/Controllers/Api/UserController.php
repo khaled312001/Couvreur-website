@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $users = User::orderBy('created_at', 'desc')->get()->map(function ($user) {
@@ -29,24 +29,26 @@ class UserController extends Controller
                 ];
             });
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'data' => $users
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error fetching users: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $user = User::findOrFail($id);
             
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'data' => [
                     'id' => $user->id,
@@ -62,11 +64,13 @@ class UserController extends Controller
                     'is_active' => true,
                 ]
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'User not found'
             ], 404);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -91,7 +95,7 @@ class UserController extends Controller
                 'role' => $request->role,
             ]);
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'message' => 'User created successfully',
                 'data' => [
@@ -104,11 +108,13 @@ class UserController extends Controller
                     'created_at' => $user->created_at->format('Y-m-d H:i:s'),
                 ]
             ], 201);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error creating user: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -140,7 +146,7 @@ class UserController extends Controller
 
             $user->update($updateData);
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'message' => 'User updated successfully',
                 'data' => [
@@ -153,42 +159,47 @@ class UserController extends Controller
                     'updated_at' => $user->updated_at->format('Y-m-d H:i:s'),
                 ]
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error updating user: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $user = User::findOrFail($id);
             
             // Prevent deleting the last admin user
             if ($user->role === 'admin' && User::where('role', 'admin')->count() === 1) {
-                return response()->json([
+                $response = response()->json([
                     'success' => false,
                     'message' => 'Cannot delete the last admin user'
                 ], 400);
+                return $this->addCorsHeaders($response, $request);
             }
 
             $user->delete();
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'message' => 'User deleted successfully'
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error deleting user: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function byRole($role)
+    public function byRole(Request $request, $role)
     {
         try {
             $users = User::where('role', $role)
@@ -208,34 +219,38 @@ class UserController extends Controller
                     ];
                 });
 
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'data' => $users
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error fetching users by role: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(Request $request, $id)
     {
         try {
             $user = User::findOrFail($id);
             
             // This would require adding an is_active field to the users table
             // For now, we'll just return success
-            return response()->json([
+            $response = response()->json([
                 'success' => true,
                 'message' => 'User status updated successfully'
             ]);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json([
+            $response = response()->json([
                 'success' => false,
                 'message' => 'Error updating user status: ' . $e->getMessage()
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 } 

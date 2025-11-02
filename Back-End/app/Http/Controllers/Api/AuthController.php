@@ -32,11 +32,12 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        return response()->json([
+        $response = response()->json([
             'user' => $user,
             'token' => $token,
             'message' => 'User registered successfully'
         ], 201);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function login(Request $request)
@@ -50,22 +51,29 @@ class AuthController extends Controller
             $user = Auth::user();
             $token = $user->createToken('auth-token')->plainTextToken;
 
-            return response()->json([
+            $response = response()->json([
                 'user' => $user,
                 'token' => $token
             ]);
+            return $this->addCorsHeaders($response, $request);
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
+        // Return error with CORS headers
+        $response = response()->json([
+            'message' => 'The provided credentials are incorrect.',
+            'errors' => [
+                'email' => ['The provided credentials are incorrect.']
+            ]
+        ], 422);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['success' => true]);
+        $response = response()->json(['success' => true]);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function user(Request $request)
@@ -73,11 +81,14 @@ class AuthController extends Controller
         try {
             $user = $request->user();
             if (!$user) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                $response = response()->json(['error' => 'Unauthorized'], 401);
+                return $this->addCorsHeaders($response, $request);
             }
-            return response()->json($user);
+            $response = response()->json($user);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            $response = response()->json(['error' => 'Unauthorized'], 401);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -99,10 +110,11 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
-        return response()->json([
+        $response = response()->json([
             'user' => $user,
             'message' => 'Profile updated successfully'
         ]);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function changePassword(Request $request)
@@ -115,17 +127,22 @@ class AuthController extends Controller
         $user = $request->user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            throw ValidationException::withMessages([
-                'current_password' => ['The current password is incorrect.'],
-            ]);
+            $response = response()->json([
+                'message' => 'The current password is incorrect.',
+                'errors' => [
+                    'current_password' => ['The current password is incorrect.']
+                ]
+            ], 422);
+            return $this->addCorsHeaders($response, $request);
         }
 
         $user->update([
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json([
+        $response = response()->json([
             'message' => 'Password changed successfully'
         ]);
+        return $this->addCorsHeaders($response, $request);
     }
 } 

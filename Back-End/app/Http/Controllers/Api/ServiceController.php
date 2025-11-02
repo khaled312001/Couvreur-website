@@ -11,30 +11,32 @@ use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $services = Service::active()->orderBy('sort_order')->get();
-        return response()->json($services)
-            ->header('Cache-Control', 'public, max-age=3600')
-            ->header('Access-Control-Allow-Origin', '*');
+        $response = response()->json($services)->header('Cache-Control', 'public, max-age=3600');
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
         $services = Service::orderBy('sort_order')->get();
-        return response()->json($services);
+        $response = response()->json($services);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $service = Service::findOrFail($id);
-        return response()->json($service);
+        $response = response()->json($service);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function showBySlug($slug)
+    public function showBySlug(Request $request, $slug)
     {
         $service = Service::where('slug', $slug)->active()->firstOrFail();
-        return response()->json($service);
+        $response = response()->json($service);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function store(Request $request)
@@ -121,7 +123,8 @@ class ServiceController extends Controller
                 // Continue without notification if it fails
             }
             
-            return response()->json($service, 201);
+            $response = response()->json($service, 201);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Error creating service:', [
                 'message' => $e->getMessage(),
@@ -129,11 +132,12 @@ class ServiceController extends Controller
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return response()->json([
+            $response = response()->json([
                 'error' => 'Failed to create service',
                 'message' => $e->getMessage(),
                 'details' => config('app.debug') ? $e->getTraceAsString() : null
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
@@ -239,7 +243,8 @@ class ServiceController extends Controller
 
             $service->update($data);
             
-            return response()->json($service);
+            $response = response()->json($service);
+            return $this->addCorsHeaders($response, $request);
         } catch (\Exception $e) {
             Log::error('Error updating service:', [
                 'message' => $e->getMessage(),
@@ -247,15 +252,16 @@ class ServiceController extends Controller
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return response()->json([
+            $response = response()->json([
                 'error' => 'Failed to update service',
                 'message' => $e->getMessage(),
                 'details' => config('app.debug') ? $e->getTraceAsString() : null
             ], 500);
+            return $this->addCorsHeaders($response, $request);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $service = Service::findOrFail($id);
         
@@ -263,13 +269,15 @@ class ServiceController extends Controller
         Notification::createServiceNotification($service, 'deleted');
         
         $service->delete();
-        return response()->json(['success' => true]);
+        $response = response()->json(['success' => true]);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function byCategory($category)
+    public function byCategory(Request $request, $category)
     {
         $services = Service::active()->byCategory($category)->orderBy('sort_order')->get();
-        return response()->json($services);
+        $response = response()->json($services);
+        return $this->addCorsHeaders($response, $request);
     }
 
     public function search(Request $request)
@@ -280,19 +288,21 @@ class ServiceController extends Controller
             ->orWhere('description', 'like', "%{$query}%")
             ->orderBy('sort_order')
             ->get();
-        return response()->json($services);
+        $response = response()->json($services);
+        return $this->addCorsHeaders($response, $request);
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(Request $request, $id)
     {
         $service = Service::findOrFail($id);
         $service->is_active = !$service->is_active;
         $service->save();
         
-        return response()->json([
+        $response = response()->json([
             'success' => true,
             'is_active' => $service->is_active,
             'message' => $service->is_active ? 'Service activated successfully' : 'Service deactivated successfully'
         ]);
+        return $this->addCorsHeaders($response, $request);
     }
 } 
