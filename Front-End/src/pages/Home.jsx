@@ -567,13 +567,22 @@ const Home = () => {
               style={{ backgroundImage: `url(${slide.image})` }}
             >
               {index === 0 && (
-                <link 
-                  rel="preload" 
-                  as="image" 
-                  href={slide.image}
-                  imagesrcset={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w, ${slide.image}?w=1920&q=80 1920w`}
-                  imagesizes="100vw"
-                  fetchpriority="high"
+                <img 
+                  src={slide.image}
+                  alt=""
+                  srcSet={`${slide.image}?w=400&q=80 400w, ${slide.image}?w=800&q=80 800w, ${slide.image}?w=1200&q=80 1200w`}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 100vw"
+                  style={{ 
+                    position: 'absolute',
+                    width: '1px',
+                    height: '1px',
+                    opacity: 0,
+                    pointerEvents: 'none'
+                  }}
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
+                  aria-hidden="true"
                 />
               )}
               <div className="slide-overlay">
@@ -624,11 +633,11 @@ const Home = () => {
           ))}
           
           {/* Slider Navigation */}
-          <button className="slider-nav prev" onClick={prevSlide} aria-label="Diapositive précédente">
-            <span aria-hidden="true">‹</span>
+          <button className="slider-nav prev" onClick={prevSlide}>
+            <span>‹</span>
           </button>
-          <button className="slider-nav next" onClick={nextSlide} aria-label="Diapositive suivante">
-            <span aria-hidden="true">›</span>
+          <button className="slider-nav next" onClick={nextSlide}>
+            <span>›</span>
           </button>
           
           {/* Contact Box - Call Now */}
@@ -669,15 +678,12 @@ const Home = () => {
           </div>
           
           {/* Slider Dots */}
-          <div className="slider-dots" role="tablist" aria-label="Navigation des diapositives">
+          <div className="slider-dots">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 className={`dot ${index === currentSlide ? 'active' : ''}`}
                 onClick={() => goToSlide(index)}
-                aria-label={`Aller à la diapositive ${index + 1}`}
-                aria-selected={index === currentSlide}
-                role="tab"
               />
             ))}
           </div>
@@ -842,17 +848,12 @@ const Home = () => {
                           }}>
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
-                              srcSet={service.image ? `${getServiceImageUrl(service.image)}?w=400 400w, ${getServiceImageUrl(service.image)}?w=600 600w, ${getServiceImageUrl(service.image)}?w=800 800w` : undefined}
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               alt={service.title}
                               loading="lazy"
                               decoding="async"
-                              width="467"
-                              height="263"
                               style={{
                                 width: "100%",
                                 height: "100%",
-                                aspectRatio: "16/9",
                                 objectFit: "cover",
                                 transition: "transform 0.3s ease"
                               }}
@@ -942,17 +943,12 @@ const Home = () => {
                           }}>
                             <img 
                               src={getServiceImageUrl(service.image) || getServiceImage(service.title)}
-                              srcSet={service.image ? `${getServiceImageUrl(service.image)}?w=400 400w, ${getServiceImageUrl(service.image)}?w=600 600w, ${getServiceImageUrl(service.image)}?w=800 800w` : undefined}
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               alt={service.title}
                               loading="lazy"
                               decoding="async"
-                              width="467"
-                              height="263"
                               style={{
                                 width: "100%",
                                 height: "100%",
-                                aspectRatio: "16/9",
                                 objectFit: "cover",
                                 transition: "transform 0.3s ease"
                               }}

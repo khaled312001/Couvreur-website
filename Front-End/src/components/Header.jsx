@@ -116,22 +116,15 @@ const Header = () => {
               {/* Logo with enhanced animations */}
               <NavLink to="/" className="logo" onClick={handleNavigationClick}>
                 <div className="logo-container">
-                  <picture>
-                    <source 
-                      type="image/webp" 
-                      srcSet="/logo.webp 1x, /logo@2x.webp 2x"
-                    />
-                    <img 
-                      src="/logo.png" 
-                      srcSet="/logo.png 1x, /logo@2x.png 2x"
-                      alt="BN BÂTIMENT Logo" 
-                      className="logo-image"
-                      fetchPriority="high"
-                      loading="eager"
-                      width="142"
-                      height="61"
-                    />
-                  </picture>
+                  <img 
+                    src="/logo.png" 
+                    alt="BN BÂTIMENT Logo" 
+                    className="logo-image"
+                    fetchPriority="high"
+                    loading="eager"
+                    width="142"
+                    height="61"
+                  />
                   <div className="logo-glow"></div>
                 </div>
               </NavLink>
