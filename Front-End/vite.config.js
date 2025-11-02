@@ -25,14 +25,17 @@ export default defineConfig({
         manualChunks: (id) => {
           // Lazy load large libraries
           if (id.includes('node_modules')) {
+            // Keep React core libraries together in vendor chunk (loads first)
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-is') || id.includes('scheduler')) {
+              return 'vendor';
+            }
+            // Bundle recharts with its dependencies in a separate chunk
+            // But ensure it depends on vendor chunk which has React
             if (id.includes('recharts')) {
               return 'charts';
             }
             if (id.includes('framer-motion')) {
               return 'motion';
-            }
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor';
             }
             if (id.includes('react-router')) {
               return 'router';
@@ -69,10 +72,12 @@ export default defineConfig({
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'axios'],
-    exclude: ['recharts'],
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'axios', 'recharts'],
     esbuildOptions: {
       target: 'es2020'
     }
+  },
+  resolve: {
+    dedupe: ['react', 'react-dom', 'react-is']
   }
 })
