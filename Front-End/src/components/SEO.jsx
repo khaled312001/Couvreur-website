@@ -5,7 +5,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
   // Get the preferred canonical domain (non-www) - consistent across all pages
   const getBaseUrl = () => {
     // Always use the preferred domain (non-www) for consistency
-    // The .htaccess redirect will ensure www redirects to non-www
+    // Both www and non-www domains are served, but canonical URLs use non-www
     return 'https://bnbatiment.com';
   };
 
