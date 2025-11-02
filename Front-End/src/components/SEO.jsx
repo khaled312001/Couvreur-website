@@ -134,7 +134,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
       <meta name="business.name" content="BN BÂTIMENT" />
       <meta name="business.type" content="Couvreur Professionnel" />
       <meta name="contact.phone" content="+33780326427" />
-      <meta name="contact.email" content="contact@bnbatiment.com" />
+      <meta name="contact.email" content="support@bnbatiment.com" />
       <meta name="website.url" content="https://bnbatiment.com" />
       
       {/* Enhanced French SEO Tags for BN BÂTIMENT */}
@@ -142,7 +142,7 @@ const SEO = ({ title, description, keywords, url, image, type = 'website', city,
       <meta name="classification" content="Couvreur, Toiture, Charpente, Zinguerie, Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble" />
       <meta name="category" content="Construction, Couverture, Toiture, Rénovation" />
       <meta name="copyright" content="BN BÂTIMENT 2024" />
-      <meta name="reply-to" content="contact@bnbatiment.com" />
+      <meta name="reply-to" content="support@bnbatiment.com" />
       <meta name="owner" content="BN BÂTIMENT" />
       <meta name="url" content={absoluteUrl} />
       <meta name="identifier-URL" content={absoluteUrl} />

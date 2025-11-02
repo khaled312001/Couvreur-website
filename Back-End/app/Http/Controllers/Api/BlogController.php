@@ -56,7 +56,29 @@ class BlogController extends Controller
         }
 
         $post = BlogPost::create($data);
-        return response()->json($post, 201);
+        
+        // Get origin from request
+        $origin = $request->header('Origin');
+        $allowedOrigins = [
+            'https://www.bnbatiment.com',
+            'https://bnbatiment.com',
+            'http://localhost:3000',
+            'http://localhost:5173'
+        ];
+        
+        $response = response()->json($post, 201);
+        
+        if ($origin && in_array($origin, $allowedOrigins)) {
+            $response->headers->set('Access-Control-Allow-Origin', $origin);
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        } else {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+        }
+        
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN');
+        
+        return $response;
     }
 
     public function update(Request $request, $id)

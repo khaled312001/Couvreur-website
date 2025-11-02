@@ -50,7 +50,7 @@ This document outlines all the SEO improvements implemented to help BN BÂTIMENT
 <meta name="business.name" content="BN BÂTIMENT" />
 <meta name="business.type" content="Couvreur Professionnel" />
 <meta name="contact.phone" content="+33780326427" />
-<meta name="contact.email" content="contact@bnbatiment.com" />
+<meta name="contact.email" content="support@bnbatiment.com" />
 <meta name="website.url" content="https://bnbatiment.com" />
 
 <!-- Enhanced French SEO Tags -->

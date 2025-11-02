@@ -47,6 +47,17 @@ require __DIR__.'/../vendor/autoload.php';
 // Add CORS headers - ALWAYS set them
 // Try multiple ways to get the Origin header (different servers handle this differently)
 $origin = $_SERVER['HTTP_ORIGIN'] ?? null;
+if (!$origin && isset($_SERVER['HTTP_REFERER'])) {
+    // Try to extract origin from referer
+    $referer = $_SERVER['HTTP_REFERER'];
+    $parsed = parse_url($referer);
+    if ($parsed) {
+        $origin = $parsed['scheme'] . '://' . $parsed['host'];
+        if (isset($parsed['port']) && !in_array($parsed['port'], [80, 443])) {
+            $origin .= ':' . $parsed['port'];
+        }
+    }
+}
 if (!$origin && function_exists('getallheaders')) {
     $headers = getallheaders();
     $origin = $headers['Origin'] ?? $headers['origin'] ?? null;
@@ -57,17 +68,22 @@ $allowedOrigins = [
     'https://www.bnbatiment.com',
     'https://bnbatiment.com',
     'http://localhost:3000',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173'
 ];
 
-// Handle preflight OPTIONS requests
+// Handle preflight OPTIONS requests - MUST be handled BEFORE Laravel loads
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Always respond to OPTIONS with CORS headers
     // Validate and set the origin
-    // Note: When using credentials, we must use specific origin, not '*'
+    $allowedOrigin = '*';
     if ($origin && in_array($origin, $allowedOrigins)) {
-        header('Access-Control-Allow-Origin: ' . $origin);
+        $allowedOrigin = $origin;
+        header('Access-Control-Allow-Origin: ' . $allowedOrigin);
         header('Access-Control-Allow-Credentials: true');
     } else {
+        // Fallback: allow all origins if specific origin not found (for development)
         header('Access-Control-Allow-Origin: *');
     }
     
@@ -85,12 +101,28 @@ $kernel = $app->make(Kernel::class);
 $request = Request::capture();
 $response = $kernel->handle($request);
 
-// Add CORS headers to ALL responses
+// Add CORS headers to ALL responses - ALWAYS set them
+// Re-check origin in case it wasn't available before Laravel loaded
+if (!$origin) {
+    $origin = $request->header('Origin');
+}
+if (!$origin && isset($_SERVER['HTTP_REFERER'])) {
+    $referer = $_SERVER['HTTP_REFERER'];
+    $parsed = parse_url($referer);
+    if ($parsed) {
+        $origin = $parsed['scheme'] . '://' . $parsed['host'];
+        if (isset($parsed['port']) && !in_array($parsed['port'], [80, 443])) {
+            $origin .= ':' . $parsed['port'];
+        }
+    }
+}
+
 // Note: When using credentials, we must use specific origin, not '*'
 if ($origin && in_array($origin, $allowedOrigins)) {
     $response->headers->set('Access-Control-Allow-Origin', $origin);
     $response->headers->set('Access-Control-Allow-Credentials', 'true');
 } else {
+    // Fallback: allow all origins
     $response->headers->set('Access-Control-Allow-Origin', '*');
 }
 

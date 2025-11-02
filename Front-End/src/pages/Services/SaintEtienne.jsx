@@ -363,7 +363,7 @@ const SaintEtienne = () => {
                     <span className="text-2xl mr-4">📧</span>
                     <div>
                       <p className="font-semibold">Email</p>
-                      <p>contact@bnbatiment.com</p>
+                      <p>support@bnbatiment.com</p>
                     </div>
                   </div>
                   <div className="flex items-center">

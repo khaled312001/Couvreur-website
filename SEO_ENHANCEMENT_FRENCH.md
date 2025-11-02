@@ -413,7 +413,7 @@ Each city page includes:
 ## 16. Contact & Support
 
 For questions about SEO implementation:
-- **Email:** contact@bnbatiment.com
+- **Email:** support@bnbatiment.com
 - **Phone:** +33780326427
 - **Website:** https://bnbatiment.com
 

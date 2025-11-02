@@ -34,13 +34,28 @@ use App\Services\ImageOptimizationService;
 |
 */
 
-// Handle preflight OPTIONS requests for CORS
-Route::options('{any}', function () {
-    return response()->json([], 200, [
-        'Access-Control-Allow-Origin' => request()->header('Origin') ?? '*',
+// Handle preflight OPTIONS requests for CORS - MUST be first
+Route::options('{any}', function (Request $request) {
+    $origin = $request->header('Origin');
+    $allowedOrigins = [
+        'https://www.bnbatiment.com',
+        'https://bnbatiment.com',
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173'
+    ];
+    
+    $allowedOrigin = '*';
+    if ($origin && in_array($origin, $allowedOrigins)) {
+        $allowedOrigin = $origin;
+    }
+    
+    return response('', 200)->withHeaders([
+        'Access-Control-Allow-Origin' => $allowedOrigin,
         'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
         'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-XSRF-TOKEN',
-        'Access-Control-Allow-Credentials' => 'true',
+        'Access-Control-Allow-Credentials' => $allowedOrigin !== '*' ? 'true' : 'false',
         'Access-Control-Max-Age' => '86400',
     ]);
 })->where('any', '.*');
