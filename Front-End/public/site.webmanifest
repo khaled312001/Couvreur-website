@@ -13,7 +13,7 @@
   "icons": [
     {
       "src": "/logo.png",
-      "sizes": "any",
+      "sizes": "142x61",
       "type": "image/png",
       "purpose": "any"
     },
@@ -54,7 +54,8 @@
       "icons": [
         {
           "src": "/logo.png",
-          "sizes": "96x96"
+          "sizes": "142x61",
+          "type": "image/png"
         }
       ]
     },
@@ -66,7 +67,8 @@
       "icons": [
         {
           "src": "/logo.png",
-          "sizes": "96x96"
+          "sizes": "142x61",
+          "type": "image/png"
         }
       ]
     }

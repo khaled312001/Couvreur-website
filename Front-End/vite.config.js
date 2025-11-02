@@ -70,6 +70,9 @@ export default defineConfig({
   // Optimize dependencies
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'axios'],
-    exclude: []
+    exclude: ['recharts'],
+    esbuildOptions: {
+      target: 'es2020'
+    }
   }
 })

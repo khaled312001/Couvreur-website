@@ -120,6 +120,8 @@ const Header = () => {
                     src="/logo.png" 
                     alt="BN BÂTIMENT Logo" 
                     className="logo-image"
+                    fetchPriority="high"
+                    loading="eager"
                     width="142"
                     height="61"
                   />
