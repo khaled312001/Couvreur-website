@@ -309,7 +309,7 @@ const Footer = () => {
             <div className="social-links">
               <span className="social-text">Suivez-nous sur les réseaux sociaux :</span>
               <div className="social-icons">
-                <a href="#" className="social-icon hover-scale" title="Facebook" aria-label="Facebook">
+                <a href="https://www.facebook.com/profile.php?id=61579222687733" className="social-icon hover-scale" title="Facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                   <Facebook size={20} />
                   <div className="social-glow"></div>
                 </a>
