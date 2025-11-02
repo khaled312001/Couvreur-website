@@ -8,7 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        if (!Schema::hasTable('services')) {
+            Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
+        }
     }
 
     public function down(): void

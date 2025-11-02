@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contact_messages', function (Blueprint $table) {
-            $table->string('session_id')->nullable()->after('admin_response');
-            $table->index('session_id');
+            if (!Schema::hasColumn('contact_messages', 'session_id')) {
+                $table->string('session_id')->nullable()->after('admin_response');
+                $table->index('session_id');
+            }
         });
     }
 

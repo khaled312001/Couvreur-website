@@ -8,9 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('contact_messages', function (Blueprint $table) {
-            $table->string('status', 20)->default('unread')->change();
-        });
+        // Only change if the column exists and doesn't already have the right definition
+        if (Schema::hasColumn('contact_messages', 'status')) {
+            Schema::table('contact_messages', function (Blueprint $table) {
+                $table->string('status', 20)->default('unread')->change();
+            });
+        }
     }
 
     public function down(): void

@@ -8,13 +8,14 @@
   xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
   xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <!-- Page d'accueil BN BÂTIMENT - PRIORITÉ MAXIMALE -->
+  <!-- NOTE: Dynamic sitemap at /api/sitemap includes all published blog posts automatically -->
   <url>
-    <loc>https://bnbatiment.com/</loc>
+    <loc>https://www.bnbatiment.com/</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://bnbatiment.com/logo.png</image:loc>
+      <image:loc>https://www.bnbatiment.com/logo.png</image:loc>
       <image:title>Couvreur France | BN BÂTIMENT - Couvreur Professionnel Lyon</image:title>
       <image:caption>Couvreur professionnel en France. BN BÂTIMENT, votre couvreur expert en installation, réparation et entretien de toiture à Lyon, Saint-Étienne, Valence, Clermont-Ferrand, Grenoble et toute la France</image:caption>
     </image:image>
@@ -22,28 +23,28 @@
   
   <!-- Pages principales - PRIORITÉ ÉLEVÉE -->
   <url>
-    <loc>https://bnbatiment.com/a-propos</loc>
+    <loc>https://www.bnbatiment.com/a-propos</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/contact</loc>
+    <loc>https://www.bnbatiment.com/contact</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/zones</loc>
+    <loc>https://www.bnbatiment.com/zones</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/tarifs</loc>
+    <loc>https://www.bnbatiment.com/tarifs</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -51,7 +52,7 @@
   
   <!-- Pages de services - PRIORITÉ ÉLEVÉE -->
   <url>
-    <loc>https://bnbatiment.com/services</loc>
+    <loc>https://www.bnbatiment.com/services</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -59,56 +60,56 @@
   
   <!-- Services individuels - PRIORITÉ MOYENNE -->
   <url>
-    <loc>https://bnbatiment.com/services/installation</loc>
+    <loc>https://www.bnbatiment.com/services/installation</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/repair</loc>
+    <loc>https://www.bnbatiment.com/services/repair</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/maintenance</loc>
+    <loc>https://www.bnbatiment.com/services/maintenance</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/cleaning</loc>
+    <loc>https://www.bnbatiment.com/services/cleaning</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/zinguerie</loc>
+    <loc>https://www.bnbatiment.com/services/zinguerie</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/charpente</loc>
+    <loc>https://www.bnbatiment.com/services/charpente</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/couverture</loc>
+    <loc>https://www.bnbatiment.com/services/couverture</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/extras</loc>
+    <loc>https://www.bnbatiment.com/services/extras</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -116,35 +117,35 @@
   
   <!-- Pages de services spécifiques par ville - PRIORITÉ MAXIMALE pour SEO local -->
   <url>
-    <loc>https://bnbatiment.com/services/lyon</loc>
+    <loc>https://www.bnbatiment.com/services/lyon</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/saint-etienne</loc>
+    <loc>https://www.bnbatiment.com/services/saint-etienne</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/valence</loc>
+    <loc>https://www.bnbatiment.com/services/valence</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/clermont-ferrand</loc>
+    <loc>https://www.bnbatiment.com/services/clermont-ferrand</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/services/grenoble</loc>
+    <loc>https://www.bnbatiment.com/services/grenoble</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -152,28 +153,28 @@
   
   <!-- Pages de contenu - PRIORITÉ MOYENNE -->
   <url>
-    <loc>https://bnbatiment.com/realisations</loc>
+    <loc>https://www.bnbatiment.com/realisations</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/avis</loc>
+    <loc>https://www.bnbatiment.com/avis</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/testimonials</loc>
+    <loc>https://www.bnbatiment.com/testimonials</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/blog</loc>
+    <loc>https://www.bnbatiment.com/blog</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -181,35 +182,35 @@
   
   <!-- Pages d'authentification utilisateur - PRIORITÉ BASSE -->
   <url>
-    <loc>https://bnbatiment.com/login</loc>
+    <loc>https://www.bnbatiment.com/login</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/register</loc>
+    <loc>https://www.bnbatiment.com/register</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/profile</loc>
+    <loc>https://www.bnbatiment.com/profile</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/quotes</loc>
+    <loc>https://www.bnbatiment.com/quotes</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/messages</loc>
+    <loc>https://www.bnbatiment.com/messages</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
@@ -217,21 +218,21 @@
   
   <!-- Pages de paiement - PRIORITÉ BASSE -->
   <url>
-    <loc>https://bnbatiment.com/payment</loc>
+    <loc>https://www.bnbatiment.com/payment</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/payment-success</loc>
+    <loc>https://www.bnbatiment.com/payment-success</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/facture</loc>
+    <loc>https://www.bnbatiment.com/facture</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
@@ -239,14 +240,14 @@
   
   <!-- Pages spéciales - PRIORITÉ MOYENNE -->
   <url>
-    <loc>https://bnbatiment.com/urgence</loc>
+    <loc>https://www.bnbatiment.com/urgence</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bnbatiment.com/mentions-legales</loc>
+    <loc>https://www.bnbatiment.com/mentions-legales</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

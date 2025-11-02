@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('blog_posts', function (Blueprint $table) {
-            $table->unique('slug');
-        });
+        try {
+            Schema::table('blog_posts', function (Blueprint $table) {
+                $table->unique('slug');
+            });
+        } catch (\Exception $e) {
+            // Unique constraint already exists, ignore the error
+            if (strpos($e->getMessage(), 'Duplicate key name') === false && 
+                strpos($e->getMessage(), 'already exists') === false) {
+                throw $e;
+            }
+        }
     }
 
     /**

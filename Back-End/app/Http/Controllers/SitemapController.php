@@ -10,6 +10,9 @@ class SitemapController extends Controller
 {
     public function index()
     {
+        // Base URL - using www as the canonical domain
+        $baseUrl = 'https://www.bnbatiment.com';
+        
         // Get all published blog posts
         $blogPosts = BlogPost::published()->orderBy('published_at', 'desc')->get();
         
@@ -21,14 +24,14 @@ class SitemapController extends Controller
         
         // Static pages with high priority
         $staticPages = [
-            ['url' => 'https://bnbatiment.com/', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '1.0'],
-            ['url' => 'https://bnbatiment.com/a-propos', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.8'],
-            ['url' => 'https://bnbatiment.com/contact', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.9'],
-            ['url' => 'https://bnbatiment.com/zones', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.8'],
-            ['url' => 'https://bnbatiment.com/tarifs', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.7'],
-            ['url' => 'https://bnbatiment.com/realisations', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.6'],
-            ['url' => 'https://bnbatiment.com/avis', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.6'],
-            ['url' => 'https://bnbatiment.com/blog', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.7'],
+            ['url' => $baseUrl . '/', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '1.0'],
+            ['url' => $baseUrl . '/a-propos', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.8'],
+            ['url' => $baseUrl . '/contact', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.9'],
+            ['url' => $baseUrl . '/zones', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.8'],
+            ['url' => $baseUrl . '/tarifs', 'lastmod' => now()->toDateString(), 'changefreq' => 'monthly', 'priority' => '0.7'],
+            ['url' => $baseUrl . '/realisations', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.6'],
+            ['url' => $baseUrl . '/avis', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.6'],
+            ['url' => $baseUrl . '/blog', 'lastmod' => now()->toDateString(), 'changefreq' => 'weekly', 'priority' => '0.7'],
         ];
         
         // Add static pages
@@ -44,17 +47,17 @@ class SitemapController extends Controller
         // Add service pages
         foreach ($services as $service) {
             $xml .= "  <url>\n";
-            $xml .= "    <loc>https://bnbatiment.com/services/{$service->slug}</loc>\n";
+            $xml .= "    <loc>{$baseUrl}/services/{$service->slug}</loc>\n";
             $xml .= "    <lastmod>{$service->updated_at->toDateString()}</lastmod>\n";
             $xml .= "    <changefreq>monthly</changefreq>\n";
             $xml .= "    <priority>0.8</priority>\n";
             $xml .= "  </url>\n";
         }
         
-        // Add blog post pages
+        // Add all blog post pages
         foreach ($blogPosts as $post) {
             $xml .= "  <url>\n";
-            $xml .= "    <loc>https://bnbatiment.com/blog/{$post->slug}</loc>\n";
+            $xml .= "    <loc>{$baseUrl}/blog/{$post->slug}</loc>\n";
             $xml .= "    <lastmod>{$post->published_at->toDateString()}</lastmod>\n";
             $xml .= "    <changefreq>monthly</changefreq>\n";
             $xml .= "    <priority>0.7</priority>\n";
@@ -65,7 +68,7 @@ class SitemapController extends Controller
         $cities = ['lyon', 'saint-etienne', 'valence', 'clermont-ferrand', 'grenoble'];
         foreach ($cities as $city) {
             $xml .= "  <url>\n";
-            $xml .= "    <loc>https://bnbatiment.com/services/{$city}</loc>\n";
+            $xml .= "    <loc>{$baseUrl}/services/{$city}</loc>\n";
             $xml .= "    <lastmod>" . now()->toDateString() . "</lastmod>\n";
             $xml .= "    <changefreq>weekly</changefreq>\n";
             $xml .= "    <priority>0.9</priority>\n";

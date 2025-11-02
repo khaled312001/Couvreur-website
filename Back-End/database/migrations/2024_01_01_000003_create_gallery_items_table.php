@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('gallery_items', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image');
-            $table->string('category');
-            $table->integer('sort_order')->default(0);
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('gallery_items')) {
+            Schema::create('gallery_items', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->text('description')->nullable();
+                $table->string('image');
+                $table->string('category');
+                $table->integer('sort_order')->default(0);
+                $table->boolean('is_active')->default(true);
+                $table->timestamps();
+            });
+        }
     }
 
     public function down(): void
