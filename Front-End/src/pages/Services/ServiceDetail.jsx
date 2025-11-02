@@ -912,7 +912,7 @@ lavage toiture, lavage couverture, lavage tuiles, lavage ardoises, lavage zinc, 
 
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-background" style={{ backgroundImage: `url(${service.heroImage})` }}>
+        <div className="hero-background" style={{ backgroundImage: `url(${getServiceImageUrl(service.image) || getServiceImage(service.title)})` }}>
           <div className="hero-overlay"></div>
         </div>
         <div className="container">
@@ -1012,7 +1012,7 @@ lavage toiture, lavage couverture, lavage tuiles, lavage ardoises, lavage zinc, 
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <OptimizedImage
-                src={getServiceImageUrl(service.heroImage || service.image) || getServiceImage(service.title)} 
+                src={getServiceImageUrl(service.image) || getServiceImage(service.title)} 
                 alt={`${service.title} - BN BÂTIMENT`}
                 className="service-image service-image-large"
                 style={{ 
